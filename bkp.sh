@@ -4,9 +4,9 @@
 
 set -e
 
-echo 'copying vimrc...'
-cp ~/.vimrc ./vimrc
-cp -r ~/.config/nvim/ .
+echo 'copying vim configs...'
+cp ~/.vimrc ./vim/vimrc
+cp -r ~/.config/nvim/ ./vim
 
 echo 'copying karabiner.json...'
 cp ~/.config/karabiner/karabiner.json ./karabiner.json
