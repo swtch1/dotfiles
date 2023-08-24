@@ -1,0 +1,15 @@
+#!/bin/sh
+
+fixme=$(git diff --cached --unified=1 -G'FIXME: \(JMT\)' --name-only)
+if [ "$fixme" != "" ];then
+        echo "'FIXME' tag detected:"
+        echo "  ${fixme}"
+        exit 1
+fi
+
+bookmark=$(git diff --cached --unified=1 -G'BOOKMARK:' --name-only)
+if [ "$bookmark" != "" ];then
+        echo "'BOOKMARK' tag detected:"
+        echo "  ${bookmark}"
+        exit 1
+fi

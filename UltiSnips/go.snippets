@@ -1,0 +1,69 @@
+snippet ife "if error not nil" bA
+if err != nil {
+  return fmt.Errorf("$1: %w", err)
+}
+endsnippet
+
+snippet if1 "if err exit(1)" bA
+if err != nil {
+  fmt.Printf(" -> JMTDEBUG: %s: %+v\n", "err", err) // FIXME: (JMT) testing
+  os.Exit(1) // FIXME: (JMT) testing
+}
+endsnippet
+
+snippet test "test func" b
+func Test$1(t *testing.T) {
+  for _, tt := range []struct {
+    name string
+    $2
+  }{
+    {
+      name: "$3",
+    },
+  }{
+    t.Run(tt.name, func(t *testing.T){
+      $4
+    })
+  }
+}
+endsnippet
+
+snippet '(".*")\.\.' "debug" rA
+fmt.Printf(" -> JMTDEBUG: %s\n", `!p snip.rv = match.group(1)`$1) // FIXME: (JMT) testing
+endsnippet
+
+snippet "([a-zA-Z0-9_\[\]\-\.\(\)]+)\.\." "debug" rA
+fmt.Printf(" -> JMTDEBUG: %s: %+v\n", "`!p snip.rv = match.group(1)`$1", `!p snip.rv = match.group(1)`) // FIXME: (JMT) testing
+endsnippet
+
+snippet "([a-zA-Z0-9_\[\]\-\.\(\)]+)\.:" "debug JSON" rA
+b, _ := json.MarshalIndent(`!p snip.rv = match.group(1)`, "", " ") // FIXME: (JMT) testing
+fmt.Printf(" -> JMTDEBUG: %s: %+v\n", "`!p snip.rv = match.group(1)`$1", string(b)) // FIXME: (JMT) testing
+endsnippet
+
+snippet "([a-zA-Z0-9_\[\]\-\.\(\)]+)\.-" "debug proto JSON" rA
+b, _ := protojson.MarshalOptions{Multiline: true}.Marshal(`!p snip.rv = match.group(1)`) // FIXME: (JMT) testing
+fmt.Printf(" -> JMTDEBUG: %s: %+v\n", "`!p snip.rv = match.group(1)`$1", string(b)) // FIXME: (JMT) testing
+endsnippet
+
+snippet ex0 "os.Exit(0)" bA
+os.Exit(0) // FIXME: (JMT) testing
+endsnippet
+
+snippet ex1 "os.Exit(1)" bA
+os.Exit(1) // FIXME: (JMT) testing
+endsnippet
+
+snippet '\(ctx' "auto fill in ctx as first func param" r
+(ctx context.Context
+endsnippet
+
+snippet {\n "auto braces" A
+{
+  $1
+}
+endsnippet
+
+snippet '([a-zA-Z0-9_\-\.\(\)]+)\.len' "length" rA
+len(`!p snip.rv = match.group(1)`)
+endsnippet
