@@ -15,7 +15,7 @@ echo 'copying zshrc...'
 grep '### personal ###' ~/.zshrc -A 10000 > zshrc
 
 echo 'copying gitconfig...'
-cp ~/.gitconfig ./gitconfig
+cp ~/.gitconfig ./git/gitconfig
 cp -r ~/.config/git/ ./git
 
 echo '--- done ---'
