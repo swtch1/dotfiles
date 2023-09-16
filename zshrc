@@ -26,6 +26,9 @@ sr=~/.speedscale/data/reports
 # solana
 export PATH="/Users/josh/.local/share/solana/install/active_release/bin:$PATH"
 
+# kubernetes plugins
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
 # zsh
 DISABLE_MAGIC_FUNCTIONS="true"
 # don't kill shell on ctrl-d

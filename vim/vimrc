@@ -124,7 +124,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'mhinz/vim-startify'
 let g:startify_change_to_dir = 0
-let g:startify_bookmarks = [ {'v': '~/.vimrc'}, {'z': '~/.zshrc'} ]
+let g:startify_bookmarks = [ {'v': '~/.vimrc'}, {'c': '~/.config/nvim/'}, {'z': '~/.zshrc'} ]
 let g:startify_enable_special = 0
 let g:startify_lists = [
   \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
@@ -157,7 +157,7 @@ Plug 'majutsushi/tagbar'
 let g:tagbar_width=120
 let g:tagbar_position='topleft vertical'
 
-Plug 'yuttie/comfortable-motion.vim'
+" Plug 'yuttie/comfortable-motion.vim'
 
 " REMOVE AFTER A TIME
 " Plug 'haya14busa/incsearch.vim'
@@ -320,6 +320,8 @@ Plug 'sindrets/winshift.nvim'
 " markdown previewer
 Plug 'ellisonleao/glow.nvim'
 
+Plug 'tzachar/highlight-undo.nvim'
+
 call plug#end()
 
 let $FZF_DEFAULT_OPTS="--preview-window 'right:57%' --preview 'bat --style=numbers --line-range :300 {}'
@@ -332,8 +334,8 @@ nnoremap <Leader>w :w<CR>
 map Q <Nop>
 
 " navigate between functions
-autocmd FileType go nnoremap ]] :call search("^func")<cr>
-autocmd FileType go nnoremap [[ :call search("^func", "b")<cr>
+autocmd FileType go nnoremap ]] :call search("^func")<cr>zt
+autocmd FileType go nnoremap [[ :call search("^func", "b")<cr>zt
 
 inoremap <C-@> <C-x><C-o>
 nnoremap <Leader>O :only<CR>:noh<CR>
