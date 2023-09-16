@@ -182,6 +182,12 @@ dap.configurations.go = {
     program = "/Users/josh/code/speedscale/operator/",
   },
   {
+    name = "responder",
+    type = "go",
+    request = "launch",
+    program = "/Users/josh/code/speedscale/responder/",
+  },
+  {
     name = "speedctl",
     type = "go",
     request = "launch",
@@ -251,16 +257,17 @@ local on_attach = function(_, bufnr)
     buf_set_keymap('n', '<leader>gA', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     buf_set_keymap('n', '<leader>gi', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
     buf_set_keymap('n', '<leader>gu', ':Implementations<CR>', opts)
+    buf_set_keymap('n', '<leader>gU', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     buf_set_keymap('n', '<leader>gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
     buf_set_keymap('n', '<leader>gn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('n', '<leader>gR', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', '<leader>gr', ':References<CR>', opts)
+    buf_set_keymap('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    buf_set_keymap('n', '<leader>gR', ':References<CR>', opts)
+    buf_set_keymap('n', '<leader>gt', '<Cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
     buf_set_keymap('n', '<leader>fd', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
     buf_set_keymap('n', '<leader>a', ':DiagnosticsAll<CR>', opts)
     buf_set_keymap('n', '<leader>ra', ':CodeActions<CR>', opts)
     buf_set_keymap('n', '<C-S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
     buf_set_keymap('i', '<C-S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    buf_set_keymap('n', '<leader>gI', '<Cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
     buf_set_keymap('n', '<leader>gO', '<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
 
     buf_set_keymap('n', '<leader>rl', '<cmd>lua vim.o.background="light"<CR>', opts)
