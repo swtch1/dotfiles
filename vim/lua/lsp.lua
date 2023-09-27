@@ -1,6 +1,24 @@
-local vim = vim
+local api = vim.api
+local util = require("vim.lsp.util")
+
+---- DEBUGGING ----
 -- inspect local variables with `print("obj", inspect(obj))`
 local inspect = require("vim.inspect")
+
+-- put text into current buffer
+function _G.put_text(...)
+  local objects = {}
+  for i = 1, select('#', ...) do
+    local v = select(i, ...)
+    table.insert(objects, vim.inspect(v))
+  end
+
+  local lines = vim.split(table.concat(objects, '\n'), '\n')
+  local lnum = vim.api.nvim_win_get_cursor(0)[1]
+  vim.fn.append(lnum, lines)
+  return ...
+end
+
 
 ---- NVIM-CMP ----
 local cmp = require('cmp')
@@ -232,26 +250,60 @@ dapui.setup(
   {
     force_buffers = true,
     layouts = { {
-        elements = {
-          { id = "breakpoints", size = 0.25 },
-          { id = "stacks", size = 0.25 },
-          { id = "watches", size = 0.25 },
-          { id = "scopes", size = 0.25 },
-        },
-        position = "left",
-        size = 40
-      }, {
+      elements = {
+        { id = "breakpoints", size = 0.25 },
+        { id = "stacks", size = 0.25 },
+        { id = "watches", size = 0.25 },
+        { id = "scopes", size = 0.25 },
+      },
+      position = "left",
+      size = 40
+    },
+      {
         elements = { { id = "repl", size = 0.9 } },
         position = "bottom",
         size = 20
-      } },
+      },
+    },
     render = {
       indent = 1,
       max_value_lines = 1000
-    }
+    },
 })
 
 ---- LSPCONFIG ----
+-- autojump to single reference
+vim.lsp.handlers["textDocument/references"] = function(_, result, ctx, config)
+  if not result or vim.tbl_isempty(result) then
+    vim.notify("No references found")
+  else
+    local client = vim.lsp.get_client_by_id(ctx.client_id)
+    config = config or {}
+    local title = "References"
+    local items = util.locations_to_items(result, client.offset_encoding)
+
+    if #items == 2 then
+      vim.notify("autojump to single reference")
+      if items[1].lnum == vim.api.nvim_win_get_cursor(0)[1] then
+        vim.cmd("e " .. items[2].filename .. "|" .. items[2].lnum)
+      else
+        vim.cmd("e " .. items[1].filename .. "|" .. items[1].lnum)
+      end
+    else
+      if config.loclist then
+        vim.fn.setloclist(0, {}, " ", { title = title, items = items, context = ctx })
+        api.nvim_command("lopen")
+      elseif config.on_list then
+        assert(type(config.on_list) == "function", "on_list is not a function")
+        config.on_list({ title = title, items = items, context = ctx })
+      else
+        vim.fn.setqflist({}, " ", { title = title, items = items, context = ctx })
+        api.nvim_command("botright copen")
+      end
+    end
+  end
+end
+
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
