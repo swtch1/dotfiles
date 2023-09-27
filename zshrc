@@ -73,7 +73,7 @@ alias less='bat'
 # I shouldn't have to do this
 alias uniq='sort -u'
 alias mk='minikube'
-alias cdt='cd $(mktemp -d)'
+alias cdt='cd /tmp'
 alias cdc='cd ~/code'
 alias cds='cd ~/code/speedscale/'
 alias cdsp='cd ~/code/speedscale-pristine/'
@@ -165,7 +165,7 @@ function b64d() {
 
 # vim here
 function vh() {
-  last=$(echo `history |tail -n1 |head -n1` | sed 's/[0-9]* //')
+  last=$(echo `history | ag ag | tail -n1 | head -n1` | sed 's/[0-9]* //')
   out=$(eval "$last" | tail -n1)
   combo=$(echo "$out" | awk '{ print $1 }')
   file=$(echo "$combo" | cut -d ':' -f 1)

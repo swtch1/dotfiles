@@ -412,9 +412,9 @@ nnoremap <Leader>rf vi{zF
 
 " keymap | run
 nnoremap <Leader>rr :wa<CR>:AsyncRun<Up><CR><Esc>
-" nnoremap <Leader>rt :AsyncRun -mode=term source ~/.zshrc-lite && 
 nnoremap <Leader>rt :AsyncRun -mode=term -pos=thelp 
 nnoremap <Leader>rT :AsyncRun -mode=term source ~/.zshrc-lite && 
+nnoremap <Leader>rd :vsp .envrc.local<CR>
 nnoremap <Leader>rj V:!jq<CR>
 vnoremap <Leader>rj :!jq<CR>
 " nnoremap <Leader>rf :%foldc<CR> " doesn't work without setting something like tabmethod=indent
