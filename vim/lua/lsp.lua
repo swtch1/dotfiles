@@ -108,6 +108,7 @@ end
 -- env vars with defaults so lua doesn't complain
 tenantBucket = os.getenv("TENANT_BUCKET") or ""
 analyzerReportID = os.getenv("ANALYZER_REPORT_ID") or ""
+snapshotID = os.getenv("SNAPSHOT_ID") or ""
 
 dap.configurations.go = {
   {
@@ -150,6 +151,18 @@ dap.configurations.go = {
       "--output-dir", ".",
       "--recreate",
     },
+  },
+  {
+    name = "analyzer - snapshot",
+    type = "go",
+    request = "launch",
+    program = "/Users/josh/code/speedscale/analyzer/",
+    args = {
+        "snapshot",
+        "--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
+        "--output-dir", "./snapshot",
+        "--raw", "s3select://" .. tenantBucket .. "/default/"
+    }
   },
   {
     name = "api-gateway",
