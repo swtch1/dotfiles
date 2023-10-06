@@ -1,3 +1,5 @@
+-- playing with plugin creation
+--
 -- ref: https://alpha2phi.medium.com/writing-neovim-plugins-a-beginner-guide-part-i-e169d5fd1a58
 -- ref: https://github.com/rafaelsq/nvim-goc.lua/blob/master/lua/nvim-goc.lua
 

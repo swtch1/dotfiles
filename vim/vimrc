@@ -51,6 +51,7 @@ exec 'set viminfo=%,' . &viminfo
 " remember line position
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
+
 " syntax highlighting for things that might have large data
 set maxmempattern=1048576
 
@@ -259,8 +260,6 @@ let g:terminal_list = 0 " hide terminal in buffers list
 
 Plug 'skywind3000/asyncrun.vim'
 
-Plug 'szw/vim-maximizer'
-
 Plug 'airblade/vim-gitgutter'
 let g:gitgutter_map_keys = 0
 
@@ -290,7 +289,7 @@ Plug 'hrsh7th/cmp-nvim-lua'
 " this broke my tab :(
 " Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
-Plug 'nvim-treesitter/nvim-treesitter'
+" Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
 
 " requirement for several other plugins
@@ -310,6 +309,7 @@ Plug 'Exafunction/codeium.vim'
 
 " GUI manager for LSP, DAP, linters, etc
 Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
 
 " lsp for JAVA - also uses jdtls binary
 " this plugin requires it be explicitly installed, at least in my tests
@@ -321,6 +321,10 @@ Plug 'sindrets/winshift.nvim'
 Plug 'ellisonleao/glow.nvim'
 
 Plug 'tzachar/highlight-undo.nvim'
+
+Plug 'anuvyklack/windows.nvim'
+Plug 'anuvyklack/middleclass'
+Plug 'anuvyklack/animation.nvim'
 
 call plug#end()
 
@@ -397,7 +401,7 @@ nnoremap <Leader>ff :BuffergatorOpen<CR>
 nnoremap <Leader>f/ :Buffers<CR>
 nnoremap <Leader>ft :TagbarOpenAutoClose<CR>
 nnoremap <Leader>fT :TagbarOpen<CR>
-nnoremap <Leader>fm :MaximizerToggle!<CR>
+nnoremap <Leader>fm :WindowsMaximize<CR>
 nnoremap <Leader>fr :Startify<CR>
 nnoremap <Leader>fa :Ag 
 " yank current word and paste into Ag

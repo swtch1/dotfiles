@@ -65,6 +65,7 @@ alias vt='v -c terminal'
 alias vg='v -c :G'
 alias vimdiff='v diff'
 alias fzf='v $(/usr/local/bin/fzf)'
+alias vf='fzf'
 
 alias h='history'
 alias c='clear'
@@ -103,7 +104,7 @@ function gpw() { git --work-tree "$1" pull }
 alias gpsh='git push'
 alias gs='git status -s && git status | ag --no-color "git push"'
 alias gc='git checkout'
-alias gcm='gt cc -m'
+alias gcm='gt modify --commit -m'
 alias gsh='git stash'
 alias gpu='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
 alias gd='git diff'
@@ -114,19 +115,7 @@ alias gl="git log --graph --decorate --decorate-refs=tags --all --single-worktre
 alias gb='for k in $(git branch | sed s/^..//); do echo -e $(git log -1 --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k --)\\t"$k";done | sort'
 alias gw='git worktree'
 alias gwa='git worktree add'
-# function gpa() {
-#   for d in $(git worktree list| grep -v '(bare)'| cut -d ' ' -f 1);do
-#     echo "worktree: $d"
-#     git --work-tree "$d" pull
-#   done
-# }
-# function gpm() {
-#   for d in $(git worktree list| grep 'master'| cut -d ' ' -f 1);do
-#     echo "worktree: $d"
-#     git --work-tree "$d" pull
-#   done
-# }
-alias grs='gt rs --force --restack'
+alias gts='gt sync --force'
 
 # kubernetes
 source <(kubectl completion zsh)
@@ -285,5 +274,29 @@ function mr() {
 
 function agg() {
   ag --go $@
+}
+
+# notify when cmd finishes, retry every n seconds.
+# usage: notifywhen '<cmd>' <n>
+function notifywhen() {
+  cmd=$1
+  every=$2
+
+  start_time=$(date -u +%s)
+  while true; do
+    eval "$cmd" &> /dev/null
+    if [ $? -eq 0 ];then
+      end_time=$(date -u +%s)
+      duration="$(($end_time - $start_time))"
+      osascript -e "display notification \"completed after $duration seconds\" with title \"$1\""
+      return
+    fi
+
+    if [[ "$every" -eq 0 ]]; then
+      osascript -e "display notification \"failed after 1 attempt\" with title \"$1\""
+      return
+    fi
+    sleep "$every"
+  done
 }
 
