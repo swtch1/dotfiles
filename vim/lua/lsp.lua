@@ -107,6 +107,18 @@ dap.configurations.go = {
     }
   },
   {
+    name = "analyzer - snapshot - local",
+    type = "go",
+    request = "launch",
+    program = "/Users/josh/code/speedscale/analyzer/",
+    args = {
+        "snapshot",
+        "--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. ".json",
+        "--output-dir", "./snapshot",
+        "--raw", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. "/raw.jsonl"
+    }
+  },
+  {
     name = "api-gateway",
     type = "go",
     request = "launch",
