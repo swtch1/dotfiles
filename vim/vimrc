@@ -346,6 +346,7 @@ nnoremap <Leader>o :lclose<CR>:cclose<CR>:noh<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>Q :q!<CR>
 nnoremap <Leader>p :Files<CR>
+nnoremap <Leader>P :Files %:p:h<CR>
 nnoremap <Leader>v <C-v>
 "make Y copy to the end of the line
 nnoremap Y y$
