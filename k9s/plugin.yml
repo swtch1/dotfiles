@@ -26,12 +26,12 @@ plugin:
     confirm: false
     description: Values
     scopes:
-    - helm
+      - helm
     command: sh
     background: false
     args:
-    - -c
-    - "helm get values $COL-NAME -n $NAMESPACE --kube-context $CONTEXT | less"
+      - -c
+      - "helm get values $COL-NAME -n $NAMESPACE --kube-context $CONTEXT | less"
   toggle-helmrelease:
     shortCut: Shift-T
     confirm: true
@@ -59,18 +59,18 @@ plugin:
     confirm: false
     description: Flux reconcile
     scopes:
-    - gitrepositories
+      - gitrepositories
     command: bash
     background: false
     args:
-    - -c
-    - "flux --context $CONTEXT reconcile source git -n $NAMESPACE $NAME |& less"
+      - -c
+      - "flux --context $CONTEXT reconcile source git -n $NAMESPACE $NAME |& less"
   reconcile-hr:
     shortCut: Shift-R
     confirm: false
     description: Flux reconcile
     scopes:
-    - helmreleases
+      - helmreleases
     command: bash
     background: false
     args:
@@ -103,20 +103,24 @@ plugin:
     confirm: false
     description: Flux reconcile
     scopes:
-    - kustomizations
+      - kustomizations
     command: bash
     background: false
     args:
-    - -c
-    - "flux --context $CONTEXT reconcile kustomization -n $NAMESPACE $NAME |& less"
+      - -c
+      - "flux --context $CONTEXT reconcile kustomization -n $NAMESPACE $NAME |& less"
   trace:
     shortCut: Shift-A
     confirm: false
     description: Flux trace
     scopes:
-    - all
+      - helmrepositories
+      - gitrepositories
+      - kustomizations
+      - helmreleases
+      - ocirepositories
     command: bash
     background: false
     args:
-    - -c
-    - "flux --context $CONTEXT trace --kind `echo $RESOURCE_NAME | sed -E 's/ies$/y/' | sed -E 's/ses$/se/' | sed -E 's/(s|es)$//g'` --api-version $RESOURCE_GROUP/$RESOURCE_VERSION --namespace $NAMESPACE $NAME |& less"
+      - -c
+      - "flux --context $CONTEXT trace --kind `echo $RESOURCE_NAME | sed -E 's/ies$/y/' | sed -E 's/ses$/se/' | sed -E 's/(s|es)$//g'` --api-version $RESOURCE_GROUP/$RESOURCE_VERSION --namespace $NAMESPACE $NAME |& less"
