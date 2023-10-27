@@ -1,5 +1,16 @@
 plugin:
   ### DEBUGGING ###
+  connect-db:
+    shortCut: Ctrl-L
+    description: "Connect to DB"
+    scopes:
+      - pods
+    command: zsh
+    background: false
+    confirm: false
+    args:
+      - -c
+      - "source ~/.zshrc-db && CONTEXT=$CONTEXT NAMESPACE=$NAMESPACE connect-db $NAME || sleep 5"
   debug:
     shortCut: Shift-D
     description: "Add debug container"
@@ -11,17 +22,6 @@ plugin:
     args:
       - -c
       - "kubectl debug -it -n=$NAMESPACE $POD --target=$NAME --image=nicolaka/netshoot:v0.11 --share-processes -- bash"
-  connect-timescale:
-    shortCut: Ctrl-L
-    description: "Connect to DB"
-    scopes:
-      - pods
-    command: zsh
-    background: false
-    confirm: false
-    args:
-      - -c
-      - "source ~/.zshrc-db && CONTEXT=$CONTEXT NAMESPACE=$NAMESPACE connect-db $NAME || sleep 5"
   helm-values:
     shortCut: v
     confirm: false
