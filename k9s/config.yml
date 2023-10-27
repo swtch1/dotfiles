@@ -1,0 +1,138 @@
+k9s:
+  refreshRate: 2
+  maxConnRetry: 5
+  enableMouse: false
+  headless: false
+  logoless: false
+  crumbsless: false
+  readOnly: false
+  noExitOnCtrlC: false
+  noIcons: false
+  skipLatestRevCheck: false
+  logger:
+    tail: 300
+    buffer: 5000
+    sinceSeconds: 300
+    fullScreenLogs: false
+    textWrap: false
+    showTime: false
+  currentContext: minikube
+  currentCluster: minikube
+  clusters:
+    arn:aws:eks:us-east-1:094668123143:cluster/dev-sstenant-eks-cluster:
+      namespace:
+        active: sstenant-external
+        lockFavorites: false
+        favorites:
+        - sstenant-external
+        - default
+      view:
+        active: pods
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.35.0
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+        labels: {}
+      portForwardAddress: localhost
+    arn:aws:eks:us-east-1:853014245683:cluster/staging-sstenant-eks-cluster:
+      namespace:
+        active: sstenant-elastic
+        lockFavorites: false
+        favorites:
+        - sstenant-elastic
+        - default
+      view:
+        active: pods
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.35.0
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+        labels: {}
+      portForwardAddress: localhost
+    arn:aws:eks:us-east-1:880246755038:cluster/prod-sstenant-eks-cluster:
+      namespace:
+        active: sstenant-cfacorp
+        lockFavorites: false
+        favorites:
+        - sstenant-cfacorp
+        - sstenant-000689
+        - default
+      view:
+        active: pods
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.35.0
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+        labels: {}
+      portForwardAddress: localhost
+    gke_speedscale-demos_us-central1_kraken:
+      namespace:
+        active: all
+        lockFavorites: false
+        favorites:
+        - all
+        - default
+      view:
+        active: po
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.35.0
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+        labels: {}
+      portForwardAddress: localhost
+    minikube:
+      namespace:
+        active: beta-services
+        lockFavorites: false
+        favorites:
+        - all
+        - demo
+        - speedscale
+        - beta-services
+        - default
+      view:
+        active: po
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.35.0
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+        labels: {}
+      portForwardAddress: localhost
+  thresholds:
+    cpu:
+      critical: 90
+      warn: 70
+    memory:
+      critical: 90
+      warn: 70
+  screenDumpDir: /var/folders/hy/sxcwypzn0h9bg08bpjz789y00000gn/T/k9s-screens-josh

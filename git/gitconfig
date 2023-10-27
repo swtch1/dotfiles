@@ -8,6 +8,7 @@
 [core]
     pager = delta
     hooksPath = /Users/josh/.config/git/hooks
+	excludesfile = /Users/josh/.config/git/gitignore
 [delta]
     line-numbers = true
     true-color = always
