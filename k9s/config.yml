@@ -16,8 +16,8 @@ k9s:
     fullScreenLogs: false
     textWrap: false
     showTime: false
-  currentContext: minikube
-  currentCluster: minikube
+  currentContext: dev
+  currentCluster: arn:aws:eks:us-east-1:094668123143:cluster/dev-sstenant-eks-cluster
   clusters:
     arn:aws:eks:us-east-1:094668123143:cluster/dev-sstenant-eks-cluster:
       namespace:
@@ -27,7 +27,7 @@ k9s:
         - sstenant-external
         - default
       view:
-        active: pods
+        active: kustomization
       featureGates:
         nodeShell: false
       shellPod:
