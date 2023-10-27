@@ -160,7 +160,7 @@ dap.configurations.go = {
     request = "launch",
     program = "/Users/josh/code/speedscale/speedctl/",
     args = {
-      "replay", "2c47d647-0771-4a5d-b8d2-2f63c847077b", "--test-config-id", "jmt-dev-everlasting-generator", "--mode", "generator-only", "--custom-url", "127.0.0.1:8080"
+      "replay", "e0b3c149-6701-47c5-90f1-a2ef3b37d610", "--test-config-id", "jmt-dev", "--mode", "generator-only",-- "--custom-url", "127.0.0.1:8080"
     }
   },
   {
@@ -398,7 +398,7 @@ M.map('n', '<leader>dU', '<cmd>lua require("dap").down()<CR>', opts)
 local cmp = require('cmp')
 cmp.setup({
   -- don't guess at which option to select
-  -- preselect = cmp.PreselectMode.None,
+  preselect = cmp.PreselectMode.None,
   snippet = {
     -- REQUIRED - you must specify a snippet engine
     expand = function(args)
