@@ -27,7 +27,7 @@ k9s:
         - sstenant-external
         - default
       view:
-        active: kustomization
+        active: pods
       featureGates:
         nodeShell: false
       shellPod:
@@ -115,7 +115,7 @@ k9s:
         - beta-services
         - default
       view:
-        active: po
+        active: pods
       featureGates:
         nodeShell: false
       shellPod:

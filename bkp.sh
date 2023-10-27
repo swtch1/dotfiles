@@ -9,7 +9,7 @@ cp ~/.vimrc ./vim/vimrc
 cp -r ~/.config/nvim/ ./vim
 
 echo 'copying zshrc...'
-cp ~/.zshrc zshrc
+cp ~/.zshrc* .
 
 echo 'copying gitconfig...'
 cp ~/.gitconfig ./git/gitconfig

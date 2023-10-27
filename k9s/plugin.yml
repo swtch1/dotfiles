@@ -1,15 +1,5 @@
 plugin:
-  # view container details with dive
-  dive:
-    shortCut: d
-    confirm: false
-    description: "Dive image"
-    scopes:
-      - containers
-    command: dive
-    background: false
-    args:
-      - $COL-IMAGE
+  ### DEBUGGING ###
   debug:
     shortCut: Shift-D
     description: "Add debug container"
@@ -21,6 +11,17 @@ plugin:
     args:
       - -c
       - "kubectl debug -it -n=$NAMESPACE $POD --target=$NAME --image=nicolaka/netshoot:v0.11 --share-processes -- bash"
+  connect-timescale:
+    shortCut: Ctrl-L
+    description: "Connect to DB"
+    scopes:
+      - pods
+    command: zsh
+    background: false
+    confirm: false
+    args:
+      - -c
+      - "source ~/.zshrc-db && CONTEXT=$CONTEXT NAMESPACE=$NAMESPACE connect-db $NAME || sleep 5"
   helm-values:
     shortCut: v
     confirm: false
@@ -32,6 +33,20 @@ plugin:
     args:
       - -c
       - "helm get values $COL-NAME -n $NAMESPACE --kube-context $CONTEXT | less"
+  dive: # view container details with dive
+    shortCut: d
+    confirm: false
+    description: "Dive image"
+    scopes:
+      - containers
+    command: dive
+    background: false
+    args:
+      - $COL-IMAGE
+
+  ############
+  ### FLUX ###
+  ############
   toggle-helmrelease:
     shortCut: Shift-T
     confirm: true
