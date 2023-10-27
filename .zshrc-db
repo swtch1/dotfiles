@@ -1,0 +1,54 @@
+# connect to usr-mgmt DB
+function connect-usr-mgmt() {
+  if [[ -z $CONTEXT ]];then
+    echo "CONTEXT is required"
+    return
+  fi
+  if [[ -z $NAMESPACE ]];then
+    echo "NAMESPACE is required"
+    return
+  fi
+
+  pod=$(kubectl get pods --context $CONTEXT -n default -l app=usr-mgmt --no-headers | cut -d ' ' -f 1)
+  env_vars=$(kubectl --context $CONTEXT -n default exec "$pod" -- printenv)
+  db_host=$(echo "$env_vars" | awk -F= '/^DB_HOST/ {print $2}')
+  db_username=$(echo "$env_vars" | awk -F= '/^DB_USERNAME/ {print $2}')
+  db_password=$(echo "$env_vars" | awk -F= '/^DB_PASSWORD/ {print $2}')
+  db_name=$(echo "$env_vars" | awk -F= '/^DB_NAME/ {print $2}')
+  kubectl --context $CONTEXT -n $NAMESPACE run ${USER}-connect-usr-mgmt -it --rm --image=postgres -- bash -c "export PGPASSWORD=$db_password && psql --host $db_host --user $db_username $db_name"
+}
+
+# connect to timescale DB
+function connect-timescale() {
+  if [[ -z $CONTEXT ]];then
+    echo "CONTEXT is required"
+    return
+  fi
+  if [[ -z $NAMESPACE ]];then
+    echo "NAMESPACE is required"
+    return
+  fi
+
+  kubectl --context $CONTEXT -n $NAMESPACE exec -it timescaledb-0 -c timescaledb -- bash -c 'PGPASSWORD=$PATRONI_speedscale_PASSWORD psql --user speedscale $TIMESCALE_DB_NAME'
+}
+
+# connect to DB based on name
+function connect-db() {
+  NAME=$1
+  if [[ -z $NAME ]];then
+    echo "DB name is required"
+    return
+  fi
+
+  if [[ "$NAME" =~ '^usr-mgmt' ]];then
+    echo "connecting to usr-mgmt DB..."
+    connect-usr-mgmt
+  elif [[ "$NAME" =~ '^timescale' ]];then
+    echo "connecting to timescale DB..."
+    connect-timescale
+  fi
+
+  echo "no DB matched name $NAME"
+  return
+}
+
