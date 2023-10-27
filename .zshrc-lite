@@ -1,0 +1,58 @@
+##############
+# zshrc lite #
+##############
+#
+# This "lite" zshrc file can be loaded to add functionality to quick running processed
+# without bogging them down on startup.  Be careful with what you add here.
+#
+
+eval "$(direnv hook zsh)"
+
+# make it easier to spot the testing debug lines I drop
+function fixme() {
+  ag "FIXME: \(JMT\)"
+  ag "BOOKMARK:"
+}
+
+# test with output in tparse
+function t() {
+  if [[ -z "$1" ]]; then
+    go test -failfast -timeout=60s -cover ./... -json | tparse
+    return
+  fi
+  go test -failfast -timeout=10s -cover . -run "$1" -json | tparse
+}
+
+# test with verbose output during test
+function tv() {
+  if [[ -z "$1" ]]; then
+    go test -v -failfast -timeout=60s -cover ./...
+    return
+  fi
+  go test -v -failfast -timeout=10s . -run "$1"
+}
+
+# run go tests easier.. with file watches
+function tw() {
+  while true; do
+    clear
+    t $1
+    fswatch -1 . > /dev/null
+  done
+}
+
+function analyze_report() {
+  rpt_id=$1
+  speedmgmt queue send raw \
+    --queue-url https://sqs.us-east-1.amazonaws.com/094668123143/dev-sstenant-external-api-gateway \
+    --message '{"msgType":"event","version":"0.0.1","name":"sigReport","type":"STRING","stringVal":{"val":"trafficReplayStarted"},"tags":{"source":"jmt-test","tenantId":"63b7c67e-233d-4e9e-a9aa-62db482be7ac","testReportId":"'$rpt_id'"}}'
+}
+
+function s() {
+  speedctl "$@"
+}
+
+function sm() {
+  speedmgmt "$@"
+}
+
