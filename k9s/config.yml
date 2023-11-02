@@ -16,14 +16,17 @@ k9s:
     fullScreenLogs: false
     textWrap: false
     showTime: false
-  currentContext: dev
-  currentCluster: arn:aws:eks:us-east-1:094668123143:cluster/dev-sstenant-eks-cluster
+  currentContext: minikube
+  currentCluster: minikube
   clusters:
     arn:aws:eks:us-east-1:094668123143:cluster/dev-sstenant-eks-cluster:
       namespace:
         active: sstenant-external
         lockFavorites: false
         favorites:
+        - sstenant-trials
+        - sstenant-guest
+        - sstenant-experimental
         - sstenant-external
         - default
       view:
@@ -63,7 +66,7 @@ k9s:
       portForwardAddress: localhost
     arn:aws:eks:us-east-1:880246755038:cluster/prod-sstenant-eks-cluster:
       namespace:
-        active: sstenant-cfacorp
+        active: sstenant-000689
         lockFavorites: false
         favorites:
         - sstenant-cfacorp
@@ -91,7 +94,27 @@ k9s:
         - all
         - default
       view:
-        active: po
+        active: deploy
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.35.0
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+        labels: {}
+      portForwardAddress: localhost
+    gke_speedscale-demos_us-central1_prod-decoy:
+      namespace:
+        active: all
+        lockFavorites: false
+        favorites:
+        - default
+      view:
+        active: context
       featureGates:
         nodeShell: false
       shellPod:
@@ -109,10 +132,8 @@ k9s:
         active: beta-services
         lockFavorites: false
         favorites:
-        - all
-        - demo
-        - speedscale
         - beta-services
+        - speedscale
         - default
       view:
         active: pods
