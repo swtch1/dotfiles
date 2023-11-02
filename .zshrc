@@ -202,6 +202,7 @@ alias sodx='s deploy operator -X | k delete -n speedscale -f -'
 export PROD_USER_ID='bec83d8b-2c15-4e2e-a0a5-7a90193665f4'
 
 export REVIEW_BASE='master'
+alias ga='git add'
 alias gp='git pull'
 function gpw() { git --work-tree "$1" pull }
 alias gpsh='git push'

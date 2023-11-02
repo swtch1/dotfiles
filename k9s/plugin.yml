@@ -1,19 +1,11 @@
 plugin:
+  #################
   ### DEBUGGING ###
-  connect-db:
-    shortCut: Ctrl-L
-    description: "Connect to DB"
-    scopes:
-      - pods
-    command: zsh
-    background: false
-    confirm: false
-    args:
-      - -c
-      - "source ~/.zshrc-db && CONTEXT=$CONTEXT NAMESPACE=$NAMESPACE connect-db $NAME || sleep 5"
-  debug:
+  #################
+  dive: # view container details with dive
+  netshoot:
     shortCut: Shift-D
-    description: "Add debug container"
+    description: "Add debug container (netshoot)"
     scopes:
       - containers
     command: bash
@@ -22,20 +14,8 @@ plugin:
     args:
       - -c
       - "kubectl debug -it -n=$NAMESPACE $POD --target=$NAME --image=nicolaka/netshoot:v0.11 --share-processes -- bash"
-  helm-values:
-    shortCut: v
-    confirm: false
-    description: Values
-    scopes:
-      - helm
-    command: sh
-    background: false
-    args:
-      - -c
-      - "helm get values $COL-NAME -n $NAMESPACE --kube-context $CONTEXT | less"
-  dive: # view container details with dive
     shortCut: d
-    confirm: false
+    confirm: true
     description: "Dive image"
     scopes:
       - containers
@@ -43,6 +23,51 @@ plugin:
     background: false
     args:
       - $COL-IMAGE
+  log-more:
+    shortCut: m
+    description: "Log more"
+    scopes:
+      - containers
+    command: bash
+    background: true
+    confirm: false
+    args:
+      - -c
+      - "kubectl --context $CONTEXT -n=$NAMESPACE exec $POD -- bash -c 'kill -s sigusr1 1'"
+  log-less:
+    shortCut: Shift-L
+    description: "Log less"
+    scopes:
+      - containers
+    command: bash
+    background: true
+    confirm: false
+    args:
+      - -c
+      - "kubectl --context $CONTEXT -n=$NAMESPACE exec $POD -- bash -c 'kill -s sigusr2 1'"
+  connect-db:
+    shortCut: Ctrl-L
+    description: "Connect to DB"
+    scopes:
+      - pods
+    command: zsh
+    background: false
+    confirm: true
+    args:
+      - -c
+      - "source ~/.zshrc-db && CONTEXT=$CONTEXT NAMESPACE=$NAMESPACE connect-db $NAME || sleep 5"
+  pv-usage:
+    shortCut: Shift-U
+    description: "Show usage"
+    scopes:
+      - persistentvolumes
+    command: bash
+    background: false
+    confirm: true
+    args:
+      - -c
+      - "kubectl df-pv --context $CONTEXT | less"
+
 
   ############
   ### FLUX ###
@@ -71,7 +96,7 @@ plugin:
       - "flux --context $CONTEXT $([ $(kubectl --context $CONTEXT get kustomizations -n $NAMESPACE $NAME -o=custom-columns=TYPE:.spec.suspend | tail -1) = \"true\" ] && echo \"resume\" || echo \"suspend\") kustomization -n $NAMESPACE $NAME |& less"
   reconcile-git:
     shortCut: Shift-R
-    confirm: false
+    confirm: true
     description: Flux reconcile
     scopes:
       - gitrepositories
@@ -82,7 +107,7 @@ plugin:
       - "flux --context $CONTEXT reconcile source git -n $NAMESPACE $NAME |& less"
   reconcile-hr:
     shortCut: Shift-R
-    confirm: false
+    confirm: true
     description: Flux reconcile
     scopes:
       - helmreleases
@@ -98,7 +123,7 @@ plugin:
       - helmrepositories
     command: bash
     background: false
-    confirm: false
+    confirm: true
     args:
       - -c
       - "flux reconcile source helm --context $CONTEXT -n $NAMESPACE $NAME |& less"
@@ -109,13 +134,13 @@ plugin:
       - ocirepositories
     command: bash
     background: false
-    confirm: false
+    confirm: true
     args:
       - -c
       - "flux reconcile source oci --context $CONTEXT -n $NAMESPACE $NAME |& less"
   reconcile-ks:
     shortCut: Shift-R
-    confirm: false
+    confirm: true
     description: Flux reconcile
     scopes:
       - kustomizations
@@ -126,7 +151,7 @@ plugin:
       - "flux --context $CONTEXT reconcile kustomization -n $NAMESPACE $NAME |& less"
   trace:
     shortCut: Shift-A
-    confirm: false
+    confirm: true
     description: Flux trace
     scopes:
       - helmrepositories

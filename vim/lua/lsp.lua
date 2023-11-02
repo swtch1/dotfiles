@@ -160,7 +160,7 @@ dap.configurations.go = {
     request = "launch",
     program = "/Users/josh/code/speedscale/speedctl/",
     args = {
-      "replay", "e0b3c149-6701-47c5-90f1-a2ef3b37d610", "--test-config-id", "jmt-dev", "--mode", "generator-only",-- "--custom-url", "127.0.0.1:8080"
+      "replay", "c77259a1-37f5-42e8-8f1f-23595251dfe3", "--test-config-id", "slow_increase_id_dev", "--mode", "generator-only", "--custom-url", "127.0.0.1:8080"
     }
   },
   {
@@ -306,7 +306,7 @@ lspconfig.gopls.setup({
 lspconfig.bashls.setup({})
 lspconfig.clangd.setup({})
 lspconfig.jedi_language_server.setup({})
-lspconfig.jsonls.setup({})
+-- lspconfig.jq.setup({})
 lspconfig.jdtls.setup({})
 lspconfig.rust_analyzer.setup({})
 lspconfig.solargraph.setup({})
@@ -314,22 +314,24 @@ lspconfig.sqlls.setup({})
 lspconfig.tflint.setup({})
 lspconfig.tsserver.setup({})
 -- lspconfig.sumneko_lua.setup({}) -- mason.nvim should update this refrence at some point
-lspconfig.yamlls.setup({
-  settings = {
-    yaml = {
-      keyOrdering = false,
-        schemas = {
-          kubernetes = "*.yaml",
-            ["http://json.schemastore.org/kustomization"] = "kustomization.{yml,yaml}",
-            ["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = "*gitlab-ci*.{yml,yaml}",
-            ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "*compose*.{yml,yaml}",
-            ["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
-        },
-    },
-  },
-})
+-- re-enable after kubernetes meetup - maybe
+-- lspconfig.yamlls.setup({
+--   settings = {
+--     yaml = {
+--       keyOrdering = false,
+--         schemas = {
+--           kubernetes = "*.yaml",
+--             ["http://json.schemastore.org/kustomization"] = "kustomization.{yml,yaml}",
+--             ["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = "*gitlab-ci*.{yml,yaml}",
+--             ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "*compose*.{yml,yaml}",
+--             ["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
+--         },
+--     },
+--   },
+-- })
 lspconfig.zk.setup({})
 lspconfig.terraformls.setup({})
+lspconfig.rust_analyzer.setup({})
 
 
 local fn = vim.fn
