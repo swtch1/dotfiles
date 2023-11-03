@@ -2,20 +2,20 @@ plugin:
   #################
   ### DEBUGGING ###
   #################
-  dive: # view container details with dive
   netshoot:
     shortCut: Shift-D
-    description: "Add debug container (netshoot)"
+    description: "Add debug container"
     scopes:
       - containers
     command: bash
     background: false
-    confirm: true
+    confirm: false
     args:
       - -c
-      - "kubectl debug -it -n=$NAMESPACE $POD --target=$NAME --image=nicolaka/netshoot:v0.11 --share-processes -- bash"
+      - "kubectl debug -it -n=$NAMESPACE $POD --target=$NAME --image=nicolaka/netshoot:v0.11 --share-processes -- bash || sleep 5"
+  dive: # view container details with dive
     shortCut: d
-    confirm: true
+    confirm: false
     description: "Dive image"
     scopes:
       - containers
@@ -52,7 +52,7 @@ plugin:
       - pods
     command: zsh
     background: false
-    confirm: true
+    confirm: false
     args:
       - -c
       - "source ~/.zshrc-db && CONTEXT=$CONTEXT NAMESPACE=$NAMESPACE connect-db $NAME || sleep 5"
@@ -63,7 +63,7 @@ plugin:
       - persistentvolumes
     command: bash
     background: false
-    confirm: true
+    confirm: false
     args:
       - -c
       - "kubectl df-pv --context $CONTEXT | less"
