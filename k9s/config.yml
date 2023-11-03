@@ -16,12 +16,12 @@ k9s:
     fullScreenLogs: false
     textWrap: false
     showTime: false
-  currentContext: minikube
-  currentCluster: minikube
+  currentContext: dev
+  currentCluster: arn:aws:eks:us-east-1:094668123143:cluster/dev-sstenant-eks-cluster
   clusters:
     arn:aws:eks:us-east-1:094668123143:cluster/dev-sstenant-eks-cluster:
       namespace:
-        active: sstenant-external
+        active: default
         lockFavorites: false
         favorites:
         - sstenant-trials
@@ -129,7 +129,7 @@ k9s:
       portForwardAddress: localhost
     minikube:
       namespace:
-        active: beta-services
+        active: speedscale
         lockFavorites: false
         favorites:
         - beta-services
