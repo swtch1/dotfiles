@@ -16,14 +16,15 @@ k9s:
     fullScreenLogs: false
     textWrap: false
     showTime: false
-  currentContext: dev
-  currentCluster: arn:aws:eks:us-east-1:094668123143:cluster/dev-sstenant-eks-cluster
+  currentContext: minikube
+  currentCluster: minikube
   clusters:
     arn:aws:eks:us-east-1:094668123143:cluster/dev-sstenant-eks-cluster:
       namespace:
-        active: default
+        active: sstenant-external
         lockFavorites: false
         favorites:
+        - all
         - sstenant-trials
         - sstenant-guest
         - sstenant-experimental
@@ -66,14 +67,17 @@ k9s:
       portForwardAddress: localhost
     arn:aws:eks:us-east-1:880246755038:cluster/prod-sstenant-eks-cluster:
       namespace:
-        active: sstenant-000689
+        active: sstenant-000202
         lockFavorites: false
         favorites:
+        - sstenant-000377
+        - sstenant-000834
+        - sstenant-speedscale
         - sstenant-cfacorp
         - sstenant-000689
         - default
       view:
-        active: pods
+        active: ns
       featureGates:
         nodeShell: false
       shellPod:
@@ -129,14 +133,14 @@ k9s:
       portForwardAddress: localhost
     minikube:
       namespace:
-        active: speedscale
+        active: beta-services
         lockFavorites: false
         favorites:
         - beta-services
         - speedscale
         - default
       view:
-        active: pods
+        active: ns
       featureGates:
         nodeShell: false
       shellPod:

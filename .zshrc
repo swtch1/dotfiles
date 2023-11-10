@@ -220,7 +220,7 @@ alias gl="git log --graph --decorate --decorate-refs=tags --all --single-worktre
 alias gb='for k in $(git branch | sed s/^..//); do echo -e $(git log -1 --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k --)\\t"$k";done | sort'
 alias gw='git worktree'
 alias gwa='git worktree add'
-alias gts='gt sync --force'
+alias gts='git pull && gt sync --force'
 
 # kubernetes
 source <(kubectl completion zsh)
