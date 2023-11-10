@@ -48,10 +48,6 @@ let mapleader = "\<Space>"
 " remember my buffers
 exec 'set viminfo=%,' . &viminfo
 
-" remember line position
-au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-
-
 " syntax highlighting for things that might have large data
 set maxmempattern=1048576
 
@@ -66,11 +62,6 @@ if has('persistent_undo')
     set undofile
 endif
 
-" change cursorline on insert
-set cursorline
-autocmd InsertEnter * set nocursorline
-autocmd InsertLeave * set cursorline
-
 " system clipboard
 set clipboard=unnamed
 if system('uname -s') == 'Linux'
@@ -80,15 +71,6 @@ endif
 " speed things up
 set lazyredraw
 set ttyfast
-
-" tab spacing
-autocmd FileType go setlocal tabstop=2
-autocmd FileType go setlocal shiftwidth=2
-autocmd FileType sh setlocal tabstop=2
-autocmd FileType sh setlocal shiftwidth=2
-
-" better window naming
-autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window " . expand("%"))
 
 " syntax highlighting
 syntax on
@@ -125,7 +107,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'mhinz/vim-startify'
 let g:startify_change_to_dir = 0
-let g:startify_bookmarks = [ {'v': '~/.vimrc'}, {'c': '~/.config/nvim/'}, {'z': '~/.zshrc'} ]
+let g:startify_bookmarks = [ {'v': '~/.vimrc'}, {'c': '~/.speedscale/config.yaml'}, {'z': '~/.zshrc'} ]
 let g:startify_enable_special = 0
 let g:startify_lists = [
   \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
@@ -336,10 +318,6 @@ nnoremap <Leader>w :w<CR>
 " this piece of trash needs to die
 map Q <Nop>
 
-" navigate between functions
-autocmd FileType go nnoremap ]] :call search("^func")<cr>zt
-autocmd FileType go nnoremap [[ :call search("^func", "b")<cr>zt
-
 inoremap <C-@> <C-x><C-o>
 nnoremap <Leader>O :only<CR>:noh<CR>
 nnoremap <Leader>o :lclose<CR>:cclose<CR>:noh<CR>
@@ -434,17 +412,11 @@ nmap <Leader>> :35winc><CR>
 nmap <Leader>- :resize -15<CR>
 nmap <Leader>+ :resize +15<CR>
 
-" rust
-autocmd FileType rs nnoremap <Leader>w :rustfmt %:w<CR>
-
 " keymap | navigation
 nnoremap <Leader>gv :exe 'AsyncRun -mode=term cd '.expand('%:p:h').' && go vet ./... && echo checks out'<CR>
 nmap <C-k> :cprev<CR>
 nmap <C-j> :cnext<CR>
 " nnoremap <Leader>dd :call vimspector#Launch()<CR>
-
-autocmd BufWritePre *.go lua OrgImports(1000)
-autocmd BufWritePre *.go lua vim.lsp.buf.format()
 " nnoremap <Leader>db :call vimspector#ToggleBreakpoint()<CR>
 " nnoremap <Leader>d<space> :call vimspector#Continue()<CR>
 " nnoremap <Leader>do :call vimspector#StepOut()<CR>
@@ -478,9 +450,6 @@ let @f="A // FIXME: (JMT) "
 let @b="A // BOOKMARK: "
 let @d="lBveyO// \<Esc>pA "
 
-" tabs for go
-autocmd FileType go setlocal noexpandtab
-
 " highlight extra whitespace
 " keep this at the bottom
 hi ExtraWhitespace ctermbg=red guibg=red
@@ -502,7 +471,35 @@ set nocindent
 set nosmartindent
 set indentexpr=
 
+" always scroll to the left
+autocmd BufEnter * normal! 100zh
+
+" remember line position
+autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
 autocmd FileType go nnoremap <Leader>go :AsyncRun -mode=term go doc -all %:p:h<CR>
+
+" navigate between functions
+autocmd FileType go nnoremap ]] :call search("^func")<cr>zt
+autocmd FileType go nnoremap [[ :call search("^func", "b")<cr>zt
+
+" tab spacing
+autocmd FileType go setlocal tabstop=2
+autocmd FileType go setlocal shiftwidth=2
+autocmd FileType sh setlocal tabstop=2
+autocmd FileType sh setlocal shiftwidth=2
+
+" change cursorline on insert
+set cursorline
+autocmd InsertEnter * set nocursorline
+autocmd InsertLeave * set cursorline
+
+" better window naming
+autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window " . expand("%"))
+
+" go
+autocmd FileType go setlocal noexpandtab
+autocmd BufWritePre *.go lua vim.lsp.buf.format()
 lua <<EOF
   function OrgImports(wait_ms)
     local params = vim.lsp.util.make_range_params()
@@ -519,3 +516,5 @@ lua <<EOF
     end
   end
 EOF
+autocmd BufWritePre *.go lua OrgImports(1000)
+
