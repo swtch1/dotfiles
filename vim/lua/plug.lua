@@ -50,6 +50,36 @@ vim.cmd('autocmd VimEnter * lua SetupWindowsNvim()')
 
 -- lualine
 local navic = require("nvim-navic")
+navic.setup{
+ icons = {
+        File          = "",
+        Module        = "",
+        Namespace     = "",
+        Package       = "",
+        Class         = "",
+        Method        = "",
+        Property      = "",
+        Field         = "",
+        Constructor   = "",
+        Enum          = "",
+        Interface     = "",
+        Function      = "",
+        Variable      = "",
+        Constant      = "",
+        String        = "",
+        Number        = "",
+        Boolean       = "",
+        Array         = "",
+        Object        = "",
+        Key           = "",
+        Null          = "",
+        EnumMember    = "",
+        Struct        = "",
+        Event         = "",
+        Operator      = "",
+        TypeParameter = "",
+    },
+}
 
 require('lualine').setup{
   options = {
@@ -61,13 +91,13 @@ require('lualine').setup{
    },
    sections = {
      lualine_a = { },
-     lualine_b = { },
-     lualine_c = {
+     lualine_b = {
        {
 	 'filename',
 	 path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
        },
-       'lsp_progress',
+     },
+     lualine_c = {
        {
 	 function() return navic.get_location() end,
 	 cond = navic.is_available
