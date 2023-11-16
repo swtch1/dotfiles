@@ -47,3 +47,35 @@ function SetupWindowsNvim()
 })
 end
 vim.cmd('autocmd VimEnter * lua SetupWindowsNvim()')
+
+-- lualine
+local navic = require("nvim-navic")
+
+require('lualine').setup{
+  options = {
+    icons_enabled = false,
+    theme = 'papercolor_light',
+    component_separators = {'', ''},
+    section_separators = {'', ''},
+    disabled_filetypes = {}
+   },
+   sections = {
+     lualine_a = { },
+     lualine_b = { },
+     lualine_c = {
+       {
+	 'filename',
+	 path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
+       },
+       'lsp_progress',
+       {
+	 function() return navic.get_location() end,
+	 cond = navic.is_available
+       },
+     },
+     lualine_x = { },
+     lualine_y = { },
+     lualine_z = { 'filetype' },
+   },
+   extensions = { 'fzf' },
+ }
