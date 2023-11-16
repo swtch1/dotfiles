@@ -231,6 +231,7 @@ mason_lsp_config.setup_handlers({
 local on_attach = function(client, bufnr)
     if client.server_capabilities.documentSymbolProvider then
         navic.attach(client, bufnr)
+        put_text(navic.get_data())
     end
 end
 lspconfig.lua_ls.setup({
