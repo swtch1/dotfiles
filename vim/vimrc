@@ -157,38 +157,40 @@ Plug 'shumphrey/fugitive-gitlab.vim' "use :GBrowse to open files in gitlab
 
 Plug 'rafaelsq/nvim-goc.lua'
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_section_b='' " don't display git stuff
-let g:airline_section_y='' " don't display encoding
-let g:airline_section_z='' " don't display file progress
-let g:airline#extensions#hunks#enabled = 0
-" don't display mode
-let g:airline_mode_map = {
-    \ '__'     : '',
-    \ 'c'      : '',
-    \ 'i'      : '',
-    \ 'ic'     : '',
-    \ 'ix'     : '',
-    \ 'n'      : '',
-    \ 'multi'  : '',
-    \ 'ni'     : '',
-    \ 'no'     : '',
-    \ 'R'      : '',
-    \ 'Rv'     : '',
-    \ 's'      : '',
-    \ 'S'      : '',
-    \ ''     : '',
-    \ 't'      : '',
-    \ 'v'      : '',
-    \ 'V'      : '',
-    \ ''     : '',
-    \ }
-let g:airline_theme='xtermlight'
-" let g:airline_theme='term'
-" let g:airline_theme='luna'
-" let g:airline_theme='base16_heetch'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline_section_b='' " don't display git stuff
+" let g:airline_section_y='' " don't display encoding
+" let g:airline_section_z='' " don't display file progress
+" let g:airline#extensions#hunks#enabled = 0
+" " don't display mode
+" let g:airline_mode_map = {
+"     \ '__'     : '',
+"     \ 'c'      : '',
+"     \ 'i'      : '',
+"     \ 'ic'     : '',
+"     \ 'ix'     : '',
+"     \ 'n'      : '',
+"     \ 'multi'  : '',
+"     \ 'ni'     : '',
+"     \ 'no'     : '',
+"     \ 'R'      : '',
+"     \ 'Rv'     : '',
+"     \ 's'      : '',
+"     \ 'S'      : '',
+"     \ ''     : '',
+"     \ 't'      : '',
+"     \ 'v'      : '',
+"     \ 'V'      : '',
+"     \ ''     : '',
+"     \ }
+" let g:airline_theme='xtermlight'
+" " let g:airline_theme='term'
+" " let g:airline_theme='luna'
+" " let g:airline_theme='base16_heetch'
+
+Plug 'nvim-lualine/lualine.nvim'
 
 Plug 'mbbill/undotree'
 
@@ -306,6 +308,8 @@ Plug 'tzachar/highlight-undo.nvim'
 Plug 'anuvyklack/windows.nvim'
 Plug 'anuvyklack/middleclass'
 Plug 'anuvyklack/animation.nvim'
+
+Plug 'SmiteshP/nvim-navic'
 
 call plug#end()
 

@@ -4,6 +4,7 @@ local util = require('vim.lsp.util')
 local mason = require('mason')
 local mason_lsp_config = require('mason-lspconfig')
 local lspconfig = require('lspconfig')
+local navic = require("nvim-navic")
 
 local dap = require("dap")
 require("dap-go").setup()
@@ -227,7 +228,15 @@ mason_lsp_config.setup_handlers({
   end,
 })
 
+local on_attach = function(client, bufnr)
+    if client.server_capabilities.documentSymbolProvider then
+        navic.attach(client, bufnr)
+    end
+end
 lspconfig.lua_ls.setup({
+  on_attach = function(client, bufnr)
+        navic.attach(client, bufnr)
+  end,
   settings = {
     Lua = {
       diagnostics = {
@@ -237,6 +246,7 @@ lspconfig.lua_ls.setup({
   },
 })
 lspconfig.gopls.setup({
+  on_attach = on_attach,
   cmd = {"gopls", "serve"},
   settings = {
     gopls = {
@@ -303,35 +313,36 @@ lspconfig.gopls.setup({
     },
   },
 })
-lspconfig.bashls.setup({})
-lspconfig.clangd.setup({})
-lspconfig.jedi_language_server.setup({})
--- lspconfig.jq.setup({})
-lspconfig.jdtls.setup({})
-lspconfig.rust_analyzer.setup({})
-lspconfig.solargraph.setup({})
+lspconfig.bashls.setup({
+  on_attach = on_attach,
+})
+lspconfig.clangd.setup({
+  on_attach = on_attach,
+})
+lspconfig.jedi_language_server.setup({
+  on_attach = on_attach,
+})
+lspconfig.jdtls.setup({
+  on_attach = on_attach,
+})
+lspconfig.rust_analyzer.setup({
+  on_attach = on_attach,
+})
+lspconfig.solargraph.setup({
+  on_attach = on_attach,
+})
 lspconfig.sqlls.setup({})
-lspconfig.tflint.setup({})
-lspconfig.tsserver.setup({})
--- lspconfig.sumneko_lua.setup({}) -- mason.nvim should update this refrence at some point
--- re-enable after kubernetes meetup - maybe
--- lspconfig.yamlls.setup({
---   settings = {
---     yaml = {
---       keyOrdering = false,
---         schemas = {
---           kubernetes = "*.yaml",
---             ["http://json.schemastore.org/kustomization"] = "kustomization.{yml,yaml}",
---             ["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = "*gitlab-ci*.{yml,yaml}",
---             ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "*compose*.{yml,yaml}",
---             ["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
---         },
---     },
---   },
--- })
+lspconfig.tflint.setup({
+  on_attach = on_attach,
+})
+lspconfig.tsserver.setup({
+  on_attach = on_attach,
+})
 lspconfig.zk.setup({})
 lspconfig.terraformls.setup({})
-lspconfig.rust_analyzer.setup({})
+lspconfig.rust_analyzer.setup({
+  on_attach = on_attach,
+})
 
 
 local fn = vim.fn
@@ -490,5 +501,4 @@ vim.lsp.handlers["textDocument/references"] = function(_, result, ctx, config)
     end
   end
 end
-
 

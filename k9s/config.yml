@@ -31,7 +31,7 @@ k9s:
         - sstenant-external
         - default
       view:
-        active: pods
+        active: po
       featureGates:
         nodeShell: false
       shellPod:
@@ -90,15 +90,38 @@ k9s:
           memory: 100Mi
         labels: {}
       portForwardAddress: localhost
-    gke_speedscale-demos_us-central1_kraken:
+    gke_speedscale-demos_us-central1_dev-decoy:
       namespace:
-        active: all
+        active: beta-services
         lockFavorites: false
         favorites:
+        - speedscale
+        - beta-services
+        - default
+      view:
+        active: pods
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.35.0
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+        labels: {}
+      portForwardAddress: localhost
+    gke_speedscale-demos_us-central1_kraken:
+      namespace:
+        active: speedscale
+        lockFavorites: false
+        favorites:
+        - speedscale
         - all
         - default
       view:
-        active: deploy
+        active: pods
       featureGates:
         nodeShell: false
       shellPod:
@@ -133,14 +156,14 @@ k9s:
       portForwardAddress: localhost
     minikube:
       namespace:
-        active: beta-services
+        active: speedscale
         lockFavorites: false
         favorites:
         - beta-services
         - speedscale
         - default
       view:
-        active: ns
+        active: deploy
       featureGates:
         nodeShell: false
       shellPod:
