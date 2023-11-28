@@ -7,7 +7,9 @@ local lspconfig = require('lspconfig')
 local navic = require("nvim-navic")
 
 local dap = require("dap")
-require("dap-go").setup()
+local dapUI = require('dapui')
+local dapGo = require("dap-go")
+dapGo.setup()
 
 dap.adapters.go = function(callback, config)
   local stdout = vim.loop.new_pipe(false)
@@ -161,7 +163,9 @@ dap.configurations.go = {
     request = "launch",
     program = "/Users/josh/code/speedscale/speedctl/",
     args = {
-      "replay", "c77259a1-37f5-42e8-8f1f-23595251dfe3", "--test-config-id", "slow_increase_id_dev", "--mode", "generator-only", "--custom-url", "127.0.0.1:8080"
+      -- "replay", "c77259a1-37f5-42e8-8f1f-23595251dfe3", "--test-config-id", "slow_increase_id_dev", "--mode", "generator-only", "--custom-url", "127.0.0.1:8080"
+      -- "replay", "f861fdbe-ebdf-4fc5-ab96-37c873b29a8e", "--test-config-id", "regression", "--mode=mocks-only"
+      "infra", "replay", "--cluster", "jmt-dev", "-n", "beta-services", "notifications", "--snapshot-id", "e04bb776-89f0-42b7-afb7-9bb9a56bb3e1"
     }
   },
   {
@@ -170,19 +174,8 @@ dap.configurations.go = {
     request = "launch",
     program = "${file}",
   },
-  {
-    name = "test dir",
-    type = "go",
-    request = "launch",
-    mode = "test",
-    program = "./${relativeFileDirname}",
-    -- args = { -- doesn't seem to work - need to look at the docs
-    --   "--run", "TestSendUtilizationMetrics"
-    -- },
-  },
 }
 
-local dapUI = require('dapui')
 dapUI.setup(
   {
     force_buffers = true,
@@ -231,7 +224,6 @@ mason_lsp_config.setup_handlers({
 local on_attach = function(client, bufnr)
     if client.server_capabilities.documentSymbolProvider then
         navic.attach(client, bufnr)
-        put_text(navic.get_data())
     end
 end
 lspconfig.lua_ls.setup({
@@ -407,6 +399,18 @@ M.map('n', '<leader>dI', '<cmd>lua require("dap.ui.widgets").hover()<CR>', opts)
 M.map('n', '<leader>di', '<cmd>lua require("dap").step_into()<CR>', opts)
 M.map('n', '<leader>du', '<cmd>lua require("dap").up()<CR>', opts)
 M.map('n', '<leader>dU', '<cmd>lua require("dap").down()<CR>', opts)
+
+function DebugTest()
+  dapGo.debug_test()
+  dapUI.open()
+end
+M.map('n', '<leader>dt', '<cmd>lua DebugTest()<CR>', opts)
+function DebugLastTest()
+  dapGo.debug_last_test()
+  dapUI.open()
+end
+M.map('n', '<leader>dT', '<cmd>lua DebugLastTest()<CR>', opts)
+
 
 ---- NVIM-CMP ----
 local cmp = require('cmp')

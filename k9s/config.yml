@@ -16,8 +16,8 @@ k9s:
     fullScreenLogs: false
     textWrap: false
     showTime: false
-  currentContext: minikube
-  currentCluster: minikube
+  currentContext: prod
+  currentCluster: arn:aws:eks:us-east-1:880246755038:cluster/prod-sstenant-eks-cluster
   clusters:
     arn:aws:eks:us-east-1:094668123143:cluster/dev-sstenant-eks-cluster:
       namespace:
@@ -67,9 +67,10 @@ k9s:
       portForwardAddress: localhost
     arn:aws:eks:us-east-1:880246755038:cluster/prod-sstenant-eks-cluster:
       namespace:
-        active: sstenant-000202
+        active: sstenant-000812
         lockFavorites: false
         favorites:
+        - sstenant-000812
         - sstenant-000377
         - sstenant-000834
         - sstenant-speedscale
@@ -77,7 +78,7 @@ k9s:
         - sstenant-000689
         - default
       view:
-        active: ns
+        active: pods
       featureGates:
         nodeShell: false
       shellPod:
@@ -156,14 +157,14 @@ k9s:
       portForwardAddress: localhost
     minikube:
       namespace:
-        active: speedscale
+        active: beta-services
         lockFavorites: false
         favorites:
         - beta-services
         - speedscale
         - default
       view:
-        active: deploy
+        active: pods
       featureGates:
         nodeShell: false
       shellPod:

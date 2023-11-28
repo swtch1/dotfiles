@@ -36,15 +36,6 @@ set backspace=indent,eol,start
 " remap leader
 let mapleader = "\<Space>"
 
-" " ctrl-e and ctrl-y moves cursor too
-" function! s:Saving_scroll(cmd)
-"   let save_scroll = &scroll
-"   execute 'normal! ' . a:cmd
-"   let &scroll = save_scroll
-" endfunction
-" nnoremap <C-y> :call <SID>Saving_scroll("1<C-V><C-U>")<CR>
-" nnoremap <C-e> :call <SID>Saving_scroll("1<C-V><C-D>")<CR>
-
 " remember my buffers
 exec 'set viminfo=%,' . &viminfo
 
@@ -105,6 +96,8 @@ tnoremap <Esc> <C-\><C-n>
 " plugins
 call plug#begin('~/.vim/plugged')
 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
 Plug 'mhinz/vim-startify'
 let g:startify_change_to_dir = 0
 let g:startify_bookmarks = [ {'v': '~/.vimrc'}, {'c': '~/.speedscale/config.yaml'}, {'z': '~/.zshrc'} ]
@@ -140,12 +133,6 @@ Plug 'majutsushi/tagbar'
 let g:tagbar_width=120
 let g:tagbar_position='topleft vertical'
 
-" Plug 'yuttie/comfortable-motion.vim'
-
-" REMOVE AFTER A TIME
-" Plug 'haya14busa/incsearch.vim'
-" let g:incsearch#auto_nohlsearch = 1
-
 Plug 'tpope/vim-commentary'
 nnoremap <Leader>/ :Commentary<CR><Esc>
 vnoremap <Leader>/ :Commentary<CR><Esc>
@@ -156,39 +143,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'shumphrey/fugitive-gitlab.vim' "use :GBrowse to open files in gitlab
 
 Plug 'rafaelsq/nvim-goc.lua'
-
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline_section_b='' " don't display git stuff
-" let g:airline_section_y='' " don't display encoding
-" let g:airline_section_z='' " don't display file progress
-" let g:airline#extensions#hunks#enabled = 0
-" " don't display mode
-" let g:airline_mode_map = {
-"     \ '__'     : '',
-"     \ 'c'      : '',
-"     \ 'i'      : '',
-"     \ 'ic'     : '',
-"     \ 'ix'     : '',
-"     \ 'n'      : '',
-"     \ 'multi'  : '',
-"     \ 'ni'     : '',
-"     \ 'no'     : '',
-"     \ 'R'      : '',
-"     \ 'Rv'     : '',
-"     \ 's'      : '',
-"     \ 'S'      : '',
-"     \ ''     : '',
-"     \ 't'      : '',
-"     \ 'v'      : '',
-"     \ 'V'      : '',
-"     \ ''     : '',
-"     \ }
-" let g:airline_theme='xtermlight'
-" " let g:airline_theme='term'
-" " let g:airline_theme='luna'
-" " let g:airline_theme='base16_heetch'
 
 Plug 'nvim-lualine/lualine.nvim'
 
@@ -357,7 +311,7 @@ nnoremap <Leader>ev :vsp %:p:h
 " keymap | buffers
 nnoremap <Leader>bn :bnext<CR>
 nnoremap <Leader>bb :e#<CR>
-nnoremap <Leader><Space> :e#<CR>
+nnoremap <BS> :e#<CR>
 nnoremap <Leader>bd :bd<CR>
 nnoremap <Leader>bD :bd!<CR>
 nnoremap <Leader>bm :WinShift<CR>
@@ -368,11 +322,6 @@ nnoremap <Leader>tf :tabfind
 nnoremap <Leader>th :tabprev<CR>
 nnoremap <Leader>tl :tabnext<CR>
 nnoremap <Leader>tq :tabclose<CR>
-
-" " keymap | location list
-" disabled to use for CocNext
-" nmap <C-j> :cnext<CR>zt
-" nmap <C-k> :cprev<CR>zt
 
 " keymap | focus
 nnoremap <Leader>fn :NERDTreeFind<CR>
@@ -407,6 +356,9 @@ vnoremap <Leader>rj :!jq<CR>
 nnoremap <buffer> <Leader>rc :lua vim.lsp.buf.code_action()<CR>
 " nnoremap <Leader>ra :ALEReset<CR>
 nnoremap <Leader>rs :wa<CR>:mksession!<CR>:qa
+autocmd FileType go nnoremap [[ :call search("^func", "b")<cr>zt
+" execute the test I'm in then jump back
+nnoremap <Leader>cf m':call search("^func", "b")<cr>Wyiw<C-o>
 
 " keymap | resize
 nmap <Leader>, :10winc<<CR>
@@ -420,19 +372,6 @@ nmap <Leader>+ :resize +15<CR>
 nnoremap <Leader>gv :exe 'AsyncRun -mode=term cd '.expand('%:p:h').' && go vet ./... && echo checks out'<CR>
 nmap <C-k> :cprev<CR>
 nmap <C-j> :cnext<CR>
-" nnoremap <Leader>dd :call vimspector#Launch()<CR>
-" nnoremap <Leader>db :call vimspector#ToggleBreakpoint()<CR>
-" nnoremap <Leader>d<space> :call vimspector#Continue()<CR>
-" nnoremap <Leader>do :call vimspector#StepOut()<CR>
-" nnoremap <Leader>dn :call vimspector#StepOver()<CR>
-" nnoremap <Leader>di :call vimspector#StepInto()<CR>
-" nnoremap <Leader>dh :call vimspector#RunToCursor()<CR>
-" nnoremap <Leader>dq :call vimspector#Reset()<CR>
-" nnoremap <Leader>dr :call vimspector#Restart()<CR>
-" nmap <Leader>dI <Plug>VimspectorBalloonEval
-" xmap <Leader>dI <Plug>VimspectorBalloonEval
-" nmap <Leader>dc <Plug>VimspectorToggleConditionalBreakpoint
-
 
 " keymap | git changes
 nnoremap <Leader>cs :GitGutterStageHunk<CR>
@@ -444,10 +383,9 @@ nnoremap <Leader>cu :GitGutterUndoHunk<CR>
 " see current file changes master
 nnoremap <Leader>cm :Gdiffsplit origin/master<CR>
 
-" keymap | coc
-" nnoremap <Leader>cr :CocListResume<CR>
-" nnoremap <Leader>cn :CocNext<CR>
-" nnoremap <Leader>cN :CocPrev<CR>
+" keymap | search
+" search selected text on / in visual mode
+vnoremap / <Esc>/\%V
 
 " macros
 let @f="A // FIXME: (JMT) "
