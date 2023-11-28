@@ -142,7 +142,6 @@ KEYTIMEOUT=0
 # node version manager nonsense
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # make gke use new auth method
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
@@ -194,7 +193,7 @@ alias theqr='open ~/doc/theqr.png'
 alias ag='ag --skip-vcs-ignores --follow --ignore node_modules'
 alias glab='PAGER=cat glab'
 
-# speedctl
+## speedctl
 alias soa='s deploy operator -e jmt-dev | k apply -n speedscale -f -'
 alias soax='s deploy operator -e jmt-dev -X | k apply -n speedscale -f -'
 alias sod='s deploy operator | k delete -n speedscale -f -'
@@ -223,7 +222,6 @@ alias gwa='git worktree add'
 alias gts='git pull && gt sync --force'
 
 # kubernetes
-source <(kubectl completion zsh)
 alias watch='viddy'
 alias k='kubectl'
 alias wk='watch kubectl'
@@ -247,6 +245,21 @@ alias kdp='k delete pod'
 alias kl='k logs'
 alias k9d='k9s --context dev -n sstenant-external -c pods'
 alias k9m='k9s --context minikube -c ns'
+
+##################
+### completion ###
+##################
+
+# source speedctl and add the s alias
+source <(s completion zsh | sed 's/^compdef _speedctl speedctl/compdef _speedctl speedctl s/')
+
+source <(kubectl completion zsh)
+source <(kubebuilder completion zsh)
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/usr/local/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/google-cloud-sdk/completion.zsh.inc'; fi
+
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 ####################
 ### custom funcs ###
@@ -284,7 +297,7 @@ function review() {
   git merge origin/master -m 'whatevs'
   git reset --soft origin/master
   git reset
-  nvim -c :DiffviewOpen
+  nvim -c :G
 
   # reset everything
   git reset --hard
@@ -323,9 +336,6 @@ function awslogin() {
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/usr/local/google-cloud-sdk/path.zsh.inc' ]; then . '/usr/local/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/usr/local/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/google-cloud-sdk/completion.zsh.inc'; fi
 
 # create a new MR
 function mr() {

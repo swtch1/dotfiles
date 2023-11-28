@@ -23,13 +23,13 @@ require('highlight-undo').setup({
 
 -- auto resize windows
 function SetupWindowsNvim()
-    vim.o.winwidth = 10
-    vim.o.winminwidth = 8
+    vim.o.winwidth = 10   -- suggested minimum width for any buffer
+    vim.o.winminwidth = 5 -- absolute minimum width for any buffer
     vim.o.equalalways = false
     require('windows').setup({
    autowidth = {
       enable = true,
-      winwidth = 1.5,
+      winwidth = 1.45, -- value between 1 and 2 to set the width of the active buffer
       filetype = {
          help = 2,
       },
@@ -79,6 +79,7 @@ navic.setup{
         Operator      = "",
         TypeParameter = "",
     },
+    separator = ' > ',
 }
 
 require('lualine').setup{
@@ -106,6 +107,14 @@ require('lualine').setup{
      lualine_x = { },
      lualine_y = { },
      lualine_z = { 'filetype' },
+   },
+     inactive_sections = {
+       lualine_a = {},
+       lualine_b = {},
+       lualine_c = {{ 'filename', path = 1, shorting_target = 5 }},
+       lualine_x = {},
+       lualine_y = {},
+       lualine_z = {}
    },
    extensions = { 'fzf' },
  }
