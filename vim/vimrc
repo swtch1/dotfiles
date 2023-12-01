@@ -265,6 +265,8 @@ Plug 'anuvyklack/animation.nvim'
 
 Plug 'SmiteshP/nvim-navic'
 
+Plug 'kevinhwang91/nvim-bqf'
+
 call plug#end()
 
 let $FZF_DEFAULT_OPTS="--preview-window 'right:57%' --preview 'bat --style=numbers --line-range :300 {}'
