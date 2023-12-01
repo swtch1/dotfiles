@@ -7,7 +7,7 @@ lua require("plug")
 lua require("lsp")
 lua require("codeium")
 lua require("colorscheme")
-" lua require("treesitter_context")
+lua require("treesitter")
 " lua require("plug")
 " lua require("goc")
 
