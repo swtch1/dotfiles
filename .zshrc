@@ -297,7 +297,10 @@ function review() {
   git merge origin/master -m 'whatevs'
   git reset --soft origin/master
   git reset
-  nvim -c :G
+
+  # review tool
+  # nvim -c :G # fugutive
+  nvim -c :DiffviewOpen # diffview
 
   # reset everything
   git reset --hard
