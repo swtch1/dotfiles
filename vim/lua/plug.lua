@@ -118,3 +118,10 @@ require('lualine').setup{
    },
    extensions = { 'fzf' },
  }
+
+require('bqf').setup{
+  preview = {
+    win_height = 50,
+  }
+}
+

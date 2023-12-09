@@ -141,7 +141,8 @@ KEYTIMEOUT=0
 
 # node version manager nonsense
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# do we need this?  It's slow
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # make gke use new auth method
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
@@ -192,6 +193,7 @@ alias dc='docker-compose'
 alias theqr='open ~/doc/theqr.png'
 alias ag='ag --skip-vcs-ignores --follow --ignore node_modules'
 alias glab='PAGER=cat glab'
+alias rg='rg -S'
 
 ## speedctl
 alias soa='s deploy operator -e jmt-dev | k apply -n speedscale -f -'
@@ -251,7 +253,9 @@ alias k9m='k9s --context minikube -c ns'
 ##################
 
 # source speedctl and add the s alias
-source <(s completion zsh | sed 's/^compdef _speedctl speedctl/compdef _speedctl speedctl s/')
+# FIXME: re-enable these when we speed up speedctl
+# source <(s completion zsh | sed 's/^compdef _speedctl speedctl/compdef _speedctl speedctl s/')
+# source <(sm completion zsh | sed 's/^compdef _speedmgmt speedmgmt/compdef _speedmgmt speedmgmt sm/')
 
 source <(kubectl completion zsh)
 source <(kubebuilder completion zsh)
@@ -299,8 +303,8 @@ function review() {
   git reset
 
   # review tool
-  # nvim -c :G # fugutive
-  nvim -c :DiffviewOpen # diffview
+  nvim -c :G # fugutive
+  # nvim -c :DiffviewOpen # diffview
 
   # reset everything
   git reset --hard
@@ -382,5 +386,14 @@ function notifywhen() {
     fi
     sleep "$every"
   done
+}
+
+function whosgot() {
+  id=$1
+  matches=$(ag "$id" ~/.speedscale/config.yaml.* --files-with-matches)
+  if [ -z "$matches" ]; then
+    echo 'not found'
+  fi
+  echo $matches | sed 's/^.*config\.yaml\.prod\.//g'
 }
 
