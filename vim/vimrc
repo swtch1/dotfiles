@@ -392,7 +392,6 @@ vnoremap / <Esc>/\%V
 " macros
 let @f="A // FIXME: (JMT) "
 let @b="A // BOOKMARK: "
-let @d="lBveyO// \<Esc>pA "
 
 " highlight extra whitespace
 " keep this at the bottom

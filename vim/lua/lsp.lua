@@ -164,9 +164,9 @@ dap.configurations.go = {
     program = "/Users/josh/code/speedscale/speedctl/",
     args = {
       -- "replay", "33732317-d5e2-4139-bd33-533782c7fd80", "--test-config-id", "performance_10replicas_60s", "--mode", "generator-only", "--custom-url", "127.0.0.1:8080"
-      -- "replay", "fee57d5f-23cd-4fcc-8665-953d86111558", "--test-config-id", "jmt-dev", "--mode", "generator-only", "--custom-url", "127.0.0.1:8080"
+      "replay", "3d03f3c8-f7f3-41be-8147-b367b5d96e50", "--test-config-id", "regression", "--mode", "generator-only", "--custom-url", "127.0.0.1:9000"
       -- "infra", "replay", "--cluster", "jmt-dev", "-n", "beta-services", "notifications", "--snapshot-id", "e04bb776-89f0-42b7-afb7-9bb9a56bb3e1"
-      "pull", "report", "f9c3ae6d-cbfa-46c1-9e99-2250abaf5ad9"
+      -- "pull", "report", "f9c3ae6d-cbfa-46c1-9e99-2250abaf5ad9"
     }
   },
   {
