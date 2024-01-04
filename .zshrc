@@ -193,14 +193,8 @@ alias dc='docker-compose'
 alias theqr='open ~/doc/theqr.png'
 alias ag='ag --skip-vcs-ignores --follow --ignore node_modules'
 alias glab='PAGER=cat glab'
-alias rg='rg -S'
-
-## speedctl
-alias soa='s deploy operator -e jmt-dev | k apply -n speedscale -f -'
-alias soax='s deploy operator -e jmt-dev -X | k apply -n speedscale -f -'
-alias sod='s deploy operator | k delete -n speedscale -f -'
-alias sodx='s deploy operator -X | k delete -n speedscale -f -'
-export PROD_USER_ID='bec83d8b-2c15-4e2e-a0a5-7a90193665f4'
+alias rg='rg --smart-case --no-heading --line-number'
+alias rgg='rg --type go'
 
 export REVIEW_BASE='master'
 alias ga='git add'
@@ -245,6 +239,7 @@ alias ka='k apply'
 alias kd='k delete'
 alias kdp='k delete pod'
 alias kl='k logs'
+alias k9c='k9s --context'
 alias k9d='k9s --context dev -n sstenant-external -c pods'
 alias k9m='k9s --context minikube -c ns'
 
@@ -259,6 +254,7 @@ alias k9m='k9s --context minikube -c ns'
 
 source <(kubectl completion zsh)
 source <(kubebuilder completion zsh)
+source <(mirrord completions zsh)
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/usr/local/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/google-cloud-sdk/completion.zsh.inc'; fi
@@ -276,11 +272,15 @@ function b64d() {
 
 # vim here
 function vh() {
-  last=$(echo `history | ag ag | tail -n1 | head -n1` | sed 's/[0-9]* //')
-  out=$(eval "$last" | tail -n1)
-  combo=$(echo "$out" | awk '{ print $1 }')
-  file=$(echo "$combo" | cut -d ':' -f 1)
-  line=$(echo "$combo" | cut -d ':' -f 2)
+  index=$1
+  if [[ -z $index ]]; then
+    index=1
+  fi
+
+  last=$(history | rg rg | tail -n1 | sed 's/[0-9]*: [0-9]*  //')
+  out=$(eval "$last" | tail -n $index | head -n 1)
+  file=$(echo "$out" | cut -d ':' -f 1)
+  line=$(echo "$out" | cut -d ':' -f 2)
   v "$file" "+${line}"
 }
 
