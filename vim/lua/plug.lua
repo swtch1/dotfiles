@@ -29,7 +29,7 @@ function SetupWindowsNvim()
     require('windows').setup({
    autowidth = {
       enable = true,
-      winwidth = 1.45, -- value between 1 and 2 to set the width of the active buffer
+      winwidth = 1.55, -- value between 1 and 2 to set the width of the active buffer
       filetype = {
          help = 2,
       },
