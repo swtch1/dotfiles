@@ -336,11 +336,11 @@ nnoremap <Leader>ft :TagbarOpenAutoClose<CR>
 nnoremap <Leader>fT :TagbarOpen<CR>
 nnoremap <Leader>fm :WindowsMaximize<CR>
 nnoremap <Leader>fr :Startify<CR>
-nnoremap <Leader>fa :Ag 
+nnoremap <Leader>fa :Rg 
 " yank current word and paste into Ag
-nnoremap <Leader>fA yiw:Ag <C-r>"<CR>
-nnoremap <Leader>fF :Ag FIXME: \(JMT\)<CR>
-nnoremap <Leader>fb :Ag BOOKMARK:<CR>
+nnoremap <Leader>fA yiw:Rg <C-r>"<CR>
+nnoremap <Leader>fF :Rg FIXME: \(JMT\)<CR>
+nnoremap <Leader>fb :Rg BOOKMARK:<CR>
 nnoremap <Leader>fl :G log -p --follow -- %<CR>
 nnoremap <Leader>fg :G<CR>
 nnoremap <Leader>fB :Lines<CR>
