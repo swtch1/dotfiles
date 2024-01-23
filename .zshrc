@@ -160,6 +160,7 @@ bindkey "^l" forward-word
 ### aliases ###
 ###############
 
+# alias v='rm vim.log; nvim -V9vim.log' # for debugging
 alias v='nvim'
 if [ "$(env | grep VIM)" ]; then
   alias v='nvr'
@@ -179,7 +180,7 @@ alias uniq='sort -u'
 alias mk='minikube'
 alias cdt='cd /tmp'
 alias cdc='cd ~/code'
-alias cds='cd ~/code/speedscale/'
+alias cds='cd ~/code/ss/'
 alias cdsp='cd ~/code/speedscale-pristine/'
 alias cdsm='cd ~/code/ss/ss/master/'
 alias rigwake='wakeonlan A8:A1:59:2D:26:60'
@@ -216,6 +217,9 @@ alias gb='for k in $(git branch | sed s/^..//); do echo -e $(git log -1 --pretty
 alias gw='git worktree'
 alias gwa='git worktree add'
 alias gts='git pull && gt sync --force'
+alias gw='git worktree'
+alias gwa='git worktree add'
+alias gwr='git worktree remove'
 
 # kubernetes
 alias watch='viddy'
