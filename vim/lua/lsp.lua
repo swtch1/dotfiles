@@ -103,10 +103,13 @@ dap.configurations.go = {
     request = "launch",
     program = "/Users/josh/code/speedscale/analyzer/",
     args = {
-        "snapshot",
-        "--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
-        "--output-dir", "./snapshot",
-        "--raw", "s3select://" .. tenantBucket .. "/default/"
+      "snapshot",
+      "--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
+      "--output-dir", "./snapshot",
+      -- "--raw", "s3select://" .. tenantBucket .. "/default/"
+      "--app-url", "dev.speedscale.com",
+      "--api-key", "$SPEEDSCALE_API_KEY",
+      "--ignore-in-svc", "frontend:8080",
     }
   },
   {
@@ -115,10 +118,10 @@ dap.configurations.go = {
     request = "launch",
     program = "/Users/josh/code/speedscale/analyzer/",
     args = {
-        "snapshot",
-        "--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. ".json",
-        "--output-dir", "./snapshot",
-        "--raw", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. "/raw.jsonl"
+      "snapshot",
+      "--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. ".json",
+      "--output-dir", "./snapshot",
+      "--raw", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. "/raw.jsonl"
     }
   },
   {
@@ -163,10 +166,9 @@ dap.configurations.go = {
     request = "launch",
     program = "/Users/josh/code/speedscale/speedctl/",
     args = {
-      -- "replay", "33732317-d5e2-4139-bd33-533782c7fd80", "--test-config-id", "performance_10replicas_60s", "--mode", "generator-only", "--custom-url", "127.0.0.1:8080"
-      "replay", "3d03f3c8-f7f3-41be-8147-b367b5d96e50", "--test-config-id", "regression", "--mode", "generator-only", "--custom-url", "127.0.0.1:9000"
+      -- "replay", "3d03f3c8-f7f3-41be-8147-b367b5d96e50", "--test-config-id", "regression", "--mode", "generator-only", "--custom-url", "127.0.0.1:9000",
+      "analyze", "filter", "delta_standard", "/Users/josh/code/speedscale/raw.jsonl",
       -- "infra", "replay", "--cluster", "jmt-dev", "-n", "beta-services", "notifications", "--snapshot-id", "e04bb776-89f0-42b7-afb7-9bb9a56bb3e1"
-      -- "pull", "report", "f9c3ae6d-cbfa-46c1-9e99-2250abaf5ad9"
     }
   },
   {
