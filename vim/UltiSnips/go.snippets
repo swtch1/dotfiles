@@ -67,3 +67,8 @@ endsnippet
 snippet '([a-zA-Z0-9_\-\.\(\)]+)\.len' "length" rA
 len(`!p snip.rv = match.group(1)`)
 endsnippet
+
+snippet '([a-zA-Z0-9_\-\.\(\)]+)\.range' "range" rA
+for _, $1 := range `!p snip.rv = match.group(1)` {
+}
+endsnippet

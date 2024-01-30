@@ -14,9 +14,6 @@ vim.g.startify_lists = {
   { type = 'commands',  header = {'   Commands'  } },
 }
 
-vim.api.nvim_set_keymap("n", "<silent>", "<leader> :WhichKey <space><CR>", { noremap = true})
-vim.api.nvim_set_keymap("v", "<silent>", "<leader> :WhichKeyVisual <space><CR>", { noremap = true})
-
 vim.g.fzf_buffers_jump = '1'
 -- TODO: fix fzf select opts
 -- vim.FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
