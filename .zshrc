@@ -215,11 +215,8 @@ alias gdc='git diff --cached'
 alias gl="git log --graph --decorate --decorate-refs=tags --all --single-worktree --topo-order --pretty='format:%C(yellow)%h %C(blue)%ad %C(green)%an %C(auto)%s%C(red)% D%C(auto)' --merges"
 alias gb='for k in $(git branch | sed s/^..//); do echo -e $(git log -1 --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k --)\\t"$k";done | sort'
 alias gw='git worktree'
-alias gwa='git worktree add'
 alias gts='git pull && gt sync --force'
 alias gw='git worktree'
-alias gwa='git worktree add'
-alias gwr='git worktree remove'
 
 # kubernetes
 alias watch='viddy'
@@ -281,7 +278,8 @@ function vh() {
     index=1
   fi
 
-  last=$(history | rg rg | tail -n1 | sed 's/[0-9]*: [0-9]*  //')
+  # last=$(history | rg rg | tail -n1 | sed 's/[0-9]*: [0-9]*  //') # for earlier numbers - we need a better sed expression
+  last=$(history | rg rg | tail -n1 | sed -E 's/[0-9]*:[0-9]*  //')
   out=$(eval "$last" | tail -n $index | head -n 1)
   file=$(echo "$out" | cut -d ':' -f 1)
   line=$(echo "$out" | cut -d ':' -f 2)
@@ -341,6 +339,22 @@ function awslogin() {
   kubectx minikube
 }
 
+# git worktree add
+function gwa() {
+  dir=$1
+  git worktree add "$dir"
+  direnv allow "$dir"
+  cd "$dir"
+}
+# git worktree remove
+function gwr() {
+  if [[ -z "$1" ]]; then
+    git worktree remove . && cds
+    return
+  fi
+  git worktree remove "$@"
+}
+
 ############
 ### misc ###
 ############
@@ -394,7 +408,7 @@ function notifywhen() {
 
 function whosgot() {
   id=$1
-  matches=$(ag "$id" ~/.speedscale/config.yaml.* --files-with-matches)
+  matches=$(rg "$id" ~/.speedscale/config.yaml.* --files-with-matches)
   if [ -z "$matches" ]; then
     echo 'not found'
   fi

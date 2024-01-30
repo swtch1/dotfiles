@@ -10,6 +10,4 @@ function M.map(mode, lhs, rhs, opts)
   api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-vim.nnoremap <silent> <Leader> :WhichKey '<Space>'<CR>
-vim.vnoremap <silent> <Leader> :WhichKeyVisual '<Space>'<CR>
 

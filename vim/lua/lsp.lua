@@ -60,7 +60,7 @@ dap.configurations.go = {
     name = "analyzer - report - from raw - s3",
     type = "go",
     request = "launch",
-    program = "/Users/josh/code/speedscale/analyzer/",
+    program = vim.fn.getcwd() .. "/analyzer/",
     args = {
       "report", "analyze",
       "--app-url", os.getenv("SPEEDSCALE_APP_URL"),
@@ -74,7 +74,7 @@ dap.configurations.go = {
     name = "analyzer - report - from raw - local",
     type = "go",
     request = "launch",
-    program = "/Users/josh/code/speedscale/analyzer/",
+    program = vim.fn.getcwd() .. "/analyzer/",
     args = {
       "report", "analyze",
       "--app-url", os.getenv("SPEEDSCALE_APP_URL"),
@@ -87,7 +87,7 @@ dap.configurations.go = {
     name = "analyzer - report - recreate",
     type = "go",
     request = "launch",
-    program = "/Users/josh/code/speedscale/analyzer/",
+    program = vim.fn.getcwd() .. "/analyzer/",
     args = {
       "report", "analyze",
       "--app-url", os.getenv("SPEEDSCALE_APP_URL"),
@@ -101,7 +101,7 @@ dap.configurations.go = {
     name = "analyzer - snapshot",
     type = "go",
     request = "launch",
-    program = "/Users/josh/code/speedscale/analyzer/",
+    program = vim.fn.getcwd() .. "/analyzer/",
     args = {
       "snapshot",
       "--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
@@ -116,7 +116,7 @@ dap.configurations.go = {
     name = "analyzer - snapshot - local",
     type = "go",
     request = "launch",
-    program = "/Users/josh/code/speedscale/analyzer/",
+    program = vim.fn.getcwd() .. "/analyzer/",
     args = {
       "snapshot",
       "--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. ".json",
@@ -128,46 +128,45 @@ dap.configurations.go = {
     name = "api-gateway",
     type = "go",
     request = "launch",
-    program = "/Users/josh/code/speedscale/api-gateway/",
+    program = vim.fn.getcwd() .. "/api-gateway/",
   },
   {
     name = "generator",
     type = "go",
     request = "launch",
-    program = "/Users/josh/code/speedscale/generator/",
+    program = vim.fn.getcwd() .. "/generator/",
   },
   {
     name = "goproxy",
     type = "go",
     request = "launch",
-    program = "/Users/josh/code/speedscale/goproxy/",
+    program = vim.fn.getcwd() .. "/goproxy/",
   },
   {
     name = "inspector",
     type = "go",
     request = "launch",
-    program = "/Users/josh/code/speedscale/inspector/",
+    program = vim.fn.getcwd() .. "/inspector/",
   },
   {
     name = "operator",
     type = "go",
     request = "launch",
-    program = "/Users/josh/code/speedscale/operator/",
+    program = vim.fn.getcwd() .. "/operator/",
   },
   {
     name = "responder",
     type = "go",
     request = "launch",
-    program = "/Users/josh/code/speedscale/responder/",
+    program = vim.fn.getcwd() .. "/responder/",
   },
   {
     name = "speedctl",
     type = "go",
     request = "launch",
-    program = "/Users/josh/code/speedscale/speedctl/",
+    program = vim.fn.getcwd() .. "/speedctl/",
     args = {
       -- "replay", "3d03f3c8-f7f3-41be-8147-b367b5d96e50", "--test-config-id", "regression", "--mode", "generator-only", "--custom-url", "127.0.0.1:9000",
-      "analyze", "filter", "delta_standard", "/Users/josh/code/speedscale/raw.jsonl",
       -- "infra", "replay", "--cluster", "jmt-dev", "-n", "beta-services", "notifications", "--snapshot-id", "e04bb776-89f0-42b7-afb7-9bb9a56bb3e1"
     }
   },
@@ -369,6 +368,7 @@ M.map('n', '<leader>gt', '<Cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
 M.map('n', '<leader>fd', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 M.map('n', '<leader>a', ':DiagnosticsAll<CR>', opts)
 M.map('n', '<leader>ra', ':CodeActions<CR>', opts)
+M.map('n', '<leader>rd', ':vsp /Users/josh/code/ss/.envrc.local<CR>', opts)
 M.map('n', '<C-S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 M.map('i', '<C-S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 M.map('n', '<leader>gO', '<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)

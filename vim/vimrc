@@ -198,8 +198,11 @@ let g:terminal_list = 0 " hide terminal in buffers list
 
 Plug 'skywind3000/asyncrun.vim'
 
-Plug 'airblade/vim-gitgutter'
-let g:gitgutter_map_keys = 0
+" both of these do git gutter markers but I believe gitgutter was causing nvim to crash so let's try out signify
+" Plug 'airblade/vim-gitgutter'
+" let g:gitgutter_map_keys = 0
+" Plug 'mhinz/vim-signify' // FIXME: remove if unused
+Plug 'lewis6991/gitsigns.nvim'
 
 " Plug 'tpope/vim-dadbod'
 " let g:ts = 'postgresql://localhost:5432/external-timescale?user=speedscale&password=079d9b7096130966a090'
@@ -351,7 +354,6 @@ nnoremap <Leader>rf vi{zF
 nnoremap <Leader>rr :wa<CR>:AsyncRun<Up><CR><Esc>
 nnoremap <Leader>rt :AsyncRun -mode=term -pos=thelp 
 nnoremap <Leader>rT :AsyncRun -mode=term source ~/.zshrc-lite && 
-nnoremap <Leader>rd :vsp .envrc.local<CR>
 nnoremap <Leader>rj V:!jq<CR>
 vnoremap <Leader>rj :!jq<CR>
 " nnoremap <Leader>rf :%foldc<CR> " doesn't work without setting something like tabmethod=indent
@@ -376,12 +378,13 @@ nmap <C-k> :cprev<CR>
 nmap <C-j> :cnext<CR>
 
 " keymap | git changes
-nnoremap <Leader>cs :GitGutterStageHunk<CR>
-nnoremap <Leader>cc :GitGutterNextHunk<CR>
-nnoremap <Leader>cC :GitGutterPrevHunk<CR>
-nnoremap <Leader>cd :Gvdiffsplit<CR>
-nnoremap <Leader>co :Gvsplit<CR>
-nnoremap <Leader>cu :GitGutterUndoHunk<CR>
+" nnoremap <Leader>cs :GitGutterStageHunk<CR>
+" nnoremap <Leader>cc :GitGutterNextHunk<CR>
+" nnoremap <Leader>cC :GitGutterPrevHunk<CR>
+" nnoremap <Leader>cd :Gvdiffsplit<CR>
+" nnoremap <Leader>co :Gvsplit<CR>
+" nnoremap <Leader>cu :GitGutterUndoHunk<CR>
+" nnoremap <Leader>cu :SignifyHunkUndo<CR> FIXME: remove if unused
 " see current file changes master
 nnoremap <Leader>cm :Gdiffsplit origin/master<CR>
 
