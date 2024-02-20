@@ -205,7 +205,6 @@ function gpw() { git --work-tree "$1" pull }
 alias gpsh='git push'
 alias gs='git status -s && git status | ag --no-color "git push"'
 alias gc='git checkout'
-alias gcm='gt modify --commit -m'
 alias gsh='git stash'
 alias gpu='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
 alias gd='git diff'
@@ -217,6 +216,13 @@ alias gb='for k in $(git branch | sed s/^..//); do echo -e $(git log -1 --pretty
 alias gw='git worktree'
 alias gts='git pull && gt sync --force'
 alias gw='git worktree'
+function gcm() {
+  if gt info > /dev/null;then
+    gt modify --commit -m "$@"
+  else
+    git commit -m "$@"
+  fi
+}
 
 # kubernetes
 alias watch='viddy'

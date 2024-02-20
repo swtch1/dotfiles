@@ -166,6 +166,8 @@ dap.configurations.go = {
     request = "launch",
     program = vim.fn.getcwd() .. "/speedctl/",
     args = {
+      "replay", "--test-config-id", "jmt-dev", "--mode", "generator-only", "--custom-url", "localhost:8080", "72bafc21-8c95-480b-a0aa-517412259c8a",
+      -- "replay", "10a4f382-00fa-42af-8c92-629ea0eb0143", "--test-config-id", "jmt-dev", "--mode", "generator-only", "--custom-url", "localhost:8080",
       -- "replay", "3d03f3c8-f7f3-41be-8147-b367b5d96e50", "--test-config-id", "regression", "--mode", "generator-only", "--custom-url", "127.0.0.1:9000",
       -- "infra", "replay", "--cluster", "jmt-dev", "-n", "beta-services", "notifications", "--snapshot-id", "e04bb776-89f0-42b7-afb7-9bb9a56bb3e1"
     }
@@ -375,10 +377,7 @@ M.map('n', '<leader>gO', '<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
 
 M.map('n', '<leader>rl', '<cmd>lua vim.o.background="light"<CR>', opts)
 
--- WORKSPACE --
-M.map('n', '<leader>Wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-M.map('n', '<leader>Wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-M.map('n', '<leader>Wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+M.map('n', '<enter>', 'gF', opts)
 
 function DAPRun()
   -- vim.api.nvim_command('only')
