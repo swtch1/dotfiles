@@ -110,6 +110,12 @@ source $ZSH/oh-my-zsh.sh
 source ~/.zshrc-lite
 source ~/.zshrc-db
 
+###############
+### plugins ###
+###############
+
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 ###########
 ### env ###
 ###########
@@ -160,7 +166,7 @@ bindkey "^l" forward-word
 ### aliases ###
 ###############
 
-# alias v='rm vim.log; nvim -V9vim.log' # for debugging
+# alias v='rm vim.log; nvim -V5vim.log' # for debugging
 alias v='nvim'
 if [ "$(env | grep VIM)" ]; then
   alias v='nvr'
@@ -295,7 +301,7 @@ function vh() {
 # review a branch
 function review() {
   if [[ -n $(git status -s) ]];then
-    echo "must start with clean tree!"
+    echo 'must start with clean tree!'
     return 1
   fi
   git checkout master
@@ -306,7 +312,7 @@ function review() {
 
   git checkout "$branch"
   git pull
-  git merge origin/master -m 'whatevs'
+  git merge origin/master -m 'whatevs' || (echo 'merge failed!'; return)
   git reset --soft origin/master
   git reset
 
@@ -419,5 +425,12 @@ function whosgot() {
     echo 'not found'
   fi
   echo $matches | sed 's/^.*config\.yaml\.prod\.//g'
+}
+
+# Run the command and pipe the output through tee to ~/tto.log.  The file is
+# overwritten every time.
+function tto() {
+  echo "$(date -u): $@" > ~/tto.log
+  exec "$@" | tee -a ~/tto.log
 }
 

@@ -1,5 +1,9 @@
 local vim = vim
 local api = vim.api
+local lsp = vim.lsp
+
+lsp.set_log_level('debug')
+
 local util = require('vim.lsp.util')
 local mason = require('mason')
 local mason_lsp_config = require('mason-lspconfig')
@@ -478,11 +482,11 @@ local fzf_lsp = require('fzf_lsp')
 
 ---- LSPCONFIG ----
 -- autojump to single reference
-vim.lsp.handlers["textDocument/references"] = function(_, result, ctx, config)
+lsp.handlers["textDocument/references"] = function(_, result, ctx, config)
   if not result or vim.tbl_isempty(result) then
     vim.notify("No references found")
   else
-    local client = vim.lsp.get_client_by_id(ctx.client_id)
+    local client = lsp.get_client_by_id(ctx.client_id)
     config = config or {}
     local title = "References"
     local items = util.locations_to_items(result, client.offset_encoding)
