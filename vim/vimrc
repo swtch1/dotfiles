@@ -142,8 +142,6 @@ Plug 'machakann/vim-highlightedyank' "highlight what you yank
 Plug 'tpope/vim-fugitive'
 Plug 'shumphrey/fugitive-gitlab.vim' "use :GBrowse to open files in gitlab
 
-Plug 'rafaelsq/nvim-goc.lua'
-
 Plug 'nvim-lualine/lualine.nvim'
 
 Plug 'mbbill/undotree'
@@ -170,17 +168,6 @@ let g:dap_virtual_text = v:true
 let g:dap_virtual_text_highlight = 'Comment'
 let g:vimspector_session_initialization_timeout = 60000
 
-" Set up the Go debugger
-let g:dap_virtual_text = v:true
-let g:dap_virtual_text_highlight = 'Comment'
-let g:dap_debugger = 'go'
-let g:dap_debugger_args = ['dap', '-l', '127.0.0.1:38697']
-let g:dap_debugger_path = 'dlv'
-let g:dap_debugger_log = v:true
-let g:dap_debugger_port = 38697
-let g:dap_virtual_text = v:true
-let g:dap_virtual_text_highlight = 'Comment'
-
 Plug 'jeetsukumaran/vim-buffergator'
 let g:buffergator_suppress_keymaps = 1
 let g:buffergator_sort_regime = "mru"
@@ -198,15 +185,7 @@ let g:terminal_list = 0 " hide terminal in buffers list
 
 Plug 'skywind3000/asyncrun.vim'
 
-" both of these do git gutter markers but I believe gitgutter was causing nvim to crash so let's try out signify
-" Plug 'airblade/vim-gitgutter'
-" let g:gitgutter_map_keys = 0
-" Plug 'mhinz/vim-signify' // FIXME: remove if unused
 Plug 'lewis6991/gitsigns.nvim'
-
-" Plug 'tpope/vim-dadbod'
-" let g:ts = 'postgresql://localhost:5432/external-timescale?user=speedscale&password=079d9b7096130966a090'
-"Plug 'kristijanhusak/vim-dadbod-completion'
 
 " colorscheme
 set background=dark
@@ -223,14 +202,8 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
-" seems to block copilot
-" Plug 'hrsh7th/cmp-copilot'
 Plug 'hrsh7th/cmp-nvim-lua'
-" this broke my tab :(
-" Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
-" Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
 
 " requirement for several other plugins
 Plug 'nvim-lua/plenary.nvim'
@@ -418,7 +391,7 @@ set nosmartindent
 set indentexpr=
 
 " always scroll to the left
-autocmd BufEnter * normal! 100zh
+autocmd WinEnter * normal! 100zh
 
 " remember line position
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
