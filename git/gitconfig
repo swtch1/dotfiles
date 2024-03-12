@@ -46,3 +46,6 @@
     conflictstyle = zdiff3
 [mergetool]
     prompt = false
+[rerere]
+  # remember previous decisions for rebase
+  enabled = true
