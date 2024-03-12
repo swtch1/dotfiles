@@ -200,7 +200,7 @@ alias dc='docker-compose'
 alias theqr='open ~/doc/theqr.png'
 alias ag='ag --skip-vcs-ignores --follow --ignore node_modules'
 alias glab='PAGER=cat glab'
-alias rg='rg --smart-case --no-heading --line-number'
+alias rg='rg --smart-case --no-heading --line-number -e'
 alias rgg='rg --type go'
 
 export REVIEW_BASE='master'

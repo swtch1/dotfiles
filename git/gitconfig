@@ -1,3 +1,7 @@
+[core]
+    pager = delta
+    hooksPath = /Users/josh/.config/git/hooks
+    excludesfile = /Users/josh/.config/git/gitignore
 [user]
     name = Josh Thornton
     email = josh@speedscale.com
@@ -5,10 +9,8 @@
     insteadOf = https://gitlab.com
 [pull]
     rebase = false
-[core]
-    pager = delta
-    hooksPath = /Users/josh/.config/git/hooks
-    excludesfile = /Users/josh/.config/git/gitignore
+[maintenance]
+	repo = /Users/josh/code/ss/master
 [delta]
     line-numbers = true
     true-color = always
@@ -20,6 +22,18 @@
     width = variable
 [interactive]
     diffFilter = delta --color-only 
+[merge]
+    tool = vimdiff
+    conflictstyle = zdiff3
+[mergetool]
+    prompt = false
+# remember previous decisions for rebase
+[rerere]
+  enabled = true
+[branch]
+	sort = -committerdate
+[mergetool "fugitive"]
+    cmd = nvim -f -c \"Gvdiffsplit!\" \"$MERGED\"
 [alias]
     # list files which have changed since REVIEW_BASE
     # (REVIEW_BASE defaults to 'master' in my zshrc)
@@ -39,13 +53,3 @@
     # git reviewone foo.js bar.js
     reviewone = !nvim -p +\"tabdo Gdiffsplit $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
 
-[mergetool "fugitive"]
-    cmd = nvim -f -c \"Gvdiffsplit!\" \"$MERGED\"
-[merge]
-    tool = vimdiff
-    conflictstyle = zdiff3
-[mergetool]
-    prompt = false
-[rerere]
-  # remember previous decisions for rebase
-  enabled = true
