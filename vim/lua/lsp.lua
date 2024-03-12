@@ -248,7 +248,7 @@ lspconfig.lua_ls.setup({
 })
 lspconfig.gopls.setup({
   on_attach = on_attach,
-  cmd = {"gopls", "serve"},
+  cmd = {"gopls", "serve", "-logfile", "/tmp/gopls.log", "-rpc.trace"},
   settings = {
     gopls = {
       analyses = {
