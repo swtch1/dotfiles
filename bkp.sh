@@ -21,6 +21,12 @@ cp ~/.config/karabiner/karabiner.json ./karabiner.json
 echo 'copying k9s config...'
 cp -r ~/.config/k9s/ ./k9s
 
+echo 'copying tmux config...'
+cp ~/.tmux.conf ./tmux
+
+echo 'copying scripts...'
+cp ../ss/rebase ../ss/status ./scripts
+
 echo '--- done ---'
 echo
 git add --all
