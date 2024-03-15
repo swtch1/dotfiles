@@ -6,8 +6,8 @@ function list_remote() {
   echo "=== remotes for ${1} ==="
   pushd "$1" > /dev/null
 
-  glab mr list --source-branch "$(git rev-parse --abbrev-ref HEAD)" | cut -d '!' -f '3'
-  glab mr list --source-branch "$(git rev-parse --abbrev-ref HEAD)" -M | cut -d '!' -f '3'
+  glab mr list --source-branch "$(git rev-parse --abbrev-ref HEAD)" | cut -d '!' -f '3' || true
+  glab mr list --source-branch "$(git rev-parse --abbrev-ref HEAD)" -M | cut -d '!' -f '3' || true
 
   popd > /dev/null
 }

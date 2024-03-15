@@ -110,6 +110,8 @@ source $ZSH/oh-my-zsh.sh
 source ~/.zshrc-lite
 source ~/.zshrc-db
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 ###############
 ### plugins ###
 ###############
@@ -209,7 +211,7 @@ alias gaa='git add --all'
 alias gp='git pull'
 function gpw() { git --work-tree "$1" pull }
 alias gpsh='git push'
-alias gs='git status -s && git status | ag --no-color "git push"'
+alias gs='git status -s && git status | rg "git push"'
 alias gc='git checkout'
 alias gsh='git stash'
 alias gpu='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
@@ -267,7 +269,6 @@ alias k9m='k9s --context minikube -c ns'
 
 source <(kubectl completion zsh)
 source <(kubebuilder completion zsh)
-source <(mirrord completions zsh)
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/usr/local/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/google-cloud-sdk/completion.zsh.inc'; fi
