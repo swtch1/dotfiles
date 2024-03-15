@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+function op_exit() {
+  if [ "$?" -ne 0 ]; then
+		echo "=== !!! rebase failed !!! ==="
+  fi
+}
+trap op_exit EXIT
+
+echo "=== pulling master ==="
+pushd master > /dev/null
+git pull
+popd > /dev/null
+
+function rebase() {
+  echo "=== rebasing ${1} ==="
+  pushd "$1" > /dev/null
+
+  stash=false
+  if [ -n "$(git status -s && git status | rg "git push")" ]; then
+    stash=true
+  fi
+
+  if $stash; then
+    git stash -um "hold for rebase"
+  fi
+
+  git rebase origin/master
+
+  if $stash; then
+    git stash pop
+  fi
+
+  popd > /dev/null
+	echo
+}
+
+worktrees=$(find . -maxdepth 1 -type d | grep -v 'master' | grep -v '^.$')
+
+echo
+echo "=== rebasing worktrees ==="
+for d in $worktrees; do
+	rebase "$d"
+done
+
+
+echo "=== rebase successful ==="
+
