@@ -417,6 +417,8 @@ function DebugLastTest()
 end
 M.map('n', '<leader>dT', '<cmd>lua DebugLastTest()<CR>', opts)
 
+M.map('n', '<leader>fo', ':Outline<CR>', opts)
+
 
 ---- NVIM-CMP ----
 local cmp = require('cmp')

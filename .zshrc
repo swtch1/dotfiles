@@ -127,6 +127,9 @@ export EDITOR='nvim'
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:/Users/josh/go/bin"
 
+# which characters are considered part of a word
+export WORDCHARS='-_'
+
 # speedscale
 export SPEEDSCALE_HOME=/Users/josh/.speedscale
 export PATH=$SPEEDSCALE_HOME:$PATH
@@ -168,7 +171,7 @@ bindkey "^l" forward-word
 ### aliases ###
 ###############
 
-# alias v='rm vim.log; nvim -V5vim.log' # for debugging
+# alias v='rm /Users/josh/vim.log; nvim -V9/Users/josh/vim.log' # for debugging
 alias v='nvim'
 if [ "$(env | grep VIM)" ]; then
   alias v='nvr'
@@ -270,9 +273,6 @@ alias k9m='k9s --context minikube -c ns'
 source <(kubectl completion zsh)
 source <(kubebuilder completion zsh)
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/usr/local/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/google-cloud-sdk/completion.zsh.inc'; fi
-
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 ####################
@@ -373,7 +373,7 @@ function gwr() {
 ############
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/usr/local/google-cloud-sdk/path.zsh.inc' ]; then . '/usr/local/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/opt/google-cloud-sdk/path.zsh.inc' ]; then . '/opt/google-cloud-sdk/path.zsh.inc'; fi
 
 # create a new MR
 function mr() {
