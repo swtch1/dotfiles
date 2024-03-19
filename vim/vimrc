@@ -235,13 +235,15 @@ Plug 'ellisonleao/glow.nvim'
 
 Plug 'tzachar/highlight-undo.nvim'
 
-Plug 'anuvyklack/windows.nvim'
+" Plug 'anuvyklack/windows.nvim'
 Plug 'anuvyklack/middleclass'
 Plug 'anuvyklack/animation.nvim'
 
 Plug 'SmiteshP/nvim-navic'
 
 Plug 'kevinhwang91/nvim-bqf'
+
+Plug 'hedyhli/outline.nvim'
 
 call plug#end()
 
@@ -256,7 +258,7 @@ map Q <Nop>
 
 inoremap <C-@> <C-x><C-o>
 nnoremap <Leader>O :only<CR>:noh<CR>
-nnoremap <Leader>o :lclose<CR>:cclose<CR>:noh<CR>
+nnoremap <Leader>o :OutlineClose<CR>:lclose<CR>:cclose<CR>:noh<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>Q :q!<CR>
 nnoremap <Leader>p :Files<CR>
@@ -308,8 +310,6 @@ nnoremap <Leader>fw :Windows<CR>
 " all buffers
 nnoremap <Leader>ff :BuffergatorOpen<CR>
 nnoremap <Leader>f/ :Buffers<CR>
-nnoremap <Leader>ft :TagbarOpenAutoClose<CR>
-nnoremap <Leader>fT :TagbarOpen<CR>
 nnoremap <Leader>fm :WindowsMaximize<CR>
 nnoremap <Leader>fr :Startify<CR>
 nnoremap <Leader>fa :Rg 
@@ -366,6 +366,7 @@ nnoremap <Leader>cm :Gdiffsplit origin/master<CR>
 vnoremap / <Esc>/\%V
 
 " macros
+let @d='yiwO// pA '
 let @f="A // FIXME: (JMT) "
 let @b="A // BOOKMARK: "
 
