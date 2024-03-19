@@ -21,32 +21,32 @@ require('highlight-undo').setup({
   highlight_for_count = true,
 })
 
--- auto resize windows
-function SetupWindowsNvim()
-    vim.o.winwidth = 10   -- suggested minimum width for any buffer
-    vim.o.winminwidth = 5 -- absolute minimum width for any buffer
-    vim.o.equalalways = false
-    require('windows').setup({
-   autowidth = {
-      enable = true,
-      winwidth = 1.55, -- value between 1 and 2 to set the width of the active buffer
-      filetype = {
-         help = 2,
-      },
-   },
-   ignore = {
-      buftype = { "quickfix" },
-      filetype = { "NvimTree", "neo-tree", "undotree", "gundo" }
-   },
-   animation = {
-      enable = false,
-      duration = 100,
-      fps = 30,
-      easing = "in_out_sine"
-   }
-})
-end
-vim.cmd('autocmd VimEnter * lua SetupWindowsNvim()')
+-- -- auto resize windows
+-- function SetupWindowsNvim()
+--     vim.o.winwidth = 10   -- suggested minimum width for any buffer
+--     vim.o.winminwidth = 5 -- absolute minimum width for any buffer
+--     vim.o.equalalways = false
+--     require('windows').setup({
+--    autowidth = {
+--       enable = true,
+--       winwidth = 1.55, -- value between 1 and 2 to set the width of the active buffer
+--       filetype = {
+--          help = 2,
+--       },
+--    },
+--    ignore = {
+--       buftype = { "quickfix" },
+--       filetype = { "NvimTree", "neo-tree", "undotree", "gundo" }
+--    },
+--    animation = {
+--       enable = false,
+--       duration = 100,
+--       fps = 30,
+--       easing = "in_out_sine"
+--    }
+-- })
+-- end
+-- vim.cmd('autocmd VimEnter * lua SetupWindowsNvim()')
 
 -- lualine
 local navic = require("nvim-navic")
@@ -157,3 +157,12 @@ require('gitsigns').setup {
   end
 }
 
+require("outline").setup({
+    outline_window = {
+        position = 'left',
+        auto_close = true,
+        show_relative_numbers = true,
+    },
+    outline_items = {
+    },
+})
