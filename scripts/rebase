@@ -9,6 +9,9 @@ function op_exit() {
 }
 trap op_exit EXIT
 
+# ensure we are in the right dir
+cd "$(dirname "$0")"
+
 echo "=== pulling master ==="
 pushd master > /dev/null
 git pull
