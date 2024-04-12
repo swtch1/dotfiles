@@ -10,8 +10,8 @@ eval "$(direnv hook zsh)"
 
 # make it easier to spot the testing debug lines I drop
 function fixme() {
-  ag "FIXME: \(JMT\)"
-  ag "BOOKMARK:"
+  rg "FIXME: \(JMT\)"
+  rg "BOOKMARK:"
 }
 
 # test with output in tparse
