@@ -7,7 +7,7 @@ set hlsearch
 set incsearch
 set noswapfile
 set title
-" set showmatch " jump to matching bracket
+" set noequalalways
 set showcmd
 set laststatus=2
 set encoding=utf-8
@@ -97,6 +97,7 @@ tnoremap <Esc> <C-\><C-n>
 call plug#begin('~/.vim/plugged')
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
 
 Plug 'mhinz/vim-startify'
 let g:startify_change_to_dir = 0
@@ -160,6 +161,7 @@ Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
 " debugging
 " Plug 'puremourning/vimspector'
+Plug 'nvim-neotest/nvim-nio'
 Plug 'mfussenegger/nvim-dap'
 Plug 'leoluz/nvim-dap-go'
 Plug 'rcarriga/nvim-dap-ui'
@@ -235,7 +237,7 @@ Plug 'ellisonleao/glow.nvim'
 
 Plug 'tzachar/highlight-undo.nvim'
 
-" Plug 'anuvyklack/windows.nvim'
+Plug 'anuvyklack/windows.nvim'
 Plug 'anuvyklack/middleclass'
 Plug 'anuvyklack/animation.nvim'
 
@@ -258,7 +260,7 @@ map Q <Nop>
 
 inoremap <C-@> <C-x><C-o>
 nnoremap <Leader>O :only<CR>:noh<CR>
-nnoremap <Leader>o :OutlineClose<CR>:lclose<CR>:cclose<CR>:noh<CR>
+nnoremap <Leader>o :lclose<CR>:cclose<CR>:noh<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>Q :q!<CR>
 nnoremap <Leader>p :Files<CR>

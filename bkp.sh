@@ -11,8 +11,7 @@ cp -r ~/.config/nvim/ ./vim
 echo 'copying zshrc...'
 cp ~/.zshrc* .
 
-echo 'copying gitconfig...'
-cp ~/.gitconfig ./git/gitconfig
+echo 'copying git config...'
 cp -r ~/.config/git/ ./git
 
 echo 'copying karabiner.json...'
@@ -23,9 +22,6 @@ cp -r ~/.config/k9s/ ./k9s
 
 echo 'copying tmux config...'
 cp ~/.tmux.conf ./tmux
-
-echo 'copying scripts...'
-cp ../ss/rebase ../ss/status ./scripts
 
 echo '--- done ---'
 echo

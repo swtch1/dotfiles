@@ -2,7 +2,7 @@ local vim = vim
 local api = vim.api
 local lsp = vim.lsp
 
-lsp.set_log_level('debug')
+-- lsp.set_log_level('debug')
 
 local util = require('vim.lsp.util')
 local mason = require('mason')
@@ -72,10 +72,11 @@ dap.configurations.go = {
       "--report", "s3://" .. tenantBucket .. "/default/reports/" .. analyzerReportID .. ".json",
       "--artifact-src", "s3://" .. tenantBucket .. "/default",
       "--output-dir", ".",
+      "--reanalyze",
     },
   },
   {
-    name = "analyzer - report - from raw - local",
+    name = "analyzer - report - from raw - local reanalyze",
     type = "go",
     request = "launch",
     program = vim.fn.getcwd() .. "/analyzer/",
@@ -85,6 +86,7 @@ dap.configurations.go = {
       "--api-key", os.getenv("SPEEDSCALE_API_KEY"),
       "--report", "/Users/josh/.speedscale/data/reports/" .. analyzerReportID .. ".json",
       "--output-dir", ".",
+      "--reanalyze",
     },
   },
   {
@@ -170,8 +172,7 @@ dap.configurations.go = {
     request = "launch",
     program = vim.fn.getcwd() .. "/speedctl/",
     args = {
-      "replay", "7746ffb2-4dfc-4b82-945b-553b02223b1d", "--mode", "generator-only", "--custom-url", "http://localhost:8080",
-      -- "replay", "--test-config-id", "jmt-dev", "--mode", "generator-only", "--custom-url", "localhost:8080", "72bafc21-8c95-480b-a0aa-517412259c8a",
+      "replay", "a5e28055-d306-464e-8831-f537880b5e0e", "--custom-url", "http://localhost:8080", "--proxy-port", "4140",
       -- "replay", "10a4f382-00fa-42af-8c92-629ea0eb0143", "--test-config-id", "jmt-dev", "--mode", "generator-only", "--custom-url", "localhost:8080",
       -- "replay", "3d03f3c8-f7f3-41be-8147-b367b5d96e50", "--test-config-id", "regression", "--mode", "generator-only", "--custom-url", "127.0.0.1:9000",
       -- "infra", "replay", "--cluster", "jmt-dev", "-n", "beta-services", "notifications", "--snapshot-id", "e04bb776-89f0-42b7-afb7-9bb9a56bb3e1"
@@ -249,7 +250,7 @@ lspconfig.lua_ls.setup({
 })
 lspconfig.gopls.setup({
   on_attach = on_attach,
-  cmd = {"gopls", "serve", "-logfile", "/tmp/gopls.log", "-rpc.trace"},
+  cmd = {"gopls", "serve", "-logfile", "/tmp/gopls.log", "-rpc.trace", "--debug=localhost:6060"},
   settings = {
     gopls = {
       analyses = {
@@ -359,30 +360,28 @@ function M.map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, options)
 end
 
-M.map('n', '<leader>gD', ':vsp<CR><Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-M.map('n', '<leader>gS', ':sp<CR><Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-M.map('n', '<leader>gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-M.map('n', '<leader>gp', '<C-T>', opts)
-M.map('n', '<leader>gA', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-M.map('n', '<leader>gi', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-M.map('n', '<leader>gu', ':Implementations<CR>', opts)
-M.map('n', '<leader>gU', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-M.map('n', '<leader>gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-M.map('n', '<leader>gn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-M.map('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-M.map('n', '<leader>gR', ':References<CR>', opts)
-M.map('n', '<leader>gt', '<Cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
-M.map('n', '<leader>fd', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-M.map('n', '<leader>a', ':DiagnosticsAll<CR>', opts)
-M.map('n', '<leader>ra', ':CodeActions<CR>', opts)
-M.map('n', '<leader>rd', ':vsp /Users/josh/code/ss/.envrc.local<CR>', opts)
-M.map('n', '<C-S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-M.map('i', '<C-S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-M.map('n', '<leader>gO', '<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
+M.map('n', '<leader>gD', ':vsp<CR><Cmd>lua vim.lsp.buf.definition()<CR>')
+M.map('n', '<leader>gS', ':sp<CR><Cmd>lua vim.lsp.buf.definition()<CR>')
+M.map('n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+M.map('n', '<leader>gp', '<C-T>')
+M.map('n', '<leader>gA', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+M.map('n', '<leader>gi', '<cmd>lua vim.lsp.buf.hover()<CR>')
+M.map('n', '<leader>gu', ':Implementations<CR>')
+M.map('n', '<leader>gU', '<cmd>lua vim.lsp.buf.implementation()<CR>')
+M.map('n', '<leader>gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+M.map('n', '<leader>gn', '<cmd>lua vim.lsp.buf.rename()<CR>')
+M.map('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+M.map('n', '<leader>gR', ':References<CR>')
+M.map('n', '<leader>gt', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
+M.map('n', '<leader>fd', '<cmd>lua vim.diagnostic.open_float()<CR>')
+M.map('n', '<leader>a', ':DiagnosticsAll<CR>')
+M.map('n', '<leader>ra', ':CodeActions<CR>')
+M.map('n', '<leader>rd', ':vsp /Users/josh/code/ss/.envrc.local<CR>')
+M.map('n', '<C-S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+M.map('i', '<C-S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+M.map('n', '<leader>gO', '<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
 
-M.map('n', '<leader>rl', '<cmd>lua vim.o.background="light"<CR>', opts)
-
-M.map('n', '<enter>', 'gF', opts)
+M.map('n', '<leader>rl', '<cmd>lua vim.o.background="light"<CR>')
 
 function DAPRun()
   -- vim.api.nvim_command('only')
@@ -483,36 +482,36 @@ cmp.setup.filetype('gitcommit', {
 
 local fzf_lsp = require('fzf_lsp')
 
----- LSPCONFIG ----
--- autojump to single reference
-lsp.handlers["textDocument/references"] = function(_, result, ctx, config)
-  if not result or vim.tbl_isempty(result) then
-    vim.notify("No references found")
-  else
-    local client = lsp.get_client_by_id(ctx.client_id)
-    config = config or {}
-    local title = "References"
-    local items = util.locations_to_items(result, client.offset_encoding)
+-- ---- LSPCONFIG ----
+-- -- autojump to single reference
+-- lsp.handlers["textDocument/references"] = function(_, result, ctx, config)
+--   if not result or vim.tbl_isempty(result) then
+--     vim.notify("No references found")
+--   else
+--     local client = lsp.get_client_by_id(ctx.client_id)
+--     config = config or {}
+--     local title = "References"
+--     local items = util.locations_to_items(result, client.offset_encoding)
 
-    if #items == 2 then
-      vim.notify("autojump to single reference")
-      if items[1].lnum == vim.api.nvim_win_get_cursor(0)[1] then
-        vim.cmd("e " .. items[2].filename .. "|" .. items[2].lnum)
-      else
-        vim.cmd("e " .. items[1].filename .. "|" .. items[1].lnum)
-      end
-    else
-      if config.loclist then
-        vim.fn.setloclist(0, {}, " ", { title = title, items = items, context = ctx })
-        api.nvim_command("lopen")
-      elseif config.on_list then
-        assert(type(config.on_list) == "function", "on_list is not a function")
-        config.on_list({ title = title, items = items, context = ctx })
-      else
-        vim.fn.setqflist({}, " ", { title = title, items = items, context = ctx })
-        api.nvim_command("botright copen")
-      end
-    end
-  end
-end
+--     if #items == 2 then
+--       vim.notify("autojump to single reference")
+--       if items[1].lnum == vim.api.nvim_win_get_cursor(0)[1] then
+--         vim.cmd("e " .. items[2].filename .. "|" .. items[2].lnum)
+--       else
+--         vim.cmd("e " .. items[1].filename .. "|" .. items[1].lnum)
+--       end
+--     else
+--       if config.loclist then
+--         vim.fn.setloclist(0, {}, " ", { title = title, items = items, context = ctx })
+--         api.nvim_command("lopen")
+--       elseif config.on_list then
+--         assert(type(config.on_list) == "function", "on_list is not a function")
+--         config.on_list({ title = title, items = items, context = ctx })
+--       else
+--         vim.fn.setqflist({}, " ", { title = title, items = items, context = ctx })
+--         api.nvim_command("botright copen")
+--       end
+--     end
+--   end
+-- end
 

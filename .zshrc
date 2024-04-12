@@ -179,8 +179,7 @@ fi
 alias vt='v -c terminal'
 alias vg='v -c :G'
 alias vimdiff='v diff'
-alias fzf='v $(/usr/local/bin/fzf)'
-alias vf='fzf'
+alias vf='v $($(which fzf))'
 
 alias h='history'
 alias c='clear'
@@ -225,15 +224,9 @@ alias gdc='git diff --cached'
 alias gl="git log --graph --decorate --decorate-refs=tags --all --single-worktree --topo-order --pretty='format:%C(yellow)%h %C(blue)%ad %C(green)%an %C(auto)%s%C(red)% D%C(auto)' --merges"
 alias gb='for k in $(git branch | sed s/^..//); do echo -e $(git log -1 --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k --)\\t"$k";done | sort'
 alias gw='git worktree'
-alias gts='git pull && gt sync --force'
+alias gts='git pull'
 alias gw='git worktree'
-function gcm() {
-  if gt info > /dev/null;then
-    gt modify --commit -m "$@"
-  else
-    git commit -m "$@"
-  fi
-}
+alias gcm='git commit -m'
 
 # kubernetes
 alias watch='viddy'
@@ -257,7 +250,7 @@ alias ka='k apply'
 alias kd='k delete'
 alias kdp='k delete pod'
 alias kl='k logs'
-alias k9c='k9s --context'
+alias k9c='k9s -c ns --context'
 alias k9d='k9s --context dev -n sstenant-external -c pods'
 alias k9m='k9s --context minikube -c ns'
 
@@ -435,3 +428,4 @@ function tto() {
   exec "$@" | tee -a ~/tto.log
 }
 
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
