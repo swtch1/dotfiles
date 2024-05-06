@@ -355,7 +355,8 @@ function gwa() {
 # git worktree remove
 function gwr() {
   if [[ -z "$1" ]]; then
-    git worktree remove . && cds
+    d=$(dirname "$(pwd)")
+    git worktree remove . && cd "$d"
     return
   fi
   git worktree remove "$@"
