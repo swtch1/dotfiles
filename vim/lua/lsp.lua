@@ -341,14 +341,22 @@ lspconfig.tflint.setup({
 lspconfig.tsserver.setup({
   on_attach = on_attach,
 })
-lspconfig.zk.setup({})
-lspconfig.terraformls.setup({})
-lspconfig.rust_analyzer.setup({
+lspconfig.zk.setup({
   on_attach = on_attach,
 })
+lspconfig.terraformls.setup({
+  on_attach = on_attach,
+})
+lspconfig.gitlab_ci_ls.setup({
+  on_attach = on_attach,
+})
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = ".gitlab*",
+  callback = function()
+    vim.bo.filetype = "yaml.gitlab"
+  end,
+})
 
-
-local fn = vim.fn
 
 local M = {}
 -- map helper
