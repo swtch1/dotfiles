@@ -1065,7 +1065,7 @@
                     ]
                 }
             ],
-            "name": "keyboard",
+            "name": "semblance of normalkey",
             "parameters": {
                 "delay_milliseconds_before_open_device": 1000
             },
@@ -2812,7 +2812,7 @@
                     ]
                 }
             ],
-            "name": "zsa",
+            "name": "split brain",
             "parameters": {
                 "delay_milliseconds_before_open_device": 1000
             },

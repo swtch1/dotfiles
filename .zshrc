@@ -389,11 +389,16 @@ function agg() {
   ag --go $@
 }
 
-# notify when cmd finishes, retry every n seconds.
-# usage: notifywhen '<cmd>' <n>
+# notify when cmd finishes, retry every interval seconds.
+# usage: notifywhen '<cmd>' <interval>
 function notifywhen() {
   cmd=$1
-  every=$2
+  interval=$2
+
+  if [[ "$interval" -eq 0 ]]; then
+    echo 'notifywhen: interval must be > 0'
+    return
+  fi
 
   start_time=$(date -u +%s)
   while true; do
@@ -402,14 +407,10 @@ function notifywhen() {
       end_time=$(date -u +%s)
       duration="$(($end_time - $start_time))"
       osascript -e "display notification \"completed after $duration seconds\" with title \"$1\""
+      osascript -e 'say "ggiggity"'
       return
     fi
-
-    if [[ "$every" -eq 0 ]]; then
-      osascript -e "display notification \"failed after 1 attempt\" with title \"$1\""
-      return
-    fi
-    sleep "$every"
+    sleep "$interval"
   done
 }
 
