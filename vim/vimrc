@@ -257,6 +257,7 @@ let $FZF_DEFAULT_OPTS="--preview-window 'right:57%' --preview 'bat --style=numbe
 nnoremap <Leader>w :w<CR>
 " this piece of trash needs to die
 map Q <Nop>
+" don't yank when pasting
 
 inoremap <C-@> <C-x><C-o>
 nnoremap <Leader>O :only<CR>:noh<CR>
