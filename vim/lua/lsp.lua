@@ -58,6 +58,7 @@ end
 local tenantBucket = os.getenv("TENANT_BUCKET") or ""
 local analyzerReportID = os.getenv("ANALYZER_REPORT_ID") or ""
 local snapshotID = os.getenv("SNAPSHOT_ID") or ""
+local config = os.getenv("CONFIG") or ""
 
 dap.configurations.go = {
   {
@@ -206,10 +207,7 @@ dap.configurations.go = {
     request = "launch",
     program = vim.fn.getcwd() .. "/speedctl/",
     args = {
-      "replay", "a5e28055-d306-464e-8831-f537880b5e0e", "--custom-url", "http://localhost:8080", "--proxy-port", "4140",
-      -- "replay", "10a4f382-00fa-42af-8c92-629ea0eb0143", "--test-config-id", "jmt-dev", "--mode", "generator-only", "--custom-url", "localhost:8080",
-      -- "replay", "3d03f3c8-f7f3-41be-8147-b367b5d96e50", "--test-config-id", "regression", "--mode", "generator-only", "--custom-url", "127.0.0.1:9000",
-      -- "infra", "replay", "--cluster", "jmt-dev", "-n", "beta-services", "notifications", "--snapshot-id", "e04bb776-89f0-42b7-afb7-9bb9a56bb3e1"
+      "--config", config, "replay", snapshotID, "--custom-url", "http://localhost:8080", "--test-config-id", "jmt-dev",
     }
   },
   {
@@ -219,6 +217,38 @@ dap.configurations.go = {
     program = "${file}",
   },
 }
+
+dap.configurations.go = {
+  setmetatable(
+    {
+      name = 'analyze local snapshot',
+      type = 'go',
+      request = 'launch',
+      program = vim.fn.getcwd() .. '/analyzer/',
+      args = {
+        'snapshot',
+        '--local',
+        '--rm',
+        '--recreate',
+      },
+    },
+    {
+      __call = function(cfg)
+        local snapshotID = vim.g.snapshot_id or vim.fn.input('Snapshot ID: ', '')
+        local extra = {
+          '--snapshot', os.getenv('HOME') .. '/.speedscale/data/snapshots/' .. snapshotID .. '.json',
+          '--output-dir', '/tmp/analyze-snapshot/' .. snapshotID,
+          '--raw', os.getenv('HOME') .. '/.speedscale/data/snapshots/' .. snapshotID .. '/raw.jsonl',
+        }
+
+        for k, v in pairs(extra) do cfg['args'][k+4] = v end
+
+        return cfg
+      end
+    }
+  ),
+}
+
 
 dapUI.setup(
   {
@@ -459,8 +489,7 @@ function DebugLastTest()
 end
 M.map('n', '<leader>dT', '<cmd>lua DebugLastTest()<CR>', opts)
 
-M.map('n', '<leader>fo', ':Outline<CR>', opts)
-
+M.map('n', '<leader>fo', ':Outline<CR>')
 
 ---- NVIM-CMP ----
 local cmp = require('cmp')

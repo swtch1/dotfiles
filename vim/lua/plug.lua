@@ -166,3 +166,7 @@ require("outline").setup({
     outline_items = {
     },
 })
+
+require("which-key").setup({
+    registers = true,
+})

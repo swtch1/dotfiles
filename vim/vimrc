@@ -111,9 +111,10 @@ let g:startify_lists = [
   \ { 'type': 'commands',  'header': ['   Commands']       },
   \ ]
 
-Plug 'liuchengxu/vim-which-key'
-nnoremap <silent> <Leader> :WhichKey '<Space>'<CR>
-vnoremap <silent> <Leader> :WhichKeyVisual '<Space>'<CR>
+" Plug 'liuchengxu/vim-which-key'
+" nnoremap <silent> <Leader> :WhichKey '<Space>'<CR>
+" vnoremap <silent> <Leader> :WhichKeyVisual '<Space>'<CR>
+Plug 'folke/which-key.nvim'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
