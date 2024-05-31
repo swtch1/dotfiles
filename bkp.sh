@@ -24,7 +24,7 @@ echo 'copying tmux config...'
 cp ~/.tmux.conf ./tmux
 
 echo 'copying scripts'
-cp -r ~/scripts ./scripts
+cp -r ~/scripts/* ./scripts
 
 echo '--- done ---'
 echo
