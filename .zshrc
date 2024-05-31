@@ -206,6 +206,7 @@ alias ag='ag --skip-vcs-ignores --follow --ignore node_modules'
 alias glab='PAGER=cat glab'
 alias rg='rg --smart-case --no-heading --line-number'
 alias rgg='rg --type go'
+alias rgn='rg --no-line-number'
 
 export REVIEW_BASE='master'
 alias ga='git add'
