@@ -23,6 +23,9 @@ cp -r ~/.config/k9s/ ./k9s
 echo 'copying tmux config...'
 cp ~/.tmux.conf ./tmux
 
+echo 'copying scripts'
+cp -r ~/scripts ./scripts
+
 echo '--- done ---'
 echo
 git add --all

@@ -55,6 +55,8 @@ dap.adapters.go = function(callback, config)
 end
 
 -- env vars with defaults so lua doesn't complain
+local appUrl = os.getenv("SPEEDSCALE_APP_URL") or ""
+local apiKey = os.getenv("SPEEDSCALE_API_KEY") or ""
 local tenantBucket = os.getenv("TENANT_BUCKET") or ""
 local analyzerReportID = os.getenv("ANALYZER_REPORT_ID") or ""
 local snapshotID = os.getenv("SNAPSHOT_ID") or ""
@@ -68,8 +70,8 @@ dap.configurations.go = {
     program = vim.fn.getcwd() .. "/analyzer/",
     args = {
       "report", "analyze",
-      "--app-url", os.getenv("SPEEDSCALE_APP_URL"),
-      "--api-key", os.getenv("SPEEDSCALE_API_KEY"),
+      "--app-url", appUrl,
+      "--api-key", apiKey,
       "--report", "s3://" .. tenantBucket .. "/default/reports/" .. analyzerReportID .. ".json",
       "--artifact-src", "s3://" .. tenantBucket .. "/default",
       "--output-dir", ".",
@@ -83,9 +85,10 @@ dap.configurations.go = {
     program = vim.fn.getcwd() .. "/analyzer/",
     args = {
       "report", "analyze",
-      "--app-url", os.getenv("SPEEDSCALE_APP_URL"),
-      "--api-key", os.getenv("SPEEDSCALE_API_KEY"),
+      "--app-url", appUrl,
+      "--api-key", apiKey,
       "--report", "/Users/josh/.speedscale/data/reports/" .. analyzerReportID .. ".json",
+      "--artifact-src", "/Users/josh/.speedscale/data/reports/" .. analyzerReportID,
       "--output-dir", ".",
       "--reanalyze",
     },
@@ -97,8 +100,8 @@ dap.configurations.go = {
     program = vim.fn.getcwd() .. "/analyzer/",
     args = {
       "report", "analyze",
-      "--app-url", os.getenv("SPEEDSCALE_APP_URL"),
-      "--api-key", os.getenv("SPEEDSCALE_API_KEY"),
+      "--app-url", appUrl,
+      "--api-key", apiKey,
       "--report", "s3://" .. tenantBucket .. "/default/reports/" .. analyzerReportID .. ".json",
       "--output-dir", ".",
       "--recreate",
@@ -111,12 +114,14 @@ dap.configurations.go = {
     program = vim.fn.getcwd() .. "/analyzer/",
     args = {
       "snapshot",
+      "--app-url", appUrl,
+      "--api-key", apiKey,
       "--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
+      "--raw", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. "/raw.json",
+      -- "--raw", "s3select://" .. tenantBucket .. "/default/",
       "--output-dir", "./snapshot",
-      -- "--raw", "s3select://" .. tenantBucket .. "/default/"
-      "--app-url", "dev.speedscale.com",
-      "--api-key", "$SPEEDSCALE_API_KEY",
-      "--ignore-in-svc", "frontend:8080",
+      "--recreate",
+      -- "--ignore-in-svc", "frontend:8080",
     }
   },
   {
@@ -126,9 +131,11 @@ dap.configurations.go = {
     program = vim.fn.getcwd() .. "/analyzer/",
     args = {
       "snapshot",
+      "--app-url", appUrl,
+      "--api-key", apiKey,
       "--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. ".json",
+      "--raw", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. "/raw.jsonl",
       "--output-dir", "./snapshot",
-      "--raw", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. "/raw.jsonl"
     }
   },
   {
@@ -207,7 +214,8 @@ dap.configurations.go = {
     request = "launch",
     program = vim.fn.getcwd() .. "/speedctl/",
     args = {
-      "--config", config, "replay", snapshotID, "--custom-url", "http://localhost:8080", "--test-config-id", "jmt-dev",
+      -- "--config", config, "replay", snapshotID, "--custom-url", "http://localhost:8080", "--test-config-id", "jmt-dev",
+      "--config", config, "create", "snapshot", "--name", "from-speedctl", "--service", "frontend", "--start", "15m", "--end", "20m",
     }
   },
   {
@@ -218,36 +226,37 @@ dap.configurations.go = {
   },
 }
 
-dap.configurations.go = {
-  setmetatable(
-    {
-      name = 'analyze local snapshot',
-      type = 'go',
-      request = 'launch',
-      program = vim.fn.getcwd() .. '/analyzer/',
-      args = {
-        'snapshot',
-        '--local',
-        '--rm',
-        '--recreate',
-      },
-    },
-    {
-      __call = function(cfg)
-        local snapshotID = vim.g.snapshot_id or vim.fn.input('Snapshot ID: ', '')
-        local extra = {
-          '--snapshot', os.getenv('HOME') .. '/.speedscale/data/snapshots/' .. snapshotID .. '.json',
-          '--output-dir', '/tmp/analyze-snapshot/' .. snapshotID,
-          '--raw', os.getenv('HOME') .. '/.speedscale/data/snapshots/' .. snapshotID .. '/raw.jsonl',
-        }
+-- -- Shaun's analyzer debugger with snapshot ID prompt
+-- dap.configurations.go = {
+--   setmetatable(
+--     {
+--       name = 'analyze local snapshot',
+--       type = 'go',
+--       request = 'launch',
+--       program = vim.fn.getcwd() .. '/analyzer/',
+--       args = {
+--         'snapshot',
+--         '--local',
+--         '--rm',
+--         '--recreate',
+--       },
+--     },
+--     {
+--       __call = function(cfg)
+--         local snapshotID = vim.g.snapshot_id or vim.fn.input('Snapshot ID: ', '')
+--         local extra = {
+--           '--snapshot', os.getenv('HOME') .. '/.speedscale/data/snapshots/' .. snapshotID .. '.json',
+--           '--output-dir', '/tmp/analyze-snapshot/' .. snapshotID,
+--           '--raw', os.getenv('HOME') .. '/.speedscale/data/snapshots/' .. snapshotID .. '/raw.jsonl',
+--         }
 
-        for k, v in pairs(extra) do cfg['args'][k+4] = v end
+--         for k, v in pairs(extra) do cfg['args'][k+4] = v end
 
-        return cfg
-      end
-    }
-  ),
-}
+--         return cfg
+--       end
+--     }
+--   ),
+-- }
 
 
 dapUI.setup(
