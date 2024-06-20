@@ -1,6 +1,10 @@
 local vim = vim
-local api = vim.api
-local lsp = vim.lsp
+
+-- disable virtual text for diagnostics
+vim.diagnostic.config({
+  virtual_text = false,
+})
+
 
 -- lsp.set_log_level('debug')
 
@@ -108,7 +112,22 @@ dap.configurations.go = {
     },
   },
   {
-    name = "analyzer - snapshot",
+    name = "analyzer - snapshot - s3select",
+    type = "go",
+    request = "launch",
+    program = vim.fn.getcwd() .. "/analyzer/",
+    args = {
+      "snapshot",
+      "--app-url", appUrl,
+      "--api-key", apiKey,
+      "--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
+      "--raw", "s3select://" .. tenantBucket .. "/default/",
+      "--output-dir", "./snapshot/",
+      "--recreate",
+    }
+  },
+  {
+    name = "analyzer - snapshot - from raw file",
     type = "go",
     request = "launch",
     program = vim.fn.getcwd() .. "/analyzer/",
@@ -214,8 +233,8 @@ dap.configurations.go = {
     request = "launch",
     program = vim.fn.getcwd() .. "/speedctl/",
     args = {
-      -- "--config", config, "replay", snapshotID, "--custom-url", "http://localhost:8080", "--test-config-id", "jmt-dev",
-      "--config", config, "create", "snapshot", "--name", "from-speedctl", "--service", "frontend", "--start", "15m", "--end", "20m",
+      "--config", config, "replay", snapshotID, "--custom-url", "http://localhost:8080", "--test-config-id", "jmt-dev",
+      -- "--config", config, "create", "snapshot", "--name", "from-speedctl", "--service", "frontend", "--start", "15m", "--end", "20m",
     }
   },
   {
