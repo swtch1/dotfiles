@@ -328,22 +328,22 @@ function awslogin() {
   unset AWS_SESSION_TOKEN
   echo '--> login'
   aws sso login --profile dev
-  echo '--> update kubeconfig - dev'
-  aws eks update-kubeconfig --name dev-sstenant-eks-cluster --region us-east-1 --profile dev
-  echo '--> update kubeconfig - staging'
-  aws eks update-kubeconfig --name staging-sstenant-eks-cluster --region us-east-1 --profile staging
-  echo '--> update kubeconfig - prod'
-  aws eks update-kubeconfig --name prod-sstenant-eks-cluster --region us-east-1 --profile prod
-  echo '--> update kubeconfig - kraken'
-  gcloud container clusters get-credentials kraken --project=speedscale-demos --region=us-central1
-  echo '--> update kubeconfig - dev-decoy'
-  gcloud container clusters get-credentials dev-decoy --project=speedscale-demos --region=us-central1
-  echo '--> update kubeconfig - staging-decoy'
-  gcloud container clusters get-credentials staging-decoy --project=speedscale-demos --region=us-central1
-  echo '--> update kubeconfig - prod-decoy'
-  gcloud container clusters get-credentials prod-decoy --project=speedscale-demos --region=us-central1
-  echo '--> setting kube context to minikube'
-  kubectx minikube
+  # echo '--> update kubeconfig - dev'
+  # aws eks update-kubeconfig --name dev-sstenant-eks-cluster --region us-east-1 --profile dev
+  # echo '--> update kubeconfig - staging'
+  # aws eks update-kubeconfig --name staging-sstenant-eks-cluster --region us-east-1 --profile staging
+  # echo '--> update kubeconfig - prod'
+  # aws eks update-kubeconfig --name prod-sstenant-eks-cluster --region us-east-1 --profile prod
+  # echo '--> update kubeconfig - kraken'
+  # gcloud container clusters get-credentials kraken --project=speedscale-demos --region=us-central1
+  # echo '--> update kubeconfig - dev-decoy'
+  # gcloud container clusters get-credentials dev-decoy --project=speedscale-demos --region=us-central1
+  # echo '--> update kubeconfig - staging-decoy'
+  # gcloud container clusters get-credentials staging-decoy --project=speedscale-demos --region=us-central1
+  # echo '--> update kubeconfig - prod-decoy'
+  # gcloud container clusters get-credentials prod-decoy --project=speedscale-demos --region=us-central1
+  # echo '--> setting kube context to minikube'
+  # kubectx minikube
 }
 
 # git worktree add
