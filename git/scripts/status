@@ -12,6 +12,11 @@ function list_remote() {
   popd > /dev/null
 }
 
+if [ -n "$1" ]; then
+	list_remote "$1"
+  exit
+fi
+
 worktrees=$(find . -maxdepth 1 -type d | grep -v 'master' | grep -v '^.$')
 for d in $worktrees; do
 	list_remote "$d"

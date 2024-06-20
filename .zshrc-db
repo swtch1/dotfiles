@@ -18,6 +18,26 @@ function connect-usr-mgmt() {
   kubectl --context $CONTEXT -n $NAMESPACE run ${USER}-connect-usr-mgmt -it --rm --image=postgres -- bash -c "export PGPASSWORD=$db_password && psql --host $db_host --user $db_username $db_name"
 }
 
+# connect to RDS DB using credentials from api-gateway pod
+function connect-rds() {
+  if [[ -z $CONTEXT ]];then
+    echo "CONTEXT is required"
+    return
+  fi
+  if [[ -z $NAMESPACE ]];then
+    echo "NAMESPACE is required"
+    return
+  fi
+
+  api_gateway_pod=$(kubectl --context dev -n sstenant-external get pods -l app=api-gateway --no-headers | awk '{print $1}')
+  conn_string=$(k --context dev -n sstenant-external exec $api_gateway_pod -c api-gateway -- bash -c 'echo $POSTGRES_CONN_STRING')
+  conn_string=$(echo $conn_string | sed -E 's/sslmode=[a-z-]+/sslmode=allow/')
+  conn_string=$(echo $conn_string | sed -E 's/ sslrootcert=\/[^[:space:]]*//g')
+  conn_string=$(echo $conn_string | sed -E 's/pool_max_conns=[0-9]+//')
+
+  kubectl --context $CONTEXT -n $NAMESPACE run --rm -it --restart=Never postgres-client --image=postgres:14 -- psql "$conn_string"
+}
+
 # connect to timescale DB
 function connect-timescale() {
   if [[ -z $CONTEXT ]];then
