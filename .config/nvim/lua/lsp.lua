@@ -461,64 +461,80 @@ function M.map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, options)
 end
 
-M.map('n', '<leader>gD', ':vsp<CR><Cmd>lua vim.lsp.buf.definition()<CR>')
-M.map('n', '<leader>gS', ':sp<CR><Cmd>lua vim.lsp.buf.definition()<CR>')
-M.map('n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-M.map('n', '<leader>gp', '<C-T>')
-M.map('n', '<leader>gA', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-M.map('n', '<leader>gi', '<cmd>lua vim.lsp.buf.hover()<CR>')
-M.map('n', '<leader>gu', ':Implementations<CR>')
-M.map('n', '<leader>gU', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-M.map('n', '<leader>gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-M.map('n', '<leader>gn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-M.map('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-M.map('n', '<leader>gR', ':References<CR>')
-M.map('n', '<leader>gt', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
-M.map('n', '<leader>fd', '<cmd>lua vim.diagnostic.open_float()<CR>')
-M.map('n', '<leader>a', ':DiagnosticsAll<CR>')
-M.map('n', '<leader>ra', ':CodeActions<CR>')
-M.map('n', '<leader>rd', ':vsp /Users/josh/code/ss/.envrc.local<CR>')
-M.map('n', '<C-S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-M.map('i', '<C-S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-M.map('n', '<leader>gO', '<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
-
-M.map('n', '<leader>rl', '<cmd>lua vim.o.background="light"<CR>')
-
 function DAPRun()
   -- vim.api.nvim_command('only')
   dap.continue()
   dapUI.open()
 end
-M.map('n', '<leader>dd', '<cmd>lua DAPRun()<CR>', opts)
+M.map('n', '<leader>dd', '<cmd>lua DAPRun()<CR>')
 function DAPTerminate()
   dap.terminate()
   dapUI.close()
 end
-M.map('n', '<leader>dq', '<cmd>lua DAPTerminate()<CR>', opts)
-M.map('n', '<leader>d<space>', '<cmd>lua require("dap").continue()<CR>', opts)
-M.map('n', '<leader>db', '<cmd>lua require("dap").toggle_breakpoint()<CR>', opts)
-M.map('n', '<leader>dn', '<cmd>lua require("dap").step_over()<CR>', opts)
-M.map('n', '<leader>di', '<cmd>lua require("dap").step_in()<CR>', opts)
-M.map('n', '<leader>do', '<cmd>lua require("dap").step_out()<CR>', opts)
-M.map('n', '<leader>dr', '<cmd>lua require("dap").restart()<CR>', opts)
-M.map('n', '<leader>dh', '<cmd>lua require("dap").run_to_cursor()<CR>', opts)
-M.map('n', '<leader>dI', '<cmd>lua require("dap.ui.widgets").hover()<CR>', opts)
-M.map('n', '<leader>di', '<cmd>lua require("dap").step_into()<CR>', opts)
-M.map('n', '<leader>du', '<cmd>lua require("dap").up()<CR>', opts)
-M.map('n', '<leader>dU', '<cmd>lua require("dap").down()<CR>', opts)
-
 function DebugTest()
   dapGo.debug_test()
   dapUI.open()
 end
-M.map('n', '<leader>dt', '<cmd>lua DebugTest()<CR>', opts)
+M.map('n', '<leader>dt', '<cmd>lua DebugTest()<CR>')
 function DebugLastTest()
   dapGo.debug_last_test()
   dapUI.open()
 end
-M.map('n', '<leader>dT', '<cmd>lua DebugLastTest()<CR>', opts)
 
+-- navigating code
+M.map('n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+M.map('n', '<leader>gD', ':vsp<CR><Cmd>lua vim.lsp.buf.definition()<CR>')
+M.map('n', '<leader>gS', ':sp<CR><Cmd>lua vim.lsp.buf.definition()<CR>')
+M.map('n', '<leader>gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+M.map('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+M.map('n', '<leader>gR', ':References<CR>')
+M.map('n', '<leader>gu', ':Implementations<CR>')
+M.map('n', '<leader>gU', '<cmd>lua vim.lsp.buf.implementation()<CR>')
+M.map('n', '<leader>gp', '<C-T>')
+M.map('n', '<leader>gi', '<cmd>lua vim.lsp.buf.hover()<CR>')
+M.map('n', '<leader>gn', '<cmd>lua vim.lsp.buf.rename()<CR>')
+M.map('n', '<leader>gt', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
+M.map('n', '<leader>gO', '<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
+
+-- navigating projects
+M.map('n', '<leader>fn', ':NERDTreeFind<CR>')
+
+-- understanding
 M.map('n', '<leader>fo', ':Outline<CR>')
+M.map('n', '<leader>ff', ':BuffergatorOpen<CR>')
+M.map('n', '<leader>rj', 'V:!jq<CR>')
+M.map('v', '<leader>rj', ':!jq<CR>')
+
+-- diagnosing
+M.map('n', '<leader>a', ':DiagnosticsAll<CR>')
+M.map('n', '<leader>fd', '<cmd>lua vim.diagnostic.open_float()<CR>')
+M.map('n', '<leader>ra', ':CodeActions<CR>')
+M.map('n', '<C-S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+M.map('i', '<C-S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+
+-- executing
+M.map('n', '<leader>rr', ':wa<CR>:AsyncRun<Up><CR><Esc>')
+M.map('n', '<leader>rt', ':AsyncRun -mode=term -pos=thelp ')
+M.map('n', '<leader>rT', ':AsyncRun -mode=term source ~/.zshrc-lite && ')
+
+-- debugging
+M.map('n', '<leader>dq', '<cmd>lua DAPTerminate()<CR>')
+M.map('n', '<leader>d<space>', '<cmd>lua require("dap").continue()<CR>')
+M.map('n', '<leader>db', '<cmd>lua require("dap").toggle_breakpoint()<CR>')
+M.map('n', '<leader>dn', '<cmd>lua require("dap").step_over()<CR>')
+M.map('n', '<leader>di', '<cmd>lua require("dap").step_in()<CR>')
+M.map('n', '<leader>do', '<cmd>lua require("dap").step_out()<CR>')
+M.map('n', '<leader>dr', '<cmd>lua require("dap").restart()<CR>')
+M.map('n', '<leader>dh', '<cmd>lua require("dap").run_to_cursor()<CR>')
+M.map('n', '<leader>dI', '<cmd>lua require("dap.ui.widgets").hover()<CR>')
+M.map('n', '<leader>di', '<cmd>lua require("dap").step_into()<CR>')
+M.map('n', '<leader>du', '<cmd>lua require("dap").up()<CR>')
+M.map('n', '<leader>dU', '<cmd>lua require("dap").down()<CR>')
+M.map('n', '<leader>dT', '<cmd>lua DebugLastTest()<CR>')
+
+-- misc
+M.map('n', '<leader>rd', ':vsp /Users/josh/code/ss/.envrc.local<CR>')
+M.map('n', '<leader>rl', '<cmd>lua vim.o.background="light"<CR>')
 
 ---- NVIM-CMP ----
 local cmp = require('cmp')
