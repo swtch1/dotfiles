@@ -517,6 +517,25 @@ M.map('n', '<leader>rr', ':wa<CR>:AsyncRun<Up><CR><Esc>')
 M.map('n', '<leader>rt', ':AsyncRun -mode=term -pos=thelp ')
 M.map('n', '<leader>rT', ':AsyncRun -mode=term source ~/.zshrc-lite && ')
 
+-- buffers
+M.map('n', '<leader>h', '<C-W>h')
+M.map('n', '<leader>j', '<C-W>j')
+M.map('n', '<leader>k', '<C-W>k')
+M.map('n', '<leader>l', '<C-W>l')
+M.map('n', '<leader><Esc>', '<C-W><C-P>')
+M.map('n', '<up>', ':resize +2<CR>')
+M.map('n', '<down>', ':resize -2<CR>')
+M.map('n', '<left>', ':vertical resize -2<CR>')
+M.map('n', '<right>', ':vertical resize +2<CR>')
+M.map('n', '<leader>ew', ':e %:p:h<CR>')
+M.map('n', '<leader>es', ':sp %:p:h<CR>')
+M.map('n', '<leader>ev', ':vsp %:p:h<CR>')
+M.map('n', '<leader>bm', ':WinShift<CR>')
+M.map('n', '<BS>', ':e#<CR>')
+M.map('n', '<leader>bd', ':bd<CR>')
+M.map('n', '<leader>bD', ':bd!<CR>')
+
+
 -- debugging
 M.map('n', '<leader>dq', '<cmd>lua DAPTerminate()<CR>')
 M.map('n', '<leader>d<space>', '<cmd>lua require("dap").continue()<CR>')
