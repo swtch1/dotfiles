@@ -1,0 +1,10 @@
+set -s escape-time 0
+set -g mouse on
+
+set -g history-limit 20000
+set -g buffer-limit 20
+
+set -g set-titles on
+
+set -g status-right-length 200
+set -g status-left-length 200
