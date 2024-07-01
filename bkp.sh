@@ -12,13 +12,11 @@ echo 'copying zshrc...'
 cp ~/.zshrc* .
 
 echo 'copying XDG configs...'
+cp -r ~/.config/tmux/tmux.conf ./.config/tmux/
 cp -r ~/.config/git/ ./.config/git/
 cp -r ~/.config/karabiner/karabiner.json ./.config/karabiner/karabiner.json
 cp -r ~/.config/k9s/ ./.config/k9s/
 cp -r ~/.config/direnv/ ./.config/direnv/
-
-echo 'copying tmux config...'
-cp ~/.tmux.conf .
 
 echo 'copying scripts'
 cp -r ~/scripts .
