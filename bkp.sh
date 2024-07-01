@@ -14,10 +14,8 @@ cp ~/.zshrc* .
 echo 'copying git config...'
 cp -r ~/.config/git/ ./git
 
-echo 'copying karabiner.json...'
-cp ~/.config/karabiner/karabiner.json ./karabiner.json
-
 echo 'copying XDG configs...'
+cp -r ~/.config/karabiner/ ./karabiner
 cp -r ~/.config/k9s/ ./.config/k9s/
 cp -r ~/.config/direnv/ ./.config/direnv/
 
