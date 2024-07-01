@@ -11,10 +11,8 @@ cp -r ~/.config/nvim/ ./vim
 echo 'copying zshrc...'
 cp ~/.zshrc* .
 
-echo 'copying git config...'
-cp -r ~/.config/git/ ./git
-
 echo 'copying XDG configs...'
+cp -r ~/.config/git/ ./.config/git/
 cp -r ~/.config/karabiner/karabiner.json ./.config/karabiner/karabiner.json
 cp -r ~/.config/k9s/ ./.config/k9s/
 cp -r ~/.config/direnv/ ./.config/direnv/
