@@ -18,8 +18,8 @@ echo 'copying karabiner.json...'
 cp ~/.config/karabiner/karabiner.json ./karabiner.json
 
 echo 'copying XDG configs...'
-cp -r ~/.config/k9s/ ./.config/
-cp -r ~/.config/direnv/ ./.config/
+cp -r ~/.config/k9s/ ./.config/k9s/
+cp -r ~/.config/direnv/ ./.config/direnv/
 
 echo 'copying tmux config...'
 cp ~/.tmux.conf .
