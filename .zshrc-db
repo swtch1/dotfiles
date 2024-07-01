@@ -1,3 +1,16 @@
+function rds-command() {
+  command="$1"
+
+  POSTGRES_CONN_STRING="user=external password=67fd5883800fe3b6d294 host=localhost port=5432 dbname=external sslmode=allow"
+  user=$(echo $POSTGRES_CONN_STRING | sed 's/.*user=\([^ ]*\).*/\1/')
+  password=$(echo $POSTGRES_CONN_STRING | sed 's/.*password=\([^ ]*\).*/\1/')
+  host=$(echo $POSTGRES_CONN_STRING | sed 's/.*host=\([^ ]*\).*/\1/')
+  database=$(echo $POSTGRES_CONN_STRING | sed 's/.*dbname=\([^ ]*\).*/\1/')
+  
+  PGPASSWORD=$password psql -h $host -U $user -d $database -c "$command"
+}
+
+# FIXME: remove when we move to RDS
 # connect to timescale DB
 function connect-timescale() {
   if [[ -z $CONTEXT ]];then

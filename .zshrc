@@ -209,25 +209,26 @@ alias rgg='rg --type go'
 alias rgn='rg --no-line-number'
 
 export REVIEW_BASE='master'
-alias ga='git add'
-alias gaa='git add --all'
-alias gp='git pull'
-function gpw() { git --work-tree "$1" pull }
-alias gpsh='git push'
-alias gs='git status -s && git status | rg "git push"'
-alias gc='git checkout'
-alias gsh='git stash'
-alias gpu='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
-alias gd='git diff'
-alias gdm='git diff origin/master..HEAD'
-alias gdc='git diff --cached'
-# alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -- "
-alias gl="git log --graph --decorate --decorate-refs=tags --all --single-worktree --topo-order --pretty='format:%C(yellow)%h %C(blue)%ad %C(green)%an %C(auto)%s%C(red)% D%C(auto)' --merges"
-alias gb='for k in $(git branch | sed s/^..//); do echo -e $(git log -1 --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k --)\\t"$k";done | sort'
-alias gw='git worktree'
-alias gts='git pull'
-alias gw='git worktree'
-alias gcm='git commit -m'
+alias g='git'
+alias ga='g add'
+alias gaa='g add --all'
+alias gp='g pull'
+function gpw() { g --work-tree "$1" pull }
+alias gpsh='g push'
+alias gs='g status -s && g status | rg "g push"'
+alias gc='g checkout'
+alias gsh='g stash'
+alias gpu='g push --set-upstream origin $(g rev-parse --abbrev-ref HEAD)'
+alias gd='g diff'
+alias gdm='g diff origin/master..HEAD'
+alias gdc='g diff --cached'
+# alias gl="g log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -- "
+alias gl="g log --graph --decorate --decorate-refs=tags --all --single-worktree --topo-order --pretty='format:%C(yellow)%h %C(blue)%ad %C(green)%an %C(auto)%s%C(red)% D%C(auto)' --merges"
+alias gb='for k in $(g branch | sed s/^..//); do echo -e $(g log -1 --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k --)\\t"$k";done | sort'
+alias gw='g worktree'
+alias gts='g pull'
+alias gw='g worktree'
+alias gcm='g commit -m'
 
 # kubernetes
 alias watch='viddy'

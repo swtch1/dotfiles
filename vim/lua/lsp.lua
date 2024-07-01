@@ -233,7 +233,8 @@ dap.configurations.go = {
     request = "launch",
     program = vim.fn.getcwd() .. "/speedctl/",
     args = {
-      "--config", config, "replay", snapshotID, "--custom-url", "http://localhost:8080", "--test-config-id", "jmt-dev",
+      -- "--config", config, "replay", snapshotID, "--custom-url", "http://localhost:8080", "--test-config-id", "jmt-dev",
+      "--config", config, "replay", snapshotID, "--test-config-id", "regression_no_mocks_1_assertion_endpoints",
       -- "--config", config, "create", "snapshot", "--name", "from-speedctl", "--service", "frontend", "--start", "15m", "--end", "20m",
     }
   },
