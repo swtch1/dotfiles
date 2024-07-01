@@ -5,8 +5,8 @@
 set -e
 
 echo 'copying vim configs...'
-cp ~/.vimrc ./vim/vimrc
-cp -r ~/.config/nvim/ ./vim
+cp ~/.vimrc ./.vimrc
+cp -r ~/.config/nvim/ ./.config/nvim
 
 echo 'copying zshrc...'
 cp ~/.zshrc* .
