@@ -248,6 +248,8 @@ Plug 'kevinhwang91/nvim-bqf'
 
 Plug 'hedyhli/outline.nvim'
 
+Plug 'tpope/vim-dadbod'
+
 call plug#end()
 
 let $FZF_DEFAULT_OPTS="--preview-window 'right:57%' --preview 'bat --style=numbers --line-range :300 {}'
