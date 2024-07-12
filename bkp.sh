@@ -21,6 +21,9 @@ cp -r ~/.config/direnv/ ./.config/direnv/
 echo 'copying scripts'
 cp -r ~/scripts .
 
+echo 'copying iterm2 config'
+cp /Users/josh/Library/Preferences/com.googlecode.iterm2.plist .
+
 echo '--- done ---'
 echo
 git add --all
