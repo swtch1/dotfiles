@@ -233,8 +233,8 @@ dap.configurations.go = {
     request = "launch",
     program = vim.fn.getcwd() .. "/speedctl/",
     args = {
-      -- "--config", config, "replay", snapshotID, "--custom-url", "http://localhost:8080", "--test-config-id", "jmt-dev",
-      "--config", config, "replay", snapshotID, "--test-config-id", "regression_no_mocks_1_assertion_endpoints",
+      "--config", config, "replay", snapshotID, "--custom-url", "http://localhost:8080", "--test-config-id", "jmt-dev", "--create-report=false",
+      -- "--config", config, "replay", snapshotID, "--test-config-id", "regression_no_mocks_1_assertion_endpoints",
       -- "--config", config, "create", "snapshot", "--name", "from-speedctl", "--service", "frontend", "--start", "15m", "--end", "20m",
     }
   },
@@ -343,7 +343,12 @@ lspconfig.lua_ls.setup({
 })
 lspconfig.gopls.setup({
   on_attach = on_attach,
-  cmd = {"gopls", "serve", "-logfile", "/tmp/gopls.log", "-rpc.trace", "--debug=localhost:6060"},
+  cmd = {
+    "gopls", "serve",
+    -- "-logfile", "/tmp/gopls.log",
+    -- "-rpc.trace",
+    -- "--debug=localhost:6060",
+  },
   settings = {
     gopls = {
       analyses = {
@@ -461,26 +466,6 @@ function M.map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, options)
 end
 
-function DAPRun()
-  -- vim.api.nvim_command('only')
-  dap.continue()
-  dapUI.open()
-end
-M.map('n', '<leader>dd', '<cmd>lua DAPRun()<CR>')
-function DAPTerminate()
-  dap.terminate()
-  dapUI.close()
-end
-function DebugTest()
-  dapGo.debug_test()
-  dapUI.open()
-end
-M.map('n', '<leader>dt', '<cmd>lua DebugTest()<CR>')
-function DebugLastTest()
-  dapGo.debug_last_test()
-  dapUI.open()
-end
-
 -- navigating code
 M.map('n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
 M.map('n', '<leader>gD', ':vsp<CR><Cmd>lua vim.lsp.buf.definition()<CR>')
@@ -523,11 +508,11 @@ M.map('n', '<leader>j', '<C-W>j')
 M.map('n', '<leader>k', '<C-W>k')
 M.map('n', '<leader>l', '<C-W>l')
 M.map('n', '<leader><Esc>', '<C-W><C-P>')
-M.map('n', '<up>', ':resize +2<CR>')
-M.map('n', '<down>', ':resize -2<CR>')
+M.map('n', '<up>', ':resize -2<CR>')
+M.map('n', '<down>', ':resize +2<CR>')
 M.map('n', '<left>', ':vertical resize -2<CR>')
 M.map('n', '<right>', ':vertical resize +2<CR>')
-M.map('n', '<leader>ew', ':e %:p:h<CR>')
+M.map('n', '<leader>ew', ':e %:p:h')
 M.map('n', '<leader>es', ':sp %:p:h<CR>')
 M.map('n', '<leader>ev', ':vsp %:p:h<CR>')
 M.map('n', '<leader>bm', ':WinShift<CR>')
@@ -535,8 +520,26 @@ M.map('n', '<BS>', ':e#<CR>')
 M.map('n', '<leader>bd', ':bd<CR>')
 M.map('n', '<leader>bD', ':bd!<CR>')
 
-
 -- debugging
+function DAPRun()
+  -- vim.api.nvim_command('only')
+  dap.continue()
+  dapUI.open()
+end
+M.map('n', '<leader>dd', '<cmd>lua DAPRun()<CR>')
+function DAPTerminate()
+  dap.terminate()
+  dapUI.close()
+end
+function DebugTest()
+  dapGo.debug_test()
+  dapUI.open()
+end
+M.map('n', '<leader>dt', '<cmd>lua DebugTest()<CR>')
+function DebugLastTest()
+  dapGo.debug_last_test()
+  dapUI.open()
+end
 M.map('n', '<leader>dq', '<cmd>lua DAPTerminate()<CR>')
 M.map('n', '<leader>d<space>', '<cmd>lua require("dap").continue()<CR>')
 M.map('n', '<leader>db', '<cmd>lua require("dap").toggle_breakpoint()<CR>')

@@ -6,7 +6,7 @@ function rds-command() {
   password=$(echo $POSTGRES_CONN_STRING | sed 's/.*password=\([^ ]*\).*/\1/')
   host=$(echo $POSTGRES_CONN_STRING | sed 's/.*host=\([^ ]*\).*/\1/')
   database=$(echo $POSTGRES_CONN_STRING | sed 's/.*dbname=\([^ ]*\).*/\1/')
-  
+
   PGPASSWORD=$password psql -h $host -U $user -d $database -c "$command"
 }
 
