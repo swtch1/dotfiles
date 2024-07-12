@@ -17,7 +17,7 @@ function fixme() {
 # test with output in tparse
 function t() {
   if [[ -z "$1" ]]; then
-    go test -failfast -timeout=60s -cover ./... -json | tparse
+    go test -failfast -timeout=60s -cover ./... -json | tparse -progress
     return
   fi
   go test -failfast -timeout=10s -cover . -run "$1" -json | tparse
@@ -26,10 +26,12 @@ function t() {
 # test with verbose output during test
 function tv() {
   if [[ -z "$1" ]]; then
-    go test -v -failfast -timeout=60s -cover ./...
+    # go test -v -failfast -timeout=60s -cover ./...
+    go test -v -failfast -timeout=60s -cover ./... -json | tparse -follow
     return
   fi
-  go test -v -failfast -timeout=10s . -run "$1"
+  # go test -v -failfast -timeout=10s . -run "$1"
+  go test -v -failfast -timeout=10s -cover . -run "$1" -json | tparse -follow
 }
 
 # run go tests easier.. with file watches
