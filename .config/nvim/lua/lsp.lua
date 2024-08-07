@@ -78,7 +78,7 @@ dap.configurations.go = {
       "--api-key", apiKey,
       "--report", "s3://" .. tenantBucket .. "/default/reports/" .. analyzerReportID .. ".json",
       "--artifact-src", "s3://" .. tenantBucket .. "/default",
-      "--output-dir", ".",
+      "--output-dir", "./out",
       "--reanalyze",
     },
   },
@@ -93,7 +93,7 @@ dap.configurations.go = {
       "--api-key", apiKey,
       "--report", "/Users/josh/.speedscale/data/reports/" .. analyzerReportID .. ".json",
       "--artifact-src", "/Users/josh/.speedscale/data/reports/" .. analyzerReportID,
-      "--output-dir", ".",
+      "--output-dir", "./out",
       "--reanalyze",
     },
   },
@@ -107,7 +107,7 @@ dap.configurations.go = {
       "--app-url", appUrl,
       "--api-key", apiKey,
       "--report", "s3://" .. tenantBucket .. "/default/reports/" .. analyzerReportID .. ".json",
-      "--output-dir", ".",
+      "--output-dir", "./out",
       "--recreate",
     },
   },
@@ -121,8 +121,7 @@ dap.configurations.go = {
       "--app-url", appUrl,
       "--api-key", apiKey,
       "--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
-      "--raw", "s3select://" .. tenantBucket .. "/default/",
-      "--output-dir", "./snapshot/",
+      "--output-dir", "./out",
       "--recreate",
     }
   },
@@ -136,9 +135,7 @@ dap.configurations.go = {
       "--app-url", appUrl,
       "--api-key", apiKey,
       "--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
-      "--raw", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. "/raw.json",
-      -- "--raw", "s3select://" .. tenantBucket .. "/default/",
-      "--output-dir", "./snapshot",
+      "--output-dir", "./out",
       "--recreate",
       -- "--ignore-in-svc", "frontend:8080",
     }
@@ -153,8 +150,22 @@ dap.configurations.go = {
       "--app-url", appUrl,
       "--api-key", apiKey,
       "--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. ".json",
-      "--raw", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. "/raw.jsonl",
       "--output-dir", "./snapshot",
+      "--upload-to", "s3://" .. tenantBucket,
+    }
+  },
+  {
+    name = "analyzer - transform - local",
+    type = "go",
+    request = "launch",
+    program = vim.fn.getcwd() .. "/analyzer/",
+    args = {
+      "transform",
+      "--app-url", appUrl,
+      "--api-key", apiKey,
+      "--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. ".json",
+      "--output-dir", "./out",
+      "--upload-to", "s3://" .. tenantBucket .. "/default/scenarios/"
     }
   },
   {
