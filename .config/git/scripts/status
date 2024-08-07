@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eou pipefail
+set -eo pipefail
 
 function list_remote() {
   echo "=== remotes for ${1} ==="
