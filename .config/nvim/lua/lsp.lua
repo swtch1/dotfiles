@@ -5,315 +5,313 @@ vim.diagnostic.config({
   virtual_text = false,
 })
 
-
 -- lsp.set_log_level('debug')
 
-local util = require('vim.lsp.util')
 local mason = require('mason')
 local mason_lsp_config = require('mason-lspconfig')
 local lspconfig = require('lspconfig')
 local navic = require("nvim-navic")
 
-local dap = require("dap")
-local dapUI = require('dapui')
-local dapGo = require("dap-go")
-dapGo.setup()
+-- local dap = require("dap")
+-- local dapUI = require('dapui')
+-- local dapGo = require("dap-go")
+-- dapGo.setup()
 
-dap.adapters.go = function(callback, config)
-  local stdout = vim.loop.new_pipe(false)
-  local handle
-  local pid_or_err
-  local port = 38697
-  -- opts are passed to "executable" dap field
-  local opts = {
-    stdio = { nil, stdout },
-    args = { "dap", "-l", "127.0.0.1:" .. port },
-    detached = true,
-  }
-  handle, pid_or_err = vim.loop.spawn("dlv", opts, function(code)
-    stdout:close()
-    handle:close()
-    if code ~= 0 then
-      print("dlv exited with code", code)
-    end
-  end)
-  assert(handle, "Error running dlv: " .. tostring(pid_or_err))
-  stdout:read_start(function(err, chunk)
-    assert(not err, err)
-    if chunk then
-      vim.schedule(function()
-        require("dap.repl").append(chunk)
-      end)
-    end
-  end)
-  vim.defer_fn(function()
-    callback({
-      type = "server",
-      host = "127.0.0.1",
-      port = port,
-      options = {
-        initialize_timeout_sec = 60,
-      },
-    })
-  end, 100)
-end
-
--- env vars with defaults so lua doesn't complain
-local appUrl = os.getenv("SPEEDSCALE_APP_URL") or ""
-local apiKey = os.getenv("SPEEDSCALE_API_KEY") or ""
-local tenantBucket = os.getenv("TENANT_BUCKET") or ""
-local analyzerReportID = os.getenv("ANALYZER_REPORT_ID") or ""
-local snapshotID = os.getenv("SNAPSHOT_ID") or ""
-local config = os.getenv("CONFIG") or ""
-
-dap.configurations.go = {
-  {
-    name = "analyzer - report - from raw - s3",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/analyzer/",
-    args = {
-      "report", "analyze",
-      "--app-url", appUrl,
-      "--api-key", apiKey,
-      "--report", "s3://" .. tenantBucket .. "/default/reports/" .. analyzerReportID .. ".json",
-      "--artifact-src", "s3://" .. tenantBucket .. "/default",
-      "--output-dir", "./out",
-      "--reanalyze",
-    },
-  },
-  {
-    name = "analyzer - report - from raw - local reanalyze",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/analyzer/",
-    args = {
-      "report", "analyze",
-      "--app-url", appUrl,
-      "--api-key", apiKey,
-      "--report", "/Users/josh/.speedscale/data/reports/" .. analyzerReportID .. ".json",
-      "--artifact-src", "/Users/josh/.speedscale/data/reports/" .. analyzerReportID,
-      "--output-dir", "./out",
-      "--reanalyze",
-    },
-  },
-  {
-    name = "analyzer - report - recreate",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/analyzer/",
-    args = {
-      "report", "analyze",
-      "--app-url", appUrl,
-      "--api-key", apiKey,
-      "--report", "s3://" .. tenantBucket .. "/default/reports/" .. analyzerReportID .. ".json",
-      "--output-dir", "./out",
-      "--recreate",
-    },
-  },
-  {
-    name = "analyzer - snapshot - s3select",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/analyzer/",
-    args = {
-      "snapshot",
-      "--app-url", appUrl,
-      "--api-key", apiKey,
-      "--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
-      "--output-dir", "./out",
-      "--recreate",
-    }
-  },
-  {
-    name = "analyzer - snapshot - from raw file",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/analyzer/",
-    args = {
-      "snapshot",
-      "--app-url", appUrl,
-      "--api-key", apiKey,
-      "--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
-      "--output-dir", "./out",
-      "--recreate",
-      -- "--ignore-in-svc", "frontend:8080",
-    }
-  },
-  {
-    name = "analyzer - snapshot - local",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/analyzer/",
-    args = {
-      "snapshot",
-      "--app-url", appUrl,
-      "--api-key", apiKey,
-      "--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. ".json",
-      "--output-dir", "./snapshot",
-      "--upload-to", "s3://" .. tenantBucket,
-    }
-  },
-  {
-    name = "analyzer - transform - local",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/analyzer/",
-    args = {
-      "transform",
-      "--app-url", appUrl,
-      "--api-key", apiKey,
-      "--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. ".json",
-      "--output-dir", "./out",
-      "--upload-to", "s3://" .. tenantBucket .. "/default/scenarios/"
-    }
-  },
-  {
-    name = "api-gateway",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/api-gateway/",
-  },
-  {
-    name = "generator",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/generator/",
-  },
-  {
-    name = "goproxy",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/goproxy/",
-  },
-  {
-    name = "inspector",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/inspector/",
-  },
-  {
-    name = "operator",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/operator/",
-  },
-  {
-    name = "responder",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/responder/",
-  },
-  {
-    name = "sos",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/sos/",
-    args = {
-      "validate",
-        "--tags", "collector=v2.1.344",
-        "--tags", "forwarder=v2.1.344",
-        "--tags", "generator=v2.1.344",
-        "--tags", "goproxy=v2.1.344",
-        "--tags", "inspector=v2.1.344",
-        "--tags", "operator=v2.1.344",
-        "--tags", "responder=v2.1.344",
-        "--tags", "speedscale-cli=v2.1.344",
-        "--speedctl=v2.1.344",
-        "--kustomize", "../../kraken/master/k8s/v2/",
-        "--tracking-tag=jmt-kraken",
-        "--speedscale-home-path", "/Users/josh/.speedscale",
-        "--cluster-name=jmt-dev",
-        "--timeout=20m",
-        "--operator=false",
-        "--istio-install=false",
-        "--istio-inject=false",
-        "--env-teardown=false",
-        "--deployment-name=notifications",
-        "--invert=false",
-        "--validate-dlp=false",
-        "--validate-replays", "urlgoals=39010415-958c-42a7-88f1-852c6dc7d22e:kraken-notifications-latest-urlgoals",
-        "--verbose",
-        "--test-teardown=false", -- delete deployment after test
-        "--snapshot-capture-for=60s",
-    }
-  },
-  {
-    name = "speedctl",
-    type = "go",
-    request = "launch",
-    program = vim.fn.getcwd() .. "/speedctl/",
-    args = {
-      "--config", config, "replay", snapshotID, "--custom-url", "http://localhost:8080", "--test-config-id", "jmt-dev", "--create-report=false",
-      -- "--config", config, "replay", snapshotID, "--test-config-id", "regression_no_mocks_1_assertion_endpoints",
-      -- "--config", config, "create", "snapshot", "--name", "from-speedctl", "--service", "frontend", "--start", "15m", "--end", "20m",
-    }
-  },
-  {
-    name = "current file",
-    type = "go",
-    request = "launch",
-    program = "${file}",
-  },
-}
-
--- -- Shaun's analyzer debugger with snapshot ID prompt
--- dap.configurations.go = {
---   setmetatable(
---     {
---       name = 'analyze local snapshot',
---       type = 'go',
---       request = 'launch',
---       program = vim.fn.getcwd() .. '/analyzer/',
---       args = {
---         'snapshot',
---         '--local',
---         '--rm',
---         '--recreate',
+-- dap.adapters.go = function(callback, config)
+--   local stdout = vim.loop.new_pipe(false)
+--   local handle
+--   local pid_or_err
+--   local port = 38697
+--   -- opts are passed to "executable" dap field
+--   local opts = {
+--     stdio = { nil, stdout },
+--     args = { "dap", "-l", "127.0.0.1:" .. port },
+--     detached = true,
+--   }
+--   handle, pid_or_err = vim.loop.spawn("dlv", opts, function(code)
+--     stdout:close()
+--     handle:close()
+--     if code ~= 0 then
+--       print("dlv exited with code", code)
+--     end
+--   end)
+--   assert(handle, "Error running dlv: " .. tostring(pid_or_err))
+--   stdout:read_start(function(err, chunk)
+--     assert(not err, err)
+--     if chunk then
+--       vim.schedule(function()
+--         require("dap.repl").append(chunk)
+--       end)
+--     end
+--   end)
+--   vim.defer_fn(function()
+--     callback({
+--       type = "server",
+--       host = "127.0.0.1",
+--       port = port,
+--       options = {
+--         initialize_timeout_sec = 60,
 --       },
+--     })
+--   end, 100)
+-- end
+
+-- -- env vars with defaults so lua doesn't complain
+-- local appUrl = os.getenv("SPEEDSCALE_APP_URL") or ""
+-- local apiKey = os.getenv("SPEEDSCALE_API_KEY") or ""
+-- local tenantBucket = os.getenv("TENANT_BUCKET") or ""
+-- local analyzerReportID = os.getenv("ANALYZER_REPORT_ID") or ""
+-- local snapshotID = os.getenv("SNAPSHOT_ID") or ""
+-- local config = os.getenv("CONFIG") or ""
+
+-- dap.configurations.go = {
+--   {
+--     name = "analyzer - report - from raw - s3",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/analyzer/",
+--     args = {
+--       "report", "analyze",
+--       "--app-url", appUrl,
+--       "--api-key", apiKey,
+--       "--report", "s3://" .. tenantBucket .. "/default/reports/" .. analyzerReportID .. ".json",
+--       "--artifact-src", "s3://" .. tenantBucket .. "/default",
+--       "--output-dir", "./out",
+--       "--reanalyze",
 --     },
---     {
---       __call = function(cfg)
---         local snapshotID = vim.g.snapshot_id or vim.fn.input('Snapshot ID: ', '')
---         local extra = {
---           '--snapshot', os.getenv('HOME') .. '/.speedscale/data/snapshots/' .. snapshotID .. '.json',
---           '--output-dir', '/tmp/analyze-snapshot/' .. snapshotID,
---           '--raw', os.getenv('HOME') .. '/.speedscale/data/snapshots/' .. snapshotID .. '/raw.jsonl',
---         }
-
---         for k, v in pairs(extra) do cfg['args'][k+4] = v end
-
---         return cfg
---       end
+--   },
+--   {
+--     name = "analyzer - report - from raw - local reanalyze",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/analyzer/",
+--     args = {
+--       "report", "analyze",
+--       "--app-url", appUrl,
+--       "--api-key", apiKey,
+--       "--report", "/Users/josh/.speedscale/data/reports/" .. analyzerReportID .. ".json",
+--       "--artifact-src", "/Users/josh/.speedscale/data/reports/" .. analyzerReportID,
+--       "--output-dir", "./out",
+--       "--reanalyze",
+--     },
+--   },
+--   {
+--     name = "analyzer - report - recreate",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/analyzer/",
+--     args = {
+--       "report", "analyze",
+--       "--app-url", appUrl,
+--       "--api-key", apiKey,
+--       "--report", "s3://" .. tenantBucket .. "/default/reports/" .. analyzerReportID .. ".json",
+--       "--output-dir", "./out",
+--       "--recreate",
+--     },
+--   },
+--   {
+--     name = "analyzer - snapshot - s3select",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/analyzer/",
+--     args = {
+--       "snapshot",
+--       "--app-url", appUrl,
+--       "--api-key", apiKey,
+--       "--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
+--       "--output-dir", "./out",
+--       "--recreate",
 --     }
---   ),
+--   },
+--   {
+--     name = "analyzer - snapshot - from raw file",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/analyzer/",
+--     args = {
+--       "snapshot",
+--       "--app-url", appUrl,
+--       "--api-key", apiKey,
+--       "--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
+--       "--output-dir", "./out",
+--       "--recreate",
+--       -- "--ignore-in-svc", "frontend:8080",
+--     }
+--   },
+--   {
+--     name = "analyzer - snapshot - local",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/analyzer/",
+--     args = {
+--       "snapshot",
+--       "--app-url", appUrl,
+--       "--api-key", apiKey,
+--       "--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. ".json",
+--       "--output-dir", "./snapshot",
+--       "--upload-to", "s3://" .. tenantBucket,
+--     }
+--   },
+--   {
+--     name = "analyzer - transform - local",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/analyzer/",
+--     args = {
+--       "transform",
+--       "--app-url", appUrl,
+--       "--api-key", apiKey,
+--       "--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. ".json",
+--       "--output-dir", "./out",
+--       "--upload-to", "s3://" .. tenantBucket .. "/default/scenarios/"
+--     }
+--   },
+--   {
+--     name = "api-gateway",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/api-gateway/",
+--   },
+--   {
+--     name = "generator",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/generator/",
+--   },
+--   {
+--     name = "goproxy",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/goproxy/",
+--   },
+--   {
+--     name = "inspector",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/inspector/",
+--   },
+--   {
+--     name = "operator",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/operator/",
+--   },
+--   {
+--     name = "responder",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/responder/",
+--   },
+--   {
+--     name = "sos",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/sos/",
+--     args = {
+--       "validate",
+--         "--tags", "collector=v2.1.344",
+--         "--tags", "forwarder=v2.1.344",
+--         "--tags", "generator=v2.1.344",
+--         "--tags", "goproxy=v2.1.344",
+--         "--tags", "inspector=v2.1.344",
+--         "--tags", "operator=v2.1.344",
+--         "--tags", "responder=v2.1.344",
+--         "--tags", "speedscale-cli=v2.1.344",
+--         "--speedctl=v2.1.344",
+--         "--kustomize", "../../kraken/master/k8s/v2/",
+--         "--tracking-tag=jmt-kraken",
+--         "--speedscale-home-path", "/Users/josh/.speedscale",
+--         "--cluster-name=jmt-dev",
+--         "--timeout=20m",
+--         "--operator=false",
+--         "--istio-install=false",
+--         "--istio-inject=false",
+--         "--env-teardown=false",
+--         "--deployment-name=notifications",
+--         "--invert=false",
+--         "--validate-dlp=false",
+--         "--validate-replays", "urlgoals=39010415-958c-42a7-88f1-852c6dc7d22e:kraken-notifications-latest-urlgoals",
+--         "--verbose",
+--         "--test-teardown=false", -- delete deployment after test
+--         "--snapshot-capture-for=60s",
+--     }
+--   },
+--   {
+--     name = "speedctl",
+--     type = "go",
+--     request = "launch",
+--     program = vim.fn.getcwd() .. "/speedctl/",
+--     args = {
+--       "--config", config, "replay", snapshotID, "--custom-url", "http://localhost:8080", "--test-config-id", "jmt-dev", "--create-report=false",
+--       -- "--config", config, "replay", snapshotID, "--test-config-id", "regression_no_mocks_1_assertion_endpoints",
+--       -- "--config", config, "create", "snapshot", "--name", "from-speedctl", "--service", "frontend", "--start", "15m", "--end", "20m",
+--     }
+--   },
+--   {
+--     name = "current file",
+--     type = "go",
+--     request = "launch",
+--     program = "${file}",
+--   },
 -- }
 
+-- -- -- Shaun's analyzer debugger with snapshot ID prompt
+-- -- dap.configurations.go = {
+-- --   setmetatable(
+-- --     {
+-- --       name = 'analyze local snapshot',
+-- --       type = 'go',
+-- --       request = 'launch',
+-- --       program = vim.fn.getcwd() .. '/analyzer/',
+-- --       args = {
+-- --         'snapshot',
+-- --         '--local',
+-- --         '--rm',
+-- --         '--recreate',
+-- --       },
+-- --     },
+-- --     {
+-- --       __call = function(cfg)
+-- --         local snapshotID = vim.g.snapshot_id or vim.fn.input('Snapshot ID: ', '')
+-- --         local extra = {
+-- --           '--snapshot', os.getenv('HOME') .. '/.speedscale/data/snapshots/' .. snapshotID .. '.json',
+-- --           '--output-dir', '/tmp/analyze-snapshot/' .. snapshotID,
+-- --           '--raw', os.getenv('HOME') .. '/.speedscale/data/snapshots/' .. snapshotID .. '/raw.jsonl',
+-- --         }
 
-dapUI.setup(
-  {
-    force_buffers = true,
-    layouts = { {
-      elements = {
-        { id = "breakpoints", size = 0.25 },
-        { id = "stacks", size = 0.25 },
-        { id = "watches", size = 0.25 },
-        { id = "scopes", size = 0.25 },
-      },
-      position = "left",
-      size = 40
-    },
-      {
-        elements = { { id = "repl", size = 0.9 } },
-        position = "bottom",
-        size = 20
-      },
-    },
-    render = {
-      indent = 1,
-      max_value_lines = 1000
-    },
-})
+-- --         for k, v in pairs(extra) do cfg['args'][k+4] = v end
+
+-- --         return cfg
+-- --       end
+-- --     }
+-- --   ),
+-- -- }
+
+
+-- dapUI.setup(
+--   {
+--     force_buffers = true,
+--     layouts = { {
+--       elements = {
+--         { id = "breakpoints", size = 0.25 },
+--         { id = "stacks", size = 0.25 },
+--         { id = "watches", size = 0.25 },
+--         { id = "scopes", size = 0.25 },
+--       },
+--       position = "left",
+--       size = 40
+--     },
+--       {
+--         elements = { { id = "repl", size = 0.9 } },
+--         position = "bottom",
+--         size = 20
+--       },
+--     },
+--     render = {
+--       indent = 1,
+--       max_value_lines = 1000
+--     },
+-- })
 
 
 
@@ -492,9 +490,6 @@ M.map('n', '<leader>gn', '<cmd>lua vim.lsp.buf.rename()<CR>')
 M.map('n', '<leader>gt', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
 M.map('n', '<leader>gO', '<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
 
--- navigating projects
-M.map('n', '<leader>fn', ':NERDTreeFind<CR>')
-
 -- understanding
 M.map('n', '<leader>fo', ':Outline<CR>')
 M.map('n', '<leader>ff', ':BuffergatorOpen<CR>')
@@ -531,39 +526,39 @@ M.map('n', '<BS>', ':e#<CR>')
 M.map('n', '<leader>bd', ':bd<CR>')
 M.map('n', '<leader>bD', ':bd!<CR>')
 
--- debugging
-function DAPRun()
-  -- vim.api.nvim_command('only')
-  dap.continue()
-  dapUI.open()
-end
-M.map('n', '<leader>dd', '<cmd>lua DAPRun()<CR>')
-function DAPTerminate()
-  dap.terminate()
-  dapUI.close()
-end
-function DebugTest()
-  dapGo.debug_test()
-  dapUI.open()
-end
-M.map('n', '<leader>dt', '<cmd>lua DebugTest()<CR>')
-function DebugLastTest()
-  dapGo.debug_last_test()
-  dapUI.open()
-end
-M.map('n', '<leader>dq', '<cmd>lua DAPTerminate()<CR>')
-M.map('n', '<leader>d<space>', '<cmd>lua require("dap").continue()<CR>')
-M.map('n', '<leader>db', '<cmd>lua require("dap").toggle_breakpoint()<CR>')
-M.map('n', '<leader>dn', '<cmd>lua require("dap").step_over()<CR>')
-M.map('n', '<leader>di', '<cmd>lua require("dap").step_in()<CR>')
-M.map('n', '<leader>do', '<cmd>lua require("dap").step_out()<CR>')
-M.map('n', '<leader>dr', '<cmd>lua require("dap").restart()<CR>')
-M.map('n', '<leader>dh', '<cmd>lua require("dap").run_to_cursor()<CR>')
-M.map('n', '<leader>dI', '<cmd>lua require("dap.ui.widgets").hover()<CR>')
-M.map('n', '<leader>di', '<cmd>lua require("dap").step_into()<CR>')
-M.map('n', '<leader>du', '<cmd>lua require("dap").up()<CR>')
-M.map('n', '<leader>dU', '<cmd>lua require("dap").down()<CR>')
-M.map('n', '<leader>dT', '<cmd>lua DebugLastTest()<CR>')
+-- -- debugging
+-- function DAPRun()
+--   -- vim.api.nvim_command('only')
+--   dap.continue()
+--   dapUI.open()
+-- end
+-- M.map('n', '<leader>dd', '<cmd>lua DAPRun()<CR>')
+-- function DAPTerminate()
+--   dap.terminate()
+--   dapUI.close()
+-- end
+-- function DebugTest()
+--   dapGo.debug_test()
+--   dapUI.open()
+-- end
+-- M.map('n', '<leader>dt', '<cmd>lua DebugTest()<CR>')
+-- function DebugLastTest()
+--   dapGo.debug_last_test()
+--   dapUI.open()
+-- end
+-- M.map('n', '<leader>dq', '<cmd>lua DAPTerminate()<CR>')
+-- M.map('n', '<leader>d<space>', '<cmd>lua require("dap").continue()<CR>')
+-- -- M.map('n', '<leader>db', '<cmd>lua require("dap").toggle_breakpoint()<CR>')
+-- M.map('n', '<leader>dn', '<cmd>lua require("dap").step_over()<CR>')
+-- M.map('n', '<leader>di', '<cmd>lua require("dap").step_in()<CR>')
+-- M.map('n', '<leader>do', '<cmd>lua require("dap").step_out()<CR>')
+-- M.map('n', '<leader>dr', '<cmd>lua require("dap").restart()<CR>')
+-- M.map('n', '<leader>dh', '<cmd>lua require("dap").run_to_cursor()<CR>')
+-- M.map('n', '<leader>dI', '<cmd>lua require("dap.ui.widgets").hover()<CR>')
+-- M.map('n', '<leader>di', '<cmd>lua require("dap").step_into()<CR>')
+-- M.map('n', '<leader>du', '<cmd>lua require("dap").up()<CR>')
+-- M.map('n', '<leader>dU', '<cmd>lua require("dap").down()<CR>')
+-- M.map('n', '<leader>dT', '<cmd>lua DebugLastTest()<CR>')
 
 -- misc
 M.map('n', '<leader>rd', ':vsp /Users/josh/code/ss/.envrc.local<CR>')
@@ -630,37 +625,4 @@ cmp.setup.filetype('gitcommit', {
 })
 
 local fzf_lsp = require('fzf_lsp')
-
--- ---- LSPCONFIG ----
--- -- autojump to single reference
--- lsp.handlers["textDocument/references"] = function(_, result, ctx, config)
---   if not result or vim.tbl_isempty(result) then
---     vim.notify("No references found")
---   else
---     local client = lsp.get_client_by_id(ctx.client_id)
---     config = config or {}
---     local title = "References"
---     local items = util.locations_to_items(result, client.offset_encoding)
-
---     if #items == 2 then
---       vim.notify("autojump to single reference")
---       if items[1].lnum == vim.api.nvim_win_get_cursor(0)[1] then
---         vim.cmd("e " .. items[2].filename .. "|" .. items[2].lnum)
---       else
---         vim.cmd("e " .. items[1].filename .. "|" .. items[1].lnum)
---       end
---     else
---       if config.loclist then
---         vim.fn.setloclist(0, {}, " ", { title = title, items = items, context = ctx })
---         api.nvim_command("lopen")
---       elseif config.on_list then
---         assert(type(config.on_list) == "function", "on_list is not a function")
---         config.on_list({ title = title, items = items, context = ctx })
---       else
---         vim.fn.setqflist({}, " ", { title = title, items = items, context = ctx })
---         api.nvim_command("botright copen")
---       end
---     end
---   end
--- end
 
