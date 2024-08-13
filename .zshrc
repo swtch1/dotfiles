@@ -1,31 +1,3 @@
-############
-### init ###
-############
-
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
-COMPLETION_WAITING_DOTS="true"
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-HYPHEN_INSENSITIVE="true"
-source $ZSH/oh-my-zsh.sh
-
-# zsh-autocomplete
-# source /Users/josh/code/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-# zstyle ':autocomplete:*' min-delay 0.25
-# zstyle ':autocomplete:*' no
-
-source ~/.zshrc-lite
-source ~/.zshrc-db
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-###############
-### plugins ###
-###############
-
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-plugins=(aws, git)
-
 ###########
 ### env ###
 ###########
@@ -67,6 +39,45 @@ export NVM_DIR="$HOME/.nvm"
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 export AWS_REGION=us-east-1
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+###############
+### plugins ###
+###############
+
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+plugins=(
+  aws
+  docker
+  git
+  golang
+  istioctl
+  kubectl
+  node
+  nvm
+  python
+  rust
+)
+SHOW_AWS_PROMPT=false
+
+################
+### init zsh ###
+################
+
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
+COMPLETION_WAITING_DOTS="true"
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+HYPHEN_INSENSITIVE="true"
+source $ZSH/oh-my-zsh.sh
+
+################
+### includes ###
+################
+
+source ~/.zshrc-lite
+source ~/.zshrc-db
 
 ####################
 ### key bindings ###
