@@ -191,7 +191,6 @@ M.map('n', '<leader>rj', 'V:!jq<CR>')
 M.map('v', '<leader>rj', ':!jq<CR>')
 
 -- diagnosing
-M.map('n', '<leader>a', ':DiagnosticsAll<CR>')
 M.map('n', '<leader>fd', '<cmd>lua vim.diagnostic.open_float()<CR>')
 M.map('n', '<leader>ra', ':CodeActions<CR>')
 M.map('n', '<C-S>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
