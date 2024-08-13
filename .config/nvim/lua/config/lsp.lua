@@ -178,8 +178,6 @@ M.map('n', '<leader>gD', ':vsp<CR><Cmd>lua vim.lsp.buf.definition()<CR>')
 M.map('n', '<leader>gS', ':sp<CR><Cmd>lua vim.lsp.buf.definition()<CR>')
 M.map('n', '<leader>gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
 M.map('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-M.map('n', '<leader>gR', ':References<CR>')
-M.map('n', '<leader>gu', ':Implementations<CR>')
 M.map('n', '<leader>gU', '<cmd>lua vim.lsp.buf.implementation()<CR>')
 M.map('n', '<leader>gp', '<C-T>')
 M.map('n', '<leader>gi', '<cmd>lua vim.lsp.buf.hover()<CR>')
@@ -319,6 +317,4 @@ cmp.setup.filetype('gitcommit', {
     { name = 'buffer' },
   })
 })
-
-local fzf_lsp = require('fzf_lsp')
 
