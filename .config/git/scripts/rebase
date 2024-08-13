@@ -4,7 +4,9 @@ set -eou pipefail
 
 function op_exit() {
   if [ "$?" -ne 0 ]; then
-		echo "=== !!! rebase failed !!! ==="
+    echo "======================"
+		echo "=== !!! FAILED !!! ==="
+    echo "======================"
   fi
 }
 trap op_exit EXIT
@@ -49,5 +51,7 @@ for d in $worktrees; do
 done
 
 
-echo "=== rebase successful ==="
+echo "==============="
+echo "=== SUCCESS ==="
+echo "==============="
 
