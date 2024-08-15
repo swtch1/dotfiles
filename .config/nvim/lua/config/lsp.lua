@@ -7,20 +7,9 @@ vim.diagnostic.config({
 
 -- lsp.set_log_level('debug')
 
-local mason = require('mason')
 local mason_lsp_config = require('mason-lspconfig')
 local lspconfig = require('lspconfig')
 local navic = require("nvim-navic")
-
-mason.setup({
-  ui = {
-    icons = {
-      package_installed = '✓',
-      package_pending = '➜',
-      package_uninstalled = '✗',
-    },
-  },
-})
 
 mason_lsp_config.setup()
 
