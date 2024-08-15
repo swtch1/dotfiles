@@ -41,7 +41,7 @@ return {
     lazy = true,
     cmd = {
       "DiffviewOpen",
-      "DiffViewFileHistory",
+      "DiffviewFileHistory",
     },
   },
 }
