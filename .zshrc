@@ -142,7 +142,7 @@ alias gd='g diff'
 alias gdm='g diff origin/master..HEAD'
 alias gdc='g diff --cached'
 # alias gl="g log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -- "
-alias gl="g log --graph --decorate --decorate-refs=tags --all --single-worktree --topo-order --pretty='format:%C(yellow)%h %C(blue)%ad %C(green)%an %C(auto)%s%C(red)% D%C(auto)' --merges"
+alias gl="g log --graph --decorate --decorate-refs=tags --all --single-worktree --topo-order --pretty='format:%C(yellow)%h %C(blue)%ad %C(auto)%s%C(red)% D%C(auto)' --merges"
 alias gb='for k in $(g branch | sed s/^..//); do echo -e $(g log -1 --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k --)\\t"$k";done | sort'
 alias gw='g worktree'
 alias gts='g pull'

@@ -1,13 +1,12 @@
 return {
   {
     'tpope/vim-fugitive',
-    -- lazy = true,
-    cmd = "Git",
   },
-  --use :GBrowse to open files in gitlab
   {
     'shumphrey/fugitive-gitlab.vim',
     dependencies = { 'tpope/vim-fugitive' },
+    lazy = true,
+    cmd = 'GBrowse',
   },
   {
     'junegunn/gv.vim',
