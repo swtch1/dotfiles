@@ -1,6 +1,10 @@
 return {
 	{
 		'Exafunction/codeium.vim',
+		dependencies = {
+			'nvim-lua/plenary.nvim',
+			'hrsh7th/nvim-cmp',
+		},
 		config = function()
 			vim.keymap.set("i", "<C-j>", function()
 				return vim.fn["codeium#CycleCompletions"](1)
@@ -13,7 +17,7 @@ return {
 			vim.keymap.set("i", "<C-a>", function()
 				return vim.fn["codeium#Accept"]()
 			end, { expr = true, silent = true })
-		end
+		end,
 	},
 	{
 		"David-Kunz/gen.nvim",
