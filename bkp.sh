@@ -6,17 +6,24 @@ set -e
 
 echo 'copying vim configs...'
 cp ~/.vimrc ./.vimrc
-cp -r ~/.config/nvim/ ./.config/nvim
 
 echo 'copying zshrc...'
 cp ~/.zshrc* .
 
-echo 'copying XDG configs...'
-cp -r ~/.config/tmux/tmux.conf ./.config/tmux/
-cp -r ~/.config/git/ ./.config/git/
-cp -r ~/.config/karabiner/karabiner.json ./.config/karabiner/karabiner.json
-cp -r ~/.config/k9s/ ./.config/k9s/
-cp -r ~/.config/direnv/ ./.config/direnv/
+{
+  echo 'copying XDG configs...'
+  rm -rf ./.config/
+  mkdir .config
+
+  pushd .config
+  cp -r ~/.config/nvim/ .
+  cp -r ~/.config/tmux .
+  cp -r ~/.config/git .
+  cp -r ~/.config/karabiner .
+  cp -r ~/.config/k9s .
+  cp -r ~/.config/direnv .
+  popd
+}
 
 echo 'copying scripts'
 cp -r ~/scripts .
