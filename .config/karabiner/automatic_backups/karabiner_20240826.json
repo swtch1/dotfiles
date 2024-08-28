@@ -909,6 +909,7 @@
                 ]
             },
             "name": "on the move",
+            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
@@ -938,8 +939,7 @@
                     }
                 ]
             },
-            "name": "split brain",
-            "selected": true
+            "name": "split brain"
         }
     ]
 }
