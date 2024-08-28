@@ -8,12 +8,14 @@ export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:/Users/josh/go/bin"
 
 # which characters are considered part of a word
-export WORDCHARS='-_'
+export WORDCHARS=''
 
 # speedscale
 export SPEEDSCALE_HOME=/Users/josh/.speedscale
 export PATH=$SPEEDSCALE_HOME:$PATH
-# data directories shorthand
+# speedscale dir shorthands
+sc=~/.speedscale/config.yaml
+sd=~/.speedscale/data
 ss=~/.speedscale/data/snapshots
 sr=~/.speedscale/data/reports
 

@@ -14,13 +14,25 @@ trap op_exit EXIT
 # ensure we are in the right dir
 cd "$(dirname "$0")"
 
-echo "=== pulling master ==="
-pushd master > /dev/null
-git pull
-popd > /dev/null
+{
+  echo "======================"
+  echo "=== pulling master ==="
+	echo "======================"
+
+  pushd master > /dev/null
+
+  git pull
+  worktrees=$(git worktree list | awk '{print $1}' | grep -v 'master' || true)
+
+  popd > /dev/null
+}
 
 function rebase() {
+  echo
+  echo "====================="
   echo "=== rebasing ${1} ==="
+  echo "====================="
+
   pushd "$1" > /dev/null
 
   stash=false
@@ -39,18 +51,14 @@ function rebase() {
   fi
 
   popd > /dev/null
-	echo
 }
 
-worktrees=$(find . -maxdepth 1 -type d | grep -v 'master' | grep -v '^.$')
-
 echo
-echo "=== rebasing worktrees ==="
 for d in $worktrees; do
 	rebase "$d"
 done
 
-
+echo
 echo "==============="
 echo "=== SUCCESS ==="
 echo "==============="
