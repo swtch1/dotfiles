@@ -229,7 +229,10 @@ function review() {
 
   git checkout "$branch"
   git pull
-  git merge origin/master -m 'whatevs' || (echo 'merge failed!'; return)
+  if ! git rebase origin/master -m 'whatevs';then
+   echo 'rebase failed!'
+   return 1
+  fi
   git reset --soft origin/master
   git reset
 
@@ -241,6 +244,7 @@ function review() {
   git reset --hard
   git status -s | awk '{ print $2 }' | xargs rm
   git checkout master
+  git branch -D "$branch"
 }
 
 function awslogin() {
