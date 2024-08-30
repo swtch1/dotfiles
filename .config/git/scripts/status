@@ -3,7 +3,14 @@
 set -eo pipefail
 
 function list_remote() {
+  line="=== remotes for $1 ==="
+  length=${#line}
+  separator=$(printf '%0.s=' $(seq 1 "$length"))
+
+  echo "$separator"
   echo "=== remotes for ${1} ==="
+  echo "$separator"
+
   pushd "$1" > /dev/null
 
   glab mr list --source-branch "$(git rev-parse --abbrev-ref HEAD)" | cut -d '!' -f '3' || true
@@ -17,45 +24,8 @@ if [ -n "$1" ]; then
   exit
 fi
 
-worktrees=$(find . -maxdepth 1 -type d | grep -v 'master' | grep -v '^.$')
+worktrees=$(cd master && git worktree list | awk '{print $1}' | grep -v 'master') || true
 for d in $worktrees; do
 	list_remote "$d"
 done
 
-
-# # utility for showing status of all git work trees
-# for l in $(git worktree list|awk '{print $1}'); do
-#   echo $l
-#   # echo ${(l:${#l}::-:)}
-#   git --work-tree=$l --git-dir=$l/.git status --short | tail -n +2
-#   echo ""
-# done
-
-# wt-clean() {
-#   for l in $(git worktree list|awk '{print $1}'); do
-#     name=$(echo $l | awk -F '/' '{print $NF}')
-
-#     if [[ -z "$(git --work-tree=$l --git-dir=$l/.git status --porcelain)" ]]; then
-#       vared -p "Delete worktree ${name}? " -c do_delete
-
-#       if [[ "${do_delete}" == "y" ]]; then
-#         git worktree remove $l
-#       elif [[ "${do_delete}" == "n" ]]; then
-#       else
-#         echo "invalid input: ${do_delete}"
-#       fi
-#     else
-#       vared -p "Worktree ${name} has unstaged changes, delete anyway? " -c do_delete
-
-#       if [[ "${do_delete}" == "y" ]]; then
-#         git worktree remove -f $l
-#       elif [[ "${do_delete}" == "n" ]]; then
-#         echo "leaving"
-#       else
-#         echo "invalid input: ${do_delete}"
-#       fi
-#     fi
-
-#     unset do_delete
-#   done
-# }

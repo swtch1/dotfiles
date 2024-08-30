@@ -277,10 +277,12 @@ return {
 						"--config", config,
 						"replay", snapshotID,
 						"--custom-url", "http://localhost:8080",
-						"--test-config-id", "kraken-csv",
-						"--create-report=false",
-						-- "--config", config, "replay", snapshotID, "--test-config-id", "regression_no_mocks_1_assertion_endpoints",
-						-- "--config", config, "create", "snapshot", "--name", "from-speedctl", "--service", "frontend", "--start", "15m", "--end", "20m",
+						"--test-config-id", "regression",
+						"--mode", "mocks-only",
+						"--service", "http=8080",
+						"--service", "https=8443",
+						"--verbose",
+						"--create-report",
 					}
 				},
 				{
