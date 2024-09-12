@@ -13,6 +13,6 @@ return {
 			},
 		}
 
-		vim.keymap.set({ "v", "n" }, "ra", actions_preview.code_actions)
+		vim.keymap.set({ "v", "n" }, "<leader>ra", actions_preview.code_actions)
 	end,
 }

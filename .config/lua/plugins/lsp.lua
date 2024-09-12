@@ -1,26 +1,26 @@
 return {
 	-- for some reason this messup go staticcheck
-	-- {
-	-- 	'williamboman/mason.nvim',
-	-- 	opts = {
-	-- 		ui = {
-	-- 			icons = {
-	-- 				package_installed = '✓',
-	-- 				package_pending = '➜',
-	-- 				package_uninstalled = '✗',
-	-- 			},
-	-- 		},
-	-- 	},
-	-- },
-	-- {
-	-- 	'williamboman/mason-lspconfig.nvim',
-	-- 	dependencies = {
-	-- 		'williamboman/mason.nvim',
-	-- 	},
-	-- 	config = function()
-	-- 		require("mason-lspconfig").setup()
-	-- 	end,
-	-- },
+	{
+		'williamboman/mason.nvim',
+		opts = {
+			ui = {
+				icons = {
+					package_installed = '✓',
+					package_pending = '➜',
+					package_uninstalled = '✗',
+				},
+			},
+		},
+	},
+	{
+		'williamboman/mason-lspconfig.nvim',
+		dependencies = {
+			'williamboman/mason.nvim',
+		},
+		config = function()
+			require("mason-lspconfig").setup()
+		end,
+	},
 	{
 		'neovim/nvim-lspconfig',
 		dependencies = {

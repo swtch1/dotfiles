@@ -5,6 +5,8 @@ check() {
   return $?
 }
 
+ifconfig en0
+
 consecutive_failures=0
 while true
 do
@@ -19,6 +21,8 @@ do
   	  consecutive_failures=0
 		  echo "$(date) - connectivity restored"
 		  osascript -e 'say "were back online"'
+
+      ifconfig en0
 	  fi
     sleep 5
   else

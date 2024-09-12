@@ -1,9 +1,9 @@
 -- env vars, with defaults so lua doesn't complain
-local appUrl = os.getenv("SPEEDSCALE_APP_URL") or ""
-local apiKey = os.getenv("SPEEDSCALE_API_KEY") or ""
-local tenantBucket = os.getenv("TENANT_BUCKET") or ""
-local analyzerReportID = os.getenv("ANALYZER_REPORT_ID") or ""
-local snapshotID = os.getenv("SNAPSHOT_ID") or ""
+local app_url = os.getenv("SPEEDSCALE_APP_URL") or ""
+local api_key = os.getenv("SPEEDSCALE_API_KEY") or ""
+local tenant_bucket = os.getenv("TENANT_BUCKET") or ""
+local analyzer_report_id = os.getenv("ANALYZER_REPORT_ID") or ""
+local snapshot_id = os.getenv("SNAPSHOT_ID") or ""
 local config = os.getenv("CONFIG") or ""
 
 
@@ -104,10 +104,10 @@ return {
 					program = vim.fn.getcwd() .. "/analyzer/",
 					args = {
 						"report", "analyze",
-						"--app-url", appUrl,
-						"--api-key", apiKey,
-						"--report", "s3://" .. tenantBucket .. "/default/reports/" .. analyzerReportID .. ".json",
-						"--artifact-src", "s3://" .. tenantBucket .. "/default",
+						"--app-url", app_url,
+						"--api-key", api_key,
+						"--report", "s3://" .. tenant_bucket .. "/default/reports/" .. analyzer_report_id .. ".json",
+						"--artifact-src", "s3://" .. tenant_bucket .. "/default",
 						"--output-dir", "./out",
 						"--reanalyze",
 					},
@@ -119,10 +119,10 @@ return {
 					program = vim.fn.getcwd() .. "/analyzer/",
 					args = {
 						"report", "analyze",
-						"--app-url", appUrl,
-						"--api-key", apiKey,
-						"--report", "/Users/josh/.speedscale/data/reports/" .. analyzerReportID .. ".json",
-						"--artifact-src", "/Users/josh/.speedscale/data/reports/" .. analyzerReportID,
+						"--app-url", app_url,
+						"--api-key", api_key,
+						"--report", "/Users/josh/.speedscale/data/reports/" .. analyzer_report_id .. ".json",
+						"--artifact-src", "/Users/josh/.speedscale/data/reports/" .. analyzer_report_id,
 						"--output-dir", "./out",
 						"--reanalyze",
 					},
@@ -134,9 +134,9 @@ return {
 					program = vim.fn.getcwd() .. "/analyzer/",
 					args = {
 						"report", "analyze",
-						"--app-url", appUrl,
-						"--api-key", apiKey,
-						"--report", "s3://" .. tenantBucket .. "/default/reports/" .. analyzerReportID .. ".json",
+						"--app-url", app_url,
+						"--api-key", api_key,
+						"--report", "s3://" .. tenant_bucket .. "/default/reports/" .. analyzer_report_id .. ".json",
 						"--output-dir", "./out",
 						"--recreate",
 					},
@@ -148,9 +148,9 @@ return {
 					program = vim.fn.getcwd() .. "/analyzer/",
 					args = {
 						"snapshot",
-						"--app-url", appUrl,
-						"--api-key", apiKey,
-						"--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
+						"--app-url", app_url,
+						"--api-key", api_key,
+						"--snapshot", "s3://" .. tenant_bucket .. "/default/scenarios/" .. snapshot_id .. ".json",
 						"--output-dir", "./out",
 						"--recreate",
 					}
@@ -162,9 +162,9 @@ return {
 					program = vim.fn.getcwd() .. "/analyzer/",
 					args = {
 						"snapshot",
-						"--app-url", appUrl,
-						"--api-key", apiKey,
-						"--snapshot", "s3://" .. tenantBucket .. "/default/scenarios/" .. snapshotID .. ".json",
+						"--app-url", app_url,
+						"--api-key", api_key,
+						"--snapshot", "s3://" .. tenant_bucket .. "/default/scenarios/" .. snapshot_id .. ".json",
 						"--output-dir", "./out",
 						"--recreate",
 						-- "--ignore-in-svc", "frontend:8080",
@@ -177,11 +177,11 @@ return {
 					program = vim.fn.getcwd() .. "/analyzer/",
 					args = {
 						"snapshot",
-						"--app-url", appUrl,
-						"--api-key", apiKey,
-						"--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. ".json",
+						"--app-url", app_url,
+						"--api-key", api_key,
+						"--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshot_id .. ".json",
 						"--output-dir", "./snapshot",
-						"--upload-to", "s3://" .. tenantBucket,
+						"--upload-to", "s3://" .. tenant_bucket,
 					}
 				},
 				{
@@ -191,11 +191,11 @@ return {
 					program = vim.fn.getcwd() .. "/analyzer/",
 					args = {
 						"transform",
-						"--app-url", appUrl,
-						"--api-key", apiKey,
-						"--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshotID .. ".json",
+						"--app-url", app_url,
+						"--api-key", api_key,
+						"--snapshot", "/Users/josh/.speedscale/data/snapshots/" .. snapshot_id .. ".json",
 						"--output-dir", "./out",
-						"--upload-to", "s3://" .. tenantBucket .. "/default/scenarios/"
+						"--upload-to", "s3://" .. tenant_bucket .. "/default/scenarios/"
 					}
 				},
 				{
@@ -275,7 +275,7 @@ return {
 					program = vim.fn.getcwd() .. "/speedctl/",
 					args = {
 						"--config", config,
-						"replay", snapshotID,
+						"replay", snapshot_id,
 						"--custom-url", "http://localhost:8080",
 						"--test-config-id", "regression",
 						"--mode", "mocks-only",
