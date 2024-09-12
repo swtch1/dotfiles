@@ -229,7 +229,7 @@ function review() {
 
   git checkout "$branch"
   git pull
-  if ! git rebase origin/master -m 'whatevs';then
+  if ! git rebase origin/master;then
    echo 'rebase failed!'
    return 1
   fi
