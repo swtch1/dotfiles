@@ -11,13 +11,13 @@ local lspconfig = require("lspconfig")
 local navic = require("nvim-navic")
 
 -- for some reason this messup go staticcheck
--- local mason_lsp_config = require("mason-lspconfig")
--- mason_lsp_config.setup()
--- mason_lsp_config.setup_handlers({
--- 	function(server_name)
--- 		lspconfig[server_name].setup({})
--- 	end,
--- })
+local mason_lsp_config = require("mason-lspconfig")
+mason_lsp_config.setup()
+mason_lsp_config.setup_handlers({
+	function(server_name)
+		lspconfig[server_name].setup({})
+	end,
+})
 
 local on_attach = function(client, bufnr)
 	if client.server_capabilities.documentSymbolProvider then
@@ -113,9 +113,6 @@ lspconfig.gopls.setup({
 lspconfig.bashls.setup({
 	on_attach = on_attach,
 })
-lspconfig.clangd.setup({
-	on_attach = on_attach,
-})
 lspconfig.jedi_language_server.setup({
 	on_attach = on_attach,
 })
@@ -132,7 +129,7 @@ lspconfig.sqlls.setup({})
 lspconfig.tflint.setup({
 	on_attach = on_attach,
 })
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
 	on_attach = on_attach,
 })
 lspconfig.zk.setup({
