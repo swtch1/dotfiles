@@ -80,6 +80,7 @@ source $ZSH/oh-my-zsh.sh
 
 source ~/.zshrc-lite
 source ~/.zshrc-db
+source ~/.secrets
 
 ####################
 ### key bindings ###

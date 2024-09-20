@@ -36,4 +36,7 @@ return {
 			debug = false                   -- Prints errors and the command which is run.
 		}
 	},
+	{
+		"jackMort/ChatGPT.nvim",
+	},
 }

@@ -31,6 +31,9 @@ cp -r ~/scripts .
 echo 'copying iterm2 config'
 cp /Users/josh/Library/Preferences/com.googlecode.iterm2.plist .
 
+# make sure we never commit secrets
+find . -type f -name '*secret*' -print0 | xargs -0 rm -rf
+
 echo '--- done ---'
 echo
 git add --all
