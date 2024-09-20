@@ -16,7 +16,7 @@ cp ~/.zshrc* .
   mkdir .config
 
   pushd .config
-  cp -r ~/.config/nvim/ .
+  cp -r ~/.config/nvim .
   cp -r ~/.config/tmux .
   cp -r ~/.config/git .
   cp -r ~/.config/karabiner .
