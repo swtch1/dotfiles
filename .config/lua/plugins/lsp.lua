@@ -33,6 +33,10 @@ return {
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				group = "AutoFormat",
 				callback = function()
+					local filetype = vim.bo.filetype
+					if filetype == "typescript" or filetype == "typescriptreact" then
+						return
+					end
 					vim.lsp.buf.format({ async = false })
 				end,
 			})
