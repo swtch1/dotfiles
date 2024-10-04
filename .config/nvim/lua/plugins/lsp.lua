@@ -36,8 +36,12 @@ return {
 					local filetype = vim.bo.filetype
 					if filetype == "typescript" or filetype == "typescriptreact" then
 						return
+					elseif filetype == "proto" then
+						vim.cmd([[%s/\t/  /ge]]) -- replace tabs with two spaces
+						vim.cmd([[normal gg=G]]) -- ensure consistent spacing
+					else
+						vim.lsp.buf.format({ async = false })
 					end
-					vim.lsp.buf.format({ async = false })
 				end,
 			})
 		end,
