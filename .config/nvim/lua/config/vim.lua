@@ -18,12 +18,13 @@ vim.fn.setreg('b', 'A // BOOKMARK: ')
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "*",
 	callback = function()
-		local fixme_strings = {
-			go = "A // FIXME: (JMT) ",
-			lua = "A -- FIXME: (JMT) ", -- doesn't work for some reason
-		}
-		local fixme = fixme_strings[vim.bo.filetype] or "A # FIXME: (JMT) "
-		vim.fn.setreg('f', fixme)
+		vim.fn.setreg('f', "A // FIXME: (JMT) ")
+		-- local fixme_strings = {
+		-- 	go = "A // FIXME: (JMT) ",
+		-- 	lua = "A -- FIXME: (JMT) ", -- doesn't work for some reason
+		-- }
+		-- local fixme = fixme_strings[vim.bo.filetype] or "A # FIXME: (JMT) "
+		-- vim.fn.setreg('f', fixme)
 	end
 })
 

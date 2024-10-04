@@ -278,11 +278,10 @@ return {
 						"replay", snapshot_id,
 						"--custom-url", "http://localhost:8080",
 						"--test-config-id", "regression",
-						"--mode", "mocks-only",
-						"--service", "http=8080",
-						"--service", "https=8443",
-						"--verbose",
-						"--create-report",
+						"--mode", "tests-only",
+						-- "--service", "http=8080",
+						-- "--service", "https=8443",
+						-- "--verbose",
 					}
 				},
 				{
