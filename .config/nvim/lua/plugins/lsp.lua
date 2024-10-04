@@ -1,5 +1,5 @@
 return {
-	-- for some reason this messup go staticcheck
+
 	{
 		'williamboman/mason.nvim',
 		opts = {
@@ -37,8 +37,10 @@ return {
 					if filetype == "typescript" or filetype == "typescriptreact" then
 						return
 					elseif filetype == "proto" then
-						vim.cmd([[%s/\t/  /ge]]) -- replace tabs with two spaces
-						vim.cmd([[normal gg=G]]) -- ensure consistent spacing
+						local view = vim.fn.winsaveview()
+						vim.cmd([[silent! normal gg=G]]) -- ensure consistent spacing
+						vim.cmd([[%s/\t/  /ge]])   -- replace tabs with two spaces
+						vim.fn.winrestview(view)   -- restore the view so things don't jump around
 					else
 						vim.lsp.buf.format({ async = false })
 					end
