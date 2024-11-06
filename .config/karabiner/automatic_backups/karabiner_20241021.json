@@ -444,7 +444,8 @@
                     "from": { "key_code": "left_option" },
                     "to": [{ "key_code": "left_command" }]
                 }
-            ]
+            ],
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         },
         {
             "complex_modifications": {
@@ -909,7 +910,6 @@
                 ]
             },
             "name": "on the move",
-            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
@@ -919,7 +919,8 @@
                     "from": { "key_code": "delete_or_backspace" },
                     "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
                 }
-            ]
+            ],
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         },
         {
             "complex_modifications": {
@@ -939,7 +940,9 @@
                     }
                 ]
             },
-            "name": "split brain"
+            "name": "split brain",
+            "selected": true,
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
     ]
 }

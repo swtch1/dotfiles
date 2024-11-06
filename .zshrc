@@ -113,7 +113,7 @@ alias mk='minikube'
 alias cdt='cd /tmp'
 alias cdc='cd ~/code'
 alias cds='cd ~/code/ss/'
-alias cdsp='cd ~/code/speedscale-pristine/'
+alias cdsp='cd ~/code/ss/pristine/'
 alias cdsm='cd ~/code/ss/ss/master/'
 alias rigwake='wakeonlan A8:A1:59:2D:26:60'
 # alias kdbg='kill $(lsof -i -P | grep -i listen | grep __debug_ | tr -s " " | cut -d " " -f 2)' # for vscode
@@ -222,19 +222,24 @@ function review() {
     echo 'must start with clean tree!'
     return 1
   fi
-  git checkout master
+  git checkout pristine
   git pull
+  git rebase origin/master
 
   branch="$1"
   git branch -D "$branch"
 
   git checkout "$branch"
   git pull
-  if ! git rebase origin/master;then
-   echo 'rebase failed!'
-   return 1
-  fi
-  git reset --soft origin/master
+  # if ! git rebase origin/master --strategy ours;then
+  #  echo '###################'
+  #  echo '## REBASE FAILED ##'
+  #  echo '###################'
+  #  echo
+  #  echo 'Press any key to continue...'
+  #  read
+  # fi
+  git reset --soft pristine
   git reset
 
   # review tool
