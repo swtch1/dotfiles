@@ -13,7 +13,6 @@ vim.opt.listchars = {
 }
 
 -- macros
-vim.fn.setreg('d', 'yiwO// pA ')
 vim.fn.setreg('b', 'A // BOOKMARK: ')
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "*",
@@ -29,7 +28,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "quit buffer" })
-vim.keymap.set("n", "<leader>Q", ":q!<CR>", { desc = "force quit buffer" })
+vim.keymap.set("n", "<leader>Q", ":qa<CR>", { desc = "quit all" })
 vim.keymap.set("n", "<leader>v", "<C-v>", { desc = "visual mode" })
 vim.keymap.set("n", "<leader>O", ":only<CR>:noh<CR>", { desc = "close all other buffers" })
 vim.keymap.set("n", "<leader>o", ":lclose<CR>:cclose<CR>:noh<CR>:Trouble close<CR>", { desc = "cleanup quickfix" })
