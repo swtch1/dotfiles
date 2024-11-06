@@ -918,7 +918,8 @@
                     "from": { "key_code": "delete_or_backspace" },
                     "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
                 }
-            ]
+            ],
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         },
         {
             "complex_modifications": {
@@ -939,7 +940,8 @@
                 ]
             },
             "name": "split brain",
-            "selected": true
+            "selected": true,
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
     ]
 }

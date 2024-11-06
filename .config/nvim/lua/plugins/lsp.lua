@@ -1,5 +1,4 @@
 return {
-
 	{
 		'williamboman/mason.nvim',
 		opts = {
@@ -36,12 +35,17 @@ return {
 					local filetype = vim.bo.filetype
 					if filetype == "typescript" or filetype == "typescriptreact" then
 						return
+					elseif filetype == "go" then
+						-- go formatting handled in lsp.lua
+						return
 					elseif filetype == "proto" then
 						local view = vim.fn.winsaveview()
-						vim.cmd([[silent! normal gg=G]]) -- ensure consistent spacing
-						vim.cmd([[%s/\t/  /ge]])   -- replace tabs with two spaces
-						vim.fn.winrestview(view)   -- restore the view so things don't jump around
+						vim.cmd([[%s/\t/  /ge]]) -- replace tabs with two spaces
+						vim.fn.winrestview(view) -- restore view
 					else
+						-- add any missing imports
+						vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true, async = false })
+						-- format
 						vim.lsp.buf.format({ async = false })
 					end
 				end,

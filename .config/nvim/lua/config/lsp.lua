@@ -307,3 +307,34 @@ cmp.setup.filetype("gitcommit", {
 		{ name = "buffer" },
 	})
 })
+
+-- organize imports and format on save
+local gofmt_group = vim.api.nvim_create_augroup('nvim-gofmt', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePre', {
+	group = gofmt_group,
+	pattern = '*.go',
+	callback = function()
+		local wait_ms = 1000
+
+		local params = vim.lsp.util.make_range_params()
+		params.context = { only = { 'source.organizeImports' } }
+
+		local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, wait_ms)
+
+		-- Retrieve the offset encoding from the LSP client
+		local clients = vim.lsp.get_active_clients()
+		local offset_encoding = clients[1] and clients[1].offset_encoding or "utf-16"
+
+		for _, res in pairs(result or {}) do
+			for _, r in pairs(res.result or {}) do
+				if r.edit then
+					vim.lsp.util.apply_workspace_edit(r.edit, offset_encoding)
+				else
+					vim.lsp.buf.execute_command(r.command)
+				end
+			end
+		end
+
+		vim.lsp.buf.format()
+	end
+})
