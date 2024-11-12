@@ -12,6 +12,9 @@ vim.opt.listchars = {
 	trail = '·',
 }
 
+-- views can only be fully collapsed with the global statusline
+vim.opt.laststatus = 3
+
 -- macros
 vim.fn.setreg('b', 'A // BOOKMARK: ')
 vim.api.nvim_create_autocmd("FileType", {
