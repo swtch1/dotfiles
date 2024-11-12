@@ -216,66 +216,36 @@ function vh() {
   v "$file" "+${line}"
 }
 
-# review a branch
-function review() {
-  if [[ -n $(git status -s) ]];then
-    echo 'must start with clean tree!'
-    return 1
-  fi
-  git checkout pristine
-  git pull
-  git rebase origin/master
+review () {
+    if [[ -n $(git status -s) ]]; then
+        echo 'must start with clean tree!'
+        return 1
+    fi
 
-  branch="$1"
-  git branch -D "$branch"
+    # Synchronize the pristine branch with the latest changes from origin
+    git checkout pristine
+    git pull
+    git rebase origin/master
 
-  git checkout "$branch"
-  git pull
-  # if ! git rebase origin/master --strategy ours;then
-  #  echo '###################'
-  #  echo '## REBASE FAILED ##'
-  #  echo '###################'
-  #  echo
-  #  echo 'Press any key to continue...'
-  #  read
-  # fi
-  git reset --soft pristine
-  git reset
+    branch="$1"
 
-  # review tool
-  nvim -c :G # fugutive
-  # nvim -c :DiffviewOpen # diffview
+    # Delete and recreate the branch from its upstream version without any new commits from master
+    git branch -D "$branch"
+    git checkout -b "$branch" "origin/$branch"
 
-  # reset everything
-  git reset --hard
-  git status -s | awk '{ print $2 }' | xargs rm
-  git checkout master
-  git branch -D "$branch"
-}
+    # Reset working directory to view only the branch's own changes
+    base_commit=$(git merge-base "$branch" master)
+    git reset --soft "$base_commit"
+    git reset
 
-function awslogin() {
-  echo "--> unsetting AWS env vars"
-  unset AWS_ACCESS_KEY_ID
-  unset AWS_SECRET_ACCESS_KEY
-  unset AWS_SESSION_TOKEN
-  echo '--> login'
-  aws sso login --profile dev
-  # echo '--> update kubeconfig - dev'
-  # aws eks update-kubeconfig --name dev-sstenant-eks-cluster --region us-east-1 --profile dev
-  # echo '--> update kubeconfig - staging'
-  # aws eks update-kubeconfig --name staging-sstenant-eks-cluster --region us-east-1 --profile staging
-  # echo '--> update kubeconfig - prod'
-  # aws eks update-kubeconfig --name prod-sstenant-eks-cluster --region us-east-1 --profile prod
-  # echo '--> update kubeconfig - kraken'
-  # gcloud container clusters get-credentials kraken --project=speedscale-demos --region=us-central1
-  # echo '--> update kubeconfig - dev-decoy'
-  # gcloud container clusters get-credentials dev-decoy --project=speedscale-demos --region=us-central1
-  # echo '--> update kubeconfig - staging-decoy'
-  # gcloud container clusters get-credentials staging-decoy --project=speedscale-demos --region=us-central1
-  # echo '--> update kubeconfig - prod-decoy'
-  # gcloud container clusters get-credentials prod-decoy --project=speedscale-demos --region=us-central1
-  # echo '--> setting kube context to minikube'
-  # kubectx minikube
+    # Open editor to review only this branch's changes
+    nvim -c :G
+
+    # Clean up changes after review
+    git reset --hard
+    git status -s | awk '{ print $2 }' | xargs rm
+    git checkout pristine
+    git branch -D "$branch"
 }
 
 # git worktree add
