@@ -241,6 +241,7 @@ M.map("n", "<leader>bD", ":bd!<CR>")
 
 -- misc
 M.map("n", "<leader>rd", ":vsp /Users/josh/code/ss/.envrc.local<CR>")
+M.map("n", "<leader>rD", ":vsp /Users/josh/.config/nvim/lua/plugins/dap.lua<CR>")
 M.map("n", "<leader>rl", "<cmd>lua vim.o.background='light'<CR>")
 
 ---- NVIM-CMP ----
