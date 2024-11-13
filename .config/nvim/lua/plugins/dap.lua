@@ -26,7 +26,11 @@ return {
 				dap_ui.open()
 			end
 
-			vim.keymap.set('n', '<leader>dd', '<cmd>lua DAPRun()<CR>')
+			function DapRunLast()
+				dap.run_last()
+				dap_ui.open()
+			end
+
 			function DAPTerminate()
 				dap.terminate()
 				dap_ui.close()
@@ -37,12 +41,13 @@ return {
 				dap_ui.open()
 			end
 
-			vim.keymap.set('n', '<leader>dt', '<cmd>lua DebugTest()<CR>')
 			function DebugLastTest()
 				dap_go.debug_last_test()
 				dap_ui.open()
 			end
 
+			vim.keymap.set('n', '<leader>dd', '<cmd>lua DAPRun()<CR>')
+			vim.keymap.set('n', '<leader>dD', '<cmd>lua DapRunLast()<CR>')
 			vim.keymap.set('n', '<leader>dq', '<cmd>lua DAPTerminate()<CR>')
 			vim.keymap.set('n', '<leader>d<space>', '<cmd>lua require("dap").continue()<CR>')
 			vim.keymap.set('n', '<leader>db', '<cmd>lua require("dap").toggle_breakpoint()<CR>')
@@ -55,6 +60,7 @@ return {
 			vim.keymap.set('n', '<leader>di', '<cmd>lua require("dap").step_into()<CR>')
 			vim.keymap.set('n', '<leader>du', '<cmd>lua require("dap").up()<CR>')
 			vim.keymap.set('n', '<leader>dU', '<cmd>lua require("dap").down()<CR>')
+			vim.keymap.set('n', '<leader>dt', '<cmd>lua DebugTest()<CR>')
 			vim.keymap.set('n', '<leader>dT', '<cmd>lua DebugLastTest()<CR>')
 
 			dap.adapters.go = function(callback)
@@ -107,8 +113,9 @@ return {
 						"--app-url", app_url,
 						"--api-key", api_key,
 						"--report", "s3://" .. tenant_bucket .. "/default/reports/" .. analyzer_report_id .. ".json",
-						"--artifact-src", "s3://" .. tenant_bucket .. "/default",
-						"--output-dir", "./out",
+						-- "--artifact-src", "s3://" .. tenant_bucket .. "/default",
+						"--bucket", tenant_bucket,
+						"--output-dir", ".",
 						"--reanalyze",
 					},
 				},
@@ -122,8 +129,9 @@ return {
 						"--app-url", app_url,
 						"--api-key", api_key,
 						"--report", "/Users/josh/.speedscale/data/reports/" .. analyzer_report_id .. ".json",
-						"--artifact-src", "/Users/josh/.speedscale/data/reports/" .. analyzer_report_id,
-						"--output-dir", "./out",
+						"--bucket", tenant_bucket,
+						-- "--artifact-src", "/Users/josh/.speedscale/data/reports/" .. analyzer_report_id,
+						"--output-dir", ".",
 						"--reanalyze",
 					},
 				},
@@ -137,7 +145,7 @@ return {
 						"--app-url", app_url,
 						"--api-key", api_key,
 						"--report", "s3://" .. tenant_bucket .. "/default/reports/" .. analyzer_report_id .. ".json",
-						"--output-dir", "./out",
+						"--output-dir", ".",
 						"--recreate",
 					},
 				},

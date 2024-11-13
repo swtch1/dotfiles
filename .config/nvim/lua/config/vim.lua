@@ -13,7 +13,8 @@ vim.opt.listchars = {
 }
 
 -- views can only be fully collapsed with the global statusline
-vim.opt.laststatus = 3
+-- recommended for avante.nvim but it messes up file names on statusline
+-- vim.opt.laststatus = 3
 
 -- macros
 vim.fn.setreg('b', 'A // BOOKMARK: ')
