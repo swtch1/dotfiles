@@ -6,7 +6,6 @@ local analyzer_report_id = os.getenv("ANALYZER_REPORT_ID") or ""
 local snapshot_id = os.getenv("SNAPSHOT_ID") or ""
 local config = os.getenv("CONFIG") or ""
 
-
 return {
 	{
 		'rcarriga/nvim-dap-ui',
@@ -229,6 +228,16 @@ return {
 					type = "go",
 					request = "launch",
 					program = vim.fn.getcwd() .. "/inspector/",
+				},
+				{
+					name = "k6",
+					type = "go",
+					request = "launch",
+					program = vim.fn.getcwd() .. "/main.go",
+					args = {
+						"run",
+						"test.js",
+					},
 				},
 				{
 					name = "operator",

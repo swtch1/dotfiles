@@ -21,7 +21,9 @@ cd "$(dirname "$0")"
 
   pushd master > /dev/null
 
+  # git stash -um "hold for rebase" && git pull && git stash pop
   git pull
+  # git stash pop
   worktrees=$(git worktree list | awk '{print $1}' | grep -v 'master' || true)
 
   popd > /dev/null
