@@ -1,13 +1,29 @@
 return {
 	"folke/trouble.nvim",
-	opts = {}, -- for default options, refer to the configuration section for custom setup.
+	opts = {
+		focus = true,
+		auto_close = true,
+		modes = {
+			diagnostics = {
+				auto_jump = false,
+				warn_no_results = true,
+			},
+			lsp_base = {
+				auto_jump = true,
+				warn_no_results = true,
+			},
+			symbols = {
+				win = {
+					position = "left",
+				},
+			},
+		},
+	},
 	cmd = "Trouble",
 	keys = {
-		{
-			"<leader>A", "<cmd>Trouble diagnostics toggle<cr>", desc = "All Diagnostics",
-		},
-		{
-			"<leader>a", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics",
-		},
+		{ "<leader>a",  "<cmd>Trouble diagnostics open<cr>",              desc = "All diagnostics", },
+		{ "<leader>A",  "<cmd>Trouble diagnostics open filter.buf=0<cr>", desc = "Buffer diagnostics", },
+		{ "<leader>gr", "<cmd>Trouble lsp_references open<cr>",           desc = "LSP references", },
+		{ "<leader>fo", "<cmd>Trouble symbols focus<cr>",                 desc = "Outline", },
 	},
 }

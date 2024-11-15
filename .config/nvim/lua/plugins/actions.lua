@@ -13,6 +13,7 @@ return {
 			},
 		}
 
-		vim.keymap.set({ "v", "n" }, "<leader>ra", actions_preview.code_actions)
+		vim.keymap.set({ "n", "n" }, "<leader>ra", actions_preview.code_actions, { desc = "Code actions" })
+		vim.keymap.set({ "v", "n" }, "<leader>ra", actions_preview.code_actions, { desc = "Code actions for selection" })
 	end,
 }
