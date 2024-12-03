@@ -104,7 +104,6 @@ alias vimdiff='v diff'
 alias vf='v $($(which fzf))'
 
 alias h='history'
-alias c='clear'
 alias cat='bat'
 alias less='bat'
 # I shouldn't have to do this
@@ -223,14 +222,13 @@ function review() {
     return 1
   fi
   git checkout pristine
-  git pull
   git rebase origin/master
 
   branch="$1"
   git branch -D "$branch"
 
   git checkout "$branch"
-  git pull
+  git rebase origin/master
   # if ! git rebase origin/master --strategy ours;then
   #  echo '###################'
   #  echo '## REBASE FAILED ##'
@@ -239,7 +237,7 @@ function review() {
   #  echo 'Press any key to continue...'
   #  read
   # fi
-  git reset --soft pristine
+  git reset --soft origin/master
   git reset
 
   # review tool
@@ -249,7 +247,7 @@ function review() {
   # reset everything
   git reset --hard
   git status -s | awk '{ print $2 }' | xargs rm
-  git checkout master
+  git checkout pristine
   git branch -D "$branch"
 }
 
