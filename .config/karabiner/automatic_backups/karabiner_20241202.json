@@ -1,6 +1,10 @@
 {
     "profiles": [
         {
+            "name": "default",
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
+        },
+        {
             "complex_modifications": {
                 "rules": [
                     {
@@ -444,7 +448,8 @@
                     "from": { "key_code": "left_option" },
                     "to": [{ "key_code": "left_command" }]
                 }
-            ]
+            ],
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         },
         {
             "complex_modifications": {
@@ -909,6 +914,7 @@
                 ]
             },
             "name": "on the move",
+            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
@@ -940,7 +946,6 @@
                 ]
             },
             "name": "split brain",
-            "selected": true,
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
     ]

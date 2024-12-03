@@ -85,7 +85,7 @@ return {
 				timeout = 60000, -- milliseconds
 				temperature = 0,
 				-- max_tokens = 4096,
-				["local"] = false,
+				api_key_name = "OPENAI_API_KEY",
 			},
 			-- auto_suggestions_provider = "openai", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
 			behaviour = {

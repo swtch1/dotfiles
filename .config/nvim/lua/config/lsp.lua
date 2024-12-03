@@ -141,6 +141,38 @@ lspconfig.terraformls.setup({
 lspconfig.gitlab_ci_ls.setup({
 	on_attach = on_attach,
 })
+-- supposed to be for proto but it doesn't work
+-- local caps = require('cmp_nvim_lsp').default_capabilities()
+-- caps.offsetEncoding = { 'utf-16' }
+-- lspconfig.clangd.setup({
+-- 	capabilities = caps,
+-- 	root_dir = function(fname)
+-- 		local cfgutil = require('lspconfig.util')
+-- 		return cfgutil.root_pattern(
+-- 			'Makefile',
+-- 			'configure.ac',
+-- 			'configure.in',
+-- 			'config.h.in',
+-- 			'meson.build',
+-- 			'meson_options.txt',
+-- 			'build.ninja'
+-- 		)(fname) or cfgutil.root_pattern(
+-- 			'compile_commands.json',
+-- 			'compile_flags.txt'
+-- 		)(fname) or cfgutil.find_git_anscestor(fname)
+-- 	end,
+-- 	cmd = {
+-- 		'clangd',
+-- 		'--background-index',
+-- 		'--clang-tidy',
+-- 		-- '--header-insertion-decorators',
+-- 		-- '--header-insertion=iwyu',
+-- 		-- '--import-insertions',
+-- 		'--completion-style=detailed',
+-- 		'--function-arg-placeholders',
+-- 		'-j=4',
+-- 	},
+-- })
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	pattern = ".gitlab*",
 	callback = function()
@@ -163,14 +195,14 @@ end
 M.map("n", "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
 M.map("n", "<leader>gD", ":vsp<CR><Cmd>lua vim.lsp.buf.definition()<CR>")
 M.map("n", "<leader>gS", ":sp<CR><Cmd>lua vim.lsp.buf.definition()<CR>")
--- M.map("n", "<leader>gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
--- M.map("n", "<leader>gr", "<cmd>lua vim.lsp.buf.references()<CR>")
-M.map("n", "<leader>gU", "<cmd>lua vim.lsp.buf.implementation()<CR>")
-M.map("n", "<leader>gp", "<C-T>")
 M.map("n", "<leader>gi", "<cmd>lua vim.lsp.buf.hover()<CR>")
 M.map("n", "<leader>gn", "<cmd>lua vim.lsp.buf.rename()<CR>")
 M.map("n", "<leader>gt", "<cmd>lua vim.lsp.buf.incoming_calls()<CR>")
 M.map("n", "<leader>gO", "<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>")
+M.map("n", "<leader>gp", "<C-T>")
+M.map("n", "<leader>gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
+M.map("n", "<leader>gr", "<cmd>lua vim.lsp.buf.references()<CR>")
+-- M.map("n", "<leader>gU", "<cmd>lua vim.lsp.buf.implementation()<CR>")
 
 -- understanding
 M.map("n", "<leader>ff", ":BuffergatorOpen<CR>")
