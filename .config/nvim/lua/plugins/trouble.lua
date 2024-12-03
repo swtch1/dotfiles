@@ -3,6 +3,7 @@ return {
 	opts = {
 		focus = true,
 		auto_close = false,
+		auto_fold = true,
 		modes = {
 			diagnostics = {
 				auto_jump = false,
@@ -19,15 +20,22 @@ return {
 			symbols = {
 				win = {
 					position = "left",
+					size = 0.3,
+				},
+			},
+			lsp = {
+				win = {
+					size = 0.3,
 				},
 			},
 		},
 	},
 	cmd = "Trouble",
 	keys = {
-		{ "<leader>a",  "<cmd>Trouble diagnostics open<cr>",              desc = "All diagnostics", },
-		{ "<leader>A",  "<cmd>Trouble diagnostics open filter.buf=0<cr>", desc = "Buffer diagnostics", },
-		{ "<leader>gr", "<cmd>Trouble lsp<cr>",                           desc = "LSP", },
-		{ "<leader>fo", "<cmd>Trouble symbols focus<cr>",                 desc = "Outline", },
+		{ "<leader>a",  "<cmd>Trouble diagnostics open<cr>",              desc = "all diagnostics", },
+		{ "<leader>A",  "<cmd>Trouble diagnostics open filter.buf=0<cr>", desc = "buffer diagnostics", },
+		{ "<leader>fo", "<cmd>Trouble symbols focus<cr>",                 desc = "outline", },
+		{ "<leader>gl", "<cmd>Trouble lsp<cr>",                           desc = "LSP", },
+		{ "<leader>gu", "<cmd>Trouble lsp_implementations<cr>",           desc = "implementations", },
 	},
 }
