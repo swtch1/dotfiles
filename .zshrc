@@ -129,11 +129,10 @@ alias rg='rg --smart-case --no-heading --line-number'
 alias rgg='rg --type go'
 alias rgn='rg --no-line-number'
 
-export REVIEW_BASE='master'
 alias g='git'
 alias ga='g add'
 alias gaa='g add --all'
-alias gp='g pull'
+alias gp='g pull --rebase --autostash'
 function gpw() { g --work-tree "$1" pull }
 alias gpsh='g push'
 alias gs='g status -s && g status | rg "g push"'

@@ -171,6 +171,10 @@ return {
 				--- Disable by setting to -1.
 				override_timeoutlen = 500,
 			},
+			file_selector = {
+				provider = "native",
+				-- provider = "telescope",
+			},
 		},
 		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
 		build = "make",
@@ -207,5 +211,47 @@ return {
 				ft = { "markdown", "Avante" },
 			},
 		},
+	},
+	{
+		"olimorris/codecompanion.nvim",
+		lazy = true,
+		cmd = {
+			"CodeCompanion",
+			"CodeCompanionActions",
+			"CodeCompanionChat",
+			"CodeCompanionCmd",
+		},
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		config = function()
+			require("codecompanion").setup({
+				adapters = {
+					anthropic = function()
+						return require("codecompanion.adapters").extend("anthropic", {
+							env = {
+								api_key = "ANTHROPIC_API_KEY",
+							},
+							schema = {
+								max_tokens = {
+									default = 10000,
+								},
+							},
+						})
+					end,
+				},
+				strategies = {
+					chat = {
+						-- adapter = "openai",
+						adapter = "anthropic",
+					},
+					inline = {
+						-- adapter = "openai",
+						adapter = "anthropic",
+					},
+				},
+			})
+		end,
 	},
 }
