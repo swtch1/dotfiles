@@ -22,7 +22,7 @@ cd "$(dirname "$0")"
   pushd master > /dev/null
 
   # git stash -um "hold for rebase" && git pull && git stash pop
-  git pull
+  git pull --autostash --rebase --ff-only
   # git stash pop
   worktrees=$(git worktree list | awk '{print $1}' | grep -v 'master' || true)
 
@@ -46,7 +46,7 @@ function rebase() {
     git stash -um "hold for rebase"
   fi
 
-  git rebase origin/master
+  git rebase origin/master --autostash
 
   if $stash; then
     git stash pop
