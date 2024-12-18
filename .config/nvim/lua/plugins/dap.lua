@@ -296,13 +296,12 @@ return {
 					args = {
 						"--config", config,
 						"replay", snapshot_id,
-						"--test-config-id", "regression_no_mocks",
-						"--mode", "tests-only",
+						-- "--test-config-id", "regression_no_mocks",
+						"--test-config-id", "regression-debug",
+						-- "--mode", "tests-only",
 						"--custom-url", "http://localhost:8080", -- HTTP
 						-- "--custom-url", "localhost:5555", -- gRPC
-						-- "--service", "http=8080",
-						-- "--service", "https=8443",
-						-- "--verbose",
+						"--verbose",
 					}
 				},
 				{
