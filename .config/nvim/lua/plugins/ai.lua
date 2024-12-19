@@ -78,15 +78,20 @@ return {
 		version = false, -- set this if you want to always pull the latest change
 		opts = {
 			---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
-			provider = "openai",
-			openai = {
-				endpoint = "https://api.openai.com/v1",
-				model = "gpt-4o",
-				timeout = 60000, -- milliseconds
-				temperature = 0,
-				-- max_tokens = 4096,
-				api_key_name = "OPENAI_API_KEY",
+			provider = "claude",
+			claude = {
+				max_tokens = 8192,
+				api_key_name = "ANTHROPIC_API_KEY",
 			},
+			-- provider = "openai",
+			-- openai = {
+			-- 	endpoint = "https://api.openai.com/v1",
+			-- 	model = "gpt-4o",
+			-- 	timeout = 60000, -- milliseconds
+			-- 	temperature = 0,
+			-- 	-- max_tokens = 4096,
+			-- 	api_key_name = "OPENAI_API_KEY",
+			-- },
 			-- auto_suggestions_provider = "openai", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
 			behaviour = {
 				auto_suggestions = false, -- Experimental stage
@@ -235,7 +240,7 @@ return {
 							},
 							schema = {
 								max_tokens = {
-									default = 10000,
+									default = 8192,
 								},
 							},
 						})
