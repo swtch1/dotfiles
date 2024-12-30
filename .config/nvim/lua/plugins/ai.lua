@@ -132,7 +132,7 @@ return {
 					reverse_switch_windows = "<S-Tab>",
 				},
 			},
-			hints = { enabled = true },
+			hints = { enabled = false },
 			windows = {
 				---@type "right" | "left" | "top" | "bottom"
 				position = "right", -- the position of the sidebar
@@ -226,11 +226,17 @@ return {
 			"CodeCompanionChat",
 			"CodeCompanionCmd",
 		},
+		keys = {
+			{ "<leader>ac", "<cmd>CodeCompanionChat<cr>", desc = "CodeCompanionChat", },
+		},
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 		},
 		config = function()
+			-- local default_dapter = "openai"
+			local default_dapter = "anthropic"
+
 			require("codecompanion").setup({
 				adapters = {
 					anthropic = function()
@@ -248,12 +254,16 @@ return {
 				},
 				strategies = {
 					chat = {
-						-- adapter = "openai",
-						adapter = "anthropic",
+						adapter = default_dapter,
 					},
 					inline = {
-						-- adapter = "openai",
-						adapter = "anthropic",
+						adapter = default_dapter,
+					},
+					cmd = {
+						adapter = default_dapter,
+					},
+					workflow = {
+						adapter = default_dapter,
 					},
 				},
 			})
