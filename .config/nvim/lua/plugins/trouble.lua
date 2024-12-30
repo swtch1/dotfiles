@@ -32,8 +32,8 @@ return {
 	},
 	cmd = "Trouble",
 	keys = {
-		{ "<leader>a",  "<cmd>Trouble diagnostics open<cr>",              desc = "all diagnostics", },
-		{ "<leader>A",  "<cmd>Trouble diagnostics open filter.buf=0<cr>", desc = "buffer diagnostics", },
+		{ "<leader>ga", "<cmd>Trouble diagnostics open filter.buf=0<cr>", desc = "buffer diagnostics", },
+		{ "<leader>gA", "<cmd>Trouble diagnostics open<cr>",              desc = "all diagnostics", },
 		{ "<leader>fo", "<cmd>Trouble symbols focus<cr>",                 desc = "outline", },
 		{ "<leader>gl", "<cmd>Trouble lsp<cr>",                           desc = "LSP", },
 		{ "<leader>gu", "<cmd>Trouble lsp_implementations<cr>",           desc = "implementations", },
