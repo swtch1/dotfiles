@@ -37,20 +37,7 @@ function rebase() {
 
   pushd "$1" > /dev/null
 
-  stash=false
-  if [ -n "$(git status -s && git status | rg "git push")" ]; then
-    stash=true
-  fi
-
-  if $stash; then
-    git stash -um "hold for rebase"
-  fi
-
-  git rebase origin/master --autostash
-
-  if $stash; then
-    git stash pop
-  fi
+  git rebase --autostash origin/master
 
   popd > /dev/null
 }
