@@ -1,5 +1,5 @@
 # vim stuff
-.vim*
+*.vim
 Session.vim
 yarn.lock
 
