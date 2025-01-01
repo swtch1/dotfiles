@@ -296,7 +296,7 @@ function gwr() {
 ### misc ###
 ############
 
-# The next line updates PATH for the Google Cloud SDK.
+# Google Cloud SDK PATH
 if [ -f '/opt/google-cloud-sdk/path.zsh.inc' ]; then . '/opt/google-cloud-sdk/path.zsh.inc'; fi
 
 # create a new MR
