@@ -1,1 +1,7 @@
 copy-on-select = true
+gtk-tabs-location = bottom
+window-new-tab-position = end
+
+cursor-style-blink = false
+shell-integration-features = no-cursor
+cursor-style = block
