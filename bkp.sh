@@ -22,6 +22,7 @@ cp ~/.zshrc* .
   cp -r ~/.config/karabiner .
   cp -r ~/.config/k9s .
   cp -r ~/.config/direnv .
+  cp -r ~/.config/ghostty .
   popd
 }
 
