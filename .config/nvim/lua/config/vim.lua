@@ -12,6 +12,28 @@ vim.opt.listchars = {
 	trail = '·',
 }
 
+local function decorated_yank()
+	local start_line = vim.fn.line("'<")
+	local end_line = vim.fn.line("'>")
+	local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+	local numbered_lines = {}
+
+	for i, line in ipairs(lines) do
+		table.insert(numbered_lines, string.format("%d %s", start_line + i - 1, line))
+	end
+
+	local filename = vim.fn.expand("%")
+	local decoration = string.rep('-', #filename + 1)
+	local content = table.concat(numbered_lines, '\n')
+
+	-- replace whitespace markers
+	content = content:gsub('·', ' '):gsub('»', ' ')
+
+	local result = decoration .. "\n" .. filename .. ":\n" .. decoration .. "\n" .. content
+	vim.fn.setreg('+', result)
+end
+vim.keymap.set("v", "<c-y>", decorated_yank, { desc = "yank with line numbers" })
+
 -- views can only be fully collapsed with the global statusline
 -- recommended for avante.nvim but it messes up file names on statusline
 -- vim.opt.laststatus = 3
@@ -76,8 +98,8 @@ vim.keymap.set("n", "<leader>L", function() go_to_extreme_window("right") end, {
 vim.keymap.set("n", "<leader><Esc>", "<C-W><C-P>", { desc = "move to last buffer" })
 vim.keymap.set("n", "<up>", ":resize -2<CR>", { desc = "resize window" })
 vim.keymap.set("n", "<down>", ":resize +2<CR>", { desc = "resize window" })
-vim.keymap.set("n", "<left>", ":vertical resize -2<CR>", { desc = "resize window" })
-vim.keymap.set("n", "<right>", ":vertical resize +2<CR>", { desc = "resize window" })
+vim.keymap.set("n", "<left>", ":vertical resize -5<CR>", { desc = "resize window" })
+vim.keymap.set("n", "<right>", ":vertical resize +5<CR>", { desc = "resize window" })
 vim.keymap.set("n", "<leader>ew", ":e %:p:h", { desc = "edit working dir" })
 vim.keymap.set("n", "<leader>es", ":sp %:p:h<CR>", { desc = "split working dir" })
 vim.keymap.set("n", "<leader>ev", ":vsp %:p:h<CR>", { desc = "vsplit working dir" })

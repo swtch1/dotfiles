@@ -6,6 +6,8 @@ export EDITOR='nvim'
 
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:/Users/josh/go/bin"
+export PATH="$PATH:/opt/homebrew/opt/openjdk/bin"
+export PATH="$PATH:/opt/local"
 
 # which characters are considered part of a word
 export WORDCHARS=''
@@ -360,4 +362,3 @@ function tto() {
   exec "$@" | tee -a ~/tto.log
 }
 
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"

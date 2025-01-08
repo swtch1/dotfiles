@@ -1,7 +1,13 @@
-copy-on-select = true
+# window
 gtk-tabs-location = bottom
 window-new-tab-position = end
+unfocused-split-opacity = 0.85
 
+# cursor
 cursor-style-blink = false
 shell-integration-features = no-cursor
 cursor-style = block
+
+# mouse
+mouse-hide-while-typing = true
+copy-on-select = true

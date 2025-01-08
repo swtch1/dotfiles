@@ -8,6 +8,11 @@ return {
 	-- auto adjust buffer size
 	{
 		'anuvyklack/windows.nvim',
+		-- adding keys breaks it on startup!?
+		-- keys = {
+		-- 	{ "<leader>fa", "<cmd>WindowsMaximize<cr>", desc = "Maximize window" },
+		-- 	{ "<leader>fw", "<cmd>WindowsEqualize<cr>", desc = "Equalize windows" },
+		-- },
 		dependencies = {
 			'anuvyklack/middleclass',
 			'anuvyklack/animation.nvim',
