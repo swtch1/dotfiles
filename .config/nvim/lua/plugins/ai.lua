@@ -234,19 +234,18 @@ return {
 			"nvim-treesitter/nvim-treesitter",
 		},
 		config = function()
-			-- local default_dapter = "openai"
-			local default_dapter = "anthropic"
+			local default_dapter = "openai"
 
 			require("codecompanion").setup({
 				adapters = {
-					anthropic = function()
-						return require("codecompanion.adapters").extend("anthropic", {
-							env = {
-								api_key = "ANTHROPIC_API_KEY",
-							},
+					openai = function()
+						return require("codecompanion.adapters").extend("openai", {
 							schema = {
-								max_tokens = {
-									default = 8192,
+								max_completion_tokens = {
+									default = 999999999999,
+								},
+								model = {
+									default = "o1-preview-2024-09-12",
 								},
 							},
 						})

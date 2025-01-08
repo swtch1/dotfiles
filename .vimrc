@@ -147,8 +147,6 @@ inoremap . .<c-g>u
 "duplicate (copy) blocks of text
 nnoremap <Leader>cb Va}:t'><CR>
 
-" all buffers
-nnoremap <Leader>fm :WindowsMaximize<CR>
 " yank current word and paste into Ag
 nnoremap <Leader>fl :G log -p --follow -- %<CR>
 nnoremap <Leader>fg :G<CR>
@@ -175,15 +173,6 @@ vnoremap / <Esc>/\%V
 " keep this at the bottom
 hi ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
-
-function! s:decoratedYank()
-    redir @n | silent! :'<,'>number | redir END
-    let filename=expand("%")
-    let decoration=repeat('-', len(filename)+1)
-    let @*=decoration . "\n" . filename . ':' . "\n" . decoration . "\n" . @n
-endfunction
-
-vn <C-y> :call <SID>decoratedYank()<CR>
 
 " stop indention "help"
 filetype indent off
