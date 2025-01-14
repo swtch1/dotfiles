@@ -1,5 +1,5 @@
 return {
-	{
+	{ -- file tree with direct modification
 		"stevearc/oil.nvim",
 		opts = {
 			view_options = {

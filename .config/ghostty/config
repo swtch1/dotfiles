@@ -11,3 +11,6 @@ cursor-style = block
 # mouse
 mouse-hide-while-typing = true
 copy-on-select = true
+
+# keybindings
+keybind = cmd+k=ignore
