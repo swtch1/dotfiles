@@ -435,7 +435,6 @@
                 ]
             },
             "name": "semblance of normalkey",
-            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
@@ -946,6 +945,7 @@
                 ]
             },
             "name": "split brain",
+            "selected": true,
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
     ]
