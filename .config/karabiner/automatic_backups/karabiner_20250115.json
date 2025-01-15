@@ -5,6 +5,7 @@
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         },
         {
+            "name": "semblance of normalkey",
             "complex_modifications": {
                 "rules": [
                     {
@@ -434,7 +435,7 @@
                     }
                 ]
             },
-            "name": "semblance of normalkey",
+            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
@@ -452,6 +453,7 @@
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         },
         {
+            "name": "on the move",
             "complex_modifications": {
                 "rules": [
                     {
@@ -913,7 +915,6 @@
                     }
                 ]
             },
-            "name": "on the move",
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
@@ -927,6 +928,7 @@
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         },
         {
+            "name": "split brain",
             "complex_modifications": {
                 "rules": [
                     {
@@ -944,8 +946,6 @@
                     }
                 ]
             },
-            "name": "split brain",
-            "selected": true,
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
     ]
