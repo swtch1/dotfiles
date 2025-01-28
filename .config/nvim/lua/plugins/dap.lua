@@ -292,16 +292,27 @@ return {
 					name = "speedctl",
 					type = "go",
 					request = "launch",
-					program = vim.fn.getcwd() .. "/speedctl/",
+					program = vim.fn.getcwd() .. "/speedctl/cmd/speedctl",
 					args = {
 						"--config", config,
+						--------------
+						-- snapshot --
+						--------------
+						-- "push", "snapshot", snapshot_id,
+						------------
+						-- replay --
+						------------
 						"replay", snapshot_id,
 						-- "--test-config-id", "regression_no_mocks",
-						"--test-config-id", "regression-debug",
 						-- "--mode", "tests-only",
-						"--custom-url", "http://localhost:8080", -- HTTP
-						-- "--custom-url", "localhost:5555", -- gRPC
-						"--verbose",
+						-- "--custom-url", "http://localhost:5555", -- HTTP
+						"--custom-url", "localhost:5555", -- gRPC
+						-- "--verbose",
+						---------------
+						-- proxymock --
+						---------------
+						-- "proxymock", "run"
+						-- "proxymock", "analyze", snapshot_id
 					}
 				},
 				{

@@ -56,10 +56,14 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "quit buffer" })
 vim.keymap.set("n", "<leader>Q", ":qa<CR>", { desc = "quit all" })
 vim.keymap.set("n", "<leader>O", ":only<CR>:noh<CR>", { desc = "close all other buffers" })
-vim.keymap.set("n", "<leader>o", ":lclose<CR>:cclose<CR>:noh<CR>:Trouble close<CR>", { desc = "cleanup quickfix" })
+vim.keymap.set("n", "<leader>o", ":lclose<CR>:cclose<CR>:noh<CR>:Trouble close<CR>:silent! BuffergatorClose<CR>",
+	{ desc = "cleanup temp buffers", silent = true })
 
 -- modes
-vim.keymap.set("n", "<leader>vv", "<C-v>", { desc = "visual mode" })
+vim.keymap.set("n", "<leader>mv", "<C-v>", { desc = "visual mode" })
+vim.keymap.set("n", "<leader>mw", ":set wrap!<CR>", { desc = "visual mode" })
+
+-- view
 vim.keymap.set("n", "<leader>vn", ":set relativenumber!<CR>", { desc = "toggle relative number" })
 
 -- buffers
@@ -69,10 +73,9 @@ vim.keymap.set("n", "<leader>k", "<C-W>k", { desc = "move up" })
 vim.keymap.set("n", "<leader>l", "<C-W>l", { desc = "move right" })
 -- navigate to the leftmost or rightmost buffer window on the same row
 local function go_to_extreme_window(direction)
-	-- get current window and its position
 	local current_win = vim.api.nvim_get_current_win()
 	local current_pos = vim.api.nvim_win_get_position(current_win)
-	local current_row = current_pos[1]
+	local current_col = current_pos[2]
 
 	local windows = vim.api.nvim_list_wins()
 	if #windows == 0 then
@@ -80,25 +83,21 @@ local function go_to_extreme_window(direction)
 	end
 
 	local target_win = current_win
-	local target_col = current_pos[2]
+	local target_col = current_col
 
 	for _, win in ipairs(windows) do
 		local pos = vim.api.nvim_win_get_position(win)
-		local row, col = pos[1], pos[2]
+		local col = pos[2]
 
-		-- only consider windows on the same row
-		if row == current_row then
-			if direction == "left" and col < target_col then
-				target_win = win
-				target_col = col
-			elseif direction == "right" and col > target_col then
-				target_win = win
-				target_col = col
-			end
+		if direction == "left" and col < target_col then
+			target_win = win
+			target_col = col
+		elseif direction == "right" and col > target_col then
+			target_win = win
+			target_col = col
 		end
 	end
 
-	-- Set the target window as the current window
 	vim.api.nvim_set_current_win(target_win)
 end
 vim.keymap.set("n", "<leader>H", function() go_to_extreme_window("left") end, { desc = "Go to leftmost window" })
