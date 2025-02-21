@@ -45,6 +45,7 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 export AWS_REGION=us-east-1
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(direnv hook zsh)"
 
 ###############
 ### plugins ###
@@ -65,9 +66,9 @@ plugins=(
 )
 SHOW_AWS_PROMPT=false
 
-################
-### init zsh ###
-################
+############
+### init ###
+############
 
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
@@ -76,12 +77,12 @@ COMPLETION_WAITING_DOTS="true"
 HYPHEN_INSENSITIVE="true"
 source $ZSH/oh-my-zsh.sh
 
+
+
 ################
 ### includes ###
 ################
 
-source ~/.zshrc-lite
-source ~/.zshrc-db
 source ~/.secrets
 
 ####################
@@ -95,6 +96,12 @@ bindkey "^l" forward-word
 ### aliases ###
 ###############
 
+## speedscale
+alias s='speedctl'
+alias sm='speedmgmt'
+alias pm='proxymock'
+
+## nvim
 # alias v='rm /Users/josh/vim.log; nvim -V9/Users/josh/vim.log' # for debugging
 alias v='nvim'
 if [ "$(env | grep VIM)" ]; then
@@ -105,6 +112,7 @@ alias vg='v -c :G'
 alias vimdiff='v diff'
 alias vf='v $($(which fzf))'
 
+## junk drawer
 alias h='history'
 alias cat='bat'
 alias less='bat'
@@ -119,8 +127,6 @@ alias cdsm='cd ~/code/ss/ss/master/'
 alias rigwake='wakeonlan A8:A1:59:2D:26:60'
 # alias kdbg='kill $(lsof -i -P | grep -i listen | grep __debug_ | tr -s " " | cut -d " " -f 2)' # for vscode
 alias tf='terraform'
-alias sk='skaffold'
-alias gcurl='grpcurl'
 alias e='exit'
 alias ff="fzf --preview='less {}' --bind shift-up:preview-page-up,shift-down:preview-page-down"
 alias dc='docker-compose'
@@ -130,7 +136,10 @@ alias glab='PAGER=cat glab'
 alias rg='rg --smart-case --no-heading --line-number'
 alias rgg='rg --type go'
 alias rgn='rg --no-line-number'
+# goose AI conflicts with other tools named goose
+alias gai='/Users/josh/.local/bin/goose'
 
+## git
 alias g='git'
 alias ga='g add'
 alias gaa='g add --all'
@@ -140,7 +149,7 @@ alias gpsh='g push'
 alias gs='g status -s && g status | rg "g push"'
 alias gc='g checkout'
 alias gsh='g stash'
-alias gpu='g push --set-upstream origin $(g rev-parse --abbrev-ref HEAD)'
+alias gpu=git_push_initial
 alias gd='g diff'
 alias gdm='g diff origin/master..HEAD'
 alias gdc='g diff --cached'
@@ -152,7 +161,7 @@ alias gts='g pull'
 alias gw='g worktree'
 alias gcm='g commit -m'
 
-# kubernetes
+## kubernetes
 alias watch='viddy'
 alias k='kubectl'
 alias wk='watch kubectl'
@@ -216,6 +225,19 @@ function vh() {
   v "$file" "+${line}"
 }
 
+function git_push_initial() {
+  output=$(g push --set-upstream origin $(g rev-parse --abbrev-ref HEAD))
+  # FIXME: this doesn't work
+  # echo "output:"
+	# echo "$output"
+
+  # # find the URL so we can open it
+  # url=$(/bin/cat "$output" | rg 'remote:\s+https' | rg -o 'https')
+  # echo "url:"
+  # echo "$url"
+  # open "$url"
+}
+
 # review a branch
 function review() {
   if [[ -n $(git status -s) ]];then
@@ -242,7 +264,7 @@ function review() {
   git reset
 
   # review tool
-  nvim -c :G # fugutive
+  nvim -c ':G' # fugutive
   # nvim -c :DiffviewOpen # diffview
 
   # reset everything
@@ -281,7 +303,7 @@ function awslogin() {
 function gwa() {
   dir=$1
   git worktree add "$dir"
-  direnv allow "$dir"
+  direnv allow "$dir" &> /dev/null
   cd "$dir"
 }
 # git worktree remove
@@ -360,5 +382,47 @@ function whosgot() {
 function tto() {
   echo "$(date -u): $@" > ~/tto.log
   exec "$@" | tee -a ~/tto.log
+}
+
+# make it easier to spot the testing debug lines I drop
+function fixme() {
+  rg "FIXME: \(JMT\)"
+  rg "BOOKMARK:"
+}
+
+# test with output in tparse
+function t() {
+  if [[ -z "$1" ]]; then
+    go test -failfast -timeout=60s -cover ./... -json | tparse -progress
+    return
+  fi
+  go test -failfast -timeout=10s -cover . -run "$1" -json | tparse
+}
+
+# test with verbose output during test
+function tv() {
+  if [[ -z "$1" ]]; then
+    # go test -v -failfast -timeout=60s -cover ./...
+    go test -v -failfast -timeout=60s -cover ./... -json | tparse -follow
+    return
+  fi
+  # go test -v -failfast -timeout=10s . -run "$1"
+  go test -v -failfast -timeout=10s -cover . -run "$1" -json | tparse -follow
+}
+
+# run go tests easier.. with file watches
+function tw() {
+  while true; do
+    clear
+    t $1
+    fswatch -1 . > /dev/null
+  done
+}
+
+function analyze_report() {
+  rpt_id=$1
+  speedmgmt queue send raw \
+    --queue-url https://sqs.us-east-1.amazonaws.com/094668123143/dev-sstenant-external-api-gateway \
+    --message '{"msgType":"event","version":"0.0.1","name":"sigReport","type":"STRING","stringVal":{"val":"trafficReplayStarted"},"tags":{"source":"jmt-test","tenantId":"63b7c67e-233d-4e9e-a9aa-62db482be7ac","testReportId":"'$rpt_id'"}}'
 }
 

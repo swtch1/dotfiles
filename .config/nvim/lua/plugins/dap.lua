@@ -249,6 +249,27 @@ return {
 					program = vim.fn.getcwd() .. "/operator/",
 				},
 				{
+					name = "proxymock - inspect",
+					type = "go",
+					request = "launch",
+					program = vim.fn.getcwd() .. "/speedctl/cmd/proxymock",
+					args = {
+						"--config", config,
+						"inspect", "snapshot", snapshot_id,
+					},
+				},
+				{
+					name = "proxymock - run",
+					type = "go",
+					request = "launch",
+					program = vim.fn.getcwd() .. "/speedctl/cmd/proxymock",
+					args = {
+						"--config", config,
+						"run",
+						"--snapshot-id", snapshot_id,
+					},
+				},
+				{
 					name = "responder",
 					type = "go",
 					request = "launch",
@@ -289,30 +310,39 @@ return {
 					}
 				},
 				{
-					name = "speedctl",
+					name = "speedctl - capture",
 					type = "go",
 					request = "launch",
 					program = vim.fn.getcwd() .. "/speedctl/cmd/speedctl",
 					args = {
 						"--config", config,
-						--------------
-						-- snapshot --
-						--------------
-						-- "push", "snapshot", snapshot_id,
-						------------
-						-- replay --
-						------------
+						"capture",
+						"jmt-echo", "8080",
+					}
+				},
+				{
+					name = "speedctl - get test-config",
+					type = "go",
+					request = "launch",
+					program = vim.fn.getcwd() .. "/speedctl/cmd/speedctl",
+					args = {
+						"--config", config,
+						"get", "test-config",
+						"regression",
+					}
+				},
+				{
+					name = "speedctl - replay - regression",
+					type = "go",
+					request = "launch",
+					program = vim.fn.getcwd() .. "/speedctl/cmd/speedctl",
+					args = {
+						"--config", config,
 						"replay", snapshot_id,
-						-- "--test-config-id", "regression_no_mocks",
+						"--test-config-id", "regression",
 						-- "--mode", "tests-only",
 						-- "--custom-url", "http://localhost:5555", -- HTTP
 						"--custom-url", "localhost:5555", -- gRPC
-						-- "--verbose",
-						---------------
-						-- proxymock --
-						---------------
-						-- "proxymock", "run"
-						-- "proxymock", "analyze", snapshot_id
 					}
 				},
 				{

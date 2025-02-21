@@ -33,7 +33,9 @@ return {
 				group = "AutoFormat",
 				callback = function()
 					local filetype = vim.bo.filetype
-					if filetype == "typescript" or filetype == "typescriptreact" then
+					if filetype == "typescript" or
+							filetype == "typescriptreact" or
+							filetype == "python" then
 						return
 					elseif filetype == "go" then
 						-- go formatting handled in lsp.lua

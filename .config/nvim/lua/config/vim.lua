@@ -1,6 +1,9 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- better diff
+vim.o.diffopt = "internal,filler,closeoff,linematch:60"
+
 vim.opt.termguicolors = true
 
 -- show whitespace
@@ -56,15 +59,13 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "quit buffer" })
 vim.keymap.set("n", "<leader>Q", ":qa<CR>", { desc = "quit all" })
 vim.keymap.set("n", "<leader>O", ":only<CR>:noh<CR>", { desc = "close all other buffers" })
-vim.keymap.set("n", "<leader>o", ":lclose<CR>:cclose<CR>:noh<CR>:Trouble close<CR>:silent! BuffergatorClose<CR>",
+vim.keymap.set("n", "<leader>o", ":lclose<CR>:cclose<CR>:Trouble close<CR>:silent! BuffergatorClose<CR>:noh<CR>",
 	{ desc = "cleanup temp buffers", silent = true })
 
 -- modes
 vim.keymap.set("n", "<leader>mv", "<C-v>", { desc = "visual mode" })
 vim.keymap.set("n", "<leader>mw", ":set wrap!<CR>", { desc = "visual mode" })
-
--- view
-vim.keymap.set("n", "<leader>vn", ":set relativenumber!<CR>", { desc = "toggle relative number" })
+vim.keymap.set("n", "<leader>mn", ":set relativenumber!<CR>", { desc = "toggle relative number" })
 
 -- buffers
 vim.keymap.set("n", "<leader>h", "<C-W>h", { desc = "move left" })
