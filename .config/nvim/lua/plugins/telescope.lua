@@ -11,13 +11,13 @@ return {
 		{ '<leader>p',  '<cmd>Telescope find_files<cr>',                                                      desc = "Find files anywhere" },
 		{ '<leader>P',  ':lua require("telescope.builtin").find_files({ cwd = vim.fn.expand("%:p:h") })<CR>', desc = "Find files in current dir" },
 		{ '<leader>fa', '<cmd>Telescope live_grep<cr>',                                                       desc = "Live grep" },
-		{ '<leader>fb', '<cmd>Telescope current_buffer_fuzzy_find<cr>',                                       desc = "Live grep current buffer" },
+		{ '<leader>fB', '<cmd>Telescope current_buffer_fuzzy_find<cr>',                                       desc = "Live grep current buffer" },
 		{ '<leader>fA', ':lua require("telescope.builtin").live_grep({ cwd = vim.fn.expand("%:p:h") })<CR>',  desc = "Live grep in current dir" },
 		{ '<leader>gu', ':lua require("telescope.builtin").lsp_implementations()<CR>',                        desc = "LSP implementations" },
 		{ '<leader>gR', ':lua require("telescope.builtin").lsp_references()<CR>',                             desc = "LSP references" },
 		{ '<leader>gT', ':lua require("telescope.builtin").lsp_incoming_calls()<CR>',                         desc = "LSP incoming calls" },
 		{ '<leader>fF', ':lua require("telescope.builtin").grep_string({ search = "FIXME: (JMT)" })<CR>',     desc = "Grep FIXME (JMT)" },
-		{ '<leader>fB', ':lua require("telescope.builtin").grep_string({ search = "BOOKMARK:" })<CR>',        desc = "Grep BOOKMARK:" },
+		{ '<leader>fb', ':lua require("telescope.builtin").grep_string({ search = "BOOKMARK:" })<CR>',        desc = "Grep BOOKMARK:" },
 	},
 	config = function()
 		local telescope = require("telescope")

@@ -8,6 +8,7 @@ return {
 		cmd = "AsyncRun",
 		keys = {
 			{ '<C-h>' },
+			{ "<leader>R", "<cmd>AsyncRun -mode=term -pos=thelp <cr>", mode = { "n", "v" }, desc = "ctrl-c terminal" },
 		},
 		init = function()
 			vim.g.terminal_key = "<c-h>"

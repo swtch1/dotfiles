@@ -175,15 +175,16 @@ return {
 			"CodeCompanionCmd",
 		},
 		keys = {
-			{ "<leader>ac", "<cmd>CodeCompanionChat<cr>",    desc = "CodeCompanionChat", },
-			{ "<leader>aC", "<cmd>CodeCompanionActions<cr>", desc = "CodeCompanionActions", },
+			{ "<leader>ac", "<cmd>CodeCompanionActions<cr>", mode = { "n", "v" }, desc = "CodeCompanionActions" },
+			{ "<leader>aC", "<cmd>CodeCompanionChat<cr>",    mode = { "n", "v" }, desc = "CodeCompanionChat" },
 		},
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 		},
 		config = function()
-			local default_dapter = "openai"
+			-- local default_dapter = "openai"
+			local default_dapter = "anthropic"
 
 			require("codecompanion").setup({
 				adapters = {
