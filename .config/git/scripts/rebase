@@ -4,10 +4,17 @@ set -eou pipefail
 
 function op_exit() {
   if [ "$?" -ne 0 ]; then
+    echo
     echo "======================"
-		echo "=== !!! FAILED !!! ==="
+    echo "=== !!! FAILED !!! ==="
     echo "======================"
+  else
+    echo
+    echo "==============="
+    echo "=== SUCCESS ==="
+    echo "==============="
   fi
+
 }
 trap op_exit EXIT
 
@@ -22,7 +29,15 @@ cd "$(dirname "$0")"
   pushd master > /dev/null
 
   # git stash -um "hold for rebase" && git pull && git stash pop
-  git pull --autostash --rebase --ff-only
+  status=$(git pull --autostash --rebase --ff-only)
+	echo "$status"
+
+  if [ "$status" == "Already up to date." ]; then
+    echo "Nothing to do."
+    exit 0
+  fi
+
+
   # git stash pop
   worktrees=$(git worktree list | awk '{print $1}' | grep -v 'master' || true)
 
@@ -46,9 +61,4 @@ echo
 for d in $worktrees; do
 	rebase "$d"
 done
-
-echo
-echo "==============="
-echo "=== SUCCESS ==="
-echo "==============="
 
