@@ -396,7 +396,7 @@ function t() {
     go test -failfast -timeout=60s -cover ./... -json | tparse -progress
     return
   fi
-  go test -failfast -timeout=10s -cover . -run "$1" -json | tparse
+  go test -failfast -timeout=16s -cover . -run "$1" -json | tparse
 }
 
 # test with verbose output during test

@@ -249,6 +249,17 @@ return {
 					program = vim.fn.getcwd() .. "/operator/",
 				},
 				{
+					name = "proxymock - analyze",
+					type = "go",
+					request = "launch",
+					program = vim.fn.getcwd() .. "/speedctl/cmd/proxymock",
+					args = {
+						"--config", config,
+						-- "analyze", snapshot_id, -- FIXME: (JMT)
+						"analyze", "2652e6e1-1d76-4aba-834c-8c47112e5153", "abf6a2f9-9123-47f0-95cf-8fb4838cf3b6",
+					},
+				},
+				{
 					name = "proxymock - inspect",
 					type = "go",
 					request = "launch",
@@ -267,6 +278,19 @@ return {
 						"--config", config,
 						"run",
 						"--snapshot-id", snapshot_id,
+						"--service", "http=8123", "--service", "https=8124",
+					},
+				},
+				{
+					name = "proxymock - run - test-against localhost:8080",
+					type = "go",
+					request = "launch",
+					program = vim.fn.getcwd() .. "/speedctl/cmd/proxymock",
+					args = {
+						"--config", config,
+						"run",
+						"--snapshot-id", snapshot_id,
+						"--test-against", "localhost:8080",
 					},
 				},
 				{
@@ -340,9 +364,9 @@ return {
 						"--config", config,
 						"replay", snapshot_id,
 						"--test-config-id", "regression",
-						-- "--mode", "tests-only",
-						-- "--custom-url", "http://localhost:5555", -- HTTP
-						"--custom-url", "localhost:5555", -- gRPC
+						"--mode", "tests-only",
+						"--custom-url", "http://localhost:5555", -- HTTP
+						-- "--custom-url", "localhost:5555", -- gRPC
 					}
 				},
 				{

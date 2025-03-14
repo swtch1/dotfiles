@@ -215,9 +215,9 @@ M.map("n", "<C-S>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
 M.map("i", "<C-S>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
 
 -- executing
-M.map("n", "<leader>rr", ":wa<CR>:AsyncRun<Up><CR><Esc>")
+M.map("n", "<leader>rr", ":wa<CR>:AsyncRun -mode=term -pos=thelp <Up><CR><Esc>")
 M.map("n", "<leader>rt", ":AsyncRun -mode=term -pos=thelp ")
-M.map("n", "<leader>rT", ":AsyncRun -mode=term source ~/.zshrc-lite && ")
+M.map("n", "<leader>rT", ":AsyncRun ")
 
 -- debugging
 -- function DAPRun()
@@ -252,11 +252,6 @@ M.map("n", "<leader>rT", ":AsyncRun -mode=term source ~/.zshrc-lite && ")
 -- M.map("n", "<leader>du", "<cmd>lua require("dap").up()<CR>")
 -- M.map("n", "<leader>dU", "<cmd>lua require("dap").down()<CR>")
 -- M.map("n", "<leader>dT", "<cmd>lua DebugLastTest()<CR>")
-
--- misc
-M.map("n", "<leader>rd", ":vsp /Users/josh/code/ss/.envrc.local<CR>")
-M.map("n", "<leader>rD", ":vsp /Users/josh/.config/nvim/lua/plugins/dap.lua<CR>")
-M.map("n", "<leader>rl", "<cmd>lua vim.o.background='light'<CR>")
 
 ---- NVIM-CMP ----
 local cmp = require("cmp")
