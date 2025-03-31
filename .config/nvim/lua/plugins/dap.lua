@@ -5,6 +5,7 @@ local tenant_bucket = os.getenv("TENANT_BUCKET") or ""
 local analyzer_report_id = os.getenv("ANALYZER_REPORT_ID") or ""
 local snapshot_id = os.getenv("SNAPSHOT_ID") or ""
 local config = os.getenv("CONFIG") or ""
+local debug_port = 38697
 
 return {
 	{
@@ -66,11 +67,10 @@ return {
 				local stdout = vim.loop.new_pipe(false)
 				local handle
 				local pid_or_err
-				local port = 38697
 				-- opts are passed to "executable" dap field
 				local opts = {
 					stdio = { nil, stdout },
-					args = { "dap", "-l", "127.0.0.1:" .. port },
+					args = { "dap", "-l", "127.0.0.1:" .. debug_port },
 					detached = true,
 				}
 				handle, pid_or_err = vim.loop.spawn("dlv", opts, function(code)
@@ -93,7 +93,7 @@ return {
 					callback({
 						type = "server",
 						host = "127.0.0.1",
-						port = port,
+						port = debug_port,
 						options = {
 							initialize_timeout_sec = 60,
 						},
@@ -266,7 +266,8 @@ return {
 					program = vim.fn.getcwd() .. "/speedctl/cmd/proxymock",
 					args = {
 						"--config", config,
-						"inspect", "snapshot", snapshot_id,
+						"inspect",
+						"--dir", "/tmp/pm/demo/go/proxymock/",
 					},
 				},
 				{
@@ -277,20 +278,33 @@ return {
 					args = {
 						"--config", config,
 						"run",
-						"--snapshot-id", snapshot_id,
-						"--service", "http=8123", "--service", "https=8124",
+						"--dir", "/tmp/rrpairs/new/dir/",
+						-- "--snapshot-id", snapshot_id,
+						-- "--service", "http=8123", "--service", "https=8124",
 					},
 				},
 				{
-					name = "proxymock - run - test-against localhost:8080",
+					name = "proxymock - replay - localhost:8080",
 					type = "go",
 					request = "launch",
 					program = vim.fn.getcwd() .. "/speedctl/cmd/proxymock",
 					args = {
 						"--config", config,
 						"run",
-						"--snapshot-id", snapshot_id,
+						"--dir", "/tmp/proxymock/",
 						"--test-against", "localhost:8080",
+					},
+				},
+				{
+					name = "proxymock - send-one",
+					type = "go",
+					request = "launch",
+					program = vim.fn.getcwd() .. "/speedctl/cmd/proxymock",
+					args = {
+						"--config", config,
+						"send-one",
+						"/tmp/rrpairs/send-one.json",
+						"http://localhost:8080",
 					},
 				},
 				{
@@ -374,6 +388,14 @@ return {
 					type = "go",
 					request = "launch",
 					program = "${file}",
+				},
+				{
+					name = "< attach >",
+					type = "go",
+					request = "attach",
+					mode = "remote",
+					host = "127.0.0.1",
+					port = debug_port,
 				},
 			}
 

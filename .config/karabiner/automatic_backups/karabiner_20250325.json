@@ -435,7 +435,6 @@
                 ]
             },
             "name": "semblance of normalkey",
-            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
@@ -915,6 +914,7 @@
                 ]
             },
             "name": "on the move",
+            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },

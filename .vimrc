@@ -28,13 +28,7 @@ set wildmenu
 set wildmode=longest,list,full
 set mouse=a
 set foldlevel=99
-" c auto-wraps comments
-" r auto insert comment leader after <enter> in insert mode
-" q allow formatting with gq
-" n recognize number lists (line-wraps line up under the start of the text not the number)
-" j remove comment leader after joining lines
-" see :h fo-table for details
-set formatoptions=rqnj
+set formatoptions=rjn " see :h fo-table for details
 set textwidth=80
 
 " allow backspace to delete indentation and inserted text
@@ -180,9 +174,6 @@ set noautoindent
 set nocindent
 set nosmartindent
 set indentexpr=
-
-" always scroll to the left
-autocmd WinEnter * normal! 100zh
 
 " remember line position
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif

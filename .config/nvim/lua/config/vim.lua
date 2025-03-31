@@ -15,6 +15,10 @@ vim.opt.listchars = {
 	trail = '·',
 }
 
+-- vim.opt.textwidth = 80            -- Set line width for wrapping
+-- vim.opt.formatoptions:append("t") -- Use textwidth for wrapping
+-- vim.opt.formatprg = ""            -- Ensure gq uses internal formatting
+
 local function decorated_yank()
 	local start_line = vim.fn.line("'<")
 	local end_line = vim.fn.line("'>")
@@ -53,7 +57,7 @@ do -- buffer changes
 end
 
 do -- macros
-	local function set_comment_registers(style)
+	local function set_comment_registers(prefix, suffix)
 		-- format: [register, comment text]
 		local markers = {
 			{ 'f', 'FIXME: (JMT) ' },
@@ -62,28 +66,34 @@ do -- macros
 
 		for _, pair in ipairs(markers) do
 			local reg, text = pair[1], pair[2]
-			vim.fn.setreg(reg, 'A ' .. style .. ' ' .. text)
+			vim.fn.setreg(reg, 'A ' .. prefix .. ' ' .. text .. suffix)
 		end
 	end
 
 	local comment_group = vim.api.nvim_create_augroup("set_comment_registers", { clear = true })
 
-	-- Lua style comments
-	vim.api.nvim_create_autocmd("BufEnter", {
-		pattern = "*.lua",
-		callback = function() set_comment_registers("--") end,
-		group = comment_group,
-	})
-	-- C-style comments
+	-- c-style comments
 	vim.api.nvim_create_autocmd("BufEnter", {
 		pattern = { "*.go", "*.js", "*.ts", "*.c", "*.cpp", "*.java", "*.jsx", "*.tsx" },
-		callback = function() set_comment_registers("//") end,
+		callback = function() set_comment_registers("//", "") end,
 		group = comment_group,
 	})
-	-- Hash style comments
+	-- hash style comments
 	vim.api.nvim_create_autocmd("BufEnter", {
 		pattern = { "*.py", "*.rb", "*.pl", "*.yaml", "*.yml", "*.sh", "*.zsh" },
-		callback = function() set_comment_registers("#") end,
+		callback = function() set_comment_registers("#", "") end,
+		group = comment_group,
+	})
+	-- lua style comments
+	vim.api.nvim_create_autocmd("BufEnter", {
+		pattern = "*.lua",
+		callback = function() set_comment_registers("--", "") end,
+		group = comment_group,
+	})
+	-- markdown style comments
+	vim.api.nvim_create_autocmd("BufEnter", {
+		pattern = "*.md",
+		callback = function() set_comment_registers("<!--", "-->") end,
 		group = comment_group,
 	})
 end
@@ -103,6 +113,20 @@ do -- mappings
 	vim.keymap.set("n", "<leader>mw", ":set wrap!<CR>", { desc = "toggle wrap" })
 	vim.keymap.set("n", "<leader>mn", ":set relativenumber!<CR>", { desc = "toggle relative number" })
 	vim.keymap.set("n", "<leader>ml", "<cmd>lua vim.o.background='light'<CR>", { desc = "light mode" })
+	vim.keymap.set("n", "<leader>mc", function()
+		local wins = vim.api.nvim_tabpage_list_wins(0)
+		local seen = {}
+		for _, win in ipairs(wins) do
+			local buf = vim.api.nvim_win_get_buf(win)
+			if not seen[buf] then
+				seen[buf] = true
+				local fname = vim.api.nvim_buf_get_name(buf)
+				if fname ~= "" then
+					os.execute('cursor -r . "' .. fname .. '" > /dev/null 2>&1')
+				end
+			end
+		end
+	end, { desc = "open all visible buffers in Cursor" })
 
 	-- buffers
 	vim.keymap.set("n", "<leader>h", "<C-W>h", { desc = "move left" })
@@ -158,4 +182,15 @@ do -- mappings
 	vim.keymap.set("n", "<leader>o", ":lclose<CR>:cclose<CR>:Trouble close<CR>:silent! BuffergatorClose<CR>:noh<CR>",
 		{ desc = "cleanup temp buffers", silent = true })
 	vim.keymap.set("n", "<leader>rl", ":checktime<CR>", { desc = "reload buffers", silent = true })
+end
+
+
+do -- autocmds
+	-- scroll all the way to the left when entering a buffer
+	vim.api.nvim_create_autocmd("WinEnter", {
+		pattern = "*",
+		callback = function()
+			vim.cmd("normal! 150zh")
+		end,
+	})
 end

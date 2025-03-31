@@ -183,8 +183,7 @@ return {
 			"nvim-treesitter/nvim-treesitter",
 		},
 		config = function()
-			-- local default_dapter = "openai"
-			local default_dapter = "anthropic"
+			local default_dapter = "gemini"
 
 			require("codecompanion").setup({
 				adapters = {
@@ -196,6 +195,19 @@ return {
 								},
 								model = {
 									default = "o1-2024-12-17",
+								},
+							},
+						})
+					end,
+
+					gemini = function()
+						return require("codecompanion.adapters").extend("gemini", {
+							schema = {
+								api_key = {
+									default = os.getenv("GEMINI_API_KEY") or "",
+								},
+								model = {
+									default = "gemini-2.0-flash-thinking-exp-01-21",
 								},
 							},
 						})
