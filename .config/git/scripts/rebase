@@ -2,6 +2,14 @@
 
 set -eou pipefail
 
+force=false
+while getopts "f" opt; do
+  case "$opt" in
+    f) force=true ;;
+    *) echo "Usage: $0 [-f]"; exit 1 ;;
+  esac
+done
+
 function op_exit() {
   if [ "$?" -ne 0 ]; then
     echo
@@ -28,17 +36,17 @@ cd "$(dirname "$0")"
 
   pushd master > /dev/null
 
-  # git stash -um "hold for rebase" && git pull && git stash pop
-  status=$(git pull --autostash --rebase --ff-only)
-	echo "$status"
+  if ! $force; then
+    status=$(git pull --autostash --rebase --ff-only)
+      echo "$status"
 
-  if [ "$status" == "Already up to date." ]; then
-    echo "Nothing to do."
-    exit 0
+    if [ "$status" == "Already up to date." ]; then
+      echo "Nothing to do."
+      exit 0
+    fi
   fi
 
 
-  # git stash pop
   worktrees=$(git worktree list | awk '{print $1}' | grep -v 'master' || true)
 
   popd > /dev/null
