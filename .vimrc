@@ -1,39 +1,3 @@
-set nocompatible
-set nowrap
-set number  " line numbers
-set ignorecase " don't care about case in search
-set smartcase
-set hlsearch
-set incsearch
-set noswapfile
-set title
-set tabstop=2
-set shiftwidth=2
-set showcmd
-set laststatus=2
-set encoding=utf-8
-set updatetime=100
-set splitright
-set timeoutlen=350 ttimeoutlen=0 " ms to wait before waiting for extra keys
-set shortmess-=S " show count when searching
-set shortmess+=c
-set scrolloff=3
-set visualbell
-set history=10000
-set wildignorecase
-set number relativenumber
-set hidden " allow navigating away from unsaved buffers
-set completeopt=menuone,menu,longest,preview
-set wildmenu
-set wildmode=longest,list,full
-set mouse=a
-set foldlevel=99
-set formatoptions=rjn " see :h fo-table for details
-set textwidth=80
-
-" allow backspace to delete indentation and inserted text
-set backspace=indent,eol,start
-
 " remap leader
 let mapleader = "\<Space>"
 
