@@ -6,6 +6,7 @@ local analyzer_report_id = os.getenv("ANALYZER_REPORT_ID") or ""
 local snapshot_id = os.getenv("SNAPSHOT_ID") or ""
 local config = os.getenv("CONFIG") or ""
 local debug_port = 38697
+local last_speedctl_args = nil
 
 return {
 	{
@@ -22,13 +23,30 @@ return {
 			local dap_go = require("dap-go")
 
 			function DAPRun()
+				-- reset so we can use a different debug config
+				last_speedctl_args = nil
+
 				dap.continue()
 				dap_ui.open()
 			end
 
 			function DapRunLast()
-				dap.run_last()
-				dap_ui.open()
+				if last_speedctl_args then
+					-- if we have stored args from the prompt config, use them
+					local program_path = vim.fn.getcwd() .. "/speedctl/cmd/speedctl"
+					local temp_config = {
+						name = "speedctl - (last prompted args)", -- Dynamic name for clarity
+						type = "go",
+						request = "launch",
+						program = program_path,
+						args = last_speedctl_args, -- use the stored arguments
+					}
+					require('dap').run(temp_config)
+				else
+					-- otherwise, use the default run_last behavior
+					require('dap').run_last()
+				end
+				require('dapui').open()
 			end
 
 			function DAPTerminate()
@@ -129,7 +147,7 @@ return {
 						"--api-key", api_key,
 						"--report", "/Users/josh/.speedscale/data/reports/" .. analyzer_report_id .. ".json",
 						"--bucket", tenant_bucket,
-						-- "--artifact-src", "/Users/josh/.speedscale/data/reports/" .. analyzer_report_id,
+						"--artifact-src", "/Users/josh/.speedscale/data/reports/" .. analyzer_report_id,
 						"--output-dir", ".",
 						"--reanalyze",
 					},
@@ -144,6 +162,8 @@ return {
 						"--app-url", app_url,
 						"--api-key", api_key,
 						"--report", "s3://" .. tenant_bucket .. "/default/reports/" .. analyzer_report_id .. ".json",
+						"--bucket", tenant_bucket,
+						"--artifact-src", "/Users/josh/.speedscale/data/reports/" .. analyzer_report_id,
 						"--output-dir", ".",
 						"--local",
 						"--rm",
@@ -346,6 +366,22 @@ return {
 						"--test-teardown=false", -- delete deployment after test
 						"--snapshot-capture-for=60s",
 					}
+				},
+				{
+					name = "speedctl - prompt for args",
+					type = "go",
+					request = "launch",
+					program = vim.fn.getcwd() .. "/speedctl/cmd/speedctl",
+					args = function()
+						local user_input = vim.fn.input("Enter speedctl arguments: ")
+						local user_args = {}
+						for word in string.gmatch(user_input, "[^%s]+") do
+							table.insert(user_args, word)
+						end
+						-- Store the computed args (including --config) for DapRunLast
+						last_speedctl_args = vim.list_extend({ "--config", config }, user_args)
+						return last_speedctl_args -- Return them for the current run
+					end,
 				},
 				{
 					name = "speedctl - capture",

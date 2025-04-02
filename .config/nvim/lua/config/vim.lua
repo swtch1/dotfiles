@@ -15,9 +15,40 @@ vim.opt.listchars = {
 	trail = '·',
 }
 
--- vim.opt.textwidth = 80            -- Set line width for wrapping
--- vim.opt.formatoptions:append("t") -- Use textwidth for wrapping
--- vim.opt.formatprg = ""            -- Ensure gq uses internal formatting
+vim.opt.compatible = false
+vim.opt.wrap = false
+vim.opt.number = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.hlsearch = true
+vim.opt.incsearch = true
+vim.opt.swapfile = false
+vim.opt.title = true
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.showcmd = true
+vim.opt.laststatus = 2
+vim.opt.encoding = "utf-8"
+vim.opt.updatetime = 100
+vim.opt.splitright = true
+vim.opt.timeoutlen = 350
+vim.opt.ttimeoutlen = 0
+vim.opt.shortmess:remove("S")
+vim.opt.shortmess:append("c")
+vim.opt.scrolloff = 3
+vim.opt.visualbell = true
+vim.opt.history = 10000
+vim.opt.wildignorecase = true
+vim.opt.relativenumber = true
+vim.opt.hidden = true
+vim.opt.completeopt = { "menuone", "menu", "longest", "preview" }
+vim.opt.wildmenu = true
+vim.opt.wildmode = { "longest", "list", "full" }
+vim.opt.mouse = "a"
+vim.opt.backspace = { "indent", "eol", "start" }
+vim.opt.foldlevel = 99
+vim.opt.textwidth = 80
+vim.opt.formatoptions = "cr/qnj"
 
 local function decorated_yank()
 	local start_line = vim.fn.line("'<")
@@ -116,17 +147,25 @@ do -- mappings
 	vim.keymap.set("n", "<leader>mc", function()
 		local wins = vim.api.nvim_tabpage_list_wins(0)
 		local seen = {}
+		local files_to_open = {}
 		for _, win in ipairs(wins) do
 			local buf = vim.api.nvim_win_get_buf(win)
 			if not seen[buf] then
 				seen[buf] = true
 				local fname = vim.api.nvim_buf_get_name(buf)
-				if fname ~= "" then
-					os.execute('cursor -r . "' .. fname .. '" > /dev/null 2>&1')
+				if fname ~= "" and not string.find(fname, "zsh")
+				then
+					table.insert(files_to_open, '"' .. vim.fn.fnameescape(fname) .. '"')
 				end
 			end
 		end
-	end, { desc = "open all visible buffers in Cursor" })
+
+		if #files_to_open > 0 then
+			-- open with files
+			local command = 'code -r . ' .. table.concat(files_to_open, ' ') .. ' > /dev/null 2>&1'
+			os.execute(command)
+		end
+	end, { desc = "open all visible buffers in VSCode" })
 
 	-- buffers
 	vim.keymap.set("n", "<leader>h", "<C-W>h", { desc = "move left" })
