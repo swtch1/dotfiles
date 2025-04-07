@@ -20,17 +20,156 @@ return {
 		end,
 	},
 	{
+		-- testing Aider plugins
+		enabled = false,
+		"joshuavial/aider.nvim",
+		opts = {
+			-- your configuration comes here
+			-- if you don't want to use the default settings
+			args = {
+				"--no-auto-commits",
+				"--watch",
+				"--read", "../.aider/INSTRUCTIONS.md",
+				"--cache-keepalive-pings", "1",
+				"--model", "gemini/gemini-2.5-pro-preview-03-25",
+			},
+			auto_manage_context = true, -- automatically manage buffer context
+			default_bindings = true, -- use default <leader>A keybindings
+			debug = false,           -- enable debug logging
+		},
+	},
+	{
+		-- testing Aider plugins
+		enabled = true,
+		"nekowasabi/aider.vim",
+		dependencies = "vim-denops/denops.vim",
+		config = function()
+			vim.g.aider_command =
+			'aider --model gemini/gemini-2.5-pro-preview-03-25 --no-auto-commits --watch --read ../.aider/INSTRUCTIONS.md --cache-keepalive-pings 1'
+			vim.g.aider_buffer_open_type = 'floating'
+			vim.g.aider_floatwin_width = 300
+			vim.g.aider_floatwin_height = 50
+
+			vim.api.nvim_create_autocmd('User',
+				{
+					pattern = 'AiderOpen',
+					callback =
+							function(args)
+								vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { buffer = args.buf })
+								vim.keymap.set('n', '<Esc>', '<cmd>AiderHide<CR>', { buffer = args.buf })
+							end
+				})
+			vim.api.nvim_set_keymap('n', '<leader>at', ':AiderRun<CR>', { noremap = true, silent = true })
+			vim.api.nvim_set_keymap('n', '<leader>aa', ':AiderAddCurrentFile<CR>', { noremap = true, silent = true })
+			vim.api.nvim_set_keymap('n', '<leader>ar', ':AiderAddCurrentFileReadOnly<CR>', { noremap = true, silent = true })
+			vim.api.nvim_set_keymap('n', '<leader>aw', ':AiderAddWeb<CR>', { noremap = true, silent = true })
+			vim.api.nvim_set_keymap('n', '<leader>ax', ':AiderExit<CR>', { noremap = true, silent = true })
+			vim.api.nvim_set_keymap('n', '<leader>ai', ':AiderAddIgnoreCurrentFile<CR>', { noremap = true, silent = true })
+			vim.api.nvim_set_keymap('n', '<leader>aI', ':AiderOpenIgnore<CR>', { noremap = true, silent = true })
+			vim.api.nvim_set_keymap('n', '<leader>aI', ':AiderPaste<CR>', { noremap = true, silent = true })
+			vim.api.nvim_set_keymap('n', '<leader>ah', ':AiderHide<CR>', { noremap = true, silent = true })
+			vim.api.nvim_set_keymap('v', '<leader>av', ':AiderVisualTextWithPrompt<CR>', { noremap = true, silent = true })
+		end
+	},
+	{
+		-- testing Aider plugins
+		enabled = false,
+		"GeorgesAlkhouri/nvim-aider",
+		cmd = {
+			"AiderTerminalToggle", "AiderHealth",
+		},
+		keys = {
+			{ "<leader>a/", "<cmd>AiderTerminalToggle<cr>",    desc = "Open Aider" },
+			{ "<leader>as", "<cmd>AiderTerminalSend<cr>",      desc = "Send to Aider",                  mode = { "n", "v" } },
+			{ "<leader>ac", "<cmd>AiderQuickSendCommand<cr>",  desc = "Send Command To Aider" },
+			{ "<leader>ab", "<cmd>AiderQuickSendBuffer<cr>",   desc = "Send Buffer To Aider" },
+			{ "<leader>a+", "<cmd>AiderQuickAddFile<cr>",      desc = "Add File to Aider" },
+			{ "<leader>a-", "<cmd>AiderQuickDropFile<cr>",     desc = "Drop File from Aider" },
+			{ "<leader>ar", "<cmd>AiderQuickReadOnlyFile<cr>", desc = "Add File as Read-Only" },
+			-- Example nvim-tree.lua integration if needed
+			{ "<leader>a+", "<cmd>AiderTreeAddFile<cr>",       desc = "Add File from Tree to Aider",    ft = "NvimTree" },
+			{ "<leader>a-", "<cmd>AiderTreeDropFile<cr>",      desc = "Drop File from Tree from Aider", ft = "NvimTree" },
+		},
+		dependencies = {
+			"folke/snacks.nvim",
+			--- The below dependencies are optional
+			"catppuccin/nvim",
+			"nvim-tree/nvim-tree.lua",
+			--- Neo-tree integration
+			{
+				"nvim-neo-tree/neo-tree.nvim",
+				opts = function(_, opts)
+					-- Example mapping configuration (already set by default)
+					-- opts.window = {
+					--   mappings = {
+					--     ["+"] = { "nvim_aider_add", desc = "add to aider" },
+					--     ["-"] = { "nvim_aider_drop", desc = "drop from aider" }
+					--   }
+					-- }
+					require("nvim_aider.neo_tree").setup(opts)
+				end,
+			},
+		},
+		config = function()
+			require("nvim_aider").setup({
+				-- Command that executes Aider
+				aider_cmd = "aider",
+				-- Command line arguments passed to aider
+				args = {
+					"--no-auto-commits",
+					"--watch",
+					"--read", "../.aider/INSTRUCTIONS.md",
+					"--cache-keepalive-pings", "1",
+					"--model", "gemini/gemini-2.5-pro-preview-03-25",
+				},
+				-- Theme colors (automatically uses Catppuccin flavor if available)
+				theme = {
+					user_input_color = "#a6da95",
+					tool_output_color = "#8aadf4",
+					tool_error_color = "#ed8796",
+					tool_warning_color = "#eed49f",
+					assistant_output_color = "#c6a0f6",
+					completion_menu_color = "#cad3f5",
+					completion_menu_bg_color = "#24273a",
+					completion_menu_current_color = "#181926",
+					completion_menu_current_bg_color = "#f4dbd6",
+				},
+				-- snacks.picker.layout.Config configuration
+				picker_cfg = {
+					preset = "vscode",
+				},
+				-- Other snacks.terminal.Opts options
+				config = {
+					os = { editPreset = "nvim-remote" },
+					gui = { nerdFontsVersion = "3" },
+				},
+				win = {
+					wo = { winbar = "Aider" },
+					style = "nvim_aider",
+					position = "bottom",
+				},
+			})
+		end,
+	},
+	{
+		-- let aider hog the leader commands
+		enabled = false,
 		"yetone/avante.nvim",
 		event = "VeryLazy",
 		lazy = false,
 		version = false, -- set this if you want to always pull the latest change
 		opts = {
 			---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
-			provider = "claude",
-			claude = {
+			provider = "gemini",
+			gemini = {
 				max_tokens = 8192,
-				api_key_name = "ANTHROPIC_API_KEY",
+				api_key_name = "GEMINI_API_KEY",
 			},
+			-- provider = "claude",
+			-- claude = {
+			-- 	max_tokens = 8192,
+			-- 	api_key_name = "ANTHROPIC_API_KEY",
+			-- },
 			-- provider = "openai",
 			-- openai = {
 			-- 	endpoint = "https://api.openai.com/v1",

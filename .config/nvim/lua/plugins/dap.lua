@@ -6,7 +6,7 @@ local analyzer_report_id = os.getenv("ANALYZER_REPORT_ID") or ""
 local snapshot_id = os.getenv("SNAPSHOT_ID") or ""
 local config = os.getenv("CONFIG") or ""
 local debug_port = 38697
-local last_speedctl_args = nil
+local last_debug_args = nil
 
 return {
 	{
@@ -24,14 +24,14 @@ return {
 
 			function DAPRun()
 				-- reset so we can use a different debug config
-				last_speedctl_args = nil
+				last_debug_args = nil
 
 				dap.continue()
 				dap_ui.open()
 			end
 
 			function DapRunLast()
-				if last_speedctl_args then
+				if last_debug_args then
 					-- if we have stored args from the prompt config, use them
 					local program_path = vim.fn.getcwd() .. "/speedctl/cmd/speedctl"
 					local temp_config = {
@@ -39,7 +39,7 @@ return {
 						type = "go",
 						request = "launch",
 						program = program_path,
-						args = last_speedctl_args, -- use the stored arguments
+						args = last_debug_args, -- use the stored arguments
 					}
 					require('dap').run(temp_config)
 				else
@@ -269,63 +269,22 @@ return {
 					program = vim.fn.getcwd() .. "/operator/",
 				},
 				{
-					name = "proxymock - analyze",
+					name = "proxymock - prompt",
 					type = "go",
 					request = "launch",
 					program = vim.fn.getcwd() .. "/speedctl/cmd/proxymock",
-					args = {
-						"--config", config,
-						-- "analyze", snapshot_id, -- FIXME: (JMT)
-						"analyze", "2652e6e1-1d76-4aba-834c-8c47112e5153", "abf6a2f9-9123-47f0-95cf-8fb4838cf3b6",
-					},
-				},
-				{
-					name = "proxymock - inspect",
-					type = "go",
-					request = "launch",
-					program = vim.fn.getcwd() .. "/speedctl/cmd/proxymock",
-					args = {
-						"--config", config,
-						"inspect",
-						"--dir", "/tmp/pm/demo/go/proxymock/",
-					},
-				},
-				{
-					name = "proxymock - run",
-					type = "go",
-					request = "launch",
-					program = vim.fn.getcwd() .. "/speedctl/cmd/proxymock",
-					args = {
-						"--config", config,
-						"run",
-						"--dir", "/tmp/rrpairs/new/dir/",
-						-- "--snapshot-id", snapshot_id,
-						-- "--service", "http=8123", "--service", "https=8124",
-					},
-				},
-				{
-					name = "proxymock - replay - localhost:8080",
-					type = "go",
-					request = "launch",
-					program = vim.fn.getcwd() .. "/speedctl/cmd/proxymock",
-					args = {
-						"--config", config,
-						"run",
-						"--dir", "/tmp/proxymock/",
-						"--test-against", "localhost:8080",
-					},
-				},
-				{
-					name = "proxymock - send-one",
-					type = "go",
-					request = "launch",
-					program = vim.fn.getcwd() .. "/speedctl/cmd/proxymock",
-					args = {
-						"--config", config,
-						"send-one",
-						"/tmp/rrpairs/send-one.json",
-						"http://localhost:8080",
-					},
+					args = function()
+						-- always use config
+						local user_args = { "--config", config }
+
+						local user_input = vim.fn.input("proxymock args: ")
+						for word in string.gmatch(user_input, "[^%s]+") do
+							table.insert(user_args, word)
+						end
+						-- store the computed args for DapRunLast
+						last_debug_args = user_args
+						return last_debug_args
+					end,
 				},
 				{
 					name = "responder",
@@ -368,42 +327,22 @@ return {
 					}
 				},
 				{
-					name = "speedctl - prompt for args",
+					name = "speedctl - prompt",
 					type = "go",
 					request = "launch",
 					program = vim.fn.getcwd() .. "/speedctl/cmd/speedctl",
 					args = function()
-						local user_input = vim.fn.input("Enter speedctl arguments: ")
-						local user_args = {}
+						-- always use config
+						local user_args = { "--config", config }
+
+						local user_input = vim.fn.input("speedctl args: ")
 						for word in string.gmatch(user_input, "[^%s]+") do
 							table.insert(user_args, word)
 						end
-						-- Store the computed args (including --config) for DapRunLast
-						last_speedctl_args = vim.list_extend({ "--config", config }, user_args)
-						return last_speedctl_args -- Return them for the current run
+						-- store the computed args for DapRunLast
+						last_debug_args = user_args
+						return last_debug_args
 					end,
-				},
-				{
-					name = "speedctl - capture",
-					type = "go",
-					request = "launch",
-					program = vim.fn.getcwd() .. "/speedctl/cmd/speedctl",
-					args = {
-						"--config", config,
-						"capture",
-						"jmt-echo", "8080",
-					}
-				},
-				{
-					name = "speedctl - get test-config",
-					type = "go",
-					request = "launch",
-					program = vim.fn.getcwd() .. "/speedctl/cmd/speedctl",
-					args = {
-						"--config", config,
-						"get", "test-config",
-						"regression",
-					}
 				},
 				{
 					name = "speedctl - replay - regression",
@@ -418,12 +357,6 @@ return {
 						"--custom-url", "http://localhost:5555", -- HTTP
 						-- "--custom-url", "localhost:5555", -- gRPC
 					}
-				},
-				{
-					name = "current file",
-					type = "go",
-					request = "launch",
-					program = "${file}",
 				},
 				{
 					name = "< attach >",

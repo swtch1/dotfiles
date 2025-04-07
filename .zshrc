@@ -8,6 +8,7 @@ export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:/Users/josh/go/bin"
 export PATH="$PATH:/opt/homebrew/opt/openjdk/bin"
 export PATH="$PATH:/opt/local"
+export PATH="$PATH:/Users/josh/.local/bin"
 
 # which characters are considered part of a word
 export WORDCHARS=''
@@ -426,3 +427,6 @@ function analyze_report() {
     --message '{"msgType":"event","version":"0.0.1","name":"sigReport","type":"STRING","stringVal":{"val":"trafficReplayStarted"},"tags":{"source":"jmt-test","tenantId":"63b7c67e-233d-4e9e-a9aa-62db482be7ac","testReportId":"'$rpt_id'"}}'
 }
 
+
+# Created by `pipx` on 2025-04-02 18:53:08
+export PATH="$PATH:/Users/josh/.local/bin"
