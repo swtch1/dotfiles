@@ -29,7 +29,7 @@ set lazyredraw
 set ttyfast
 
 " syntax highlighting
-syntax on
+" syntax on
 filetype on
 filetype plugin on
 

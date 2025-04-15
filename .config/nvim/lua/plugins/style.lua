@@ -13,6 +13,7 @@ return {
 		end
 	},
 	{
+		enabled = true,
 		'ellisonleao/gruvbox.nvim',
 		config = function()
 			vim.o.background = 'dark'

@@ -1547,6 +1547,7 @@
             "description": "hold key to dictate",
             "manipulators": [
               {
+                "type": "basic",
                 "from": {
                   "key_code": "f20",
                   "modifiers": {
@@ -1564,16 +1565,14 @@
                       "left_command"
                     ]
                   }
-                ],
-                "type": "basic"
+                ]
               }
             ]
           },
           {
-            "description": "don't quit app with Cmd+Q -- see rule below",
+            "description": "don't quit everything",
             "manipulators": [
               {
-                "type": "basic",
                 "from": {
                   "key_code": "q",
                   "modifiers": {
@@ -1586,32 +1585,8 @@
                   {
                     "key_code": "q"
                   }
-                ]
-              }
-            ]
-          },
-          {
-            "description": "do quit app with Cmd+Shift+Q -- see rule above",
-            "manipulators": [
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "q",
-                  "modifiers": {
-                    "mandatory": [
-                      "left_command",
-                      "left_shift"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "q",
-                    "modifiers": [
-                      "left_command"
-                    ]
-                  }
-                ]
+                ],
+                "type": "basic"
               }
             ]
           }

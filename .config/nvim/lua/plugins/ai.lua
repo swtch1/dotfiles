@@ -40,13 +40,18 @@ return {
 	},
 	{
 		-- testing Aider plugins
-		enabled = true,
+		enabled = false,
 		"nekowasabi/aider.vim",
 		dependencies = "vim-denops/denops.vim",
 		config = function()
-			vim.g.aider_command =
-			'aider --model gemini/gemini-2.5-pro-preview-03-25 --no-auto-commits --watch --read ../.aider/INSTRUCTIONS.md --cache-keepalive-pings 1'
-			vim.g.aider_buffer_open_type = 'floating'
+			vim.g.aider_command = 'aider ' ..
+					"--model gemini/gemini-2.5-pro-preview-03-25 " ..
+					"--no-auto-commits " ..
+					"--auto-accept-architect false " ..
+					"--watch " ..
+					"--read ../.aider/INSTRUCTIONS.md " ..
+					"--cache-keepalive-pings 1 "
+			vim.g.aider_buffer_open_type = 'vsplit'
 			vim.g.aider_floatwin_width = 300
 			vim.g.aider_floatwin_height = 50
 
@@ -152,8 +157,7 @@ return {
 		end,
 	},
 	{
-		-- let aider hog the leader commands
-		enabled = false,
+		enabled = true,
 		"yetone/avante.nvim",
 		event = "VeryLazy",
 		lazy = false,
@@ -279,21 +283,6 @@ return {
 			--- The below dependencies are optional,
 			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
 			-- "zbirenbaum/copilot.lua",   -- for providers='copilot'
-			{
-				-- support for image pasting
-				"HakonHarnes/img-clip.nvim",
-				event = "VeryLazy",
-				opts = {
-					-- recommended settings
-					default = {
-						embed_image_as_base64 = false,
-						prompt_for_file_name = false,
-						drag_and_drop = {
-							insert_mode = true,
-						},
-					},
-				},
-			},
 			{
 				-- Make sure to set this up properly if you have lazy=true
 				'MeanderingProgrammer/render-markdown.nvim',
