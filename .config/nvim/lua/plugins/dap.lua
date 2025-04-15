@@ -130,7 +130,7 @@ return {
 						"--app-url", app_url,
 						"--api-key", api_key,
 						"--report", "s3://" .. tenant_bucket .. "/default/reports/" .. analyzer_report_id .. ".json",
-						-- "--artifact-src", "s3://" .. tenant_bucket .. "/default",
+						"--artifact-src", "s3://" .. tenant_bucket .. "/default",
 						"--bucket", tenant_bucket,
 						"--output-dir", ".",
 						"--reanalyze",
