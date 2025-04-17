@@ -184,7 +184,6 @@ alias ka='k apply'
 alias kd='k delete'
 alias kdp='k delete pod'
 alias kl='k logs'
-alias k9c='k9s -c ns --context'
 alias k9d='k9s --context dev -n sstenant-external -c pods'
 alias k9m='k9s --context minikube -c ns'
 
@@ -205,6 +204,33 @@ source <(kubebuilder completion zsh)
 ####################
 ### custom funcs ###
 ####################
+
+# run k9s in a specific context
+k9c() {
+  local args=("$@")
+
+  # extract and remove context
+  context="${args[1]}"
+  args=("${args[@]:1}")
+
+  # find out if we passed a namespace
+  local includes_namespace=0
+  for arg in "${args[@]}"; do
+    if [ "$arg" = "-n" ]; then
+      includes_namespace=1
+      break
+    fi
+  done
+
+  # if no namespace we should start with the namespaces list
+  if [ $includes_namespace -eq 0 ]; then
+    args+=("-c" "ns")
+  else
+    args+=("-c" "pods")
+  fi
+
+  k9s --context "$context" "${args[@]}"
+}
 
 # run base64 easier
 function b64d() {
