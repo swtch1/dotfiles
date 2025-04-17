@@ -161,11 +161,16 @@ return {
 		"yetone/avante.nvim",
 		event = "VeryLazy",
 		lazy = false,
-		version = false, -- set this if you want to always pull the latest change
+		keys = {
+			{ "<leader>aa", "<cmd>AvanteToggle<cr>",                                   mode = { "n", }, desc = "Avante: toggle" },
+			{ "<leader>ab", function() require("avante.api").add_current_buffer() end, mode = { "n", }, desc = "Avante: add current buffer" },
+			{ "<leader>aB", function() require("avante.api").add_buffer_files() end,   mode = { "n", }, desc = "Avante: add all buffers" },
+		},
 		opts = {
 			---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
 			provider = "gemini",
 			gemini = {
+				model = "gemini-2.5-pro-preview-03-25",
 				max_tokens = 8192,
 				api_key_name = "GEMINI_API_KEY",
 			},
@@ -187,7 +192,7 @@ return {
 			behaviour = {
 				auto_suggestions = false, -- Experimental stage
 				auto_set_highlight_group = true,
-				auto_set_keymaps = true,
+				auto_set_keymaps = false, -- Disable default keymaps
 				auto_apply_diff_after_generation = false,
 				support_paste_from_clipboard = false,
 			},

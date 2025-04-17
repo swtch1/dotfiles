@@ -20,3 +20,4 @@ keybind = cmd+k=ignore
 
 # text
 font-feature = -calt
+window-inherit-font-size = true
