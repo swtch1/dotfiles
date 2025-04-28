@@ -159,12 +159,30 @@ return {
 	{
 		enabled = true,
 		"yetone/avante.nvim",
-		event = "VeryLazy",
+
 		lazy = false,
 		keys = {
-			{ "<leader>aa", "<cmd>AvanteToggle<cr>",                                   mode = { "n", }, desc = "Avante: toggle" },
-			{ "<leader>ab", function() require("avante.api").add_current_buffer() end, mode = { "n", }, desc = "Avante: add current buffer" },
-			{ "<leader>aB", function() require("avante.api").add_buffer_files() end,   mode = { "n", }, desc = "Avante: add all buffers" },
+			{ "<leader>af", function() require("avante.api").focus() end, mode = { "n", }, desc = "Avante: focus" },
+			{ "<leader>aa", "<cmd>AvanteToggle<cr>",                      mode = { "n", }, desc = "Avante: toggle" },
+			{
+				"<leader>ab",
+				function()
+					local sidebar, _, _ = require("avante").get()
+					if sidebar and sidebar:is_open() and sidebar.file_selector then
+						if sidebar.file_selector:add_current_buffer() then
+							vim.notify("Added current buffer to file selector", vim.log.levels.DEBUG, { title = "Avante" })
+						else
+							vim.notify("Failed to add current buffer", vim.log.levels.WARN, { title = "Avante" })
+						end
+					else
+						vim.notify("Avante sidebar is not open or file selector not available", vim.log.levels.WARN,
+							{ title = "Avante" })
+					end
+				end,
+				mode = { "n", },
+				desc = "Avante: add current buffer"
+			},
+			{ "<leader>aB", function() require("avante.api").add_buffer_files() end, mode = { "n", }, desc = "Avante: add all buffers" },
 		},
 		opts = {
 			---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
