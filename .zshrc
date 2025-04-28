@@ -139,6 +139,13 @@ alias rgg='rg --type go'
 alias rgn='rg --no-line-number'
 # goose AI conflicts with other tools named goose
 alias gai='/Users/josh/.local/bin/goose'
+alias adr='aider \
+  --model gemini/gemini-2.5-pro-preview-03-25 \
+  --no-auto-commits \
+  --no-auto-accept-architect \
+  --watch \
+  --cache-keepalive-pings 1 \
+  --vim'
 
 ## git
 alias g='git'
