@@ -914,7 +914,6 @@
                 ]
             },
             "name": "on the move",
-            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
@@ -931,7 +930,25 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "don't quit everything",
+                        "description": "hold key to dictate",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f20",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "d",
+                                        "modifiers": ["left_control", "left_shift", "left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "don't quit app with Cmd+Q -- see rule below",
                         "manipulators": [
                             {
                                 "from": {
@@ -942,10 +959,29 @@
                                 "type": "basic"
                             }
                         ]
+                    },
+                    {
+                        "description": "do quit app with Cmd+Shift+Q -- see rule above",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "q",
+                                    "modifiers": { "mandatory": ["left_command", "left_shift"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "q",
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
                     }
                 ]
             },
             "name": "split brain",
+            "selected": true,
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
     ]

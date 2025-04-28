@@ -1,6 +1,10 @@
-# vim stuff
+# general
+yarn.lock
+
+# vim
 *.vim
 Session.vim
-yarn.lock
+
+# aider AI
 .aider*
 
