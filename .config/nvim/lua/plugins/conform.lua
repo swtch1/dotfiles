@@ -11,7 +11,7 @@ return {
 		},
 		formatters_by_ft = {
 			lua = { 'stylua' },
-			go = { 'goimports', 'gofmt' },
+			go = { 'goimports' },
 			zig = { 'zigfmt' },
 			python = { 'black' },
 		},
