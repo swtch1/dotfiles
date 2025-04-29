@@ -130,6 +130,26 @@ do -- macros
 end
 
 do -- mappings
+	local function get_visible_buffer_paths()
+		local wins = vim.api.nvim_tabpage_list_wins(0)
+		local seen = {}
+		local file_paths = {}
+		for _, win in ipairs(wins) do
+			local buf = vim.api.nvim_win_get_buf(win)
+			if not seen[buf] then
+				seen[buf] = true
+				local fname_abs = vim.api.nvim_buf_get_name(buf)
+				-- filter out ones we don't want
+				if fname_abs ~= "" and not string.find(fname_abs, "zsh") then
+					-- convert to relative path
+					local fname_rel = vim.fn.fnamemodify(fname_abs, ':.')
+					table.insert(file_paths, fname_rel)
+				end
+			end
+		end
+		return file_paths
+	end
+
 	-- "run" actions (plugin specific mappings defined with plugin)
 	vim.keymap.set("v", "<leader>re", "cx<esc>{o x := <esc>p^<esc><cmd>lua vim.lsp.buf.rename()<CR>",
 		{ desc = "extract selection" })
@@ -145,24 +165,13 @@ do -- mappings
 	vim.keymap.set("n", "<leader>mn", ":set relativenumber!<CR>", { desc = "toggle relative number" })
 	vim.keymap.set("n", "<leader>ml", "<cmd>lua vim.o.background='light'<CR>", { desc = "light mode" })
 	vim.keymap.set("n", "<leader>mc", function()
-		local wins = vim.api.nvim_tabpage_list_wins(0)
-		local seen = {}
-		local files_to_open = {}
-		for _, win in ipairs(wins) do
-			local buf = vim.api.nvim_win_get_buf(win)
-			if not seen[buf] then
-				seen[buf] = true
-				local fname = vim.api.nvim_buf_get_name(buf)
-				if fname ~= "" and not string.find(fname, "zsh")
-				then
-					table.insert(files_to_open, '"' .. vim.fn.fnameescape(fname) .. '"')
-				end
+		local files_to_open_raw = get_visible_buffer_paths()
+		if #files_to_open_raw > 0 then
+			local files_to_open_escaped = {}
+			for _, fname in ipairs(files_to_open_raw) do
+				table.insert(files_to_open_escaped, '"' .. vim.fn.fnameescape(fname) .. '"')
 			end
-		end
-
-		if #files_to_open > 0 then
-			-- open with files
-			local command = 'code -r . ' .. table.concat(files_to_open, ' ') .. ' > /dev/null 2>&1'
+			local command = 'code -r . ' .. table.concat(files_to_open_escaped, ' ') .. ' > /dev/null 2>&1'
 			os.execute(command)
 		end
 	end, { desc = "open all visible buffers in VSCode" })
@@ -221,6 +230,15 @@ do -- mappings
 	vim.keymap.set("n", "<leader>o", ":lclose<CR>:cclose<CR>:Trouble close<CR>:silent! BuffergatorClose<CR>:noh<CR>",
 		{ desc = "cleanup temp buffers", silent = true })
 	vim.keymap.set("n", "<leader>rl", ":checktime<CR>", { desc = "reload buffers", silent = true })
+	vim.keymap.set("n", "<leader>rb", function()
+		local file_paths = get_visible_buffer_paths()
+		if #file_paths > 0 then
+			local joined_paths = table.concat(file_paths, ' ')
+			vim.fn.setreg('+', joined_paths)
+		else
+			vim.notify("no valid visible buffers found to copy.", vim.log.levels.WARN)
+		end
+	end, { desc = "copy buffer paths to clipboard" })
 end
 
 
