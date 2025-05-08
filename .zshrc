@@ -460,6 +460,7 @@ function analyze_report() {
     --message '{"msgType":"event","version":"0.0.1","name":"sigReport","type":"STRING","stringVal":{"val":"trafficReplayStarted"},"tags":{"source":"jmt-test","tenantId":"63b7c67e-233d-4e9e-a9aa-62db482be7ac","testReportId":"'$rpt_id'"}}'
 }
 
-
-# Created by `pipx` on 2025-04-02 18:53:08
-export PATH="$PATH:/Users/josh/.local/bin"
+# set the name of the terminal tab
+function tabname() {
+  echo -ne "\033]0;$@\007"
+}

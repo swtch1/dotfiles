@@ -5,143 +5,133 @@ vim.diagnostic.config({
 	virtual_text = false,
 })
 
--- lsp.set_log_level("debug")
-
 local lspconfig = require("lspconfig")
 local navic = require("nvim-navic")
-local default_capabilities = require('cmp_nvim_lsp').default_capabilities()
-
--- for some reason this messup go staticcheck
-local mason_lsp_config = require("mason-lspconfig")
-mason_lsp_config.setup()
-mason_lsp_config.setup_handlers({
-	function(server_name)
-		lspconfig[server_name].setup({})
-	end,
-})
+local default_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local on_attach = function(client, bufnr)
 	if client.server_capabilities.documentSymbolProvider then
 		navic.attach(client, bufnr)
 	end
 end
-lspconfig.lua_ls.setup({
-	on_attach = function(client, bufnr)
-		navic.attach(client, bufnr)
-	end,
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-		},
+
+local mason_lsp_config = require("mason-lspconfig")
+
+mason_lsp_config.setup({
+	handlers = {
+		-- Default handler: sets up servers with default capabilities and on_attach.
+		function(server_name)
+			lspconfig[server_name].setup({
+				capabilities = default_capabilities,
+				on_attach = on_attach,
+			})
+		end,
+		["gopls"] = function()
+			lspconfig.gopls.setup({
+				capabilities = default_capabilities,
+				on_attach = on_attach,
+				cmd = {
+					"gopls",
+					"serve",
+					-- "-logfile", "/tmp/gopls.log",
+					-- "-rpc.trace",
+					-- "--debug=localhost:6060",
+				},
+				settings = {
+					gopls = {
+						staticcheck = true,
+						analyses = {
+							unusedparams = true,
+							unusedvariable = true,
+							-- fieldalignment = true,
+							nilness = true,
+							unusedwrite = true,
+							-- ref: https://staticcheck.dev/docs/checks/
+							SA1000 = true,
+							SA1002 = true,
+							SA1011 = true,
+							SA1013 = true,
+							SA1014 = true,
+							SA1019 = true,
+							SA1020 = true,
+							SA1023 = true,
+							SA1025 = true,
+							SA1028 = true,
+							SA2000 = true,
+							SA2002 = true,
+							SA2003 = true,
+							SA3000 = true,
+							SA4001 = true,
+							SA4004 = true,
+							SA4005 = true,
+							SA4006 = true,
+							SA4008 = true,
+							SA4009 = true,
+							SA4010 = true,
+							SA4011 = true,
+							SA4012 = true,
+							SA4013 = true,
+							SA4014 = true,
+							SA4020 = true,
+							SA4022 = true,
+							SA4023 = true,
+							SA4024 = true,
+							SA4027 = true,
+							SA5000 = true,
+							SA5001 = true,
+							SA5003 = true,
+							SA5004 = true,
+							SA5005 = true,
+							SA5007 = true,
+							SA5008 = true,
+							SA5009 = true,
+							SA5010 = true,
+							SA5011 = true,
+							SA5012 = true,
+							SA6000 = true,
+							SA6001 = true,
+							SA6002 = true,
+							SA6005 = true,
+							SA9001 = true,
+							SA9002 = true,
+							SA9005 = true,
+							SA9006 = true,
+							S1017 = true,
+							ST1008 = true,
+							ST1017 = true,
+						},
+					},
+				},
+			})
+		end,
+		["typescript_language_server"] = function()
+			lspconfig.typescript_language_server.setup({
+				capabilities = default_capabilities,
+				on_attach = on_attach,
+			})
+		end,
+		["lua_ls"] = function()
+			lspconfig.typescript_language_server.setup({
+				capabilities = default_capabilities,
+				on_attach = on_attach,
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
+						},
+					},
+				},
+			})
+		end,
+		["zls"] = function()
+			lspconfig.typescript_language_server.setup({
+				capabilities = default_capabilities,
+				on_attach = on_attach,
+			})
+		end,
 	},
 })
-lspconfig.gopls.setup({
-	on_attach = on_attach,
-	cmd = {
-		"gopls", "serve",
-		-- "-logfile", "/tmp/gopls.log",
-		-- "-rpc.trace",
-		-- "--debug=localhost:6060",
-	},
-	settings = {
-		gopls = {
-			staticcheck = true,
-			analyses = {
-				unusedparams = true,
-				unusedvariable = true,
-				-- fieldalignment = true,
-				nilness = true,
-				unusedwrite = true,
-				-- ref: https://staticcheck.dev/docs/checks/
-				SA1000 = true, -- Invalid regular expression
-				SA1002 = true, -- Invalid format in time.Parse
-				SA1011 = true, -- Various methods in the strings package expect valid UTF-8, but invalid input is provided
-				SA1013 = true,
-				SA1014 = true,
-				SA1019 = true,
-				SA1020 = true,
-				SA1023 = true,
-				SA1025 = true,
-				SA1028 = true,
-				SA2000 = true,
-				SA2002 = true,
-				SA2003 = true,
-				SA3000 = true,
-				SA4001 = true,
-				SA4004 = true,
-				SA4005 = true,
-				SA4006 = true, -- A value assigned to a variable is never read before being overwritten. Forgotten error check or dead code?
-				SA4008 = true,
-				SA4009 = true,
-				SA4010 = true,
-				SA4011 = true,
-				SA4012 = true,
-				SA4013 = true,
-				SA4014 = true,
-				SA4020 = true,
-				SA4022 = true,
-				SA4023 = true,
-				SA4024 = true,
-				SA4027 = true,
-				SA5000 = true,
-				SA5001 = true,
-				SA5003 = true,
-				SA5004 = true,
-				SA5005 = true,
-				SA5007 = true,
-				SA5008 = true,
-				SA5009 = true,
-				SA5010 = true,
-				SA5011 = true,
-				SA5012 = true,
-				SA6000 = true,
-				SA6001 = true,
-				SA6002 = true,
-				SA6005 = true,
-				SA9001 = true,
-				SA9002 = true,
-				SA9005 = true,
-				SA9006 = true,
-				S1017 = true,
-				ST1008 = true,
-				ST1017 = true,
-			},
-		},
-	},
-})
-lspconfig.bashls.setup({
-	on_attach = on_attach,
-})
-lspconfig.jedi_language_server.setup({
-	on_attach = on_attach,
-})
-lspconfig.jdtls.setup({
-	on_attach = on_attach,
-})
-lspconfig.rust_analyzer.setup({
-	on_attach = on_attach,
-})
-lspconfig.solargraph.setup({
-	on_attach = on_attach,
-})
-lspconfig.sqlls.setup({})
-lspconfig.tflint.setup({
-	on_attach = on_attach,
-})
-lspconfig.ts_ls.setup({
-	on_attach = on_attach,
-})
-lspconfig.zk.setup({
-	on_attach = on_attach,
-})
-lspconfig.terraformls.setup({
-	on_attach = on_attach,
-})
-lspconfig.gitlab_ci_ls.setup({
-	on_attach = on_attach,
-})
+
 -- supposed to be for proto but it doesn't work
 -- local caps = require('cmp_nvim_lsp').default_capabilities()
 -- caps.offsetEncoding = { 'utf-16' }
@@ -180,11 +170,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 		vim.bo.filetype = "yaml.gitlab"
 	end,
 })
-lspconfig.zls.setup({
-	on_attach = on_attach,
-	capabilities = default_capabilities,
-})
-
 
 local M = {}
 -- map helper
@@ -224,40 +209,6 @@ M.map("n", "<leader>rr", ":wa<CR>:AsyncRun -mode=term -pos=thelp <Up><CR><Esc>")
 M.map("n", "<leader>rt", ":AsyncRun -mode=term -pos=thelp ")
 M.map("n", "<leader>rT", ":AsyncRun ")
 
--- debugging
--- function DAPRun()
---   -- vim.api.nvim_command("only")
---   dap.continue()
---   dapUI.open()
--- end
--- M.map("n", "<leader>dd", "<cmd>lua DAPRun()<CR>")
--- function DAPTerminate()
---   dap.terminate()
---   dapUI.close()
--- end
--- function DebugTest()
---   dapGo.debug_test()
---   dapUI.open()
--- end
--- M.map("n", "<leader>dt", "<cmd>lua DebugTest()<CR>")
--- function DebugLastTest()
---   dapGo.debug_last_test()
---   dapUI.open()
--- end
--- M.map("n", "<leader>dq", "<cmd>lua DAPTerminate()<CR>")
--- M.map("n", "<leader>d<space>", "<cmd>lua require("dap").continue()<CR>")
--- -- M.map("n", "<leader>db", "<cmd>lua require("dap").toggle_breakpoint()<CR>")
--- M.map("n", "<leader>dn", "<cmd>lua require("dap").step_over()<CR>")
--- M.map("n", "<leader>di", "<cmd>lua require("dap").step_in()<CR>")
--- M.map("n", "<leader>do", "<cmd>lua require("dap").step_out()<CR>")
--- M.map("n", "<leader>dr", "<cmd>lua require("dap").restart()<CR>")
--- M.map("n", "<leader>dh", "<cmd>lua require("dap").run_to_cursor()<CR>")
--- M.map("n", "<leader>dI", "<cmd>lua require("dap.ui.widgets").hover()<CR>")
--- M.map("n", "<leader>di", "<cmd>lua require("dap").step_into()<CR>")
--- M.map("n", "<leader>du", "<cmd>lua require("dap").up()<CR>")
--- M.map("n", "<leader>dU", "<cmd>lua require("dap").down()<CR>")
--- M.map("n", "<leader>dT", "<cmd>lua DebugLastTest()<CR>")
-
 ---- NVIM-CMP ----
 local cmp = require("cmp")
 cmp.setup({
@@ -280,7 +231,7 @@ cmp.setup({
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-Space>"] = cmp.mapping.complete(),
 		["<C-e>"] = cmp.mapping.abort(),
-		["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
 	}),
 	sources = cmp.config.sources({
 		{
@@ -311,14 +262,13 @@ cmp.setup({
 			name = "buffer",
 			priority = 4,
 		},
-	})
+	}),
 })
 
--- Set configuration for specific filetype.
 cmp.setup.filetype("gitcommit", {
 	sources = cmp.config.sources({
-		{ name = "cmp_git" }, -- You can specify the `cmp_git` source if you were installed it.
+		{ name = "cmp_git" },
 	}, {
 		{ name = "buffer" },
-	})
+	}),
 })
