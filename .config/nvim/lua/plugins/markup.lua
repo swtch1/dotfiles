@@ -1,6 +1,11 @@
 return {
-	{ -- markdown preview
-		'ellisonleao/glow.nvim',
+	{ -- in-line markdown preview
+		lazy = true,
+		"MeanderingProgrammer/render-markdown.nvim",
+		ft = { "Avante", "codecompanion" },
+	},
+	{ -- manual markdown preview
+		"ellisonleao/glow.nvim",
 		lazy = true,
 		cmd = "Glow",
 		opts = {
