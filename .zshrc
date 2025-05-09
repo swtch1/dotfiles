@@ -141,6 +141,7 @@ alias rgn='rg --no-line-number'
 alias gai='/Users/josh/.local/bin/goose'
 alias adr='aider \
   --model gemini/gemini-2.5-pro-preview-03-25 \
+  --reasoning-effort high \
   --no-auto-commits \
   --no-auto-accept-architect \
   --watch \
