@@ -1,9 +1,9 @@
 return {
 	{
-		'Exafunction/codeium.vim',
+		"Exafunction/codeium.vim",
 		dependencies = {
-			'nvim-lua/plenary.nvim',
-			'hrsh7th/nvim-cmp',
+			"nvim-lua/plenary.nvim",
+			"hrsh7th/nvim-cmp",
 		},
 		config = function()
 			vim.keymap.set("i", "<C-j>", function()
@@ -29,13 +29,16 @@ return {
 			args = {
 				"--no-auto-commits",
 				"--watch",
-				"--read", "../.aider/INSTRUCTIONS.md",
-				"--cache-keepalive-pings", "1",
-				"--model", "gemini/gemini-2.5-pro-preview-03-25",
+				"--read",
+				"../.aider/INSTRUCTIONS.md",
+				"--cache-keepalive-pings",
+				"1",
+				"--model",
+				"gemini/gemini-2.5-pro-preview-03-25",
 			},
 			auto_manage_context = true, -- automatically manage buffer context
 			default_bindings = true, -- use default <leader>A keybindings
-			debug = false,           -- enable debug logging
+			debug = false, -- enable debug logging
 		},
 	},
 	{
@@ -44,56 +47,85 @@ return {
 		"nekowasabi/aider.vim",
 		dependencies = "vim-denops/denops.vim",
 		config = function()
-			vim.g.aider_command = 'aider ' ..
-					"--model gemini/gemini-2.5-pro-preview-03-25 " ..
-					"--no-auto-commits " ..
-					"--auto-accept-architect false " ..
-					"--watch " ..
-					"--read ../.aider/INSTRUCTIONS.md " ..
-					"--cache-keepalive-pings 1 "
-			vim.g.aider_buffer_open_type = 'vsplit'
+			vim.g.aider_command = "aider "
+				.. "--model gemini/gemini-2.5-pro-preview-03-25 "
+				.. "--no-auto-commits "
+				.. "--auto-accept-architect false "
+				.. "--watch "
+				.. "--read ../.aider/INSTRUCTIONS.md "
+				.. "--cache-keepalive-pings 1 "
+			vim.g.aider_buffer_open_type = "vsplit"
 			vim.g.aider_floatwin_width = 300
 			vim.g.aider_floatwin_height = 50
 
-			vim.api.nvim_create_autocmd('User',
-				{
-					pattern = 'AiderOpen',
-					callback =
-							function(args)
-								vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { buffer = args.buf })
-								vim.keymap.set('n', '<Esc>', '<cmd>AiderHide<CR>', { buffer = args.buf })
-							end
-				})
-			vim.api.nvim_set_keymap('n', '<leader>at', ':AiderRun<CR>', { noremap = true, silent = true })
-			vim.api.nvim_set_keymap('n', '<leader>aa', ':AiderAddCurrentFile<CR>', { noremap = true, silent = true })
-			vim.api.nvim_set_keymap('n', '<leader>ar', ':AiderAddCurrentFileReadOnly<CR>', { noremap = true, silent = true })
-			vim.api.nvim_set_keymap('n', '<leader>aw', ':AiderAddWeb<CR>', { noremap = true, silent = true })
-			vim.api.nvim_set_keymap('n', '<leader>ax', ':AiderExit<CR>', { noremap = true, silent = true })
-			vim.api.nvim_set_keymap('n', '<leader>ai', ':AiderAddIgnoreCurrentFile<CR>', { noremap = true, silent = true })
-			vim.api.nvim_set_keymap('n', '<leader>aI', ':AiderOpenIgnore<CR>', { noremap = true, silent = true })
-			vim.api.nvim_set_keymap('n', '<leader>aI', ':AiderPaste<CR>', { noremap = true, silent = true })
-			vim.api.nvim_set_keymap('n', '<leader>ah', ':AiderHide<CR>', { noremap = true, silent = true })
-			vim.api.nvim_set_keymap('v', '<leader>av', ':AiderVisualTextWithPrompt<CR>', { noremap = true, silent = true })
-		end
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "AiderOpen",
+				callback = function(args)
+					vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { buffer = args.buf })
+					vim.keymap.set("n", "<Esc>", "<cmd>AiderHide<CR>", { buffer = args.buf })
+				end,
+			})
+			vim.api.nvim_set_keymap("n", "<leader>at", ":AiderRun<CR>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap("n", "<leader>aa", ":AiderAddCurrentFile<CR>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>ar",
+				":AiderAddCurrentFileReadOnly<CR>",
+				{ noremap = true, silent = true }
+			)
+			vim.api.nvim_set_keymap("n", "<leader>aw", ":AiderAddWeb<CR>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap("n", "<leader>ax", ":AiderExit<CR>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>ai",
+				":AiderAddIgnoreCurrentFile<CR>",
+				{ noremap = true, silent = true }
+			)
+			vim.api.nvim_set_keymap("n", "<leader>aI", ":AiderOpenIgnore<CR>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap("n", "<leader>aI", ":AiderPaste<CR>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap("n", "<leader>ah", ":AiderHide<CR>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap(
+				"v",
+				"<leader>av",
+				":AiderVisualTextWithPrompt<CR>",
+				{ noremap = true, silent = true }
+			)
+		end,
 	},
 	{
 		-- testing Aider plugins
 		enabled = false,
 		"GeorgesAlkhouri/nvim-aider",
 		cmd = {
-			"AiderTerminalToggle", "AiderHealth",
+			"AiderTerminalToggle",
+			"AiderHealth",
 		},
 		keys = {
-			{ "<leader>a/", "<cmd>AiderTerminalToggle<cr>",    desc = "Open Aider" },
-			{ "<leader>as", "<cmd>AiderTerminalSend<cr>",      desc = "Send to Aider",                  mode = { "n", "v" } },
-			{ "<leader>ac", "<cmd>AiderQuickSendCommand<cr>",  desc = "Send Command To Aider" },
-			{ "<leader>ab", "<cmd>AiderQuickSendBuffer<cr>",   desc = "Send Buffer To Aider" },
-			{ "<leader>a+", "<cmd>AiderQuickAddFile<cr>",      desc = "Add File to Aider" },
-			{ "<leader>a-", "<cmd>AiderQuickDropFile<cr>",     desc = "Drop File from Aider" },
+			{ "<leader>a/", "<cmd>AiderTerminalToggle<cr>", desc = "Open Aider" },
+			{
+				"<leader>as",
+				"<cmd>AiderTerminalSend<cr>",
+				desc = "Send to Aider",
+				mode = { "n", "v" },
+			},
+			{ "<leader>ac", "<cmd>AiderQuickSendCommand<cr>", desc = "Send Command To Aider" },
+			{ "<leader>ab", "<cmd>AiderQuickSendBuffer<cr>", desc = "Send Buffer To Aider" },
+			{ "<leader>a+", "<cmd>AiderQuickAddFile<cr>", desc = "Add File to Aider" },
+			{ "<leader>a-", "<cmd>AiderQuickDropFile<cr>", desc = "Drop File from Aider" },
 			{ "<leader>ar", "<cmd>AiderQuickReadOnlyFile<cr>", desc = "Add File as Read-Only" },
 			-- Example nvim-tree.lua integration if needed
-			{ "<leader>a+", "<cmd>AiderTreeAddFile<cr>",       desc = "Add File from Tree to Aider",    ft = "NvimTree" },
-			{ "<leader>a-", "<cmd>AiderTreeDropFile<cr>",      desc = "Drop File from Tree from Aider", ft = "NvimTree" },
+			{
+				"<leader>a+",
+				"<cmd>AiderTreeAddFile<cr>",
+				desc = "Add File from Tree to Aider",
+				ft = "NvimTree",
+			},
+			{
+				"<leader>a-",
+				"<cmd>AiderTreeDropFile<cr>",
+				desc = "Drop File from Tree from Aider",
+				ft = "NvimTree",
+			},
 		},
 		dependencies = {
 			"folke/snacks.nvim",
@@ -123,9 +155,12 @@ return {
 				args = {
 					"--no-auto-commits",
 					"--watch",
-					"--read", "../.aider/INSTRUCTIONS.md",
-					"--cache-keepalive-pings", "1",
-					"--model", "gemini/gemini-2.5-pro-preview-03-25",
+					"--read",
+					"../.aider/INSTRUCTIONS.md",
+					"--cache-keepalive-pings",
+					"1",
+					"--model",
+					"gemini/gemini-2.5-pro-preview-03-25",
 				},
 				-- Theme colors (automatically uses Catppuccin flavor if available)
 				theme = {
@@ -160,29 +195,50 @@ return {
 		enabled = true,
 		"yetone/avante.nvim",
 
-		lazy = false,
+		lazy = true,
 		keys = {
-			{ "<leader>af", function() require("avante.api").focus() end, mode = { "n", }, desc = "Avante: focus" },
-			{ "<leader>aa", "<cmd>AvanteToggle<cr>",                      mode = { "n", }, desc = "Avante: toggle" },
+			{
+				"<leader>af",
+				function()
+					require("avante.api").focus()
+				end,
+				mode = { "n" },
+				desc = "Avante: focus",
+			},
+			{ "<leader>aa", "<cmd>AvanteToggle<cr>", mode = { "n" }, desc = "Avante: toggle" },
 			{
 				"<leader>ab",
 				function()
 					local sidebar, _, _ = require("avante").get()
 					if sidebar and sidebar:is_open() and sidebar.file_selector then
 						if sidebar.file_selector:add_current_buffer() then
-							vim.notify("Added current buffer to file selector", vim.log.levels.DEBUG, { title = "Avante" })
+							vim.notify(
+								"Added current buffer to file selector",
+								vim.log.levels.DEBUG,
+								{ title = "Avante" }
+							)
 						else
 							vim.notify("Failed to add current buffer", vim.log.levels.WARN, { title = "Avante" })
 						end
 					else
-						vim.notify("Avante sidebar is not open or file selector not available", vim.log.levels.WARN,
-							{ title = "Avante" })
+						vim.notify(
+							"Avante sidebar is not open or file selector not available",
+							vim.log.levels.WARN,
+							{ title = "Avante" }
+						)
 					end
 				end,
-				mode = { "n", },
-				desc = "Avante: add current buffer"
+				mode = { "n" },
+				desc = "Avante: add current buffer",
 			},
-			{ "<leader>aB", function() require("avante.api").add_buffer_files() end, mode = { "n", }, desc = "Avante: add all buffers" },
+			{
+				"<leader>aB",
+				function()
+					require("avante.api").add_buffer_files()
+				end,
+				mode = { "n" },
+				desc = "Avante: add all buffers",
+			},
 		},
 		opts = {
 			---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
@@ -250,8 +306,8 @@ return {
 			windows = {
 				---@type "right" | "left" | "top" | "bottom"
 				position = "right", -- the position of the sidebar
-				wrap = true,    -- similar to vim.o.wrap
-				width = 30,     -- default % based on available width
+				wrap = true, -- similar to vim.o.wrap
+				width = 30, -- default % based on available width
 				sidebar_header = {
 					enabled = true, -- true, false to enable/disable the header
 					align = "center", -- left, center, right for title
@@ -306,14 +362,7 @@ return {
 			--- The below dependencies are optional,
 			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
 			-- "zbirenbaum/copilot.lua",   -- for providers='copilot'
-			{
-				-- Make sure to set this up properly if you have lazy=true
-				'MeanderingProgrammer/render-markdown.nvim',
-				opts = {
-					file_types = { "markdown", "Avante" },
-				},
-				ft = { "markdown", "Avante" },
-			},
+			"MeanderingProgrammer/render-markdown.nvim",
 		},
 	},
 	{
@@ -327,7 +376,7 @@ return {
 		},
 		keys = {
 			{ "<leader>ac", "<cmd>CodeCompanionActions<cr>", mode = { "n", "v" }, desc = "CodeCompanionActions" },
-			{ "<leader>aC", "<cmd>CodeCompanionChat<cr>",    mode = { "n", "v" }, desc = "CodeCompanionChat" },
+			{ "<leader>aC", "<cmd>CodeCompanionChat<cr>", mode = { "n", "v" }, desc = "CodeCompanionChat" },
 		},
 		dependencies = {
 			"nvim-lua/plenary.nvim",
