@@ -15,121 +15,137 @@ local on_attach = function(client, bufnr)
 	end
 end
 
-local mason_lsp_config = require("mason-lspconfig")
-
-mason_lsp_config.setup({
-	handlers = {
-		-- Default handler: sets up servers with default capabilities and on_attach.
-		function(server_name)
-			lspconfig[server_name].setup({
-				capabilities = default_capabilities,
-				on_attach = on_attach,
-			})
-		end,
-		["gopls"] = function()
-			lspconfig.gopls.setup({
-				capabilities = default_capabilities,
-				on_attach = on_attach,
-				cmd = {
-					"gopls",
-					"serve",
-					-- "-logfile", "/tmp/gopls.log",
-					-- "-rpc.trace",
-					-- "--debug=localhost:6060",
-				},
-				settings = {
-					gopls = {
-						staticcheck = true,
-						analyses = {
-							unusedparams = true,
-							unusedvariable = true,
-							-- fieldalignment = true,
-							nilness = true,
-							unusedwrite = true,
-							-- ref: https://staticcheck.dev/docs/checks/
-							SA1000 = true,
-							SA1002 = true,
-							SA1011 = true,
-							SA1013 = true,
-							SA1014 = true,
-							SA1019 = true,
-							SA1020 = true,
-							SA1023 = true,
-							SA1025 = true,
-							SA1028 = true,
-							SA2000 = true,
-							SA2002 = true,
-							SA2003 = true,
-							SA3000 = true,
-							SA4001 = true,
-							SA4004 = true,
-							SA4005 = true,
-							SA4006 = true,
-							SA4008 = true,
-							SA4009 = true,
-							SA4010 = true,
-							SA4011 = true,
-							SA4012 = true,
-							SA4013 = true,
-							SA4014 = true,
-							SA4020 = true,
-							SA4022 = true,
-							SA4023 = true,
-							SA4024 = true,
-							SA4027 = true,
-							SA5000 = true,
-							SA5001 = true,
-							SA5003 = true,
-							SA5004 = true,
-							SA5005 = true,
-							SA5007 = true,
-							SA5008 = true,
-							SA5009 = true,
-							SA5010 = true,
-							SA5011 = true,
-							SA5012 = true,
-							SA6000 = true,
-							SA6001 = true,
-							SA6002 = true,
-							SA6005 = true,
-							SA9001 = true,
-							SA9002 = true,
-							SA9005 = true,
-							SA9006 = true,
-							S1017 = true,
-							ST1008 = true,
-							ST1017 = true,
-						},
-					},
-				},
-			})
-		end,
-		["typescript_language_server"] = function()
-			lspconfig.typescript_language_server.setup({
-				capabilities = default_capabilities,
-				on_attach = on_attach,
-			})
-		end,
-		["lua_ls"] = function()
-			lspconfig.typescript_language_server.setup({
-				capabilities = default_capabilities,
-				on_attach = on_attach,
-				settings = {
-					Lua = {
-						diagnostics = {
-							globals = { "vim" },
-						},
-					},
-				},
-			})
-		end,
-		["zls"] = function()
-			lspconfig.typescript_language_server.setup({
-				capabilities = default_capabilities,
-				on_attach = on_attach,
-			})
-		end,
+lspconfig.lua_ls.setup({
+	on_attach = function(client, bufnr)
+		navic.attach(client, bufnr)
+	end,
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { "vim" },
+			},
+		},
 	},
+})
+lspconfig.gopls.setup({
+	capabilities = default_capabilities,
+	on_attach = on_attach,
+	cmd = {
+		"gopls",
+		"serve",
+		-- "-logfile", "/tmp/gopls.log",
+		-- "-rpc.trace",
+		-- "--debug=localhost:6060",
+	},
+	settings = {
+		gopls = {
+			staticcheck = true,
+			analyses = {
+				unusedparams = true,
+				unusedvariable = true,
+				-- fieldalignment = true,
+				nilness = true,
+				unusedwrite = true,
+				-- ref: https://staticcheck.dev/docs/checks/
+				SA1000 = true, -- Invalid regular expression
+				SA1002 = true, -- Invalid format in time.Parse
+				SA1011 = true, -- Various methods in the strings package expect valid UTF-8, but invalid input is provided
+				SA1013 = true,
+				SA1014 = true,
+				SA1019 = true,
+				SA1020 = true,
+				SA1023 = true,
+				SA1025 = true,
+				SA1028 = true,
+				SA2000 = true,
+				SA2002 = true,
+				SA2003 = true,
+				SA3000 = true,
+				SA4001 = true,
+				SA4004 = true,
+				SA4005 = true,
+				SA4006 = true, -- A value assigned to a variable is never read before being overwritten. Forgotten error check or dead code?
+				SA4008 = true,
+				SA4009 = true,
+				SA4010 = true,
+				SA4011 = true,
+				SA4012 = true,
+				SA4013 = true,
+				SA4014 = true,
+				SA4020 = true,
+				SA4022 = true,
+				SA4023 = true,
+				SA4024 = true,
+				SA4027 = true,
+				SA5000 = true,
+				SA5001 = true,
+				SA5003 = true,
+				SA5004 = true,
+				SA5005 = true,
+				SA5007 = true,
+				SA5008 = true,
+				SA5009 = true,
+				SA5010 = true,
+				SA5011 = true,
+				SA5012 = true,
+				SA6000 = true,
+				SA6001 = true,
+				SA6002 = true,
+				SA6005 = true,
+				SA9001 = true,
+				SA9002 = true,
+				SA9005 = true,
+				SA9006 = true,
+				S1017 = true,
+				ST1008 = true,
+				ST1017 = true,
+			},
+		},
+	},
+})
+lspconfig.bashls.setup({
+	capabilities = default_capabilities,
+	on_attach = on_attach,
+})
+lspconfig.jedi_language_server.setup({
+	capabilities = default_capabilities,
+	on_attach = on_attach,
+})
+lspconfig.jdtls.setup({
+	capabilities = default_capabilities,
+	on_attach = on_attach,
+})
+lspconfig.rust_analyzer.setup({
+	capabilities = default_capabilities,
+	on_attach = on_attach,
+})
+lspconfig.solargraph.setup({
+	capabilities = default_capabilities,
+	on_attach = on_attach,
+})
+lspconfig.sqlls.setup({
+	capabilities = default_capabilities,
+	on_attach = on_attach,
+})
+lspconfig.tflint.setup({
+	capabilities = default_capabilities,
+	on_attach = on_attach,
+})
+lspconfig.ts_ls.setup({
+	capabilities = default_capabilities,
+	on_attach = on_attach,
+})
+lspconfig.zk.setup({
+	capabilities = default_capabilities,
+	on_attach = on_attach,
+})
+lspconfig.terraformls.setup({
+	capabilities = default_capabilities,
+	on_attach = on_attach,
+})
+lspconfig.gitlab_ci_ls.setup({
+	capabilities = default_capabilities,
+	on_attach = on_attach,
 })
 
 -- supposed to be for proto but it doesn't work
