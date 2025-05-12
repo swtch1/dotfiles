@@ -9,10 +9,10 @@ vim.opt.termguicolors = true
 -- show whitespace
 vim.opt.list = true
 vim.opt.listchars = {
-	space = '·',
-	tab = '» ',
-	lead = '·',
-	trail = '·',
+	space = "·",
+	tab = "» ",
+	lead = "·",
+	trail = "·",
 }
 
 vim.opt.compatible = false
@@ -61,14 +61,14 @@ local function decorated_yank()
 	end
 
 	local filename = vim.fn.expand("%")
-	local decoration = string.rep('-', #filename + 1)
-	local content = table.concat(numbered_lines, '\n')
+	local decoration = string.rep("-", #filename + 1)
+	local content = table.concat(numbered_lines, "\n")
 
 	-- replace whitespace markers
-	content = content:gsub('·', ' '):gsub('»', ' ')
+	content = content:gsub("·", " "):gsub("»", " ")
 
 	local result = decoration .. "\n" .. filename .. ":\n" .. decoration .. "\n" .. content
-	vim.fn.setreg('+', result)
+	vim.fn.setreg("+", result)
 end
 vim.keymap.set("v", "<c-y>", decorated_yank, { desc = "yank with line numbers" })
 
@@ -83,7 +83,7 @@ do -- buffer changes
 		callback = function()
 			-- load buffers when nvim regains focus
 			vim.cmd("checktime")
-		end
+		end,
 	})
 end
 
@@ -91,13 +91,13 @@ do -- macros
 	local function set_comment_registers(prefix, suffix)
 		-- format: [register, comment text]
 		local markers = {
-			{ 'f', 'FIXME: (JMT) ' },
-			{ 'b', 'BOOKMARK: ' },
+			{ "f", "FIXME: (JMT) " },
+			{ "b", "BOOKMARK: " },
 		}
 
 		for _, pair in ipairs(markers) do
 			local reg, text = pair[1], pair[2]
-			vim.fn.setreg(reg, 'A ' .. prefix .. ' ' .. text .. suffix)
+			vim.fn.setreg(reg, "A " .. prefix .. " " .. text .. suffix)
 		end
 	end
 
@@ -106,25 +106,33 @@ do -- macros
 	-- c-style comments
 	vim.api.nvim_create_autocmd("BufEnter", {
 		pattern = { "*.go", "*.js", "*.ts", "*.c", "*.cpp", "*.java", "*.jsx", "*.tsx" },
-		callback = function() set_comment_registers("//", "") end,
+		callback = function()
+			set_comment_registers("//", "")
+		end,
 		group = comment_group,
 	})
 	-- hash style comments
 	vim.api.nvim_create_autocmd("BufEnter", {
 		pattern = { "*.py", "*.rb", "*.pl", "*.yaml", "*.yml", "*.sh", "*.zsh" },
-		callback = function() set_comment_registers("#", "") end,
+		callback = function()
+			set_comment_registers("#", "")
+		end,
 		group = comment_group,
 	})
 	-- lua style comments
 	vim.api.nvim_create_autocmd("BufEnter", {
 		pattern = "*.lua",
-		callback = function() set_comment_registers("--", "") end,
+		callback = function()
+			set_comment_registers("--", "")
+		end,
 		group = comment_group,
 	})
 	-- markdown style comments
 	vim.api.nvim_create_autocmd("BufEnter", {
 		pattern = "*.md",
-		callback = function() set_comment_registers("<!--", "-->") end,
+		callback = function()
+			set_comment_registers("<!--", "-->")
+		end,
 		group = comment_group,
 	})
 end
@@ -142,7 +150,7 @@ do -- mappings
 				-- filter out ones we don't want
 				if fname_abs ~= "" and not string.find(fname_abs, "zsh") then
 					-- convert to relative path
-					local fname_rel = vim.fn.fnamemodify(fname_abs, ':.')
+					local fname_rel = vim.fn.fnamemodify(fname_abs, ":.")
 					table.insert(file_paths, fname_rel)
 				end
 			end
@@ -151,13 +159,21 @@ do -- mappings
 	end
 
 	-- "run" actions (plugin specific mappings defined with plugin)
-	vim.keymap.set("v", "<leader>re", "cx<esc>{o x := <esc>p^<esc><cmd>lua vim.lsp.buf.rename()<CR>",
-		{ desc = "extract selection" })
+	vim.keymap.set(
+		"v",
+		"<leader>re",
+		"cx<esc>{o x := <esc>p^<esc><cmd>lua vim.lsp.buf.rename()<CR>",
+		{ desc = "extract selection" }
+	)
 
 	-- configuration
 	vim.keymap.set("n", "<leader>rd", ":vsp /Users/josh/code/ss/.envrc.local<CR>", { desc = "edit env" })
-	vim.keymap.set("n", "<leader>rD", ":vsp /Users/josh/.config/nvim/lua/plugins/dap.lua<CR>",
-		{ desc = "edit debugger configuration" })
+	vim.keymap.set(
+		"n",
+		"<leader>rD",
+		":vsp /Users/josh/.config/nvim/lua/plugins/dap.lua<CR>",
+		{ desc = "edit debugger configuration" }
+	)
 
 	-- modes
 	vim.keymap.set("n", "<leader>mv", "<C-v>", { desc = "visual mode" })
@@ -171,7 +187,7 @@ do -- mappings
 			for _, fname in ipairs(files_to_open_raw) do
 				table.insert(files_to_open_escaped, '"' .. vim.fn.fnameescape(fname) .. '"')
 			end
-			local command = 'code -r . ' .. table.concat(files_to_open_escaped, ' ') .. ' > /dev/null 2>&1'
+			local command = "code -r . " .. table.concat(files_to_open_escaped, " ") .. " > /dev/null 2>&1"
 			os.execute(command)
 		end
 	end, { desc = "open all visible buffers in VSCode" })
@@ -210,8 +226,12 @@ do -- mappings
 
 		vim.api.nvim_set_current_win(target_win)
 	end
-	vim.keymap.set("n", "<leader>H", function() go_to_extreme_window("left") end, { desc = "Go to leftmost window" })
-	vim.keymap.set("n", "<leader>L", function() go_to_extreme_window("right") end, { desc = "Go to rightmost window" })
+	vim.keymap.set("n", "<leader>H", function()
+		go_to_extreme_window("left")
+	end, { desc = "Go to leftmost window" })
+	vim.keymap.set("n", "<leader>L", function()
+		go_to_extreme_window("right")
+	end, { desc = "Go to rightmost window" })
 	vim.keymap.set("n", "<leader><Esc>", "<C-W><C-P>", { desc = "move to last buffer" })
 	vim.keymap.set("n", "<up>", ":resize -2<CR>", { desc = "resize window" })
 	vim.keymap.set("n", "<down>", ":resize +2<CR>", { desc = "resize window" })
@@ -227,20 +247,23 @@ do -- mappings
 	vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "quit buffer" })
 	vim.keymap.set("n", "<leader>Q", ":qa<CR>", { desc = "quit all" })
 	vim.keymap.set("n", "<leader>O", ":only<CR>:noh<CR>", { desc = "close all other buffers" })
-	vim.keymap.set("n", "<leader>o", ":lclose<CR>:cclose<CR>:Trouble close<CR>:silent! BuffergatorClose<CR>:noh<CR>",
-		{ desc = "cleanup temp buffers", silent = true })
+	vim.keymap.set(
+		"n",
+		"<leader>o",
+		":lclose<CR>:cclose<CR>:Trouble close<CR>:silent! BuffergatorClose<CR>:noh<CR>",
+		{ desc = "cleanup temp buffers", silent = true }
+	)
 	vim.keymap.set("n", "<leader>rl", ":checktime<CR>", { desc = "reload buffers", silent = true })
 	vim.keymap.set("n", "<leader>rb", function()
 		local file_paths = get_visible_buffer_paths()
 		if #file_paths > 0 then
-			local joined_paths = table.concat(file_paths, ' ')
-			vim.fn.setreg('+', joined_paths)
+			local joined_paths = table.concat(file_paths, " ")
+			vim.fn.setreg("+", joined_paths)
 		else
 			vim.notify("no valid visible buffers found to copy.", vim.log.levels.WARN)
 		end
 	end, { desc = "copy buffer paths to clipboard" })
 end
-
 
 do -- autocmds
 	-- scroll all the way to the left when entering a buffer
