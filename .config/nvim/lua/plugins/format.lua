@@ -15,6 +15,7 @@ return {
 			lua = { "stylua" },
 			python = { "black" },
 			typescript = { "prettier" },
+			typescriptreact = { "prettier" },
 			zig = { "zigfmt" },
 		},
 	},
