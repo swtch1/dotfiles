@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Record baseline traffic (before Email field removal)",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Record current traffic (after Email field removal)",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Compare traffic to identify breaking changes",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Generate breaking change report",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  }
+]

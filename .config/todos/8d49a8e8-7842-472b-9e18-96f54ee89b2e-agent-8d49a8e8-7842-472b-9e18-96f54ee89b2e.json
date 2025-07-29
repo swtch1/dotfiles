@@ -1,0 +1,62 @@
+[
+  {
+    "content": "Set up pygame project structure and basic game window",
+    "status": "pending",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Create duck sprite with basic movement patterns",
+    "status": "pending",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Implement crosshair cursor and mouse controls",
+    "status": "pending",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Add shooting mechanics and hit detection",
+    "status": "pending",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Create score system and UI elements",
+    "status": "pending",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Add sound effects (gunshot, duck quack, hit sounds)",
+    "status": "pending",
+    "priority": "medium",
+    "id": "6"
+  },
+  {
+    "content": "Implement game states (menu, playing, game over)",
+    "status": "pending",
+    "priority": "medium",
+    "id": "7"
+  },
+  {
+    "content": "Add background and visual polish",
+    "status": "pending",
+    "priority": "low",
+    "id": "8"
+  },
+  {
+    "content": "Create multiple duck types and difficulty levels",
+    "status": "pending",
+    "priority": "low",
+    "id": "9"
+  },
+  {
+    "content": "Add dog animation for retrieving ducks",
+    "status": "pending",
+    "priority": "low",
+    "id": "10"
+  }
+]

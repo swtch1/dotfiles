@@ -1,0 +1,50 @@
+[
+  {
+    "content": "Modify bucket.rec() method signature to accept originalStatusCode parameter",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update error classification logic in rec() method to use context-aware approach",
+    "status": "pending",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Update aggregator Collect() method to pass original status code to rec() calls",
+    "status": "pending",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Update all existing test files to use new rec() method signature",
+    "status": "pending",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Create failing test for 200→401 scenario (should show 0% error)",
+    "status": "pending",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Create test for 401→401 scenario (should show 100% error)",
+    "status": "pending",
+    "priority": "medium",
+    "id": "6"
+  },
+  {
+    "content": "Test with actual recorded traffic to validate fix works",
+    "status": "pending",
+    "priority": "high",
+    "id": "7"
+  },
+  {
+    "content": "Run all existing tests to ensure no regressions",
+    "status": "pending",
+    "priority": "medium",
+    "id": "8"
+  }
+]

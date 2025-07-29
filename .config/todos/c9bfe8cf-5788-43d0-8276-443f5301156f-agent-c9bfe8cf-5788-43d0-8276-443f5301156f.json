@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Examine the new mock APIClient implementation",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Find existing tests using the real API client",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Replace API client usage with mock in tests",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  }
+]

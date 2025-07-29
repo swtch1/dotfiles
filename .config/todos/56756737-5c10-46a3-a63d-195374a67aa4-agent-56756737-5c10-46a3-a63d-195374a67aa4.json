@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Start the scratch HTTP server",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Set up traffic capture using proxymock",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Make the curl request to localhost:8080/foo",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Stop traffic capture and analyze recorded requests",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  }
+]

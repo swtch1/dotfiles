@@ -1,0 +1,14 @@
+[
+  {
+    "content": "Create virtual environment setup script",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update project with venv instructions",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  }
+]

@@ -1,9 +1,12 @@
+# Amazon Q pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
 ###########
 ### env ###
 ###########
 
 export EDITOR='nvim'
 
+export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:/Users/josh/go/bin"
 export PATH="$PATH:/opt/homebrew/opt/openjdk/bin"
@@ -44,6 +47,8 @@ export NVM_DIR="$HOME/.nvm"
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 export AWS_REGION=us-east-1
+
+export GOOSE_PROVIDER=claude-code
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(direnv hook zsh)"
@@ -140,10 +145,11 @@ alias rgn='rg --no-line-number'
 # goose AI conflicts with other tools named goose
 alias gai='/Users/josh/.local/bin/goose'
 alias adr='aider \
-  --model gemini/gemini-2.5-pro-preview-03-25 \
+  --model gemini/gemini-2.5-pro-preview-05-06 \
   --reasoning-effort high \
   --no-auto-commits \
   --no-auto-accept-architect \
+  --aiderignore /Users/josh/.config/aider/.aiderignore \
   --watch \
   --cache-keepalive-pings 1 \
   --vim'
@@ -465,3 +471,6 @@ function analyze_report() {
 function tabname() {
   echo -ne "\033]0;$@\007"
 }
+
+# Amazon Q post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"

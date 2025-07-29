@@ -4,18 +4,16 @@
 
 set -e
 
-echo 'copying vim configs...'
-cp ~/.vimrc ./.vimrc
-
 echo 'copying zshrc...'
 cp ~/.zshrc* .
 
 {
-  echo 'copying XDG configs...'
+  echo 'copying configs...'
   rm -rf ./.config/
   mkdir .config
 
   pushd .config
+  cp ~/.vimrc ./.vimrc
   cp -r ~/.config/nvim .
   cp -r ~/.config/tmux .
   cp -r ~/.config/git .
@@ -23,6 +21,7 @@ cp ~/.zshrc* .
   cp -r ~/.config/k9s .
   cp -r ~/.config/direnv .
   cp -r ~/.config/ghostty .
+  cp -r ~/.claude/ .
   popd
 }
 

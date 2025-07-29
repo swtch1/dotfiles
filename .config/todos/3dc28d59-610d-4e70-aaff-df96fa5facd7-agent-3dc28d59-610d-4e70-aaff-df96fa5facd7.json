@@ -1,0 +1,14 @@
+[
+  {
+    "content": "Revert workarounds in rrpair_mixins.go and buffer.go",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Create comprehensive analysis and plan document",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  }
+]

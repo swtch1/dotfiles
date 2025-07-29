@@ -1,0 +1,14 @@
+[
+  {
+    "content": "Run the server with proxy settings to generate traffic",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Make requests to the server to capture traffic",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  }
+]

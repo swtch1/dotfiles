@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Create tests for MCP resource listing of RRPair files",
+    "status": "completed",
+    "priority": "high",
+    "id": "test-resource-listing"
+  },
+  {
+    "content": "Create tests for reading individual RRPair markdown content",
+    "status": "completed",
+    "priority": "high",
+    "id": "test-resource-reading"
+  },
+  {
+    "content": "Create tests for scanning proxymock directories for RRPair files",
+    "status": "completed",
+    "priority": "medium",
+    "id": "test-directory-scanning"
+  },
+  {
+    "content": "Create tests for error handling (missing files, invalid content, etc.)",
+    "status": "completed",
+    "priority": "medium",
+    "id": "test-error-handling"
+  },
+  {
+    "content": "Create tests for MCP server integration with resource handlers",
+    "status": "completed",
+    "priority": "high",
+    "id": "test-integration"
+  },
+  {
+    "content": "Run tests to validate they compile and work as expected",
+    "status": "completed",
+    "priority": "medium",
+    "id": "run-tests"
+  }
+]

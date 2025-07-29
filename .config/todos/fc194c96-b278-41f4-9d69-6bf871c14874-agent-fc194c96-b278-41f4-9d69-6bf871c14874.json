@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Check skaffold configuration and project structure",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Run skaffold run to reproduce the errors",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Analyze and fix the build errors",
+    "status": "pending",
+    "priority": "high",
+    "id": "3"
+  }
+]

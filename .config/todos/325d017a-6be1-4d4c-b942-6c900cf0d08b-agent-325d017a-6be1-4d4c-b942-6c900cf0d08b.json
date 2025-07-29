@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Understand the format of the Path field in LineCmp",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Modify writeGroupedDiffs to extract JSON key from Path and include in header",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Run tests to verify the fix works",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  }
+]

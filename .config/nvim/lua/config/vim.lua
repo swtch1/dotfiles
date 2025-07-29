@@ -1,3 +1,5 @@
+-- pre config is meant to be run before plugin initialization
+
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
@@ -165,8 +167,8 @@ do -- mappings
 		"cx<esc>{o x := <esc>p^<esc><cmd>lua vim.lsp.buf.rename()<CR>",
 		{ desc = "extract selection" }
 	)
-
-	-- configuration
+	vim.keymap.set("n", "<leader>re", ":e<CR>", { desc = "update buffer" })
+	vim.keymap.set("n", "<leader>rl", ":Lazy update<CR>", { desc = "run :Lazy update" })
 	vim.keymap.set("n", "<leader>rd", ":vsp /Users/josh/code/ss/.envrc.local<CR>", { desc = "edit env" })
 	vim.keymap.set(
 		"n",
@@ -174,6 +176,23 @@ do -- mappings
 		":vsp /Users/josh/.config/nvim/lua/plugins/dap.lua<CR>",
 		{ desc = "edit debugger configuration" }
 	)
+	vim.keymap.set("n", "<leader>rB", function()
+		local file_paths = get_visible_buffer_paths()
+		if #file_paths > 0 then
+			local joined_paths = table.concat(file_paths, " ")
+			vim.fn.setreg("+", joined_paths)
+		else
+			vim.notify("no valid visible buffers found to copy.", vim.log.levels.WARN)
+		end
+	end, { desc = "copy all buffer paths to clipboard" })
+	vim.keymap.set("n", "<leader>rb", function()
+		local current_buffer_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
+		if current_buffer_path ~= "" then
+			vim.fn.setreg("+", current_buffer_path)
+		else
+			vim.notify("no file name for current buffer.", vim.log.levels.WARN)
+		end
+	end, { desc = "copy current buffer path to clipboard" })
 
 	-- modes
 	vim.keymap.set("n", "<leader>mv", "<C-v>", { desc = "visual mode" })
@@ -253,16 +272,6 @@ do -- mappings
 		":lclose<CR>:cclose<CR>:Trouble close<CR>:silent! BuffergatorClose<CR>:noh<CR>",
 		{ desc = "cleanup temp buffers", silent = true }
 	)
-	vim.keymap.set("n", "<leader>rl", ":checktime<CR>", { desc = "reload buffers", silent = true })
-	vim.keymap.set("n", "<leader>rb", function()
-		local file_paths = get_visible_buffer_paths()
-		if #file_paths > 0 then
-			local joined_paths = table.concat(file_paths, " ")
-			vim.fn.setreg("+", joined_paths)
-		else
-			vim.notify("no valid visible buffers found to copy.", vim.log.levels.WARN)
-		end
-	end, { desc = "copy buffer paths to clipboard" })
 end
 
 do -- autocmds
@@ -273,4 +282,13 @@ do -- autocmds
 			vim.cmd("normal! 150zh")
 		end,
 	})
+
+	-- disable syntax highlighting for treesitter debugging
+	-- local go_syntax_off_group = vim.api.nvim_create_augroup("GoSyntaxOff", { clear = true })
+	-- vim.api.nvim_create_autocmd("FileType", {
+	-- 	group = go_syntax_off_group,
+	-- 	pattern = "go",
+	-- 	command = "syntax off",
+	-- 	desc = "disable syntax highlighting for go files",
+	-- })
 end

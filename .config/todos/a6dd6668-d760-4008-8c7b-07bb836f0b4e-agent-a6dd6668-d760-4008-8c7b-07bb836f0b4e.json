@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Create test file for RRPair resource functionality",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Implement tests for discovering RRPair markdown files in proxymock directory",
+    "status": "pending",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Implement tests for MCP resource listing functionality",
+    "status": "pending",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Implement tests for MCP resource reading functionality",
+    "status": "pending",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Add tests for error handling (invalid paths, missing files, etc.)",
+    "status": "pending",
+    "priority": "medium",
+    "id": "5"
+  }
+]

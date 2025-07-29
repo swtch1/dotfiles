@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "proxymock-simulator": {
+      "command": "/Users/josh/.speedscale/proxymock",
+      "args": [
+        "mcp"
+      ],
+      "type": "stdio"
+    }
+  }
+}

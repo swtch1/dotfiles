@@ -5,7 +5,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	if vim.v.shell_error ~= 0 then
 		vim.api.nvim_echo({
 			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-			{ out,                            "WarningMsg" },
+			{ out, "WarningMsg" },
 			{ "\nPress any key to exit..." },
 		}, true, {})
 		vim.fn.getchar()
@@ -20,7 +20,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- Setup lazy.nvim
+-- setup lazy.nvim
 require("lazy").setup({
 	spec = {
 		-- import your plugins
@@ -29,5 +29,5 @@ require("lazy").setup({
 	-- automatically check for plugin updates
 	checker = { enabled = true },
 	-- I will restart my crap when I change things, don't get in my way
-	change_detection = { enabled = false }
+	change_detection = { enabled = false },
 })

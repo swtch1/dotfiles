@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Analyze the SmartProxy hook implementation to understand TLS handling",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Check TLS settings and platform-specific differences in goproxy",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Examine the connection handling in proxy.NewFromConns",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Look for platform-specific TLS behavior differences",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  }
+]

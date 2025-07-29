@@ -1,0 +1,50 @@
+[
+  {
+    "content": "Analyze existing tests in bucket_test.go that need modification",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Identify specific test assertions that expect noMatch to count as error",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Create proper failing tests for LatencyTableValue() method",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Add errorStatusTxns field to Bucket struct",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Update rec() method to track HTTP status errors",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Update LatencyTableValue() error calculation",
+    "status": "completed",
+    "priority": "high",
+    "id": "6"
+  },
+  {
+    "content": "Update MergeWith() method for errorStatusTxns",
+    "status": "completed",
+    "priority": "medium",
+    "id": "7"
+  },
+  {
+    "content": "Run tests and validate all pass",
+    "status": "completed",
+    "priority": "high",
+    "id": "8"
+  }
+]

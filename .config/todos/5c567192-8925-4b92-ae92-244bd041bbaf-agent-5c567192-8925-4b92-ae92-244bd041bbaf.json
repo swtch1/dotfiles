@@ -1,0 +1,86 @@
+[
+  {
+    "content": "Create documentation directory and detailed implementation plan",
+    "status": "completed",
+    "priority": "high",
+    "id": "plan"
+  },
+  {
+    "content": "Analyze current output/logging patterns in proxymock codebase",
+    "status": "completed",
+    "priority": "high",
+    "id": "analyze-codebase"
+  },
+  {
+    "content": "Add LogWriter field to Settings struct in run.go",
+    "status": "completed",
+    "priority": "medium",
+    "id": "settings-update"
+  },
+  {
+    "content": "Add --log-to flag to CLI command definition",
+    "status": "completed",
+    "priority": "medium",
+    "id": "cli-flag"
+  },
+  {
+    "content": "Update println method to use LogWriter instead of fmt.Println",
+    "status": "completed",
+    "priority": "medium",
+    "id": "update-println"
+  },
+  {
+    "content": "Update configureLoggers to use LogWriter for all logger output",
+    "status": "completed",
+    "priority": "medium",
+    "id": "update-loggers"
+  },
+  {
+    "content": "Find and update all direct fmt.Print* calls to use LogWriter",
+    "status": "completed",
+    "priority": "medium",
+    "id": "find-direct-prints"
+  },
+  {
+    "content": "Test implementation using --health-port to validate log redirection",
+    "status": "completed",
+    "priority": "medium",
+    "id": "test-implementation"
+  },
+  {
+    "content": "Add WithOutputWriter option to responder server",
+    "status": "completed",
+    "priority": "high",
+    "id": "responder-output-writer"
+  },
+  {
+    "content": "Add outputWriter field to responder Server struct",
+    "status": "completed",
+    "priority": "high",
+    "id": "responder-server-field"
+  },
+  {
+    "content": "Update printSimilarSignatures to use outputWriter",
+    "status": "completed",
+    "priority": "high",
+    "id": "update-print-similar"
+  },
+  {
+    "content": "Update CompareMaps to use outputWriter",
+    "status": "completed",
+    "priority": "high",
+    "id": "update-compare-maps"
+  },
+  {
+    "content": "Configure responder with OutputWriter in proxymock run",
+    "status": "completed",
+    "priority": "high",
+    "id": "configure-responder-writer"
+  },
+  {
+    "content": "Test the responder output redirection fix",
+    "status": "completed",
+    "priority": "high",
+    "id": "test-responder-fix"
+  }
+]

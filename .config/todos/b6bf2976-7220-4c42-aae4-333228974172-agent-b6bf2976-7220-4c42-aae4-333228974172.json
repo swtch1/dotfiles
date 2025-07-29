@@ -1,0 +1,44 @@
+[
+  {
+    "content": "Identify application and how to run it",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Gather requirements for recording parameters",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Start recording traffic",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Configure environment for proxy",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Start application in background",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Drive traffic through application",
+    "status": "completed",
+    "priority": "high",
+    "id": "6"
+  },
+  {
+    "content": "Stop recording and summarize",
+    "status": "completed",
+    "priority": "high",
+    "id": "7"
+  }
+]

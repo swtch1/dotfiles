@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Create a test scratch program to verify signal handling",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Test current proxymock record behavior with scratch program",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Debug why child process isn't handling SIGINT gracefully",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Fix the signal handling to allow graceful shutdown",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  }
+]

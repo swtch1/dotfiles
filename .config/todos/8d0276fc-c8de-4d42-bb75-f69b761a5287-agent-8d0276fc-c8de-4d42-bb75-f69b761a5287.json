@@ -1,0 +1,14 @@
+[
+  {
+    "content": "Fix readRRPairResource to resolve file paths correctly relative to working directory",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Test resource reading functionality",
+    "status": "completed",
+    "priority": "medium",
+    "id": "2"
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "jira": {
+      "type": "sse",
+      "url": "https://mcp.atlassian.com/v1/sse"
+    },
+    "mcp-reasoner": {
+      "command": "node",
+      "args": ["/Users/josh/code/mcp-reasoner/dist/index.js"],
+      "env": {
+        "SITE_URL": "https://github.com/Jacck/mcp-reasoner.git",
+        "SITE_NAME": "mcp-reasoner"
+      }
+    }
+  }
+}

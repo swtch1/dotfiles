@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Stage core smartproxy HTTP handling fixes",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Stage smartproxy architecture improvements and graceful shutdown",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Stage schema and collector signature fixes",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Stage responder proxy improvements",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Stage speedctl configuration and proxy setup fixes",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  }
+]

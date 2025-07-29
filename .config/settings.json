@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(PROGRAM_NAME=proxymock make install -BC speedctl)",
+      "Bash(cd)",
+      "Bash(chmod:*)",
+      "Bash(curl)",
+      "Bash(file:*)",
+      "Bash(find:*)",
+      "Bash(git add:*)",
+      "Bash(git diff:*)",
+      "Bash(go:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(make:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(pgrep:*)",
+      "Bash(pkill:*)",
+      "Bash(proxymock:*)",
+      "Bash(rg:*)",
+      "Bash(speedctl:*)",
+      "Bash(stat:*)",
+      "Edit",
+      "MultiEdit",
+      "Write"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Analyze the root cause of filtering vs detection disconnect",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Add debug logging to understand which specific filter is excluding RRPairs",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Investigate the RRPair serialization and streaming issue",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Implement intelligent directory detection to avoid processing test files when proxymock directory exists",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Test with various directory structures to ensure universal compatibility",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  }
+]

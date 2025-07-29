@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Add SSE context function to extract config from headers",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update ServeSSE to use WithSSEContextFunc",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Store config in ProxymockMCPServer struct",
+    "status": "pending",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Update debug logging to show extracted config",
+    "status": "completed",
+    "priority": "low",
+    "id": "4"
+  }
+]

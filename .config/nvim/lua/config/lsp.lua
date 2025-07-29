@@ -227,6 +227,10 @@ M.map("n", "<leader>rT", ":AsyncRun ")
 
 ---- NVIM-CMP ----
 local cmp = require("cmp")
+
+-- Register custom source for @ completion, which starts the path at nvim's working directory
+cmp.register_source("cwd_path", require("cmp_sources.cwd_path").new())
+
 cmp.setup({
 	-- don"t guess at which option to select
 	preselect = cmp.PreselectMode.None,
@@ -265,10 +269,17 @@ cmp.setup({
 		{
 			name = "path",
 			option = {
+				path_mappings = {
+					["@"] = "/tmp",
+				},
 				trailing_slash = true,
 			},
 			priority = 3,
 		},
+		-- {
+		-- 	name = "cwd_path",
+		-- 	priority = 3,
+		-- },
 	}, {
 		{
 			name = "nvim_lua",

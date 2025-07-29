@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Start new recording session",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Start application with proxy",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Generate traffic",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Stop recording",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  }
+]

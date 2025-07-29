@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Rewrite replay prompt to be a true QA engineer assistant",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Focus on regression detection and root cause analysis",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Add intelligent failure pattern recognition",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Include correlation with code changes",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Enhance prompt with deeper proactive intelligence",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Check current state of workdir removal in production code",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Fix tests to match workdir removal",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Verify all tests pass after fixes",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  }
+]

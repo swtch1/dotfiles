@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Fix typos in confirmation messages",
+    "status": "completed",
+    "priority": "low",
+    "id": "1"
+  },
+  {
+    "content": "Fix incorrect comment in CheckVSCode function",
+    "status": "completed",
+    "priority": "low",
+    "id": "2"
+  },
+  {
+    "content": "Fix incorrect error message in CheckClaudeDesktop function",
+    "status": "completed",
+    "priority": "low",
+    "id": "3"
+  },
+  {
+    "content": "Add Linux support for VSCode and Cline configuration paths",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Fix grammar errors in comments",
+    "status": "completed",
+    "priority": "low",
+    "id": "5"
+  },
+  {
+    "content": "Make InstallIDEs continue on individual failures",
+    "status": "completed",
+    "priority": "high",
+    "id": "6"
+  }
+]

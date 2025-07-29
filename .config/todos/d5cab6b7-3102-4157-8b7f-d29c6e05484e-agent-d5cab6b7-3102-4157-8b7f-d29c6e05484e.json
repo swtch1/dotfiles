@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Analyze successful test patterns to understand proper coordinator/node lifecycle",
+    "status": "completed",
+    "priority": "high",
+    "id": "analyze-test-patterns"
+  },
+  {
+    "content": "Examine coordinator initialization and finalize() method to understand race condition",
+    "status": "completed",
+    "priority": "high",
+    "id": "examine-coordinator-init"
+  },
+  {
+    "content": "Identify specific synchronization issues in TestNode_RuntimeVarsIteration",
+    "status": "completed",
+    "priority": "high",
+    "id": "identify-sync-issues"
+  },
+  {
+    "content": "Design comprehensive fix plan with proper synchronization and lifecycle management",
+    "status": "completed",
+    "priority": "medium",
+    "id": "design-fix-plan"
+  }
+]

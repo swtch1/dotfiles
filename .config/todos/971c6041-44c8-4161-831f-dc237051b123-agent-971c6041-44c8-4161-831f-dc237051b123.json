@@ -1,0 +1,14 @@
+[
+  {
+    "content": "Identify exported symbols that should be unexported",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Change exported symbols to unexported (lowercase)",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  }
+]

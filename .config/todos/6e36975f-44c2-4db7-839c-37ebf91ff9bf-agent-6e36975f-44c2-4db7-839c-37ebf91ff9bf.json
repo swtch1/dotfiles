@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Find test files for MCP functionality",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Fix tests related to IDEConfig changes",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Fix tests related to work-dir flag",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Verify all tests pass",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  }
+]

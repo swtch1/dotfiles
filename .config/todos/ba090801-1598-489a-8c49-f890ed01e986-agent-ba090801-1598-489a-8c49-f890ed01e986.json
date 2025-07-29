@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Analyze pipeline job order and version mismatch",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Check release job and version creation",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Verify npm package structure and installation script",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  }
+]
