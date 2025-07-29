@@ -1,8 +1,0 @@
-[
-  {
-    "content": "Fix WriteHTTPReq to strip port from req.Host",
-    "status": "in_progress",
-    "priority": "high",
-    "id": "9"
-  }
-]

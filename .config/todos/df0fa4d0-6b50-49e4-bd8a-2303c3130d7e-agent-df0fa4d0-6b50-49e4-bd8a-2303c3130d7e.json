@@ -1,8 +1,0 @@
-[
-  {
-    "content": "Revert replay mode from errgroup back to error channel pattern",
-    "status": "completed",
-    "priority": "high",
-    "id": "1"
-  }
-]
