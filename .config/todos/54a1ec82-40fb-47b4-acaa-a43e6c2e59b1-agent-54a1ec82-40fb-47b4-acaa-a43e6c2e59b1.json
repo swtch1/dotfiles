@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Review code for debug lines and cleanup",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Check code against CLAUDE.md standards",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Review for proper separation of concerns",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Consider edge cases and error handling",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Ensure comments follow 'why not what' philosophy",
+    "status": "completed",
+    "priority": "low",
+    "id": "5"
+  },
+  {
+    "content": "Write finalization summary document",
+    "status": "completed",
+    "priority": "low",
+    "id": "6"
+  }
+]

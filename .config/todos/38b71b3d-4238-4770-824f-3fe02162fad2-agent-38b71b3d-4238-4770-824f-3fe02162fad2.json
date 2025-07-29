@@ -1,0 +1,44 @@
+[
+  {
+    "content": "Convert toolStopRecording to toolDefinition pattern",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Convert toolStartMockServer to toolDefinition pattern",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Convert toolStopMockServer to toolDefinition pattern",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Convert toolReplayTraffic to toolDefinition pattern",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Convert toolPullRemoteRecording to toolDefinition pattern",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Convert toolCompareRRPairFiles to toolDefinition pattern",
+    "status": "completed",
+    "priority": "high",
+    "id": "6"
+  },
+  {
+    "content": "Fix test failures after refactoring",
+    "status": "completed",
+    "priority": "high",
+    "id": "7"
+  }
+]

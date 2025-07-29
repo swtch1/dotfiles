@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Fix corrupted protobuf generated files",
+    "status": "pending",
+    "priority": "high",
+    "id": "fix-protobuf"
+  },
+  {
+    "content": "Check if detector package exists",
+    "status": "pending",
+    "priority": "high",
+    "id": "check-detector"
+  },
+  {
+    "content": "Fix summary tab ordering to be first tab",
+    "status": "pending",
+    "priority": "medium",
+    "id": "fix-tab-order"
+  },
+  {
+    "content": "Verify markdown binary encoding implementation",
+    "status": "pending",
+    "priority": "medium",
+    "id": "verify-markdown"
+  }
+]

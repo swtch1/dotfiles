@@ -12,26 +12,27 @@ return {
 			height_ratio = 0.85,
 		},
 	},
-	{ -- yaml path
-		"cuducos/yaml.nvim",
-		lazy = true,
-		ft = { "yaml", "yml" },
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-		},
-		opts = {
-			winbar = true,
-		},
-		config = function(_, opts)
-			require("yaml_nvim").setup(opts)
-			vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-				pattern = { "*.yaml", "*.yml" },
-				callback = function()
-					vim.opt_local.winbar = require("yaml_nvim").get_yaml_key()
-				end,
-			})
-		end,
-	},
+	-- commented because this was breaking editing
+	-- { -- yaml path
+	-- 	"cuducos/yaml.nvim",
+	-- 	lazy = true,
+	-- 	ft = { "yaml", "yml" },
+	-- 	dependencies = {
+	-- 		"nvim-treesitter/nvim-treesitter",
+	-- 	},
+	-- 	opts = {
+	-- 		winbar = true,
+	-- 	},
+	-- 	config = function(_, opts)
+	-- 		require("yaml_nvim").setup(opts)
+	-- 		vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+	-- 			pattern = { "*.yaml", "*.yml" },
+	-- 			callback = function()
+	-- 				vim.opt_local.winbar = require("yaml_nvim").get_yaml_key()
+	-- 			end,
+	-- 		})
+	-- 	end,
+	-- },
 	{ -- json path
 		"phelipetls/jsonpath.nvim",
 		ft = { "json" },

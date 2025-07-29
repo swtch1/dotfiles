@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Understand the current codebase structure and data flow for snapshot pull and replay",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Design metadata preservation mechanism during snapshot pull",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Design metadata loading mechanism during proxymock replay",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Implement metadata preservation in pull_snapshot.go",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Implement metadata loading in run.go for replay",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Test the implementation",
+    "status": "completed",
+    "priority": "medium",
+    "id": "6"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "content": "Examine codebase to identify API server type and endpoints",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Determine version comparison scenario (unstaged changes, clean branch, etc.)",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Start API server on port 8080",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Record traffic from current version using all endpoints",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Replay traffic against current version to establish baseline",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Compare recorded vs replayed traffic using compare_rrpair_files",
+    "status": "completed",
+    "priority": "high",
+    "id": "6"
+  },
+  {
+    "content": "Await user clarification on version comparison scenario",
+    "status": "pending",
+    "priority": "high",
+    "id": "7"
+  }
+]

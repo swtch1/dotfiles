@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Find where output goes to stdout currently",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Locate --log-to flag implementation",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Modify output to respect --log-to flag",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "content": "Create planning document for MCP compare command feature",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Analyze existing MCP server structure and patterns",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Understand proxymock files compare command functionality",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Design MCP tool interface for compare command",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Implement compare tool in server.go",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Write comprehensive tests for compare functionality",
+    "status": "completed",
+    "priority": "medium",
+    "id": "6"
+  },
+  {
+    "content": "Validate integration with existing MCP server",
+    "status": "completed",
+    "priority": "low",
+    "id": "7"
+  }
+]

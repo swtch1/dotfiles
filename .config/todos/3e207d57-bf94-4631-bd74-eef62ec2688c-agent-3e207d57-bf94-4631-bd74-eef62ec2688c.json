@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Review code for debug lines and cleanup any temporary code",
+    "status": "completed",
+    "priority": "high",
+    "id": "cleanup-1"
+  },
+  {
+    "content": "Validate test behavior prevents regressions and tests intended functionality",
+    "status": "completed",
+    "priority": "high",
+    "id": "cleanup-2"
+  },
+  {
+    "content": "Check production code for correctness, best practices, and edge cases",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "cleanup-3"
+  },
+  {
+    "content": "Consider production robustness and diverse input handling",
+    "status": "pending",
+    "priority": "medium",
+    "id": "cleanup-4"
+  },
+  {
+    "content": "Write concise summary document of changes made",
+    "status": "pending",
+    "priority": "medium",
+    "id": "cleanup-5"
+  }
+]

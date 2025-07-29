@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Investigate why mock/replay commands show verbose output to stdout when child process is launched",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Fix output redirection so mock/replay match record command pattern",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Test all three commands to verify they show identical clean output pattern",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  }
+]

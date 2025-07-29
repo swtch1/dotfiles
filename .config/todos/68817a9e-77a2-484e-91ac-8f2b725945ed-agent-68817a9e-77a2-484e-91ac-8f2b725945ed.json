@@ -1,0 +1,44 @@
+[
+  {
+    "content": "Update docs to reflect decision for Option 1 (Process Groups)",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Read current handleChildProcess implementation in run.go",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Analyze os.Exit() vs OS-level cleanup interaction",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Implement configureOSProcessCleanup function for Option 1",
+    "status": "pending",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Update launchUserApplication to use process groups",
+    "status": "pending",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Simplify handleChildProcess to remove complex signal handling",
+    "status": "pending",
+    "priority": "medium",
+    "id": "6"
+  },
+  {
+    "content": "Test the process groups implementation",
+    "status": "pending",
+    "priority": "medium",
+    "id": "7"
+  }
+]

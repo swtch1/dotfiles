@@ -1,0 +1,8 @@
+[
+  {
+    "content": "Remove all backticks from llm_prompt.md while maintaining formatting intent",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  }
+]

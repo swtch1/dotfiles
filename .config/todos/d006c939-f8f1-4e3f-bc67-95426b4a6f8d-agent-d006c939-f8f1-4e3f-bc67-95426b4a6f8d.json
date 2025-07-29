@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Clean up debug statements in server.go (lines 107, 118-136)",
+    "status": "pending",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Create server_sse_test.go with basic SSE server tests",
+    "status": "pending",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Add integration tests for tools over SSE transport",
+    "status": "pending",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Test header extraction and authentication",
+    "status": "pending",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Test progress notifications for remote recording",
+    "status": "pending",
+    "priority": "low",
+    "id": "5"
+  }
+]

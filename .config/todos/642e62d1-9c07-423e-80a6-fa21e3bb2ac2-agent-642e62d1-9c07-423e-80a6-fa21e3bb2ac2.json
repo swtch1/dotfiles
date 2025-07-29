@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Investigate why h2c traffic is not being recorded",
+    "status": "completed",
+    "priority": "high",
+    "id": "investigate-h2c-not-recording"
+  },
+  {
+    "content": "Fix h2c recording issue",
+    "status": "completed",
+    "priority": "high",
+    "id": "fix-h2c-recording"
+  },
+  {
+    "content": "Test both HTTP and h2c scenarios again",
+    "status": "completed",
+    "priority": "high",
+    "id": "retest-both-scenarios"
+  },
+  {
+    "content": "Clean up all debug prints",
+    "status": "completed",
+    "priority": "high",
+    "id": "cleanup-all-debug"
+  }
+]

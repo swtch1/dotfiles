@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Update checkCursor to use osx.DirectoryExists",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update modifyMCPConfig to use osx.FileExists",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Update checkClaudeDesktop to use osx.DirectoryExists",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Update checkVSCode to use osx.DirectoryExists",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Update checkClaudeCode to use osx.FileExists",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Update checkCline to use osx.DirectoryExists",
+    "status": "completed",
+    "priority": "high",
+    "id": "6"
+  }
+]

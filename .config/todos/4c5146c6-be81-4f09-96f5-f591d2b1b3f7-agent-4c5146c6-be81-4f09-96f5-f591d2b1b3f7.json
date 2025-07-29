@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Create planning document for fixing TestH2CTransparency test",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Remove flawed TestH2CTransparency test",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Create TestH2CUpgradeHandling test with direct TCP connection",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Add helper functions for raw TCP h2c testing",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Run tests to verify implementation",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Remove unnecessary header addition and fix test approach",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "6"
+  }
+]

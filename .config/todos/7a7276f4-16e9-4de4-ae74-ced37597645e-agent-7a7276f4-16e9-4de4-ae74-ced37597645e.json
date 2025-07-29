@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Remove AI comment from test file",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Add cleanup logic to stop all running processes when MCP server exits",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Test the cleanup functionality",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  }
+]

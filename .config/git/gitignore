@@ -5,6 +5,7 @@ yarn.lock
 *.vim
 Session.vim
 
-# aider AI
+# AI
 .aider*
+**/.claude/settings.local.json
 

@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Identify application details and port",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Start recording traffic with proxymock",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Configure proxy environment variables",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Start the Go application in background",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Drive traffic through application",
+    "status": "in_progress",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Stop recording and summarize",
+    "status": "pending",
+    "priority": "medium",
+    "id": "6"
+  }
+]

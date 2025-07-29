@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "proxymock-simulator": {
+      "url": "http://localhost:8080/sse",
+      "type": "sse",
+      "env": {
+        "PYTHONWARNINGS": "ignore",
+        "LOG_LEVEL": "WARNING",
+        "LOGGING_LEVEL": "WARNING",
+        "CHUK_LOG_LEVEL": "WARNING",
+        "CHUK_MCP_LOG_LEVEL": "WARNING",
+        "MCP_LOG_LEVEL": "WARNING",
+        "CHUK_MCP_RUNTIME_LOG_LEVEL": "ERROR",
+        "CHUK_SESSIONS_LOG_LEVEL": "ERROR",
+        "CHUK_ARTIFACTS_LOG_LEVEL": "ERROR",
+        "PYTHONPATH_LOGGING_LEVEL": "WARNING"
+      }
+    }
+  }
+}

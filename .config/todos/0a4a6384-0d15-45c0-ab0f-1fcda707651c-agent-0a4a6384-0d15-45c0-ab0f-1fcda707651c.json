@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Analyze current PayloadBytes method for HTTP/2 frame handling",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Implement HTTP/2 frame detection logic",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Create JSON representation for HTTP/2 frames in PayloadBytes",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Update SetPayloadFromBytes for reverse conversion",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Test the fix with H2C scenarios",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  }
+]

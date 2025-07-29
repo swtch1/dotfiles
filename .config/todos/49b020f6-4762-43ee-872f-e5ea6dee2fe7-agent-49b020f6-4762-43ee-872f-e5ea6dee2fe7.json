@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Convert GitHub Actions workflow to GitLab CI/CD format",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "convert-to-gitlab"
+  },
+  {
+    "content": "Update package.json URLs to be GitLab-appropriate",
+    "status": "pending",
+    "priority": "medium",
+    "id": "update-package-urls"
+  },
+  {
+    "content": "Remove GitHub-specific files and references",
+    "status": "pending",
+    "priority": "medium",
+    "id": "cleanup-github-references"
+  }
+]

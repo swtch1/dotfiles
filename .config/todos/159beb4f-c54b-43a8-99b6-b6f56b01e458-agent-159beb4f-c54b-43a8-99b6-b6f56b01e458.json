@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Compare old and new format examples to identify changes",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update documentation to reflect new backtick-wrapped format",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Review code to understand implementation details",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  }
+]
