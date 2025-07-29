@@ -21,13 +21,13 @@ cp ~/.zshrc* .
   cp -r ~/.config/k9s .
   cp -r ~/.config/direnv .
   cp -r ~/.config/ghostty .
-
-	mkdir .claude
-  cp -r ~/.claude/mcp.json .claude/
-	cp -r ~/.claude/commands/ .claude/
-	cp -r ~/.claude/agents/ .claude/
-
   popd
+
+  rm -rf .claude
+	mkdir .claude
+  cp -r ~/.claude/mcp.json .claude/mcp.json
+	cp -r ~/.claude/commands/ .claude/commands/
+	cp -r ~/.claude/agents/ .claude/agents/
 }
 
 echo 'copying scripts'
