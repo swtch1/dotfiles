@@ -25,7 +25,7 @@ cp ~/.zshrc* .
 
   rm -rf .claude
 	mkdir .claude
-  cp -r ~/.claude/mcp.json .claude/mcp.json
+  cp ~/.claude/mcp*.json .claude/
 	cp -r ~/.claude/commands/ .claude/commands/
 	cp -r ~/.claude/agents/ .claude/agents/
 }
