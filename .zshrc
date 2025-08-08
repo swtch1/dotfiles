@@ -16,9 +16,11 @@ export PATH="$PATH:/Users/josh/.local/bin"
 # which characters are considered part of a word
 export WORDCHARS=''
 
+
 # speedscale
 export SPEEDSCALE_HOME=/Users/josh/.speedscale
-export PATH=$SPEEDSCALE_HOME:$PATH
+export PATH=$PATH:$SPEEDSCALE_HOME
+
 # speedscale dir shorthands
 sc=~/.speedscale/config.yaml
 sd=~/.speedscale/data
@@ -474,3 +476,8 @@ function tabname() {
 
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/josh/.lmstudio/bin"
+# End of LM Studio CLI section
+

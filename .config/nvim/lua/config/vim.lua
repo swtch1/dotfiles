@@ -177,22 +177,23 @@ do -- mappings
 		{ desc = "edit debugger configuration" }
 	)
 	vim.keymap.set("n", "<leader>rB", function()
-		local file_paths = get_visible_buffer_paths()
-		if #file_paths > 0 then
-			local joined_paths = table.concat(file_paths, " ")
-			vim.fn.setreg("+", joined_paths)
-		else
-			vim.notify("no valid visible buffers found to copy.", vim.log.levels.WARN)
-		end
-	end, { desc = "copy all buffer paths to clipboard" })
-	vim.keymap.set("n", "<leader>rb", function()
 		local current_buffer_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
 		if current_buffer_path ~= "" then
-			vim.fn.setreg("+", current_buffer_path)
+			local line_number = vim.fn.line(".")
+			local result = "@" .. current_buffer_path .. " line " .. line_number .. " "
+			vim.fn.setreg("+", result)
 		else
 			vim.notify("no file name for current buffer.", vim.log.levels.WARN)
 		end
-	end, { desc = "copy current buffer path to clipboard" })
+	end, { desc = "copy current buffer path with line number to clipboard" })
+	vim.keymap.set("n", "<leader>rb", function()
+		local current_buffer_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
+		if current_buffer_path ~= "" then
+			vim.fn.setreg("+", "@" .. current_buffer_path .. " ")
+		else
+			vim.notify("no file name for current buffer.", vim.log.levels.WARN)
+		end
+	end, { desc = "copy current buffer path with @ prefix to clipboard" })
 
 	-- modes
 	vim.keymap.set("n", "<leader>mv", "<C-v>", { desc = "visual mode" })
