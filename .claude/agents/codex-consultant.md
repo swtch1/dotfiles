@@ -46,10 +46,26 @@ Your goal is to combine your deep codebase knowledge with codex's superior criti
 To consult codex about a refactoring plan:
 ```
 codex --model gpt-5 <<EOF
-I'm refactoring the authentication system from JWT to session-based auth. Here's my plan:
-[detailed implementation plan]
+Provide a critical review of this refactoring plan to move from JWT to session-based auth.
 
-Please review this approach for potential issues, security concerns, and suggest improvements.
+Reference documents:
+- .ai/plan.md
+
+Current implementation:
+- JWT auth logic: src/auth/jwt.ts:45-120
+- Token validation: src/middleware/auth.ts:15-40
+- User context: src/context/user.ts:entire file
+
+Proposed changes:
+1. Replace JWT tokens with server-side sessions using Redis
+2. Migrate existing JWT refresh tokens to session IDs
+3. Update middleware to validate sessions instead of tokens
+
+Analyze this plan for:
+- Security implications of the migration
+- Potential edge cases I haven't considered
+- Better migration strategies
+- Any fundamental flaws in the approach
 
 IMPORTANT: Provide feedback and analysis only. You may explore the codebase with commands but DO NOT modify any files.
 EOF
