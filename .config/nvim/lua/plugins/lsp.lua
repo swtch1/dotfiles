@@ -29,7 +29,6 @@ return {
 		lazy = true,
 		ft = { "lua" },
 	},
-	{ "mfussenegger/nvim-jdtls" },
 	{
 		"SmiteshP/nvim-navic",
 		opts = {
