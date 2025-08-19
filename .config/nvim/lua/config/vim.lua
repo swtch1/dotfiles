@@ -180,7 +180,7 @@ do -- mappings
 		local current_buffer_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
 		if current_buffer_path ~= "" then
 			local line_number = vim.fn.line(".")
-			local result = "@" .. current_buffer_path .. " line " .. line_number .. " "
+			local result = "@" .. current_buffer_path .. " line " .. line_number
 			vim.fn.setreg("+", result)
 		else
 			vim.notify("no file name for current buffer.", vim.log.levels.WARN)
@@ -189,7 +189,7 @@ do -- mappings
 	vim.keymap.set("n", "<leader>rb", function()
 		local current_buffer_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
 		if current_buffer_path ~= "" then
-			vim.fn.setreg("+", "@" .. current_buffer_path .. " ")
+			vim.fn.setreg("+", "@" .. current_buffer_path)
 		else
 			vim.notify("no file name for current buffer.", vim.log.levels.WARN)
 		end
