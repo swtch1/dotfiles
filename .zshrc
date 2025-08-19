@@ -179,7 +179,6 @@ alias gw='g worktree'
 alias gcm='g commit -m'
 
 ## kubernetes
-alias watch='viddy'
 alias k='kubectl'
 alias wk='watch kubectl'
 alias kx='kubectx'
