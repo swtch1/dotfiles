@@ -83,6 +83,7 @@ ZSH_THEME="robbyrussell"
 COMPLETION_WAITING_DOTS="true"
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 HYPHEN_INSENSITIVE="true"
+DISABLE_AUTO_TITLE="true"
 source $ZSH/oh-my-zsh.sh
 
 
@@ -468,9 +469,42 @@ function analyze_report() {
     --message '{"msgType":"event","version":"0.0.1","name":"sigReport","type":"STRING","stringVal":{"val":"trafficReplayStarted"},"tags":{"source":"jmt-test","tenantId":"63b7c67e-233d-4e9e-a9aa-62db482be7ac","testReportId":"'$rpt_id'"}}'
 }
 
-# set the name of the terminal tab
-function tabname() {
-  echo -ne "\033]0;$@\007"
+# tab name management
+# see ~/.config/ghostty/config for the other half of this setup
+{
+  # remove ALL title-related hooks (run after first prompt)
+  function cleanup_title_hooks() {
+      add-zsh-hook -D precmd _ghostty_precmd 2>/dev/null
+      add-zsh-hook -D preexec _ghostty_preexec 2>/dev/null
+      add-zsh-hook -D precmd omz_termsupport_precmd 2>/dev/null
+      add-zsh-hook -D preexec omz_termsupport_preexec 2>/dev/null
+      add-zsh-hook -D precmd cleanup_title_hooks  # Remove ourselves
+  }
+  add-zsh-hook precmd cleanup_title_hooks
+
+  # Tabname function that persists through commands
+  tabname() {
+      echo -ne "\033]0;$@\007"
+      export CUSTOM_TAB_TITLE="$@"
+
+      # Preserve title function
+      function preserve_title() {
+          if [[ -n "$CUSTOM_TAB_TITLE" ]]; then
+              echo -ne "\033]0;$CUSTOM_TAB_TITLE\007"
+          fi
+      }
+
+      # Add to BOTH precmd and preexec to survive commands
+      add-zsh-hook precmd preserve_title
+      add-zsh-hook preexec preserve_title
+  }
+
+  # Clear custom title
+  cleartab() {
+      unset CUSTOM_TAB_TITLE
+      add-zsh-hook -D precmd preserve_title 2>/dev/null
+      add-zsh-hook -D preexec preserve_title 2>/dev/null
+  }
 }
 
 # Amazon Q post block. Keep at the bottom of this file.
@@ -479,4 +513,8 @@ function tabname() {
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/josh/.lmstudio/bin"
 # End of LM Studio CLI section
+
+##########################
+### EXPERIMENTAL BELOW ###
+##########################
 

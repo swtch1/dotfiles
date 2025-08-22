@@ -17,6 +17,7 @@ vim.opt.listchars = {
 	trail = "·",
 }
 
+vim.opt.title = false
 vim.opt.compatible = false
 vim.opt.wrap = false
 vim.opt.number = true
@@ -25,7 +26,6 @@ vim.opt.smartcase = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.swapfile = false
-vim.opt.title = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.showcmd = true
@@ -293,3 +293,13 @@ do -- autocmds
 	-- 	desc = "disable syntax highlighting for go files",
 	-- })
 end
+
+--------------------------
+--- EXPERIMENTAL BELOW ---
+--------------------------
+
+-- Disable title
+vim.opt.title = false
+vim.opt.titlestring = ""
+vim.opt.icon = false
+vim.opt.iconstring = ""

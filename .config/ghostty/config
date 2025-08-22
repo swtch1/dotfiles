@@ -1,6 +1,10 @@
 # startup
 command = /opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf
 
+# Disable title management from shell integration
+# See ~/.zshrc for the other half of this setup
+shell-integration-features = no-title
+
 # window
 gtk-tabs-location = bottom
 window-new-tab-position = end
@@ -18,6 +22,8 @@ mouse-scroll-multiplier = 0.1
 
 # keybindings
 keybind = cmd+k=ignore
+keybind = cmd+d=new_split:right
+keybind = cmd+shift+d=new_split:down
 
 # text
 font-feature = -calt
