@@ -4,7 +4,7 @@ return {
 		opts = {
 			view_options = {
 				show_hidden = true,
-			}
+			},
 		},
 		dependencies = { { "echasnovski/mini.icons" } },
 		-- not lazy so we can load directly into a directory

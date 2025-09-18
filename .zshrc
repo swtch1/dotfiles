@@ -164,7 +164,7 @@ alias gaa='g add --all'
 alias gp='g pull --rebase --autostash'
 function gpw() { g --work-tree "$1" pull }
 alias gpsh='g push'
-alias gs='g status -s && g status | rg "g push"'
+alias gs='g status -s'
 alias gc='g checkout'
 alias gsh='g stash'
 alias gpu=git_push_initial
@@ -471,40 +471,63 @@ function analyze_report() {
 
 # tab name management
 # see ~/.config/ghostty/config for the other half of this setup
+# {
+#   # remove ALL title-related hooks (run after first prompt)
+#   function cleanup_title_hooks() {
+#       add-zsh-hook -D precmd _ghostty_precmd 2>/dev/null
+#       add-zsh-hook -D preexec _ghostty_preexec 2>/dev/null
+#       add-zsh-hook -D precmd omz_termsupport_precmd 2>/dev/null
+#       add-zsh-hook -D preexec omz_termsupport_preexec 2>/dev/null
+#       add-zsh-hook -D precmd cleanup_title_hooks  # Remove ourselves
+#   }
+#   add-zsh-hook precmd cleanup_title_hooks
+
+#   # Tabname function that persists through commands
+#   tabname() {
+#       echo -ne "\033]0;$@\007"
+#       export CUSTOM_TAB_TITLE="$@"
+
+#       # Preserve title function
+#       function preserve_title() {
+#           if [[ -n "$CUSTOM_TAB_TITLE" ]]; then
+#               echo -ne "\033]0;$CUSTOM_TAB_TITLE\007"
+#           fi
+#       }
+
+#       # Add to BOTH precmd and preexec to survive commands
+#       add-zsh-hook precmd preserve_title
+#       add-zsh-hook preexec preserve_title
+#   }
+
+#   # Clear custom title
+#   cleartab() {
+#       unset CUSTOM_TAB_TITLE
+#       add-zsh-hook -D precmd preserve_title 2>/dev/null
+#       add-zsh-hook -D preexec preserve_title 2>/dev/null
+#   }
+# }
+
+# FIXME: (JMT) experimental
 {
-  # remove ALL title-related hooks (run after first prompt)
-  function cleanup_title_hooks() {
-      add-zsh-hook -D precmd _ghostty_precmd 2>/dev/null
-      add-zsh-hook -D preexec _ghostty_preexec 2>/dev/null
-      add-zsh-hook -D precmd omz_termsupport_precmd 2>/dev/null
-      add-zsh-hook -D preexec omz_termsupport_preexec 2>/dev/null
-      add-zsh-hook -D precmd cleanup_title_hooks  # Remove ourselves
-  }
-  add-zsh-hook precmd cleanup_title_hooks
+# Persistent tab name function
+tabname() {
+    echo -ne "\033]0;$@\007"
+    export CUSTOM_TAB_TITLE="$@"
 
-  # Tabname function that persists through commands
-  tabname() {
-      echo -ne "\033]0;$@\007"
-      export CUSTOM_TAB_TITLE="$@"
+    preserve_title() {
+        [[ -n "$CUSTOM_TAB_TITLE" ]] && echo -ne "\033]0;$CUSTOM_TAB_TITLE\007"
+    }
 
-      # Preserve title function
-      function preserve_title() {
-          if [[ -n "$CUSTOM_TAB_TITLE" ]]; then
-              echo -ne "\033]0;$CUSTOM_TAB_TITLE\007"
-          fi
-      }
+    add-zsh-hook precmd preserve_title
+    add-zsh-hook preexec preserve_title
+}
 
-      # Add to BOTH precmd and preexec to survive commands
-      add-zsh-hook precmd preserve_title
-      add-zsh-hook preexec preserve_title
-  }
-
-  # Clear custom title
-  cleartab() {
-      unset CUSTOM_TAB_TITLE
-      add-zsh-hook -D precmd preserve_title 2>/dev/null
-      add-zsh-hook -D preexec preserve_title 2>/dev/null
-  }
+# Clear custom title
+cleartab() {
+    unset CUSTOM_TAB_TITLE
+    add-zsh-hook -D precmd preserve_title 2>/dev/null
+    add-zsh-hook -D preexec preserve_title 2>/dev/null
+}
 }
 
 # Amazon Q post block. Keep at the bottom of this file.
@@ -518,3 +541,8 @@ export PATH="$PATH:/Users/josh/.lmstudio/bin"
 ### EXPERIMENTAL BELOW ###
 ##########################
 
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/josh/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
