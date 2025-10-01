@@ -5,7 +5,6 @@ vim.diagnostic.config({
 	virtual_text = false,
 })
 
-local lspconfig = require("lspconfig")
 local navic = require("nvim-navic")
 local default_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
@@ -15,7 +14,6 @@ local on_attach = function(client, bufnr)
 	end
 end
 
-vim.lsp.enable("lua_ls")
 vim.lsp.config("lua_ls", {
 	on_attach = function(client, bufnr)
 		navic.attach(client, bufnr)
@@ -25,10 +23,15 @@ vim.lsp.config("lua_ls", {
 			diagnostics = {
 				globals = { "vim" },
 			},
+			workspace = {
+				-- make the LSP server aware of Neovim runtime files so we get LSP details on `vim.*`
+				library = vim.api.nvim_get_runtime_file("", true),
+			},
 		},
 	},
 })
-vim.lsp.enable("gopls")
+vim.lsp.enable("lua_ls")
+
 vim.lsp.config("gopls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
@@ -105,61 +108,73 @@ vim.lsp.config("gopls", {
 		},
 	},
 })
-vim.lsp.enable("bashls")
+vim.lsp.enable("gopls")
+
 vim.lsp.config("bashls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-vim.lsp.enable("jedi_language_server")
+vim.lsp.enable("bashls")
+
 vim.lsp.config("jedi_language_server", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-vim.lsp.enable("jdtls")
+vim.lsp.enable("jedi_language_server")
+
 vim.lsp.config("jdtls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-vim.lsp.enable("rust_analyzer")
+vim.lsp.enable("jdtls")
+
 vim.lsp.config("rust_analyzer", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-vim.lsp.enable("solargraph")
+vim.lsp.enable("rust_analyzer")
+
 vim.lsp.config("solargraph", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-vim.lsp.enable("sqlls")
+vim.lsp.enable("solargraph")
+
 vim.lsp.config("sqlls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-vim.lsp.enable("tflint")
+vim.lsp.enable("sqlls")
+
 vim.lsp.config("tflint", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-vim.lsp.enable("ts_ls")
+vim.lsp.enable("tflint")
+
 vim.lsp.config("ts_ls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-vim.lsp.enable("zk")
+vim.lsp.enable("ts_ls")
+
 vim.lsp.config("zk", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-vim.lsp.enable("terraformls")
+vim.lsp.enable("zk")
+
 vim.lsp.config("terraformls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-vim.lsp.enable("gitlab_ci_ls")
+vim.lsp.enable("terraformls")
+
 vim.lsp.config("gitlab_ci_ls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
+vim.lsp.enable("gitlab_ci_ls")
 
 -- supposed to be for proto but it doesn't work
 -- local caps = require('cmp_nvim_lsp').default_capabilities()
