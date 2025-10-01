@@ -15,7 +15,8 @@ local on_attach = function(client, bufnr)
 	end
 end
 
-lspconfig.lua_ls.setup({
+vim.lsp.enable("lua_ls")
+vim.lsp.config("lua_ls", {
 	on_attach = function(client, bufnr)
 		navic.attach(client, bufnr)
 	end,
@@ -27,7 +28,8 @@ lspconfig.lua_ls.setup({
 		},
 	},
 })
-lspconfig.gopls.setup({
+vim.lsp.enable("gopls")
+vim.lsp.config("gopls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 	cmd = {
@@ -103,47 +105,58 @@ lspconfig.gopls.setup({
 		},
 	},
 })
-lspconfig.bashls.setup({
+vim.lsp.enable("bashls")
+vim.lsp.config("bashls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-lspconfig.jedi_language_server.setup({
+vim.lsp.enable("jedi_language_server")
+vim.lsp.config("jedi_language_server", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-lspconfig.jdtls.setup({
+vim.lsp.enable("jdtls")
+vim.lsp.config("jdtls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-lspconfig.rust_analyzer.setup({
+vim.lsp.enable("rust_analyzer")
+vim.lsp.config("rust_analyzer", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-lspconfig.solargraph.setup({
+vim.lsp.enable("solargraph")
+vim.lsp.config("solargraph", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-lspconfig.sqlls.setup({
+vim.lsp.enable("sqlls")
+vim.lsp.config("sqlls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-lspconfig.tflint.setup({
+vim.lsp.enable("tflint")
+vim.lsp.config("tflint", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-lspconfig.ts_ls.setup({
+vim.lsp.enable("ts_ls")
+vim.lsp.config("ts_ls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-lspconfig.zk.setup({
+vim.lsp.enable("zk")
+vim.lsp.config("zk", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-lspconfig.terraformls.setup({
+vim.lsp.enable("terraformls")
+vim.lsp.config("terraformls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
-lspconfig.gitlab_ci_ls.setup({
+vim.lsp.enable("gitlab_ci_ls")
+vim.lsp.config("gitlab_ci_ls", {
 	capabilities = default_capabilities,
 	on_attach = on_attach,
 })
