@@ -176,6 +176,17 @@ vim.lsp.config("gitlab_ci_ls", {
 })
 vim.lsp.enable("gitlab_ci_ls")
 
+vim.lsp.config("zls", {
+	capabilities = default_capabilities,
+	on_attach = on_attach,
+	settings = {
+		zls = {
+			zig_exe_path = "/opt/homebrew/bin/zig",
+		},
+	},
+})
+vim.lsp.enable("zls")
+
 -- supposed to be for proto but it doesn't work
 -- local caps = require('cmp_nvim_lsp').default_capabilities()
 -- caps.offsetEncoding = { 'utf-16' }
