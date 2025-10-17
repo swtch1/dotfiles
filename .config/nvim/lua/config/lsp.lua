@@ -5,19 +5,17 @@ vim.diagnostic.config({
 	virtual_text = false,
 })
 
-local navic = require("nvim-navic")
 local default_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local on_attach = function(client, bufnr)
-	if client.server_capabilities.documentSymbolProvider then
+	local ok, navic = pcall(require, "nvim-navic")
+	if ok and client.server_capabilities.documentSymbolProvider then
 		navic.attach(client, bufnr)
 	end
 end
 
 vim.lsp.config("lua_ls", {
-	on_attach = function(client, bufnr)
-		navic.attach(client, bufnr)
-	end,
+	on_attach = on_attach,
 	settings = {
 		Lua = {
 			diagnostics = {
@@ -115,6 +113,12 @@ vim.lsp.config("bashls", {
 	on_attach = on_attach,
 })
 vim.lsp.enable("bashls")
+
+vim.lsp.config("gitlab_ci_ls", {
+	capabilities = default_capabilities,
+	on_attach = on_attach,
+})
+vim.lsp.enable("gitlab-ci-ls")
 
 vim.lsp.config("jedi_language_server", {
 	capabilities = default_capabilities,

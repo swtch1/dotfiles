@@ -1,5 +1,5 @@
 # startup
-command = /opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf
+#command = /opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf
 
 # Disable title management from shell integration
 # See ~/.zshrc for the other half of this setup
@@ -28,4 +28,3 @@ keybind = cmd+shift+d=new_split:down
 # text
 font-feature = -calt
 window-inherit-font-size = true
-keybind = shift+enter=text:\x1b\r
