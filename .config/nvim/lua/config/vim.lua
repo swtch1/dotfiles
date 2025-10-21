@@ -106,32 +106,32 @@ do -- macros
 	local comment_group = vim.api.nvim_create_augroup("set_comment_registers", { clear = true })
 
 	-- c-style comments
-	vim.api.nvim_create_autocmd("BufEnter", {
-		pattern = { "*.go", "*.js", "*.ts", "*.c", "*.cpp", "*.java", "*.jsx", "*.tsx" },
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = { "go", "javascript", "typescript", "c", "cpp", "java", "javascriptreact", "typescriptreact" },
 		callback = function()
 			set_comment_registers("//", "")
 		end,
 		group = comment_group,
 	})
 	-- hash style comments
-	vim.api.nvim_create_autocmd("BufEnter", {
-		pattern = { "*.py", "*.rb", "*.pl", "*.yaml", "*.yml", "*.sh", "*.zsh" },
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = { "python", "ruby", "perl", "yaml", "sh", "zsh" },
 		callback = function()
 			set_comment_registers("#", "")
 		end,
 		group = comment_group,
 	})
 	-- lua style comments
-	vim.api.nvim_create_autocmd("BufEnter", {
-		pattern = "*.lua",
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = "lua",
 		callback = function()
 			set_comment_registers("--", "")
 		end,
 		group = comment_group,
 	})
 	-- markdown style comments
-	vim.api.nvim_create_autocmd("BufEnter", {
-		pattern = "*.md",
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = "markdown",
 		callback = function()
 			set_comment_registers("<!--", "-->")
 		end,
@@ -176,7 +176,7 @@ do -- mappings
 		":vsp /Users/josh/.config/nvim/lua/plugins/dap.lua<CR>",
 		{ desc = "edit debugger configuration" }
 	)
-	vim.keymap.set("n", "<leader>rB", function()
+	vim.keymap.set("n", "<leader>rb", function()
 		local current_buffer_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
 		if current_buffer_path ~= "" then
 			local line_number = vim.fn.line(".")
@@ -186,7 +186,7 @@ do -- mappings
 			vim.notify("no file name for current buffer.", vim.log.levels.WARN)
 		end
 	end, { desc = "copy current buffer path with line number to clipboard" })
-	vim.keymap.set("n", "<leader>rb", function()
+	vim.keymap.set("n", "<leader>rB", function()
 		local current_buffer_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
 		if current_buffer_path ~= "" then
 			vim.fn.setreg("+", "@" .. current_buffer_path)
