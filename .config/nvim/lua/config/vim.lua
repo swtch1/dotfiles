@@ -176,7 +176,7 @@ do -- mappings
 		":vsp /Users/josh/.config/nvim/lua/plugins/dap.lua<CR>",
 		{ desc = "edit debugger configuration" }
 	)
-	vim.keymap.set("n", "<leader>rb", function()
+	vim.keymap.set("n", "<leader>rB", function()
 		local current_buffer_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
 		if current_buffer_path ~= "" then
 			local line_number = vim.fn.line(".")
@@ -186,7 +186,7 @@ do -- mappings
 			vim.notify("no file name for current buffer.", vim.log.levels.WARN)
 		end
 	end, { desc = "copy current buffer path with line number to clipboard" })
-	vim.keymap.set("n", "<leader>rB", function()
+	vim.keymap.set("n", "<leader>rb", function()
 		local current_buffer_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
 		if current_buffer_path ~= "" then
 			vim.fn.setreg("+", "@" .. current_buffer_path)
