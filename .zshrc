@@ -4,6 +4,8 @@
 ### env ###
 ###########
 
+export XDG_CONFIG_HOME=$HOME/.config
+
 export EDITOR='nvim'
 
 export PATH="$PATH:/usr/local/bin"
@@ -15,7 +17,6 @@ export PATH="$PATH:/Users/josh/.local/bin"
 
 # which characters are considered part of a word
 export WORDCHARS=''
-
 
 # speedscale
 export SPEEDSCALE_HOME=/Users/josh/.speedscale
@@ -32,6 +33,9 @@ export PATH="/Users/josh/.local/share/solana/install/active_release/bin:$PATH"
 
 # kubernetes plugins
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+# k9s config location
+export K9S_CONFIG_DIR="${XDG_CONFIG_HOME}/k9s"
 
 # zsh
 DISABLE_MAGIC_FUNCTIONS="true"
@@ -221,8 +225,12 @@ source <(kubebuilder completion zsh)
 ### custom funcs ###
 ####################
 
+function cwd() {
+	echo -n "cd $(pwd)" | pbcopy
+}
+
 # run k9s in a specific context
-k9c() {
+function k9c() {
   local args=("$@")
 
   # extract and remove context
@@ -261,7 +269,7 @@ function vh() {
   fi
 
   # last=$(history | rg rg | tail -n1 | sed 's/[0-9]*: [0-9]*  //') # for earlier numbers - we need a better sed expression
-  last=$(history | rg rg | tail -n1 | sed -E 's/[0-9]*:[0-9]*  //')
+  last=$(history | rg rg | tail -n1 | sed -E 's/^[0-9]*: *[0-9]* *//')
   out=$(eval "$last" | tail -n $index | head -n 1)
   file=$(echo "$out" | cut -d ':' -f 1)
   line=$(echo "$out" | cut -d ':' -f 2)

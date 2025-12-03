@@ -105,35 +105,25 @@ do -- macros
 
 	local comment_group = vim.api.nvim_create_augroup("set_comment_registers", { clear = true })
 
-	-- c-style comments
-	vim.api.nvim_create_autocmd("FileType", {
-		pattern = { "go", "javascript", "typescript", "c", "cpp", "java", "javascriptreact", "typescriptreact" },
+	vim.api.nvim_create_autocmd({ "FileType", "BufEnter" }, {
+		pattern = "*",
 		callback = function()
-			set_comment_registers("//", "")
-		end,
-		group = comment_group,
-	})
-	-- hash style comments
-	vim.api.nvim_create_autocmd("FileType", {
-		pattern = { "python", "ruby", "perl", "yaml", "sh", "zsh" },
-		callback = function()
-			set_comment_registers("#", "")
-		end,
-		group = comment_group,
-	})
-	-- lua style comments
-	vim.api.nvim_create_autocmd("FileType", {
-		pattern = "lua",
-		callback = function()
-			set_comment_registers("--", "")
-		end,
-		group = comment_group,
-	})
-	-- markdown style comments
-	vim.api.nvim_create_autocmd("FileType", {
-		pattern = "markdown",
-		callback = function()
-			set_comment_registers("<!--", "-->")
+			local ft = vim.bo.filetype
+
+			-- c-style comments
+			if ft == "go" or ft == "javascript" or ft == "typescript" or ft == "c" or ft == "cpp"
+				or ft == "java" or ft == "javascriptreact" or ft == "typescriptreact" then
+				set_comment_registers("//", "")
+			-- hash style comments
+			elseif ft == "python" or ft == "ruby" or ft == "perl" or ft == "yaml" or ft == "sh" or ft == "zsh" then
+				set_comment_registers("#", "")
+			-- lua style comments
+			elseif ft == "lua" then
+				set_comment_registers("--", "")
+			-- markdown style comments
+			elseif ft == "markdown" then
+				set_comment_registers("<!--", "-->")
+			end
 		end,
 		group = comment_group,
 	})

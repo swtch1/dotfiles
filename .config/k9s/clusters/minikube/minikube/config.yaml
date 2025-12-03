@@ -1,0 +1,14 @@
+k9s:
+  cluster: minikube
+  namespace:
+    active: grpc
+    lockFavorites: false
+    favorites:
+      - speedscale
+      - grpc
+      - default
+  view:
+    active: v1/namespaces
+  featureGates:
+    nodeShell: false
+  proxy: null
