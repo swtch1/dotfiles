@@ -13,6 +13,13 @@ function list_remote() {
 
   pushd "$1" > /dev/null
 
+  git_dir=$(git rev-parse --git-dir 2>/dev/null)
+  if [ -d "$git_dir/rebase-merge" ] || [ -d "$git_dir/rebase-apply" ]; then
+    echo "Error: Branch is in the middle of a rebase" >&2
+    popd > /dev/null
+    exit 1
+  fi
+
   glab mr list --source-branch "$(git rev-parse --abbrev-ref HEAD)" | cut -d '!' -f '3' || true
   glab mr list --source-branch "$(git rev-parse --abbrev-ref HEAD)" -M | cut -d '!' -f '3' || true
 
@@ -24,8 +31,11 @@ if [ -n "$1" ]; then
   exit
 fi
 
-worktrees=$(cd master && git worktree list | awk '{print $1}' | grep -v 'master') || true
+worktrees=$(cd master && git worktree list | awk '{print $1}' | grep -v 'master')
 for d in $worktrees; do
+	if [[ "$d" == *"/archive/"* ]]; then
+		continue
+	fi
 	list_remote "$d"
 done
 

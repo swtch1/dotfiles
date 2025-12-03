@@ -2,7 +2,6 @@
     "profiles": [
         {
             "name": "default",
-            "selected": true,
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         },
         {
@@ -915,6 +914,7 @@
                 ]
             },
             "name": "on the move",
+            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },

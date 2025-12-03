@@ -1,4 +1,4 @@
-plugin:
+plugins:
   #################
   ### DEBUGGING ###
   #################
@@ -6,7 +6,7 @@ plugin:
     shortCut: Shift-D
     description: "Add debug container"
     scopes:
-      - containers
+      - container
     command: bash
     background: false
     confirm: false
@@ -18,7 +18,7 @@ plugin:
     confirm: false
     description: "Dive image"
     scopes:
-      - containers
+      - container
     command: dive
     background: false
     args:
@@ -27,7 +27,7 @@ plugin:
     shortCut: m
     description: "Log more"
     scopes:
-      - containers
+      - container
     command: bash
     background: true
     confirm: false
@@ -38,7 +38,7 @@ plugin:
     shortCut: Shift-L
     description: "Log less"
     scopes:
-      - containers
+      - container
     command: bash
     background: true
     confirm: false

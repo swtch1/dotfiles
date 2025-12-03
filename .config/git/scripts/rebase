@@ -54,9 +54,7 @@ cd "$(dirname "$0")"
 
 function rebase() {
   echo
-  echo "====================="
-  echo "=== rebasing ${1} ==="
-  echo "====================="
+  echo "--> rebasing ${1}"
 
   pushd "$1" > /dev/null
 
@@ -69,4 +67,11 @@ echo
 for d in $worktrees; do
 	rebase "$d"
 done
+
+echo
+echo "========================"
+echo "=== pruning branches ==="
+echo "========================"
+
+cd master && git fetch --prune
 
