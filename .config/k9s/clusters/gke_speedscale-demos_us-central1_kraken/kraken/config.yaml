@@ -1,0 +1,14 @@
+k9s:
+  cluster: gke_speedscale-demos_us-central1_kraken
+  namespace:
+    active: kraken-generator-perf-sla-1764779894
+    lockFavorites: false
+    favorites:
+      - kraken-generator-perf-sla-1764779894
+      - kraken-generator-perf-sla-1764774731
+      - default
+  view:
+    active: v1/namespaces
+  featureGates:
+    nodeShell: false
+  proxy: null
