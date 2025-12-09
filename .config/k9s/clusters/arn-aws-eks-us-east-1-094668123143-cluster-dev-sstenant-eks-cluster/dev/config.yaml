@@ -1,0 +1,13 @@
+k9s:
+  cluster: arn:aws:eks:us-east-1:094668123143:cluster/dev-sstenant-eks-cluster
+  namespace:
+    active: sstenant-external
+    lockFavorites: false
+    favorites:
+      - sstenant-external
+      - default
+  view:
+    active: v1/pods sstenant-external
+  featureGates:
+    nodeShell: false
+  proxy: null

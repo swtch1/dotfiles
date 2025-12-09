@@ -1,13 +1,13 @@
 k9s:
-  cluster: minikube
+  cluster: do-nyc1-dev-decoy
   namespace:
-    active: microservices
+    active: beta-services
     lockFavorites: false
     favorites:
       - smart-replace-demo
-      - microservices
       - speedscale
-      - grpc
+      - beta-services
+      - microservices
       - default
   view:
     active: v1/namespaces

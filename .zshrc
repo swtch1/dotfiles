@@ -354,17 +354,51 @@ function awslogin() {
 function gwa() {
   dir=$1
   git worktree add "$dir"
+
+  # fail if repo contains stash directory
+  if [[ -e "$dir"/stash ]]; then
+    echo "Error: $dir/stash already exists in repository"
+    git worktree remove "$dir"
+    return 1
+  fi
+
+	# map global stash to the new directory
+  mkdir -p ~/doc/stashes/"$dir"
+  ln -s ~/doc/stashes/"$dir" "$dir"/stash
+
   direnv allow "$dir" &> /dev/null
   cd "$dir"
 }
 # git worktree remove
 function gwr() {
+  _gwr_save_thoughts() {
+    local worktree_path=$1
+    local worktree_name=$(basename "$worktree_path")
+    local thoughts_path="$worktree_path/thoughts"
+
+    [[ ! -d "$thoughts_path" ]] && return
+
+    local stash_thoughts=~/doc/stashes/"$worktree_name"/thoughts
+    mkdir -p ~/doc/stashes/"$worktree_name"
+
+    if [[ -d "$stash_thoughts" ]]; then
+      cp -rn "$thoughts_path"/* "$stash_thoughts"/
+    else
+      mv "$thoughts_path" "$stash_thoughts"
+    fi
+  }
+
   if [[ -z "$1" ]]; then
+    _gwr_save_thoughts "$(pwd)"
     d=$(dirname "$(pwd)")
     git worktree remove . && cd "$d"
     return
   fi
-  git worktree remove "$@"
+
+  trap "git worktree remove \"\$@\"" EXIT
+  for arg in "$@"; do
+    _gwr_save_thoughts "$arg"
+  done
 }
 
 ############

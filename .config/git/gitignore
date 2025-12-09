@@ -9,3 +9,6 @@ Session.vim
 .aider*
 **/.claude/settings.local.json
 
+# worktree stashes
+stash
+
