@@ -111,8 +111,16 @@ do -- macros
 			local ft = vim.bo.filetype
 
 			-- c-style comments
-			if ft == "go" or ft == "javascript" or ft == "typescript" or ft == "c" or ft == "cpp"
-				or ft == "java" or ft == "javascriptreact" or ft == "typescriptreact" then
+			if
+				ft == "go"
+				or ft == "javascript"
+				or ft == "typescript"
+				or ft == "c"
+				or ft == "cpp"
+				or ft == "java"
+				or ft == "javascriptreact"
+				or ft == "typescriptreact"
+			then
 				set_comment_registers("//", "")
 			-- hash style comments
 			elseif ft == "python" or ft == "ruby" or ft == "perl" or ft == "yaml" or ft == "sh" or ft == "zsh" then
@@ -166,11 +174,20 @@ do -- mappings
 		":vsp /Users/josh/.config/nvim/lua/plugins/dap.lua<CR>",
 		{ desc = "edit debugger configuration" }
 	)
-	vim.keymap.set("n", "<leader>rB", function()
+	vim.keymap.set({"n", "v"}, "<leader>rB", function()
 		local current_buffer_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
 		if current_buffer_path ~= "" then
-			local line_number = vim.fn.line(".")
-			local result = "@" .. current_buffer_path .. " line " .. line_number
+			local start_line = vim.fn.line("'<")
+			local end_line = vim.fn.line("'>")
+
+			local result
+			if start_line < end_line then
+				result = "@" .. current_buffer_path .. ":" .. start_line .. "-" .. end_line
+			else
+				local line_number = vim.fn.line(".")
+				result = "@" .. current_buffer_path .. ":" .. line_number
+			end
+
 			vim.fn.setreg("+", result)
 		else
 			vim.notify("no file name for current buffer.", vim.log.levels.WARN)
