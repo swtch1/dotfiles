@@ -1,11 +1,12 @@
 k9s:
   cluster: arn:aws:eks:us-east-1:880246755038:cluster/prod-sstenant-eks-cluster
   namespace:
-    active: sstenant-000202
+    active: sstenant-001318
     lockFavorites: false
     favorites:
-      - sstenant-000202
+      - sstenant-001318
       - default
+      - sstenant-000202
   view:
     active: v1/namespaces
   featureGates:
