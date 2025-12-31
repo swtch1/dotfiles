@@ -4,8 +4,10 @@ k9s:
     active: sstenant-external
     lockFavorites: false
     favorites:
+      - clickhouse
       - sstenant-external
       - default
+      - sstenant-experimental
   view:
     active: v1/pods sstenant-external
   featureGates:

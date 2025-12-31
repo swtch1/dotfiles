@@ -89,8 +89,8 @@ Then wait for the user's research query.
        - ENG-XXXX is the ticket number (omit if no ticket)
        - description is a brief kebab-case description of the research topic
      - Examples:
-       - With ticket: `2025-01-08-ENG-1478-parent-child-tracking.md`
-       - Without ticket: `2025-01-08-authentication-flow.md`
+       - `2025-01-08-authentication-flow.md`
+   - Directory: Ensure you are in the directory you were launched from before writing the document
 
 6. **Generate research document:**
    - Use the metadata gathered in step 4

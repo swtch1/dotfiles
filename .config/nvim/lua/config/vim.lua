@@ -28,6 +28,7 @@ vim.opt.incsearch = true
 vim.opt.swapfile = false
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
 vim.opt.showcmd = true
 vim.opt.laststatus = 2
 vim.opt.encoding = "utf-8"
@@ -49,7 +50,7 @@ vim.opt.wildmode = { "longest", "list", "full" }
 vim.opt.mouse = "a"
 vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.foldlevel = 99
-vim.opt.textwidth = 80
+vim.opt.textwidth = 0
 vim.opt.formatoptions = "cr/qnj"
 
 local function decorated_yank()
@@ -174,25 +175,36 @@ do -- mappings
 		":vsp /Users/josh/.config/nvim/lua/plugins/dap.lua<CR>",
 		{ desc = "edit debugger configuration" }
 	)
-	vim.keymap.set({"n", "v"}, "<leader>rB", function()
+	local function copy_buffer_reference_to_clipboard(mode)
+		if mode == "v" then
+			vim.cmd([[execute "normal! \<ESC>"]])
+		end
+
 		local current_buffer_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
-		if current_buffer_path ~= "" then
+		if current_buffer_path == "" then
+			vim.notify("no file name for current buffer.", vim.log.levels.WARN)
+			return
+		end
+
+		local result
+		if mode == "v" then
 			local start_line = vim.fn.line("'<")
 			local end_line = vim.fn.line("'>")
-
-			local result
-			if start_line < end_line then
-				result = "@" .. current_buffer_path .. ":" .. start_line .. "-" .. end_line
-			else
-				local line_number = vim.fn.line(".")
-				result = "@" .. current_buffer_path .. ":" .. line_number
-			end
-
-			vim.fn.setreg("+", result)
+			result = "@" .. current_buffer_path .. ":" .. start_line .. "-" .. end_line
 		else
-			vim.notify("no file name for current buffer.", vim.log.levels.WARN)
+			local line_number = vim.fn.line(".")
+			result = "@" .. current_buffer_path .. ":" .. line_number
 		end
+
+		vim.fn.setreg("+", result)
+	end
+
+	vim.keymap.set("n", "<leader>rB", function()
+		copy_buffer_reference_to_clipboard("n")
 	end, { desc = "copy current buffer path with line number to clipboard" })
+	vim.keymap.set("v", "<leader>rB", function()
+		copy_buffer_reference_to_clipboard("v")
+	end, { desc = "copy current buffer path with line range to clipboard" })
 	vim.keymap.set("n", "<leader>rb", function()
 		local current_buffer_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
 		if current_buffer_path ~= "" then

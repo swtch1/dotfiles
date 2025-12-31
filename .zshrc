@@ -226,7 +226,7 @@ source <(kubebuilder completion zsh)
 ####################
 
 function cwd() {
-	echo -n "cd $(pwd)" | pbcopy
+  echo -n "cd $(pwd)" | pbcopy
 }
 
 # run k9s in a specific context
@@ -280,7 +280,7 @@ function git_push_initial() {
   output=$(g push --set-upstream origin $(g rev-parse --abbrev-ref HEAD))
   # FIXME: this doesn't work
   # echo "output:"
-	# echo "$output"
+  # echo "$output"
 
   # # find the URL so we can open it
   # url=$(/bin/cat "$output" | rg 'remote:\s+https' | rg -o 'https')
@@ -353,21 +353,25 @@ function awslogin() {
 # git worktree add
 function gwa() {
   dir=$1
+  base=$(basename "$dir")
   git worktree add "$dir"
 
   # fail if repo contains stash directory
   if [[ -e "$dir"/stash ]]; then
-    echo "Error: $dir/stash already exists in repository"
-    git worktree remove "$dir"
+    echo "WARN: $dir/stash already exists in repository - cannot create"
     return 1
   fi
 
-	# map global stash to the new directory
-  mkdir -p ~/doc/stashes/"$dir"
-  ln -s ~/doc/stashes/"$dir" "$dir"/stash
+  # map global stash to the new directory
+  mkdir -p ~/doc/stashes/"$base"
+  ln -s ~/doc/stashes/"$base" "$dir"/stash
 
   direnv allow "$dir" &> /dev/null
   cd "$dir"
+
+  # setup things for vibecoding, we're gonna do it anyway
+  cwd
+  claude --dangerously-skip-permissions
 }
 # git worktree remove
 function gwr() {
