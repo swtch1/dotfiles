@@ -12,7 +12,7 @@ You are tasked with creating detailed implementation plans through an interactiv
 When this command is invoked:
 
 1. **Check if parameters were provided**:
-   - If a file path or ticket reference was provided as a parameter, skip the default message
+   - If file paths or task details were provided as a parameter, skip the default message
    - Immediately read any provided files FULLY
    - Begin the research process
 
@@ -21,14 +21,14 @@ When this command is invoked:
 I'll help you create a detailed implementation plan. Let me start by understanding what we're building.
 
 Please provide:
-1. The task/ticket description (or reference to a ticket file)
+1. The task description
 2. Any relevant context, constraints, or specific requirements
 3. Links to related research or previous implementations
 
 I'll analyze this information and work with you to create a comprehensive plan.
 
-Tip: You can also invoke this command with a ticket file directly: `/create_plan thoughts/allison/tickets/eng_1234.md`
-For deeper analysis, try: `/create_plan think deeply about thoughts/allison/tickets/eng_1234.md`
+Tip: You can also invoke this command with a requirements file directly: `/create_plan spec.md`
+For deeper analysis, try: `/create_plan think deeply about path/to/requirements.md`
 ```
 
 Then wait for the user's input.
@@ -38,7 +38,7 @@ Then wait for the user's input.
 ### Step 1: Context Gathering & Initial Analysis
 
 1. **Read all mentioned files immediately and FULLY**:
-   - Ticket files (e.g., `thoughts/allison/tickets/eng_1234.md`)
+   - Requirements files
    - Research documents
    - Related implementation plans
    - Any JSON/data files mentioned
@@ -47,14 +47,14 @@ Then wait for the user's input.
    - **NEVER** read files partially - if a file is mentioned, read it completely
 
 2. **Spawn initial research tasks to gather context**:
-   Before asking the user any questions, use specialized agents to research in parallel:
+   Before asking the user any questions, use the Task tool to research in parallel:
 
-   - Use the **codebase-locator** agent to find all files related to the ticket/task
-   - Use the **codebase-analyzer** agent to understand how the current implementation works
-   - If relevant, use the **thoughts-locator** agent to find any existing thoughts documents about this feature
-   - If a Linear ticket is mentioned, use the **linear-ticket-reader** agent to get full details
+   - Use Task with **subagent_type="Explore"** to find all files related to the task
+   - Use Task with **subagent_type="Explore"** (thoroughness: "medium" or "very thorough") to understand how the current implementation works
+   - Use Grep/Glob tools to find any existing documentation or related issues
+   - Check the project's documentation for related context
 
-   These agents will:
+   These research tasks will:
    - Find relevant source files, configs, and tests
    - Trace data flow and key functions
    - Return detailed explanations with file:line references
@@ -65,14 +65,14 @@ Then wait for the user's input.
    - This ensures you have complete understanding before proceeding
 
 4. **Analyze and verify understanding**:
-   - Cross-reference the ticket requirements with actual code
+   - Cross-reference the requirements with actual code
    - Identify any discrepancies or misunderstandings
    - Note assumptions that need verification
    - Determine true scope based on codebase reality
 
 5. **Present informed understanding and focused questions**:
    ```
-   Based on the ticket and my research of the codebase, I understand we need to [accurate summary].
+   Based on my research of the codebase, I understand we need to [accurate summary].
 
    I've found that:
    - [Current implementation detail with file:line reference]
@@ -101,30 +101,31 @@ After getting initial clarifications:
 
 3. **Spawn parallel sub-tasks for comprehensive research**:
    - Create multiple Task agents to research different aspects concurrently
-   - Use the right agent for each type of research:
+   - Use the appropriate subagent_type for each type of research:
 
-   **For deeper investigation:**
-   - **codebase-locator** - To find more specific files (e.g., "find all files that handle [specific component]")
-   - **codebase-analyzer** - To understand implementation details (e.g., "analyze how [system] works")
-   - **codebase-pattern-finder** - To find similar features we can model after
+   **For codebase investigation:**
+   - Task with **subagent_type="Explore"** - To find specific files and understand implementation (e.g., "find all files that handle [specific component]", "analyze how [system] works")
+   - Specify thoroughness level: "quick", "medium", or "very thorough" based on complexity
+
+   **For finding patterns:**
+   - Task with **subagent_type="Explore"** - To find similar features to model after
+   - Use Grep to search for specific patterns across the codebase
 
    **For historical context:**
-   - **thoughts-locator** - To find any research, plans, or decisions about this area
-   - **thoughts-analyzer** - To extract key insights from the most relevant documents
+   - Use Grep to search for documentation, comments, or related files
+   - Check README, docs directories, and commit history
+   - Look for CHANGELOG or issue tracker links
 
-   **For related tickets:**
-   - **linear-searcher** - To find similar issues or past implementations
-
-   Each agent knows how to:
+   These research tasks should:
    - Find the right files and code patterns
    - Identify conventions and patterns to follow
    - Look for integration points and dependencies
    - Return specific file:line references
    - Find tests and examples
 
-3. **Wait for ALL sub-tasks to complete** before proceeding
+4. **Wait for ALL sub-tasks to complete** before proceeding
 
-4. **Present findings and design options**:
+5. **Present findings and design options**:
    ```
    Based on my research, here's what I found:
 
@@ -168,14 +169,14 @@ Once aligned on approach:
 
 After structure approval:
 
-1. **Write the plan** to `thoughts/shared/plans/YYYY-MM-DD-ENG-XXXX-description.md`
-   - Format: `YYYY-MM-DD-ENG-XXXX-description.md` where:
-     - YYYY-MM-DD is today's date
-     - ENG-XXXX is the ticket number (omit if no ticket)
-     - description is a brief kebab-case description
-   - Examples:
-     - With ticket: `2025-01-08-ENG-1478-parent-child-tracking.md`
-     - Without ticket: `2025-01-08-improve-error-handling.md`
+1. **Write the plan**:
+   - Filename: `thoughts/shared/plans/YYYY-MM-DD-description.md`
+     - Format: `YYYY-MM-DD-description.md` where:
+       - YYYY-MM-DD is today's date
+       - description is a brief kebab-case description
+     - Examples:
+       - `2025-12-18-improve-error-handling.md`
+   - Directory: Ensure you are in the directory you were launched from before writing the document
 2. **Use this template structure**:
 
 ````markdown
@@ -224,11 +225,10 @@ After structure approval:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Migration applies cleanly: `make migrate`
-- [ ] Unit tests pass: `make test-component`
-- [ ] Type checking passes: `npm run typecheck`
-- [ ] Linting passes: `make lint`
-- [ ] Integration tests pass: `make test-integration`
+- [ ] Tests pass: `[project-specific test command]`
+- [ ] Type checking passes: `[project-specific typecheck command]`
+- [ ] Linting passes: `[project-specific lint command]`
+- [ ] Build succeeds: `[project-specific build command]`
 
 #### Manual Verification:
 - [ ] Feature works as expected when tested via UI
@@ -270,20 +270,17 @@ After structure approval:
 
 ## References
 
-- Original ticket: `thoughts/allison/tickets/eng_XXXX.md`
-- Related research: `thoughts/shared/research/[relevant].md`
+- Related documentation: `[path to docs]`
 - Similar implementation: `[file:line]`
+- Relevant discussions: `[links to PRs, issues, etc.]`
 ````
 
-### Step 5: Sync and Review
+### Step 5: Review
 
-1. **Sync the thoughts directory**:
-   - This ensures the plan is properly indexed and available
-
-2. **Present the draft plan location**:
+1. **Present the draft plan location**:
    ```
    I've created the initial implementation plan at:
-   `thoughts/shared/plans/YYYY-MM-DD-ENG-XXXX-description.md`
+   `[path to plan file]`
 
    Please review it and let me know:
    - Are the phases properly scoped?
@@ -292,13 +289,13 @@ After structure approval:
    - Missing edge cases or considerations?
    ```
 
-3. **Iterate based on feedback** - be ready to:
+2. **Iterate based on feedback** - be ready to:
    - Add missing phases
    - Adjust technical approach
    - Clarify success criteria (both automated and manual)
    - Add/remove scope items
 
-4. **Continue refining** until the user is satisfied
+3. **Continue refining** until the user is satisfied
 
 ## Important Guidelines
 
@@ -359,10 +356,10 @@ After structure approval:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Database migration runs successfully: `make migrate`
-- [ ] All unit tests pass: `go test ./...`
-- [ ] No linting errors: `golangci-lint run`
-- [ ] API endpoint returns 200: `curl localhost:8080/api/new-endpoint`
+- [ ] All unit tests pass: `npm test` (or `pytest`, `go test`, etc.)
+- [ ] No linting errors: `npm run lint` (or `eslint`, `pylint`, etc.)
+- [ ] Type checking passes: `npm run typecheck` (or `mypy`, `tsc`, etc.)
+- [ ] Build succeeds: `npm run build` (or `make build`, `cargo build`, etc.)
 
 #### Manual Verification:
 - [ ] New feature appears correctly in the UI
@@ -428,15 +425,19 @@ tasks = [
 ## Example Interaction Flow
 
 ```
-User: /implementation_plan
+User: /create-plan
 Assistant: I'll help you create a detailed implementation plan...
 
-User: We need to add parent-child tracking for Claude sub-tasks. See thoughts/allison/tickets/eng_1478.md
-Assistant: Let me read that ticket file completely first...
+User: We need to add user authentication to the app. See docs/requirements/auth-feature.md
+Assistant: Let me read that requirements file completely first...
 
 [Reads file fully]
 
-Based on the ticket, I understand we need to track parent-child relationships for Claude sub-task events in the daemon. Before I start planning, I have some questions...
+Based on the requirements, I understand we need to add JWT-based authentication with role-based access control. Let me research the existing codebase to understand the current architecture...
+
+[Spawns Explore agents to research]
+
+I've found that the app currently uses session-based auth in middleware/auth.js:45. Before I start planning, I have some questions...
 
 [Interactive process continues...]
 ```

@@ -1,7 +1,7 @@
 k9s:
   cluster: do-nyc1-dev-decoy
   namespace:
-    active: beta-services
+    active: smart-replace-demo
     lockFavorites: false
     favorites:
       - smart-replace-demo
@@ -10,7 +10,7 @@ k9s:
       - microservices
       - default
   view:
-    active: v1/namespaces
+    active: v1/pods smart-replace-demo
   featureGates:
     nodeShell: false
   proxy: null

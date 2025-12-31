@@ -4,11 +4,12 @@ k9s:
     active: sstenant-001318
     lockFavorites: false
     favorites:
+      - sstenant-000072
       - sstenant-001318
       - default
       - sstenant-000202
   view:
-    active: v1/namespaces
+    active: v1/pods sstenant-001318
   featureGates:
     nodeShell: false
   proxy: null
