@@ -1,11 +1,5 @@
 {
   "mcpServers": {
-    "playwright": {
-      "command": "npx",
-      "args": [
-        "@playwright/mcp@latest"
-      ]
-    },
     "jira": {
       "type": "sse",
       "url": "https://mcp.atlassian.com/v1/sse"

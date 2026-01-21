@@ -31,7 +31,14 @@ return {
 				},
 				ignore = {
 					buftype = { "quickfix", "nofile" },
-					filetype = { "NvimTree", "neo-tree", "undotree", "fugitive", "gundo", "" },
+					filetype = {
+						"NvimTree",
+						"neo-tree",
+						"undotree",
+						"fugitive",
+						"gundo",
+						"",
+					},
 				},
 				animation = {
 					enable = false,

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "slack": {
+      "command": "/Users/josh/.claude/bin/slack-mcp-server",
+      "args": []
+    }
+  }
+}

@@ -371,7 +371,6 @@ function gwa() {
 
   # setup things for vibecoding, we're gonna do it anyway
   cwd
-  claude --dangerously-skip-permissions
 }
 # git worktree remove
 function gwr() {
@@ -592,3 +591,6 @@ fpath=(/Users/josh/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
+
+# opencode
+export PATH=/Users/josh/.opencode/bin:$PATH
