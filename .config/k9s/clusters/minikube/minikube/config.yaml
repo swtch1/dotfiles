@@ -1,16 +1,17 @@
 k9s:
   cluster: minikube
   namespace:
-    active: smart-replace-demo
+    active: default
     lockFavorites: false
     favorites:
+      - echo
       - smart-replace-demo
       - microservices
       - speedscale
       - grpc
       - default
   view:
-    active: v1/pods smart-replace-demo
+    active: v1/namespaces
   featureGates:
     nodeShell: false
   proxy: null

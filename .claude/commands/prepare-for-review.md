@@ -32,9 +32,12 @@ Avoid parallel execution when agents would modify the same file, unless they foc
 
 ## Initial Setup
 
-1. **Git Add Once**
-   - Run `git add --all` ONCE at the very beginning to stage all current changes
-   - This allows you to see diffs as you work throughout the review process
+1. **⚠️ CRITICAL: Git Add EXACTLY ONCE ⚠️**
+   - Run `git add --all` **ONE TIME ONLY** at the very beginning to stage all current changes
+   - **NEVER run `git add` again for the remainder of this command**
+   - This allows you to see diffs via `git diff --staged` as you work
+   - **IF YOU RUN GIT ADD AGAIN, YOU WILL DEFEAT THE ENTIRE PURPOSE OF THIS COMMAND**
+   - See "What We're NOT Doing" section below for absolute prohibitions
 2. **Review the Diff**
    - Run `git diff --staged --stat` to see overview of changed files
    - If the user specified specific files or areas to focus on, examine only those changes
@@ -47,6 +50,23 @@ Avoid parallel execution when agents would modify the same file, unless they foc
    - **IMPORTANT**: Use the Read tool WITHOUT limit/offset parameters to read entire files
    - **CRITICAL**: Read these files yourself in the main context before spawning any sub-tasks
    - This ensures you have full context before decomposing the research
+
+## Git Command Rules
+
+**ALLOWED (only during Initial Setup):**
+- `git add --all` - ONCE at the very beginning
+- `git diff --staged` - anytime to see current changes
+- `git diff --staged --stat` - anytime for overview
+- `git status` - anytime for status check
+
+**ABSOLUTELY FORBIDDEN:**
+- `git add` (after initial setup)
+- `git stash` / `git stash pop`
+- `git commit`
+- `git reset`
+- Any command that stages, unstages, or modifies git state
+
+**If you need to do something that requires git manipulation, STOP and ask the user.**
 
 ## Process
 
@@ -119,6 +139,11 @@ Avoid parallel execution when agents would modify the same file, unless they foc
   - Coordinate with any spawned sub-agents to avoid conflicts
   - Both main task and sub-agents can make refactoring changes within their respective scopes
 
+  **⚠️ REMINDER: DO NOT RUN `git add` AFTER MAKING CHANGES ⚠️**
+  - You already staged everything at the beginning
+  - Running git add now will prevent the user from seeing your changes
+  - Your changes are automatically visible via `git diff --staged`
+
 5. **Report Results**
   - Output a summary to the user with 2 sections:
 
@@ -134,9 +159,14 @@ Avoid parallel execution when agents would modify the same file, unless they foc
 
 ### What We're NOT Doing
 
+**⚠️ CRITICAL GIT PROHIBITIONS ⚠️**
+- **ABSOLUTELY NEVER run `git add` more than once** - you already ran it at the start
+- **ABSOLUTELY NEVER run `git stash`** - this will lead to re-staging changes when you stash pop
+- **ABSOLUTELY NEVER run `git commit`** - this is a review command, not a commit command
+- **ABSOLUTELY NEVER run `git reset`** - this will unstage changes
+- If you need to test something that requires stashing, STOP and ask the user first
+
+**Other Prohibitions:**
 - NOT removing JMT FIXME comments (distinct from commented code), like `// FIXME: (JMT) use or remove`
-- NOT running `git add` more than once after changes have been made
-- NOT running `git commit`
-- NOT running `git stash`
 - NOT deleting files
 - NOT modifying behavior
