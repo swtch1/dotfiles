@@ -8,7 +8,7 @@ Find past conversations by searching through your Claude CLI session transcripts
 
 ## Workflow
 
-### 1. Extract Search Terms
+### Extract Search Terms
 
 The user will provide a description of what they're looking for. Extract key technical terms, concepts, and actions:
 
@@ -26,7 +26,7 @@ The user will provide a description of what they're looking for. Extract key tec
 - If the user mentions dates/timeframes ("last week", "yesterday", "January"), use file modification times to filter before content search
 - If the description is too vague (like "that thing we did"), ask for more details
 
-### 2. Run Initial Broad Search
+### Run Initial Broad Search
 
 Search for sessions containing ANY of the key terms (OR search):
 
@@ -56,7 +56,7 @@ find ~/.claude/projects -name "*.jsonl" -not -path "*/subagents/*" -mtime -7
 find ~/.claude/projects -name "*.jsonl" -not -path "*/subagents/*" -newermt "2026-01-01" ! -newermt "2026-01-31"
 ```
 
-### 3. Narrow to Top Candidates
+### Narrow to Top Candidates
 
 If the initial search returns many results (>10 sessions), narrow down by:
 
@@ -77,7 +77,7 @@ ls -lt <candidate-files> | head -20
 - Example: "backend API" → look in directories containing "backend", "api", "server"
 - Example: "mobile app" → look in directories containing "mobile", "app", "ios", "android"
 
-### 4. Examine Top Candidates
+### Examine Top Candidates
 
 For the top 3-5 candidate sessions, extract relevant context:
 
@@ -96,7 +96,7 @@ Look for:
 - Key findings or results (assistant messages mentioning search terms)
 - Timestamps to confirm it's the right timeframe
 
-### 5. Search Command History (Optional)
+### Search Command History (Optional)
 
 If the user mentions running a command or if transcript search yields no results, also search command history:
 
@@ -114,7 +114,7 @@ This can help find:
 - The project context where work was done
 - Alternative search terms to try
 
-### 6. Present Results
+### Present Results
 
 Show the most relevant session(s) with:
 
@@ -143,7 +143,7 @@ jq -r 'select(.type == "user" or .type == "assistant") | .message.content[]?.tex
 
 If multiple relevant sessions found, show them in chronological order (most recent first) with brief summaries of each.
 
-### 7. Handle Edge Cases
+### Handle Edge Cases
 
 **Too many results (>20 sessions):**
 Ask the user for more specifics:
