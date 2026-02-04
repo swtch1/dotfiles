@@ -32,13 +32,7 @@ Avoid parallel execution when agents would modify the same file, unless they foc
 
 ## Initial Setup
 
-1. **⚠️ CRITICAL: Git Add EXACTLY ONCE ⚠️**
-   - Run `git add --all` **ONE TIME ONLY** at the very beginning to stage all current changes
-   - **NEVER run `git add` again for the remainder of this command**
-   - This allows you to see diffs via `git diff --staged` as you work
-   - **IF YOU RUN GIT ADD AGAIN, YOU WILL DEFEAT THE ENTIRE PURPOSE OF THIS COMMAND**
-   - See "What We're NOT Doing" section below for absolute prohibitions
-2. **Review the Diff**
+1. **Review the Diff**
    - Run `git diff --staged --stat` to see overview of changed files
    - If the user specified specific files or areas to focus on, examine only those changes
    - Otherwise, run `git diff --staged` to examine all changes in detail
@@ -54,13 +48,12 @@ Avoid parallel execution when agents would modify the same file, unless they foc
 ## Git Command Rules
 
 **ALLOWED (only during Initial Setup):**
-- `git add --all` - ONCE at the very beginning
 - `git diff --staged` - anytime to see current changes
 - `git diff --staged --stat` - anytime for overview
 - `git status` - anytime for status check
 
 **ABSOLUTELY FORBIDDEN:**
-- `git add` (after initial setup)
+- `git add`
 - `git stash` / `git stash pop`
 - `git commit`
 - `git reset`
