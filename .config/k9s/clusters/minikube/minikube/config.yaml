@@ -1,7 +1,7 @@
 k9s:
   cluster: minikube
   namespace:
-    active: default
+    active: microservices
     lockFavorites: false
     favorites:
       - echo

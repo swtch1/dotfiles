@@ -170,7 +170,7 @@ Once aligned on approach:
 After structure approval:
 
 1. **Write the plan**:
-   - Filename: `thoughts/shared/plans/YYYY-MM-DD-description.md`
+   - Filename: `thoughts/plans/YYYY-MM-DD-description.md`
      - Format: `YYYY-MM-DD-description.md` where:
        - YYYY-MM-DD is today's date
        - description is a brief kebab-case description
