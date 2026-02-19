@@ -56,6 +56,9 @@ export AWS_REGION=us-east-1
 
 export GOOSE_PROVIDER=claude-code
 
+# experimental support for Claude
+export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(direnv hook zsh)"
 
@@ -594,3 +597,7 @@ compinit
 
 # opencode
 export PATH=/Users/josh/.opencode/bin:$PATH
+
+# peon-ping quick controls
+alias peon="bash /Users/josh/.claude/hooks/peon-ping/peon.sh"
+[ -f /Users/josh/.claude/hooks/peon-ping/completions.bash ] && source /Users/josh/.claude/hooks/peon-ping/completions.bash

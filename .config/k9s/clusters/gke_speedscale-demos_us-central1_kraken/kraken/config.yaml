@@ -1,12 +1,14 @@
 k9s:
   cluster: gke_speedscale-demos_us-central1_kraken
   namespace:
-    active: kraken-2250193928-replay-loadtest
+    active: speedscale
     lockFavorites: false
     favorites:
-      - kraken-2250193928-replay-loadtest
-      - speedscale
+      - gke-managed-cim
       - default
+      - speedscale
+      - speedscale-test-simple
+      - kraken-2250193928-replay-loadtest
       - kraken-speedctl-windows
       - kraken-generator-perf-sla-1764779894
       - kraken-generator-perf-sla-1764774731

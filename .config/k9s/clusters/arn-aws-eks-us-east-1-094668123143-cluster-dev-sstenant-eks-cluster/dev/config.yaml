@@ -1,15 +1,16 @@
 k9s:
   cluster: arn:aws:eks:us-east-1:094668123143:cluster/dev-sstenant-eks-cluster
   namespace:
-    active: sstenant-external
+    active: default-replay
     lockFavorites: false
     favorites:
+      - default-replay
       - clickhouse
       - sstenant-external
       - default
       - sstenant-experimental
   view:
-    active: v1/pods sstenant-external
+    active: v1/namespaces
   featureGates:
     nodeShell: false
   proxy: null
