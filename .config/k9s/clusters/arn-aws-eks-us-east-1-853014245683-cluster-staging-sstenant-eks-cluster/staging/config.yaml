@@ -1,0 +1,12 @@
+k9s:
+  cluster: arn:aws:eks:us-east-1:853014245683:cluster/staging-sstenant-eks-cluster
+  namespace:
+    active: default
+    lockFavorites: false
+    favorites:
+      - default
+  view:
+    active: v1/pods default
+  featureGates:
+    nodeShell: false
+  proxy: null

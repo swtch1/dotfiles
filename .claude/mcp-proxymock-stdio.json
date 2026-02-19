@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "proxymock-simulator": {
+    "proxymock": {
       "command": "/Users/josh/.speedscale/proxymock",
       "args": [
         "mcp"

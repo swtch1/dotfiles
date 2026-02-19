@@ -1,9 +1,10 @@
 k9s:
   cluster: arn:aws:eks:us-east-1:880246755038:cluster/prod-sstenant-eks-cluster
   namespace:
-    active: default
+    active: sstenant-000924
     lockFavorites: false
     favorites:
+      - sstenant-000924
       - sstenant-001636
       - sstenant-000073
       - all
@@ -12,7 +13,7 @@ k9s:
       - default
       - sstenant-000202
   view:
-    active: v1/namespaces
+    active: v1/pods sstenant-000924
   featureGates:
     nodeShell: false
   proxy: null
