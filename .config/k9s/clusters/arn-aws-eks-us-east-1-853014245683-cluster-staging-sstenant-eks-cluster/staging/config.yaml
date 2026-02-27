@@ -4,9 +4,10 @@ k9s:
     active: default
     lockFavorites: false
     favorites:
+      - sstenant-elastic
       - default
   view:
-    active: v1/pods default
+    active: v1/namespaces
   featureGates:
     nodeShell: false
   proxy: null
