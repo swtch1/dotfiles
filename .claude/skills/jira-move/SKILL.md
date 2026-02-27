@@ -1,6 +1,7 @@
 ---
 name: jira-move
 description: Automatically move my Jira tickets from "In Review" status to "Merged" status when all their associated GitLab merge requests have been merged.
+disable-model-invocation: true
 ---
 
 Automatically move my Jira tickets from "In Review" status to "Merged" status when all their associated GitLab merge requests have been merged.

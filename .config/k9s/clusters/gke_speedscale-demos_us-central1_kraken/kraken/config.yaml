@@ -7,13 +7,14 @@ k9s:
       - gke-managed-cim
       - default
       - speedscale
+      - kraken-ebpf-1772041112
+      - kraken-speedctl-windows
       - speedscale-test-simple
       - kraken-2250193928-replay-loadtest
-      - kraken-speedctl-windows
       - kraken-generator-perf-sla-1764779894
       - kraken-generator-perf-sla-1764774731
   view:
-    active: v1/namespaces
+    active: v1/pods speedscale
   featureGates:
     nodeShell: false
   proxy: null

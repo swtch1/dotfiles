@@ -6,7 +6,6 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILL_DIR="$(dirname "$SCRIPT_DIR")"
-CONVENTIONS_TEMPLATE="$SKILL_DIR/assets/conventions-template.md"
 AGENTS_TEMPLATE="$SKILL_DIR/assets/agents-template.md"
 
 # Determine repo root (prefer git root, fallback to cwd)
@@ -24,26 +23,9 @@ if [ -d "$SPECS_DIR" ]; then
     echo "Checking for missing subdirectories..."
 fi
 
-# Create directory structure
-mkdir -p "$SPECS_DIR/domains"
-mkdir -p "$SPECS_DIR/tasks/features"
-mkdir -p "$SPECS_DIR/tasks/bugs"
-
-# Copy conventions template if CONVENTIONS.md doesn't exist yet
-if [ ! -f "$SPECS_DIR/CONVENTIONS.md" ]; then
-    if [ -f "$CONVENTIONS_TEMPLATE" ]; then
-        cp "$CONVENTIONS_TEMPLATE" "$SPECS_DIR/CONVENTIONS.md"
-        echo "Created $SPECS_DIR/CONVENTIONS.md from template"
-    else
-        echo "Warning: Conventions template not found at $CONVENTIONS_TEMPLATE"
-        echo "Creating minimal CONVENTIONS.md"
-        echo "# Spec Conventions" > "$SPECS_DIR/CONVENTIONS.md"
-        echo "" >> "$SPECS_DIR/CONVENTIONS.md"
-        echo "TODO: Define your team's spec conventions here." >> "$SPECS_DIR/CONVENTIONS.md"
-    fi
-else
-    echo "CONVENTIONS.md already exists, skipping"
-fi
+# Create directory structure (domain docs live in per-directory AGENTS.md files, not here)
+mkdir -p "$SPECS_DIR/features"
+mkdir -p "$SPECS_DIR/bugs"
 
 # Copy agents template if AGENTS.md doesn't exist yet
 if [ ! -f "$SPECS_DIR/AGENTS.md" ]; then
@@ -53,7 +35,7 @@ if [ ! -f "$SPECS_DIR/AGENTS.md" ]; then
     else
         echo "Warning: Agents template not found at $AGENTS_TEMPLATE"
         echo "Creating minimal AGENTS.md"
-        echo "# Spec Implementation Guide" > "$SPECS_DIR/AGENTS.md"
+        echo "# Spec System" > "$SPECS_DIR/AGENTS.md"
         echo "" >> "$SPECS_DIR/AGENTS.md"
         echo "TODO: Define your agent workflow for specs here." >> "$SPECS_DIR/AGENTS.md"
     fi
@@ -69,10 +51,10 @@ echo ""
 echo "Structure:"
 echo "  .specs/"
 echo "  ├── AGENTS.md"
-echo "  ├── CONVENTIONS.md"
-echo "  ├── domains/"
-echo "  └── tasks/"
-echo "      ├── features/"
-echo "      └── bugs/"
+echo "  ├── features/"
+echo "  └── bugs/"
 echo ""
-echo "Next: Review and customize .specs/CONVENTIONS.md for your project."
+echo "Next steps:"
+echo "  1. Review .specs/AGENTS.md and add project-specific guidance"
+echo "  2. If using Cursor, create .cursor/rules/*.mdc files to auto-load"
+echo "     per-directory AGENTS.md files"

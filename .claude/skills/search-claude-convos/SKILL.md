@@ -1,6 +1,7 @@
 ---
 name: search-claude-convos
 description: Search through Claude CLI conversation transcripts to find specific content.
+disable-model-invocation: true
 ---
 
 # Search Claude Conversations

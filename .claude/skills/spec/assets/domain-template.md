@@ -1,87 +1,39 @@
-# Domain: [DOMAIN NAME]
+# [MODULE/DOMAIN NAME]
 
 **Last updated:** [YYYY-MM-DD]
-**Maintainer:** [WHO KEEPS THIS CURRENT]
 
 <!--
-  A domain spec describes how a system/module/domain works RIGHT NOW.
-  Not what's planned. Not what it used to be. The current state of truth.
-  
-  Update this document every time a feature or bugfix changes this domain.
-  If you're reading this and it's wrong, fix it.
+  CARDINAL RULE: If an agent can learn it by reading source files, it does NOT
+  belong here. Document what the code CANNOT tell you. Target 20-50 lines.
 -->
 
 ## Overview
 
-[2-3 sentence summary of what this domain does and why it exists.]
+[1-2 sentences: what this module does and why it exists.]
 
-## Data Model
+## Gotchas
 
-<!--
-  Key entities, their relationships, and important fields.
-  Not a full schema dump — the important stuff that someone needs
-  to understand to work in this domain.
--->
+<!-- Non-obvious behaviors, surprising constraints, things that have bitten people. Highest-value section. -->
 
-### [Entity Name]
+- [Non-obvious behavior or constraint] — [why, or what to do instead]
+- [Common mistake when working in this module] — [how to avoid it]
 
-- **Table/Collection:** `table_name`
-- **Key fields:**
-  - `field_name` (type) — [purpose]
-  - `field_name` (type) — [purpose]
-- **Relationships:** [How it connects to other entities]
-- **Invariants:** [Rules that must always be true, e.g. "status can only transition forward"]
+## Cross-Boundary Context
 
-## Key Flows
+<!-- Interfaces implemented elsewhere, cross-package dependencies, design decisions spanning modules. Delete if N/A. -->
 
-<!--
-  The main operations / workflows in this domain.
-  Describe what happens, not how the code is structured.
--->
+- [Interface/type defined here] → implemented in `[path/to/other/package]`
+- [Design decision] — [why, referencing the other module/system involved]
 
-### [Flow Name, e.g. "Charge Processing"]
+## Commands
 
-1. [Step 1 — what happens]
-2. [Step 2 — what happens]
-3. [Step 3 — what happens]
+<!-- Module-specific build/test/generate commands that differ from project defaults. Delete if N/A. -->
 
-**Entry points:** `path/to/handler.ext`, `path/to/webhook.ext`
-**Key files:** `path/to/service.ext`, `path/to/model.ext`
+- `[command]` — [when to run it]
+- `[command]` — [purpose]
 
-## Integration Points
+## Invariants
 
-<!--
-  Where this domain touches other domains or external services.
--->
+<!-- Rules spanning multiple files that aren't enforced by the type system. Delete if N/A. -->
 
-- **[External Service/API]:** [How we integrate, what we use it for]
-- **[Internal Domain]:** [How they interact, data flow direction]
-
-## Configuration
-
-<!--
-  Environment variables, feature flags, config files that affect this domain.
--->
-
-- `ENV_VAR_NAME` — [what it controls, default value]
-- `config.key` — [what it controls]
-
-## Edge Cases & Gotchas
-
-<!--
-  Things that have bitten people before. Hard-won knowledge.
-  Future-you (and future agents) will thank present-you.
--->
-
-- [Edge case or non-obvious behavior and how it's handled]
-- [Common mistake and how to avoid it]
-
-## Monitoring & Observability
-
-<!--
-  How to tell if this domain is healthy or broken.
--->
-
-- **Logs:** [Where to look, key log patterns]
-- **Metrics:** [Key metrics, dashboards]
-- **Alerts:** [What triggers alerts, who gets paged]
+- [Rule that spans multiple files or is easy to accidentally break]

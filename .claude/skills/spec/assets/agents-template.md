@@ -1,35 +1,55 @@
-# Spec Implementation Guide
+# Spec System
 
 How to work with specs in this repository. Read this before implementing any spec.
 
+**Key distinction:** Task specs (`.specs/features/`, `.specs/bugs/`) are point-in-time records of a change's intent — frozen after ship. Per-directory `AGENTS.md` files are living descriptions of how modules work *right now*. For current behavior, read `AGENTS.md`. For *why* something was built, read the old spec.
+
 ## Before Starting Work
 
-1. **Read `.specs/CONVENTIONS.md`.** It defines naming, structure, lifecycle rules, and uncertainty markers. You must follow these conventions.
-2. **Check for a spec.** Look in `.specs/tasks/` for a spec matching the feature or bug you're working on.
-3. **If a spec exists:** Read it end-to-end. The spec is your contract. Follow the scope, fix approach / technical approach, and verification sections. If you think the spec is wrong, raise it with the user before deviating.
-4. **If no spec exists:** For non-trivial work (multiple files, new behavior), ask the user if a spec should be created first. For trivial changes (single file, obvious fix), proceed without one.
-5. **Read relevant domain specs** in `.specs/domains/` before working in an unfamiliar area — they describe how systems work *right now* and are faster than reading all the code.
+1. Check `.specs/features/` and `.specs/bugs/` for a spec matching your task
+2. If a spec exists: read it end-to-end — it's your contract. If you think the spec is wrong, raise it with the user before deviating.
+3. If no spec exists and the work is non-trivial: ask the user if one should be created
+4. Read the `AGENTS.md` in your working directory (if one exists) for domain context. Check parent directories too.
+
+## Spec Markers
+
+Specs may contain uncertainty markers. Respect them:
+
+- `[NEEDS CLARIFICATION: ...]` — Must be answered before implementing. Stop and ask.
+- `[ASSUMPTION: ...]` — Reasonable default chosen. Verify if it affects your work.
+- `[OPEN QUESTION: ...]` — Resolve before or during implementation.
+- `[RISK: ...]` — Known risk with documented mitigation.
+
+Bugfix specs may also use: `[NEEDS INVESTIGATION]`, `[HYPOTHESIS: ...]`, `[CONFIRMED]`.
 
 ## During Implementation
 
-- **Spec conflicts with code:** The code is the source of truth for *current behavior*; the spec is the source of truth for *desired behavior*. If the spec describes a change, implement it. If the spec contradicts current behavior without explicitly stating it should change, **stop and ask** — the spec may be wrong. If the spec references a file that doesn't exist, flag it to the user before proceeding.
-- **Scope creep:** If you discover adjacent work that should be done but isn't in the spec's "In Scope" section, do NOT do it. Note it and move on.
-- **Update status:** When you begin implementation, update the spec's `Status` field to `In Progress`.
+- **Spec vs code:** Code = truth for *current* behavior; spec = truth for *desired* behavior. If the spec describes a change, implement it. If it contradicts code without explicitly stating a change, stop and ask — the spec may be wrong.
+- **Missing references:** If the spec references a file that doesn't exist, flag to user before proceeding.
+- **Scope creep:** Work not in the spec's "In Scope" section? Don't do it. Note it, move on.
+- **Status:** Set the spec's Status field to `In Progress` when you begin.
 
 ## Verification (MANDATORY)
 
-The spec's Verification section contains checkboxes and commands. **You must complete all of them.**
+Check every box. Run every command. No exceptions.
 
-1. **Check boxes as you go.** When a verification item is satisfied, edit the spec to mark it `[x]`. An unchecked box means the work is not done.
-2. **Run every command.** If the spec lists a test command, build command, or manual verification step, run it. Do not skip commands or assume they will pass.
-3. **If a verification step fails:** Fix the issue, then re-run. Do not mark the box until it passes.
-4. **If a verification step is impossible** (e.g., requires access you don't have, or the spec references something that doesn't exist), leave it unchecked and note why.
+1. Mark `[x]` when a verification item is satisfied
+2. Run every listed command — don't skip or assume they pass
+3. If a step fails: fix the issue, re-run, then mark
+4. If a step is impossible: leave unchecked with a note explaining why
 
-**Scope:** Only check boxes under the **Verification** section during implementation. The **Spec Readiness** checkboxes are for spec authors. The **Domain Spec Updates** checkboxes are for after implementation is complete and verified.
+**Scope:** Only check Verification boxes during implementation. AGENTS.md Update boxes are for after.
 
 ## After Implementation
 
-- **All verification boxes must be checked** (or explicitly noted as impossible) before marking the spec complete.
-- **Update the spec:** If the implementation diverged from the spec (different files touched, different approach taken), update the spec to match what was actually built. The spec becomes a historical record.
-- **Update domain specs:** Check the spec's "Domain Spec Updates" section. If it lists domain specs to update, do so.
-- **Mark complete:** Update the spec's `Status` field to `Implemented`.
+1. Update the spec to match what was actually built (if implementation diverged)
+2. Update `AGENTS.md` files listed in the spec's "AGENTS.md Updates" section. Only add what an agent cannot learn by reading source files — emergent behavior, cross-boundary side effects, gotchas. Never restate code.
+3. Set Status to `Implemented` — the spec is now frozen history
+
+Status lifecycle: Draft → Review → Approved → In Progress → Implemented (frozen) → Archived
+
+## Old Specs
+
+Don't read old specs routinely. For current behavior, read `AGENTS.md` domain docs.
+
+Old specs are useful when: understanding *why* something was built, working on closely related features (check No-Gos and failure modes), or debugging whether current behavior is intentional vs. a bug.
