@@ -190,10 +190,10 @@ do -- mappings
 		if mode == "v" then
 			local start_line = vim.fn.line("'<")
 			local end_line = vim.fn.line("'>")
-			result = "@" .. current_buffer_path .. ":" .. start_line .. "-" .. end_line
+			result = "@" .. current_buffer_path .. ":" .. start_line .. "-" .. end_line .. " "
 		else
 			local line_number = vim.fn.line(".")
-			result = "@" .. current_buffer_path .. ":" .. line_number
+			result = "@" .. current_buffer_path .. ":" .. line_number .. " "
 		end
 
 		vim.fn.setreg("+", result)

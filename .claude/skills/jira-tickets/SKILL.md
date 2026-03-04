@@ -170,4 +170,3 @@ When asked about build/pipeline status for a ticket, check associated GitLab MRs
    glab mr view <mr-number> --repo speedscale/speedscale
    ```
 
-3. **Track in HEARTBEAT.md**: If monitoring is needed, add to HEARTBEAT.md (see glab-speedscale skill for details)
