@@ -72,24 +72,129 @@ Before generating the draft, gather project context in parallel:
 3. **Scan the codebase** for files related to the feature area — to inform the Technical Approach section
 4. **Check for existing specs** in `.specs/features/` and `.specs/bugs/` — to avoid duplicating work
 
-Use this context to make the generated spec as informed as possible. The more context gathered, the fewer `[NEEDS CLARIFICATION]` markers needed.
+Use this context to make the probing questions (Step 2.5) as targeted as possible and the generated spec as informed as possible.
 
-**Coverage taxonomy scan:** While gathering context, systematically check the user's input against this taxonomy. Each category should be either covered by the user's description, inferable from the codebase, or flagged as a gap:
+**Gather with the analytical lenses in mind.** While scanning the codebase, actively look for signals that feed into discovery probing (Step 2.5):
 
-| Category | What to check |
-|----------|---------------|
-| **Functional scope** | Core behavior defined? Boundaries clear? |
-| **Data model** | Entities, relationships, state transitions identified? |
-| **Edge cases** | Boundary conditions, empty states, error scenarios? |
-| **Failure modes** | Network failures, invalid input, partial writes, race conditions? |
-| **Non-functional requirements** | Performance targets, scale, latency, resource limits? |
-| **Integration points** | External services, APIs, shared state, event boundaries? |
+- **Consumers and dependents** — What other modules import, call, or listen to code in the feature area?
+- **State machines and transitions** — What states exist? What invariants are maintained?
+- **External integrations** — What third-party APIs, services, or shared contracts does this area touch?
+- **Failure handling patterns** — How does existing code handle errors, retries, and degraded states?
+- **Performance characteristics** — Batch sizes, rate limits, query counts, timeout values in the area.
+- **Recent changes** — Has this area been modified recently? Are there open or recently shipped specs touching it?
 
-Categories the user's input doesn't cover become candidates for `[NEEDS CLARIFICATION]` or `[ASSUMPTION]` markers in the draft. Don't force-fill every category — a bugfix may only need functional scope and failure modes. Match depth to spec weight.
+The more specific your codebase findings, the sharper your probing questions will be. Generic findings produce generic questions — which defeat the purpose.
+
+### Step 2.5: Discovery Probing
+
+After gathering codebase context, probe the user's understanding before generating the draft. The goal is to collaboratively surface issues that would otherwise become loose ends in the spec — things the user hasn't considered, implicit assumptions that need to be explicit, and architectural decisions that need to be made upfront rather than discovered mid-implementation.
+
+**When to probe:**
+
+| Spec type | Probing depth |
+|-----------|---------------|
+| **Full feature spec** | Always. Run the full probing loop. |
+| **Mini-spec** | One round max. Focus on the single highest-risk concern and scope boundaries. |
+| **Bugfix spec** | Skip unless the fix touches shared code, changes state transitions, or has blast radius beyond the immediate bug. |
+| **Domain doc** | Skip. Domain docs describe what exists, not what's planned. |
+
+#### Analytical Lenses
+
+Apply these lenses to your codebase findings from Step 2. Each lens is a way of examining the proposed feature against what you actually found in the code. Not every lens will produce a question — only generate questions where the analysis surfaces a genuine concern.
+
+**Existing Behavior Collision** — What does the codebase already do in this area? How does the proposed feature interact with, change, or conflict with existing behavior? Look for: duplicate logic, overridden defaults, changed event timing, altered control flow.
+
+**Ripple Effects** — What other modules, consumers, or downstream systems depend on the code being changed? What assumptions do they make that the feature might break? Look for: event listeners, shared structs/types, imported functions, API consumers, database readers.
+
+**Implicit Invariants** — What invariants does the current code maintain that aren't documented? Does the proposed feature violate any of them? Look for: transaction boundaries, ordering guarantees, uniqueness constraints, state machine rules, idempotency assumptions.
+
+**Failure Envelope** — What new failure modes does this feature introduce? What's the blast radius of each? Look for: new external calls, new state transitions, new async operations, new data dependencies.
+
+**Data/State Lifecycle** — What new state or data does this feature create? How does it get created, modified, expired, and cleaned up? Look for: new database fields/tables, new enum values, new cache entries, new queue messages.
+
+**Boundary Assumptions** — What does the user assume about scale, performance, concurrency, or resource limits that might not hold? Look for: loop counts, batch sizes, rate limits, timeout values, connection pool sizes.
+
+#### Generating Questions
+
+Each question must be a **leading question** — it contains your analysis and points the user toward a specific concern. Structure every question as:
+
+> **[What you found in the code]** + **[The implication the user probably hasn't considered]** + **[Open prompt to address it]**
+
+Good: *"The `ChargeResult` struct is consumed by analytics, fraud-detection, and the admin dashboard. Adding a `retryCount` field changes the contract for all three consumers. Should downstream systems get a schema migration, or should retry metadata live in a separate table?"*
+
+Bad: *"What about downstream consumers?"* — Lazy. The user will say "we'll handle it" and nothing gets resolved.
+
+Bad: *"Have you considered error handling?"* — Generic. Produces generic answers.
+
+The question should make it difficult to give a shallow answer. By showing what you found and what it implies, you force the user to engage with the specific concern rather than hand-wave past it.
+
+#### Priority Ranking
+
+Assign each generated question a priority tier:
+
+| Priority | Criteria | If unresolved when user stops |
+|----------|----------|-------------------------------|
+| **Critical** | Spec is architecturally wrong without this answer. Data model forks, state machine decisions, integration contracts. The implementing agent would have to guess or stop and ask. | `[NEEDS CLARIFICATION]` with full context. Strongly encourage the user to answer before generating. |
+| **High** | Significant rework if missed. Failure modes with blast radius, invariant violations, performance cliffs. The implementing agent could proceed but would likely build the wrong thing. | `[OPEN QUESTION]` with your full analysis preserved. |
+| **Medium** | Edge cases, operational concerns, polish. The implementing agent can make a reasonable default. | `[ASSUMPTION]` with a sensible default and rationale. |
+
+#### The Probing Loop
+
+Present questions in batches of 3, highest priority first. Each batch includes a scoreboard showing remaining questions by priority tier.
+
+**Batch format:**
+
+```
+── Discovery Round N ─────────────────────────
+Remaining: Critical: X | High: Y | Medium: Z
+(reply 'done' anytime to generate the spec)
+
+[Critical] 1. The billing module emits a `payment.failed` event that
+              triggers cancellation emails in `src/notifications/`. Your
+              retry feature delays the failure determination. Users would
+              get cancellation emails during the retry window. How should
+              notification timing change?
+
+[High]     2. Current billing cron processes ~200 charges per 15min cycle.
+              With 8% failure rate and 3 retries each, that's ~48 extra
+              Stripe API calls per cycle. Does the retry volume fit within
+              your Stripe rate limits?
+
+[Medium]   3. If a retry succeeds after the user already saw a "payment
+              failed" state in the dashboard, do they get a "recovered"
+              notification, or is it silent?
+──────────────────────────────────────────────
+```
+
+**Loop behavior:**
+
+1. Present the top 3 questions from the pool.
+2. User answers. Process their responses:
+   - Resolve addressed concerns — these feed directly into the spec draft.
+   - **Cascade**: Answers may reveal new concerns. Generate new questions, assign priorities, and add them to the pool. Tell the user: *"Your answer about X raised a follow-up about Y."*
+   - Re-rank the remaining pool.
+3. If the pool still has questions, present the next batch with an updated scoreboard.
+4. Continue until one of these stop conditions:
+   - **User says "done"** — stop immediately, proceed to draft generation.
+   - **Pool is empty** — all concerns addressed, proceed to draft generation.
+   - **Only Medium questions remain** — proactively suggest generating: *"All Critical and High questions are resolved. N Medium-priority questions remain — keep going or generate?"*
+
+The user controls depth. The scoreboard gives them visibility into how much value remains in continuing. When all Critical questions are resolved, the big architectural decisions are made. They can stop whenever the remaining priority doesn't justify the effort.
+
+#### After the Loop
+
+You now have:
+
+1. **Resolved concerns** — The user's answers, which feed directly into spec sections (Problem, Scope, Technical Approach, Failure Modes, etc.). Weave these in naturally — don't quote the Q&A verbatim.
+2. **Unresolved questions** — Anything remaining in the pool becomes a marker in the draft with the full analysis preserved, using the priority-to-marker mapping from the table above.
+
+Proceed to Step 3 (Generate the Draft Spec).
 
 ### Step 3: Generate the Draft Spec
 
 Read the appropriate template from the `assets/` directory and generate a draft spec from the user's freeform input.
+
+**Incorporate probing results.** If discovery probing (Step 2.5) was run, weave the user's answers directly into the relevant spec sections. These answers replace what would otherwise be `[NEEDS CLARIFICATION]` markers. Unresolved questions from the probing pool become markers per the priority mapping in Step 2.5. The draft should be significantly tighter than it would be without probing.
 
 **Critical rules for draft generation:**
 
