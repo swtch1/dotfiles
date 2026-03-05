@@ -1,6 +1,7 @@
 ---
 name: commit
 description: commit changes to git
+disable-model-invocation: true
 ---
 
 It's time to commit.

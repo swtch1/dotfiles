@@ -19,28 +19,13 @@ There are three types of specs:
 
 ### Step 0: Check for `.specs/` Directory
 
-Before creating any task spec, verify the repo has a `.specs/` directory structure:
+Before creating any task spec:
 
-```
-.specs/
-├── AGENTS.md
-├── features/
-└── bugs/
-```
+1. Verify `.specs/` exists with subdirectories `features/`, `bugs/`, and file `AGENTS.md`
+2. If missing or incomplete, run `bash <skill_path>/scripts/init-specs.sh` (idempotent — safe to re-run)
+3. Prompt the user to review `.specs/AGENTS.md` and add project-specific guidance
 
-If `.specs/` does not exist, run the initialization script:
-
-```bash
-bash <skill_path>/scripts/init-specs.sh
-```
-
-The init script creates the `.specs/` directory structure with `AGENTS.md`, `features/`, and `bugs/` subdirectories.
-
-After running, prompt the user to review `.specs/AGENTS.md` and add project-specific guidance.
-
-If `.specs/` already exists, verify it contains the required structure (subdirectories `features/`, `bugs/`, and file `AGENTS.md`). If anything is missing, run the init script — it is safe to re-run and only backfills missing pieces.
-
-Note: Domain knowledge does NOT live in `.specs/`. It lives in per-directory `AGENTS.md` files next to the code (see "Domain Doc Workflow" below).
+Domain knowledge does NOT live in `.specs/` — it lives in per-directory `AGENTS.md` files next to the code (see "Domain Doc Workflow" below).
 
 ### Step 1: Determine Spec Type and Weight
 
@@ -63,6 +48,8 @@ If ambiguous between feature and bugfix, default to feature spec.
 | **Meaningful change** (new edge case, new mode) | New mini-spec or full spec referencing the original. |
 | **Fundamental redesign** | New full spec. Archive the old spec with a `Superseded-by` link. |
 
+**Note:** Changes discovered *during* active implementation use Implementation Delta (Step 7). The table above applies to post-ship iteration.
+
 ### Step 2: Gather Context
 
 Before generating the draft, gather project context in parallel:
@@ -74,16 +61,7 @@ Before generating the draft, gather project context in parallel:
 
 Use this context to make the probing questions (Step 2.5) as targeted as possible and the generated spec as informed as possible.
 
-**Gather with the analytical lenses in mind.** While scanning the codebase, actively look for signals that feed into discovery probing (Step 2.5):
-
-- **Consumers and dependents** — What other modules import, call, or listen to code in the feature area?
-- **State machines and transitions** — What states exist? What invariants are maintained?
-- **External integrations** — What third-party APIs, services, or shared contracts does this area touch?
-- **Failure handling patterns** — How does existing code handle errors, retries, and degraded states?
-- **Performance characteristics** — Batch sizes, rate limits, query counts, timeout values in the area.
-- **Recent changes** — Has this area been modified recently? Are there open or recently shipped specs touching it?
-
-The more specific your codebase findings, the sharper your probing questions will be. Generic findings produce generic questions — which defeat the purpose.
+**Gather with the analytical lenses (Step 2.5) in mind** — actively look for consumers/dependents, state machines, external integrations, failure patterns, performance characteristics, and recent changes in the feature area.
 
 ### Step 2.5: Discovery Probing
 
@@ -126,17 +104,15 @@ Bad: *"What about downstream consumers?"* — Lazy. The user will say "we'll han
 
 Bad: *"Have you considered error handling?"* — Generic. Produces generic answers.
 
-The question should make it difficult to give a shallow answer. By showing what you found and what it implies, you force the user to engage with the specific concern rather than hand-wave past it.
-
 #### Priority Ranking
 
 Assign each generated question a priority tier:
 
-| Priority | Criteria | If unresolved when user stops |
-|----------|----------|-------------------------------|
-| **Critical** | Spec is architecturally wrong without this answer. Data model forks, state machine decisions, integration contracts. The implementing agent would have to guess or stop and ask. | `[NEEDS CLARIFICATION]` with full context. Strongly encourage the user to answer before generating. |
-| **High** | Significant rework if missed. Failure modes with blast radius, invariant violations, performance cliffs. The implementing agent could proceed but would likely build the wrong thing. | `[OPEN QUESTION]` with your full analysis preserved. |
-| **Medium** | Edge cases, operational concerns, polish. The implementing agent can make a reasonable default. | `[ASSUMPTION]` with a sensible default and rationale. |
+| Priority | Criteria | If unresolved → marker |
+|----------|----------|------------------------|
+| **Critical** | Architecture-blocking: data model forks, state machine decisions, integration contracts. Agent must guess or stop. | `[NEEDS CLARIFICATION]` with full context |
+| **High** | Significant rework risk: failure modes with blast radius, invariant violations, performance cliffs. | `[OPEN QUESTION]` with analysis preserved |
+| **Medium** | Edge cases, operational concerns. Agent can pick a reasonable default. | `[ASSUMPTION]` with default + rationale |
 
 #### The Probing Loop
 
@@ -168,18 +144,9 @@ Remaining: Critical: X | High: Y | Medium: Z
 
 **Loop behavior:**
 
-1. Present the top 3 questions from the pool.
-2. User answers. Process their responses:
-   - Resolve addressed concerns — these feed directly into the spec draft.
-   - **Cascade**: Answers may reveal new concerns. Generate new questions, assign priorities, and add them to the pool. Tell the user: *"Your answer about X raised a follow-up about Y."*
-   - Re-rank the remaining pool.
-3. If the pool still has questions, present the next batch with an updated scoreboard.
-4. Continue until one of these stop conditions:
-   - **User says "done"** — stop immediately, proceed to draft generation.
-   - **Pool is empty** — all concerns addressed, proceed to draft generation.
-   - **Only Medium questions remain** — proactively suggest generating: *"All Critical and High questions are resolved. N Medium-priority questions remain — keep going or generate?"*
-
-The user controls depth. The scoreboard gives them visibility into how much value remains in continuing. When all Critical questions are resolved, the big architectural decisions are made. They can stop whenever the remaining priority doesn't justify the effort.
+1. Present top 3 questions from the pool, highest priority first.
+2. Process answers: resolve concerns (feed into spec), **cascade** new concerns from answers into the pool with assigned priorities (*"Your answer about X raised a follow-up about Y."*), re-rank.
+3. Present next batch with updated scoreboard. Continue until: user says "done", pool is empty, or only Medium remain (offer to generate).
 
 #### After the Loop
 
@@ -280,6 +247,40 @@ The user will provide feedback. Update the spec accordingly:
 
 Continue iterating until all markers are resolved or the user explicitly defers them.
 
+### Step 7: Implementation Delta (Post-Approval Changes)
+
+When a spec transitions to `In Progress`, the sections above the Implementation Delta become the **plan of record**. They should not be substantively edited — only factual corrections (wrong file paths, typos) are permitted inline.
+
+**All post-approval discoveries go into the Implementation Delta section** as numbered amendments (Δ1, Δ2, etc.). Each amendment includes:
+
+- **Date** — when the amendment was added
+- **Section** — which original section it amends
+- **What changed** — concrete description of the change
+- **Why** — what was discovered that the plan didn't anticipate
+
+When adding any amendment, update the `Amendments` header field from `None` to `Yes (see Implementation Delta)`.
+
+**Applicability by spec type:**
+
+| Spec type | Delta required? |
+|---|---|
+| **Full feature spec** | Required once status = In Progress, if anything diverges from plan |
+| **Bugfix spec** | Required if root cause or fix approach changes from what was planned |
+| **Mini-spec** | Optional, but required if change affects acceptance criteria or scope |
+| **Domain doc** | N/A — domain docs are living documents, not plans |
+
+**Threshold rule — when deltas aren't enough:** If implementation discoveries invalidate the core Technical Approach or alter more than ~30% of the original scope, the delta model breaks down. In this case:
+
+1. Do NOT attempt to capture the changes as a series of amendments
+2. Change the spec status back to `Review`, OR
+3. Create a new spec and add a `Superseded-by` link in the original
+
+The delta is for amendments, not rewrites. If the plan was fundamentally wrong, that's a new plan.
+
+**Freeze semantics:** When a spec reaches `Implemented (frozen)`, both the plan of record (sections above) AND the Implementation Delta are frozen. The frozen spec is a complete historical artifact: what we thought, what actually happened, and why the gap exists.
+
+**Empty deltas are meaningful.** If implementation followed the plan exactly, the Implementation Delta section remains empty. This is a positive signal — it means the planning was accurate.
+
 ### Verification Quality Check
 
 Before considering a spec complete, verify the Verification section meets these criteria:
@@ -298,7 +299,7 @@ Before considering a spec complete, verify the Verification section meets these 
 
 ## Domain Doc Workflow
 
-Domain knowledge lives in `AGENTS.md` files placed in the code directories they describe — not in a centralized `.specs/` folder. This follows the industry standard convention used by Sentry, Tuist, promptfoo, and thousands of other repos. The filename `AGENTS.md` is recognized by Claude Code, Cursor, Codex, Aider, and most AI coding tools.
+Domain knowledge lives in `AGENTS.md` files placed in the code directories they describe — not in a centralized `.specs/` folder. This follows the industry standard convention.
 
 ### Creating a domain doc
 
@@ -308,12 +309,10 @@ Domain knowledge lives in `AGENTS.md` files placed in the code directories they 
    - `proto/AGENTS.md` — describes the protobuf definitions and conventions
 2. **Gather context extensively** — read all files in and around the directory
 3. **Read the template** from `assets/domain-template.md` and generate the `AGENTS.md` content
-4. **Apply the cardinal rule: if an agent can learn it by reading the source files, it does NOT belong in AGENTS.md.** The code is the source of truth for what the code does. AGENTS.md captures everything else: non-obvious gotchas, cross-boundary design decisions, "don't do X because Y" warnings, build/test/generate commands, invariants that span multiple files, the WHY behind surprising choices.
-5. **Exclude aggressively:** Type/struct definitions, function signatures, parameter lists, step-by-step flows readable from code, settings/config tables, data model field listings — all of these are code-in-English and will rot. An agent reads code faster than it reads prose describing code.
-6. **Target 20-50 lines.** If the file is growing past 50 lines, you are almost certainly documenting the code rather than documenting what the code can't tell you. Challenge every line: "Would an agent figure this out by reading the source files?" If yes, delete it.
-7. **Prioritize gotchas.** The highest-value content is things that have wasted agent iterations or bitten developers — the non-obvious behaviors, the surprising constraints, the cross-boundary wiring that isn't visible from within one package.
-8. **Cross-reference**: link to related `AGENTS.md` files if they exist (e.g., "See also: `../auth/AGENTS.md`")
-9. **Self-review against the cardinal rule.** After generating the draft, re-read each line and ask: "Would an agent figure this out by reading the source files in this directory?" Delete any line where the answer is yes. The highest-value content describes *emergent behavior* — things that only become apparent when you understand how multiple pieces interact. For example, a function that silently modifies fields it doesn't directly target via a deferred replay mechanism. That's invisible from reading the function signature alone.
+4. **Cardinal rule: if an agent can learn it by reading source files, it does NOT belong in AGENTS.md.** Document only: non-obvious gotchas, cross-boundary design decisions, "don't do X because Y" warnings, build/test/generate commands, multi-file invariants, the WHY behind surprising choices. Exclude aggressively: type defs, function sigs, param lists, step-by-step flows, config tables, data model fields — all code-in-English that will rot.
+5. **Target 20-50 lines. Prioritize gotchas** — things that have wasted agent iterations or bitten developers. If growing past 50 lines, you are documenting code rather than what code can't tell you.
+6. **Cross-reference** related `AGENTS.md` files (e.g., "See also: `../auth/AGENTS.md`")
+7. **Self-review**: re-read each line and ask "Would an agent figure this out from source files?" Delete if yes. Highest-value content describes *emergent behavior* — things only apparent when multiple pieces interact (e.g., a function that silently modifies fields via a deferred replay mechanism, invisible from the function signature alone).
 
 ### Cursor integration
 

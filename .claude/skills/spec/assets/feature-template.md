@@ -2,8 +2,12 @@
 
 **Date:** [YYYY-MM-DD]
 **Status:** Draft <!-- Draft | Review | Approved | In Progress | Implemented (frozen) | Archived -->
+**Amendments:** None <!-- None | Yes (see Implementation Delta) -->
 **Superseded-by:** <!-- Link to newer spec if archived due to redesign -->
 **Ticket:** [TICKET LINK, if applicable]
+
+<!-- FROZEN ONCE IN PROGRESS: Do not edit sections above the Implementation Delta.
+     Document post-approval changes in the Implementation Delta section below. -->
 
 ## Problem
 
@@ -75,6 +79,19 @@
 ### Manual
 
 - [ ] [Step-by-step manual verification procedure]
+
+## Implementation Delta
+
+<!-- FROZEN: Do not edit sections above. Append amendments here.
+     Update the Amendments header field to "Yes". -->
+
+<!-- Replace the template below with actual amendments, or leave empty if plan was followed exactly. -->
+
+### Δ1: [Short description of what changed]
+**Date:** [YYYY-MM-DD]
+**Section:** [Which section this amends, e.g. "Technical Approach > Entry Points"]
+**What changed:** [Concrete description of the change]
+**Why:** [What was discovered that the plan didn't anticipate]
 
 ## AGENTS.md Updates
 
