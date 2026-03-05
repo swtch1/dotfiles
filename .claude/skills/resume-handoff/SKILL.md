@@ -8,16 +8,11 @@ disable-model-invocation: true
 
 Resume work from a previous session's handoff document. Read it, verify current state, propose a plan, get confirmation, then execute.
 
-## Resolve Handoff File
-
-A path or ticket number (ENG-XXXX) is always provided. For ticket numbers, list `thoughts/handoffs/ENG-XXXX/` and pick the most recent file by `YYYY-MM-DD_HH-MM-SS` in the filename.
-
 ## Ingest Context
 
 1. **Read the handoff document fully** — no truncation (Read tool without limit/offset). This is the only file the main session reads upfront.
 2. **Subagents read Critical Context files in parallel** and return distilled summaries — not raw content. These are the files that affect planning.
 3. **Working Set files are NOT read yet.** They exist for execution. Read them only when the relevant task is in progress.
-4. **One subagent verifies current state**: compare the handoff's `git_commit` to current HEAD. If they diverge, report what changed since the handoff.
 
 ## Present Analysis & Confirm
 
@@ -36,6 +31,5 @@ Present a concise, structured analysis before acting. It MUST include:
 
 ## Rules
 
-- Never assume handoff state matches current state — verify file references exist, check for breaking changes.
+- Never assume handoff state matches current state — verify file references still exist before proposing a plan.
 - The Learnings section is the highest-value content. It contains things you'll get wrong without reading.
-- If the handoff is significantly stale (many commits since `git_commit`), re-evaluate whether the original approach still applies before proposing it.
