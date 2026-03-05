@@ -1,6 +1,6 @@
 ---
 name: gitlab-ci
-description: "Manage GitLab CI/CD pipelines and jobs via the `glab` CLI. This skill should be used when the user mentions a GitLab pipeline, CI/CD job, job logs, pipeline retry, or any GitLab CI operations. Trigger on patterns like pipeline URLs (gitlab.com/.../pipelines/ID), job URLs (gitlab.com/.../jobs/ID), or keywords like 'pipeline', 'CI/CD', 'GitLab CI', 'job logs', 'retry job', 'rerun pipeline'."
+description: "Manage GitLab CI/CD pipelines and jobs via the `glab` CLI. Use when the user mentions a GitLab pipeline or job. Trigger on patterns like pipeline URLs (gitlab.com/.../pipelines/ID), job URLs (gitlab.com/.../jobs/ID), or keywords like 'CI', 'pipeline', 'GitLab CI'."
 ---
 
 # GitLab CI/CD via `glab` CLI

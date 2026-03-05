@@ -2,9 +2,13 @@
 
 **Date:** [YYYY-MM-DD]
 **Status:** Draft <!-- Draft | Review | Approved | In Progress | Implemented (frozen) | Archived -->
+**Amendments:** None <!-- None | Yes (see Implementation Delta) -->
 **Superseded-by:** <!-- Link to newer spec if archived due to redesign -->
 **Ticket:** [TICKET LINK, if applicable]
 **Severity:** [Critical / High / Medium / Low]
+
+<!-- FROZEN ONCE IN PROGRESS: Do not edit sections above the Implementation Delta.
+     Document post-approval changes in the Implementation Delta section below. -->
 
 ## Bug Description
 
@@ -63,6 +67,12 @@
 
 - [ ] [Reproduction steps from above should no longer reproduce the bug]
 - [ ] [Any additional manual verification]
+
+## Implementation Delta
+
+<!-- FROZEN: Do not edit sections above. Append amendments here.
+     Update the Amendments header field to "Yes".
+     For bugfix specs: only required if fix diverges from Root Cause or Fix Approach. -->
 
 ## AGENTS.md Updates
 

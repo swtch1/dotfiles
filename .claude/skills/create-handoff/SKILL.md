@@ -10,22 +10,14 @@ You are tasked with writing a handoff document to hand off your work to another 
 
 ## Process
 
-### 1. Filepath & Metadata
-Use the following information to understand how to create your document:
-- create your file under `thoughts/handoffs/YYYY-MM-DD_HH-MM-SS_ENG-ZZZZ_description.md`, where:
-    - YYYY-MM-DD is today's date
-    - HH-MM-SS is the hours, minutes and seconds based on the current time, in 24-hour format (i.e. use `13:00` for `1:00 pm`)
-    - ENG-ZZZZ is the ticket number (omit if no ticket)
-    - description is a brief kebab-case description
-- Examples:
-    - `2025-01-08_13-55-22_create-context-compaction.md`
+### 1. Scaffold the file
+Run the init script to create the file with frontmatter pre-populated (date, git_commit, branch, repository):
+```bash
+bash scripts/init-handoff.sh <kebab-case-description> [ENG-XXXX]
+```
+The script outputs the filepath. Fill in the `summary` field, then append content sections from [template.md](template.md).
 
-### 2. Handoff Writing
-Using the above conventions, write your document. Use the defined filepath, and follow the template structure defined in [template.md](template.md).
-
-Structure the document with YAML frontmatter followed by content as shown in the template.
-
-### 3. Notify User
+### 2. Notify User
 Respond to the user with the template between <template_response></template_response> XML tags. do NOT include the tags in your response.
 
 <template_response>
@@ -49,6 +41,7 @@ Handoff created and synced! You can resume from this handoff in a new session wi
 ---
 
 ## Additional Notes & Instructions
-- **more information, not less**. This is a guideline that defines the minimum of what a handoff should be. Always feel free to include more information if necessary.
+- **include only what the next session can't discover from the filesystem**. If it's in a committed file, reference it — don't describe it. Do not include full file contents, tool output logs, exploration dead ends, or narration of how you arrived at decisions.
+- **the entire handoff document should be under 100 lines**. If you're exceeding that, you're including content instead of references.
 - **be thorough and precise**. include both top-level objectives, and lower-level details as necessary.
 - **avoid excessive code snippets**. While a brief snippet to describe some key change is important, avoid large code blocks or diffs; do not include one unless it's necessary (e.g. pertains to an error you're debugging). Prefer using `/path/to/file.ext:line` references that an agent can follow later when it's ready, e.g. `packages/dashboard/src/app/dashboard/page.tsx:12-24`

@@ -43,7 +43,7 @@ Avoid parallel execution when agents would modify the same file, unless they foc
    - Otherwise, run `git diff --staged` to examine all changes in detail
    - Identify which files contain core logic, public APIs, complex algorithms, or security-sensitive code - these require deeper scrutiny
 2. **Update Memory**
-   - CLAUDE.md files are loaded automatically in fork context, but read any project-specific CLAUDE.md files (e.g., `packages/*/CLAUDE.md`) to refresh your memory on local standards
+   - AGENTS.md files are loaded automatically in fork context, but read any project-specific AGENTS.md files (e.g., `packages/*/AGENTS.md`) to refresh your memory on local standards
 3. **Read Any Directly Mentioned Files First:**
    - If the user mentions specific files (tickets, docs, JSON), read them FULLY first
    - **IMPORTANT**: Use the Read tool to read entire files — if a file exceeds 2000 lines, read in chunks with offset until EOF
@@ -80,7 +80,7 @@ Avoid parallel execution when agents would modify the same file, unless they foc
 
   **Correctness & Logic:**
   - Trace execution paths through changed code
-  - Verify error handling at all failure points
+  - Verify error handling: failures should be surfaced, logged with context, or explicitly documented as intentionally swallowed
   - Check boundary conditions and edge cases (empty, null, zero, negative, max values, large inputs, malformed types)
   - Look for off-by-one errors, race conditions, resource leaks
   - Verify thread safety and concurrent access patterns if applicable
@@ -156,6 +156,7 @@ Avoid parallel execution when agents would modify the same file, unless they foc
       - **Important**: Incorrect behavior, missed edge case, or significant regression risk
       - **Minor**: Code smell, naming issue, or opportunity for improvement
     - Provide specific recommendations for fixes
+    - For each issue, cite specific evidence: the execution path that fails, the line that causes it, or the contract that's violated. If you cannot articulate specific evidence, do not report the issue.
 
 ### What We're NOT Doing
 
