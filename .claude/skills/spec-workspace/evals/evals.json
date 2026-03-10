@@ -1,0 +1,83 @@
+{
+  "skill_name": "spec",
+  "evals": [
+    {
+      "id": 1,
+      "name": "feature-payment-retry",
+      "prompt": "Hey, I need a spec for adding payment retry logic to our billing service. Right now when a charge fails we just cancel the subscription immediately which is pretty aggressive — we're losing like 8% of subscribers to transient Stripe failures. We want to retry failed charges a few times before giving up. The codebase is at /Users/josh/.claude/skills/spec-workspace/test-project/. No .specs/ directory exists yet.",
+      "expected_output": "A feature spec following the template with: probing questions about retry strategy, marker annotations for unknowns, real file paths from the codebase, .specs/ directory initialized, vague language caught if any",
+      "files": [],
+      "expectations": [
+        "The spec file is created at .specs/features/ with YYYY-MM-DD naming convention",
+        "The .specs/ directory is initialized (init-specs.sh called or equivalent)",
+        "The output contains at least one [NEEDS CLARIFICATION] or [ASSUMPTION] marker",
+        "The Technical Approach section references real files from the codebase (e.g., charge.go, subscription.go)",
+        "The spec includes an Out of Scope / Non-Goals section with at least one item",
+        "The spec includes an Alternatives Considered section with at least one alternative",
+        "The Verification section contains the IMPLEMENTING AGENT instruction comment",
+        "Discovery probing questions are asked before generating the spec draft",
+        "The spec identifies that ChargeResult is consumed by analytics, fraud-detection, and admin dashboard"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "bugfix-upgrade-double-charge",
+      "prompt": "We have a bug report — when a user tries to upgrade their plan and the prorated charge fails, they end up on the new plan without paying. Basically getting a free upgrade. Can you write a bugfix spec? The codebase is at /Users/josh/.claude/skills/spec-workspace/test-project/.",
+      "expected_output": "A bugfix spec using the bugfix template that identifies the root cause in subscription.go (plan updated before charge succeeds) with specific file:line references",
+      "files": [],
+      "expectations": [
+        "The spec file is created at .specs/bugs/ with YYYY-MM-DD naming convention",
+        "The spec uses the bugfix template structure (Bug Description, Root Cause, Fix Approach, etc.)",
+        "The Root Cause section identifies subscription.go and the plan-update-before-charge ordering issue",
+        "The Fix Approach recommends moving the plan update to after the charge succeeds",
+        "The spec includes a Severity field",
+        "The Verification section includes at least one automated test assertion",
+        "The spec explicitly scopes out unrelated refactoring in Out of Scope"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "domain-doc-billing",
+      "prompt": "Can you create an AGENTS.md domain doc for the billing module? I want AI agents to understand the gotchas and cross-boundary stuff without having to read every file. The codebase is at /Users/josh/.claude/skills/spec-workspace/test-project/.",
+      "expected_output": "A per-directory AGENTS.md file in internal/billing/ that follows the cardinal rule (no code-in-English), stays under 50 lines, and documents gotchas and cross-boundary behavior",
+      "files": [],
+      "expectations": [
+        "The AGENTS.md file is created at internal/billing/AGENTS.md (next to the code, not in .specs/)",
+        "The document is 50 lines or fewer",
+        "The document does NOT restate function signatures or type definitions from the source code",
+        "The document mentions the immediate-cancellation-on-failure behavior as a gotcha",
+        "The document mentions that ChargeResult is consumed by external systems (analytics, fraud-detection, admin dashboard)",
+        "The document mentions the UpgradePlan bug or the plan-update ordering issue",
+        "The user is asked whether they use Cursor (for .cursor/rules/*.mdc integration)"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "mini-spec-timeout-config",
+      "prompt": "Quick one — the Stripe client timeout is hardcoded to 30 seconds in main.go. I want to make it configurable via an environment variable. Single file change basically. Codebase: /Users/josh/.claude/skills/spec-workspace/test-project/.",
+      "expected_output": "A mini-spec (not a full feature spec) that includes only Problem, Scope, Technical Approach, and Verification sections. The model should recognize this is a small change and offer a mini-spec.",
+      "files": [],
+      "expectations": [
+        "The model offers or uses a mini-spec format (not the full feature template)",
+        "The spec references stripe_client.go and/or main.go as the files to modify",
+        "The spec is noticeably shorter than a full feature spec",
+        "The spec includes a Verification section with at least one testable condition",
+        "The spec does NOT include extensive probing questions (proportional to the small change)"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "vague-input-edge-case",
+      "prompt": "We need to make the billing system more robust and scalable. It should also be fast and handle errors gracefully. Can you spec this out? Codebase: /Users/josh/.claude/skills/spec-workspace/test-project/.",
+      "expected_output": "The model should catch the vague language ('robust', 'scalable', 'fast', 'gracefully') and push back with clarifying questions rather than blindly generating a spec with vague requirements",
+      "files": [],
+      "expectations": [
+        "The model identifies at least 2 vague terms (robust, scalable, fast, gracefully) and asks for concrete definitions",
+        "The model does NOT generate a full spec with vague terms left unquantified",
+        "If a draft is generated, vague terms are replaced with [NEEDS CLARIFICATION] markers demanding specific metrics",
+        "The model asks clarifying questions before or during spec generation",
+        "The output demonstrates the vague language lint behavior described in the skill"
+      ]
+    }
+  ]
+}

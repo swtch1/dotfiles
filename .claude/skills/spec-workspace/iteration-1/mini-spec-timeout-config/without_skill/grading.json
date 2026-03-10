@@ -1,0 +1,38 @@
+{
+  "expectations": [
+    {
+      "text": "Model offers or uses a mini-spec format, not the full feature template with all sections",
+      "passed": true,
+      "evidence": "Naturally produced a concise 38-line spec with only: Scope, Current behavior, Proposed behavior, Why this design, Acceptance criteria, Example configs. No heavyweight template ceremony."
+    },
+    {
+      "text": "Spec references stripe_client.go and/or main.go as files to modify",
+      "passed": true,
+      "evidence": "References cmd/server/main.go:23 (hardcoded timeout), internal/billing/stripe_client.go:15 (constructor), internal/billing/stripe_client.go:18 (duration conversion)."
+    },
+    {
+      "text": "Output spec is noticeably shorter than a full feature spec",
+      "passed": true,
+      "evidence": "38 lines — extremely concise. Shorter than both the with-skill mini-spec (70 lines) and the with-skill feature spec (113 lines)."
+    },
+    {
+      "text": "Spec includes a Verification section with at least one testable condition",
+      "passed": true,
+      "evidence": "Acceptance criteria section with 4 testable conditions: no hardcoded 30, env var controls timeout, missing env preserves default, invalid env causes startup failure."
+    },
+    {
+      "text": "Model does NOT run a full multi-round probing loop for this small change",
+      "passed": true,
+      "evidence": "No probing questions at all. Went directly to producing the spec — appropriate for the change size."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_duration_seconds": 75.0
+  }
+}

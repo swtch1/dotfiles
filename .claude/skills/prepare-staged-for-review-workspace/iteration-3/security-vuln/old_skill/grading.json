@@ -1,0 +1,14 @@
+{
+  "expectations": [
+    {"text": "SQL injection as Critical", "passed": true, "evidence": "Report: '[Critical] auth.go:18 — SQL injection via string-formatted query.'"},
+    {"text": "Hardcoded JWT secret flagged", "passed": true, "evidence": "Report: '[Critical] auth.go:9 — Hardcoded JWT signing secret in source.'"},
+    {"text": "Unchecked row.Scan error", "passed": true, "evidence": "Report: '[Important] auth.go:23 — row.Scan error ignored.'"},
+    {"text": "Empty input validation", "passed": false, "evidence": "Not mentioned. Report has 8 issues but none address empty email/password. (Caught in iter 2, missed here — variance.)"},
+    {"text": "Dead code removed", "passed": true, "evidence": "Report: 'Removed commented-out legacy LoginHandlerOld implementation.'"},
+    {"text": "Unused os import", "passed": true, "evidence": "Report: 'Removed unused os import.'"},
+    {"text": "Info leakage (email in error)", "passed": true, "evidence": "Report: '[Important] auth.go:26 — User email reflected in auth error response.'"},
+    {"text": "Missing tests flagged", "passed": true, "evidence": "Report: '[Minor] auth.go:11-45 — No tests for login/authentication flow.'"},
+    {"text": "Git state preserved", "passed": true, "evidence": "Verified: 1 commit, staged diff intact."}
+  ],
+  "summary": {"passed": 8, "failed": 1, "total": 9, "pass_rate": 0.889}
+}

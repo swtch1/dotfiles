@@ -1,0 +1,33 @@
+{
+  "expectations": [
+    {
+      "text": "Model identifies at least 2 vague terms from: robust, scalable, fast, gracefully",
+      "passed": true,
+      "evidence": "Problem section explicitly flags: 'The request uses vague quality terms (\"robust\", \"scalable\", \"fast\", \"handle errors gracefully\"). To make this implementable, these must be converted to measurable targets.' All 4 vague terms identified."
+    },
+    {
+      "text": "Model does NOT produce a spec where vague terms appear unquantified in prose",
+      "passed": true,
+      "evidence": "Every instance of vague language is accompanied by a [NEEDS CLARIFICATION] marker demanding metrics. Example: '[NEEDS CLARIFICATION: Define measurable SLOs replacing vague input: (a) p95 charge-attempt latency target, (b) max billing-cycle duration target, (c) target user volume/concurrency.]' No vague term appears as an accepted requirement."
+    },
+    {
+      "text": "Vague terms are replaced with [NEEDS CLARIFICATION] markers that demand specific metrics",
+      "passed": true,
+      "evidence": "Multiple NEEDS CLARIFICATION markers: business impact clarification, retry policy targets, and SLO definitions with specific metric categories (p95 latency, max cycle duration, user volume). The markers demand concrete numbers, not just acknowledgment."
+    },
+    {
+      "text": "Model asks clarifying questions before or during spec generation about what robust, scalable, etc. mean concretely",
+      "passed": true,
+      "evidence": "probing_questions.md contains 8 questions across 2 rounds (3 Critical, 3 High, 2 Medium). Critical question #3 directly addresses 'scalable': 'What concrete capacity target should we design for (users per cycle, max cycle duration, allowed Stripe API QPS)?'"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_duration_seconds": 130.0
+  }
+}
