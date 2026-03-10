@@ -14,7 +14,7 @@ k9s:
       - kraken-generator-perf-sla-1764779894
       - kraken-generator-perf-sla-1764774731
   view:
-    active: v1/pods speedscale
+    active: v1/namespaces
   featureGates:
     nodeShell: false
   proxy: null

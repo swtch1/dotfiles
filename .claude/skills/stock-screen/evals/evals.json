@@ -1,0 +1,71 @@
+{
+  "skill_name": "stock-screen",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analyze MSFT for me",
+      "expected_output": "Full stock analysis report for Microsoft with all template sections populated, current data, valuation analysis, and clear BUY/SELL/HOLD recommendation with conviction level",
+      "files": [],
+      "expectations": [
+        "Report file is saved as a markdown file at the specified output path",
+        "Report contains a Recommendation section with explicit BUY, SELL, or HOLD action",
+        "Report contains Conviction level (High, Medium, or Low)",
+        "Report contains a Time Horizon for the recommendation",
+        "Report has an Executive Summary section",
+        "Report has a Quality Metrics Dashboard with Piotroski F-Score, Altman Z-Score, ROIC, and FCF Yield",
+        "Report has a Valuation Summary section with P/E, EV/EBITDA, or P/S multiples",
+        "Report includes an intrinsic value estimate or margin of safety calculation",
+        "Report has a Scenario Analysis with bull, base, and bear cases",
+        "Report has an Options Analysis section",
+        "Report contains actual current MSFT price data (not fabricated)",
+        "Report has a Sources section with references",
+        "Report includes comparison to market benchmarks (S&P 500 or Nasdaq)",
+        "Options Analysis contains numeric IV Rank or IV Percentile values (not N/A or unavailable)",
+        "Valuation Summary includes historical averages for comparison (not all N/A)",
+        "Report states what would invalidate the thesis (invalidation criteria)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "What do you think about GOLD (Barrick Gold)? I've been watching gold prices climb and wondering if miners are a good play here.",
+      "expected_output": "Analysis that identifies GOLD as a commodity producer, leads with gold commodity price analysis, calculates AISC margin, explains miner leverage, and contextualizes recommendation to the gold thesis",
+      "files": [],
+      "expectations": [
+        "Report file is saved as a markdown file at the specified output path",
+        "Report identifies or classifies GOLD/Barrick as a commodity producer or miner",
+        "Report discusses gold commodity price before or prominently alongside company analysis",
+        "Report mentions AISC (all-in sustaining cost) or production cost/breakeven",
+        "Report explains miner leverage to underlying commodity with quantified amplification (e.g. a 5% move in gold means X% in miners)",
+        "Report contains a Recommendation section with explicit BUY, SELL, or HOLD action",
+        "Report contains Conviction level (High, Medium, or Low)",
+        "Report has a Valuation Summary section with actual numeric historical averages (not all N/A)",
+        "Report discusses gold price trend or outlook as part of the thesis",
+        "Report has a Sources section with references",
+        "Recommendation rationale connects back to the gold commodity thesis",
+        "Report calculates explicit per-unit profit margin (spot price minus AISC in $/oz or equivalent)",
+        "Report has a dedicated commodity price section or heading (not just mentioning gold in passing)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I'm looking at selling puts on SOFI - IV seems elevated. Do a full screen on it.",
+      "expected_output": "Full analysis with substantive options section including IV rank/percentile, evaluation of put-selling strategy, specific guidance, plus complete fundamental/valuation backdrop",
+      "files": [],
+      "expectations": [
+        "Report file is saved as a markdown file at the specified output path",
+        "Report has an Options Analysis section that is more than 20 lines",
+        "Report mentions IV Rank or IV Percentile with numeric values in the options analysis",
+        "Report specifically evaluates the put-selling strategy the user asked about",
+        "Report recommends for or against selling puts with reasoning tied to IV environment",
+        "Report contains a Recommendation section with explicit action (BUY/SELL/HOLD or options strategy)",
+        "Report contains Conviction level (High, Medium, or Low)",
+        "Report has a Valuation Summary section with multiples",
+        "Report has fundamental analysis providing context for the options play",
+        "Report has a Sources section with references",
+        "Report contains actual current SOFI price data (not fabricated)",
+        "Report presents multiple named options strategies or strike/expiry alternatives",
+        "Report includes risk factors or invalidation criteria specific to the options position"
+      ]
+    }
+  ]
+}

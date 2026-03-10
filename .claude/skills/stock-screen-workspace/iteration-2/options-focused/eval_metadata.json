@@ -1,0 +1,20 @@
+{
+  "eval_id": 3,
+  "eval_name": "options-focused",
+  "prompt": "I'm looking at selling puts on SOFI - IV seems elevated. Do a full screen on it.",
+  "assertions": [
+    "Report file is saved as a markdown file at the specified output path",
+    "Report has an Options Analysis section that is more than 20 lines",
+    "Report mentions IV Rank or IV Percentile with numeric values in the options analysis",
+    "Report specifically evaluates the put-selling strategy the user asked about",
+    "Report recommends for or against selling puts with reasoning tied to IV environment",
+    "Report contains a Recommendation section with explicit action (BUY/SELL/HOLD or options strategy)",
+    "Report contains Conviction level (High, Medium, or Low)",
+    "Report has a Valuation Summary section with multiples",
+    "Report has fundamental analysis providing context for the options play",
+    "Report has a Sources section with references",
+    "Report contains actual current SOFI price data (not fabricated)",
+    "Report presents multiple named options strategies or strike/expiry alternatives",
+    "Report includes risk factors or invalidation criteria specific to the options position"
+  ]
+}

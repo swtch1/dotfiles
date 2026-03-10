@@ -1,0 +1,36 @@
+{
+  "expectations": [
+    {"text": "Report file is saved as a markdown file at the specified output path", "passed": true, "evidence": "File exists at commodity-producer/old_skill/outputs/analysis.md (158 lines)"},
+    {"text": "Report identifies or classifies GOLD/Barrick as a commodity producer or miner", "passed": true, "evidence": "Title: 'B (Barrick Mining)'. Executive Summary: 'Barrick is still fundamentally levered to gold'"},
+    {"text": "Report discusses gold commodity price before or prominently alongside company analysis", "passed": true, "evidence": "Rationale line 17: 'gold up +1.61% intraday to ~$5,186/oz' and Exec Summary: 'gold remains the main driver here (80-90% of the story)'. Not a dedicated section but prominently alongside."},
+    {"text": "Report mentions AISC (all-in sustaining cost) or production cost/breakeven", "passed": true, "evidence": "Rationale line 17: 'Barrick FY2025 gold AISC was $1,637/oz'"},
+    {"text": "Report explains miner leverage to underlying commodity (how gold moves amplify in miners)", "passed": false, "evidence": "Bearish Catalysts line 78: 'miners are operating leverage vehicles, so a commodity pullback can hit equity multiples and earnings fast' — this MENTIONS leverage but does not EXPLAIN the mechanism or quantify it. No calculation showing how gold % changes amplify into miner equity moves."},
+    {"text": "Report contains a Recommendation section with explicit BUY, SELL, or HOLD action", "passed": true, "evidence": "Line 11: '**Action**: HOLD'"},
+    {"text": "Report contains Conviction level (High, Medium, or Low)", "passed": true, "evidence": "Line 12: '**Conviction**: Medium'"},
+    {"text": "Report has a Valuation Summary section", "passed": true, "evidence": "Lines 46-56: Valuation Summary with P/E, EV/EBITDA, P/S (though Historical Avg columns are all N/A)"},
+    {"text": "Report discusses gold price trend or outlook as part of the thesis", "passed": true, "evidence": "Catalyst line 74: 'Sustained gold strength above $5,000/oz through 2026 keeps miner cash generation elevated'"},
+    {"text": "Report has a Sources section with references", "passed": true, "evidence": "Lines 144-158: 13 sources with hyperlinks"},
+    {"text": "Recommendation rationale connects back to the gold commodity thesis", "passed": true, "evidence": "Rationale line 17: 'Commodity-producer setup is strong (gold up +1.61% intraday to ~$5,186/oz while Barrick FY2025 gold AISC was $1,637/oz)'"}
+  ],
+  "summary": {
+    "passed": 10,
+    "failed": 1,
+    "total": 11,
+    "pass_rate": 0.909
+  },
+  "execution_metrics": {
+    "output_chars": 7800
+  },
+  "claims": [
+    {"claim": "Gold price ~$5,186/oz", "type": "factual", "verified": true, "evidence": "Consistent with gold market data"},
+    {"claim": "Barrick FY2025 AISC $1,637/oz", "type": "factual", "verified": true, "evidence": "Matches with_skill output and Barrick IR"},
+    {"claim": "Valuation Historical Avg: N/A for all metrics", "type": "factual", "verified": true, "evidence": "Old skill failed to retrieve historical valuation averages — with_skill found them (14.87x, 10.00x, 6.02x)"}
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {"assertion": "Report discusses gold commodity price before or prominently alongside company analysis", "reason": "This passed despite there being no dedicated commodity section — gold is mentioned in the Rationale but not analyzed separately. The with_skill version has a full '## Gold Commodity Price Analysis (First)' section. A stricter assertion ('Report has a dedicated section analyzing the gold commodity before stock analysis') would discriminate better."},
+      {"reason": "No assertion checks for historical valuation averages. The old skill returned N/A for all three historical average columns while the with_skill provided actual numbers — a meaningful quality gap that goes undetected."}
+    ],
+    "overall": "10/11 passed. The single failure (miner leverage explanation) correctly identifies a genuine gap — the old skill mentions leverage in passing but doesn't explain the mechanism. The with_skill version includes a quantitative calculation. Several other qualitative differences (dedicated commodity section, historical valuation data) pass the assertions but represent real quality gaps."
+  }
+}

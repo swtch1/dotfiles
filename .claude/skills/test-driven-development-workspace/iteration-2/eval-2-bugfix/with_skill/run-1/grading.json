@@ -1,0 +1,50 @@
+{
+  "expectations": [
+    {
+      "text": "A regression test for the specific bug is written BEFORE any fix is applied",
+      "passed": true,
+      "evidence": "Agent confirmed RED phase: tests written first, strconv.Atoi parsing error confirmed before fix"
+    },
+    {
+      "text": "The regression test name clearly describes the bug",
+      "passed": true,
+      "evidence": "Table-driven test with subtest 'fractional hours bug reproduction' — clearly describes the bug"
+    },
+    {
+      "text": "The regression test is run and confirmed to FAIL before the fix",
+      "passed": true,
+      "evidence": "Agent confirmed: go test failed with 'strconv.Atoi: parsing 1.5: invalid syntax'"
+    },
+    {
+      "text": "The fix uses strconv.ParseFloat instead of strconv.Atoi",
+      "passed": true,
+      "evidence": "duration.go:39 uses strconv.ParseFloat(numStr, 64)"
+    },
+    {
+      "text": "The fix is minimal — only changes what's needed to handle fractional values",
+      "passed": true,
+      "evidence": "Only changed Atoi→ParseFloat and int→float64 multiplication. No other structural changes."
+    },
+    {
+      "text": "Existing behaviors are preserved (integer durations like '2h' still work)",
+      "passed": true,
+      "evidence": "Explicit 'integer regression' subtest: input '2h', want 2*time.Hour. Intentional regression guard."
+    },
+    {
+      "text": "Additional edge cases are tested (e.g., '0.5m', '2.25h', fractional seconds)",
+      "passed": true,
+      "evidence": "Table-driven test includes 4 cases: 1.5h (bug repro), 0.5m (fractional minutes), 2.25h (different fractional hours), 2h (integer regression)."
+    },
+    {
+      "text": "All tests pass after the fix",
+      "passed": true,
+      "evidence": "Agent confirmed go test ./... passes"
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

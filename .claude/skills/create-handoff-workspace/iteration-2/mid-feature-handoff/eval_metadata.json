@@ -1,0 +1,17 @@
+{
+  "eval_id": 1,
+  "eval_name": "mid-feature-handoff",
+  "prompt": "Create a handoff for user preferences API (ENG-4521) implementation, phase 2 of 3",
+  "assertions": [
+    "A handoff markdown file was created",
+    "The handoff document is under 100 lines total",
+    "The YAML frontmatter has 7 or fewer fields",
+    "The Learnings section inlines knowledge rather than pointing to files (e.g. describes the pattern, not just says 'see user_repo.go')",
+    "The References section has 3 or fewer files in the 'read on resume' tier",
+    "The document does NOT have a separate 'Recent changes' or 'Artifacts' section",
+    "There is a single clear 'Next Step' rather than a numbered list of 5+ action items",
+    "Action items are specific (e.g. 'implement PutPreferences') not vague ('continue working')",
+    "The document does not contain code blocks longer than 10 lines",
+    "The response includes /resume-handoff command"
+  ]
+}

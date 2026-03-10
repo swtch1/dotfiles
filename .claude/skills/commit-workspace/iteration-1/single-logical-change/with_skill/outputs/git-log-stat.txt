@@ -1,0 +1,21 @@
+commit 2dd17e5023f1b757b27f8a549552978503030c48
+Author: Test User <test@example.com>
+Date:   Tue Mar 10 08:34:00 2026 -0400
+
+    Rename GetUser/GetUsers to FetchUser/FetchUsers
+
+ pkg/api/routes.go        | 4 ++--
+ pkg/user/service.go      | 4 ++--
+ pkg/user/service_test.go | 8 ++++----
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+
+commit 89c0973e97a0b5e55c2ef034466cc62bea5b7a0a
+Author: Test User <test@example.com>
+Date:   Tue Mar 10 08:32:04 2026 -0400
+
+    initial user service
+
+ pkg/api/routes.go        | 11 +++++++++++
+ pkg/user/service.go      | 14 ++++++++++++++
+ pkg/user/service_test.go | 23 +++++++++++++++++++++++
+ 3 files changed, 48 insertions(+)

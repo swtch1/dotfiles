@@ -1,0 +1,17 @@
+{
+  "eval_id": 1,
+  "eval_name": "implement-string-utils",
+  "prompt": "I need a Go string utility package with two functions: Truncate(s string, maxLen int) that cuts a string to maxLen and adds '...' if truncated, and WordWrap(s string, lineWidth int) that wraps text at word boundaries. Put it in strutil/strutil.go with tests in strutil/strutil_test.go. Use the testify assertion library.",
+  "assertions": [
+    "A test list or plan of test cases is created before any test code",
+    "Test file (strutil_test.go) is created before implementation file (strutil.go)",
+    "Tests use Arrange-Act-Assert structure with clear sections",
+    "At least 5 distinct test cases for Truncate covering degenerate, happy, and edge cases",
+    "At least 4 distinct test cases for WordWrap covering degenerate, happy, and edge cases",
+    "Each test function tests exactly one behavior (no multi-assertion mega-tests)",
+    "Test names are descriptive sentences (e.g., TestTruncate_ReturnsOriginalWhenShorterThanLimit)",
+    "Implementation uses minimal code to pass tests (no over-engineering)",
+    "Tests are run and confirmed failing before implementation is written",
+    "All tests pass after implementation is complete"
+  ]
+}

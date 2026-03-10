@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "Exactly 1 new commit created (not 0, not 2+)",
+      "passed": true,
+      "evidence": "1 new commit: 524a019 'Rename GetUser/GetUsers to FetchUser/FetchUsers'"
+    },
+    {
+      "text": "All 3 changed files are in the single commit",
+      "passed": true,
+      "evidence": "Commit 524a019 contains: routes.go, service.go, service_test.go"
+    },
+    {
+      "text": "Commit message mentions the rename (contains 'rename', 'Fetch', or 'Get')",
+      "passed": true,
+      "evidence": "Message: 'Rename GetUser/GetUsers to FetchUser/FetchUsers'"
+    },
+    {
+      "text": "No commit message references 'anthropic', 'claude', or 'AI assistant'",
+      "passed": true,
+      "evidence": "No forbidden terms found"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

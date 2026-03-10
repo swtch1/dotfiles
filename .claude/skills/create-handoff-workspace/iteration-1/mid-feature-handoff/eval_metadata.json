@@ -1,0 +1,17 @@
+{
+  "eval_id": 1,
+  "eval_name": "mid-feature-handoff",
+  "prompt": "I've been implementing the user preferences API (ENG-4521). I got the GET handler and repository done following the existing repository pattern from user_repo.go. The PUT handler still needs to be written, and I need to create the validation middleware — I found that the allowed preference keys should be defined in config/preferences_schema.json but that file doesn't exist yet. The DB migration for the preferences table was done in phase 1 (already committed). I'm on phase 2 of the implementation plan at docs/implementation-plan.md. Create a handoff.",
+  "assertions": [
+    "A handoff markdown file was created in a thoughts/handoffs/ or thoughts/shared/handoffs/ directory",
+    "The handoff file has valid YAML frontmatter containing at least date and branch fields",
+    "The handoff document is under 200 lines total",
+    "The Tasks section indicates ENG-4521 and lists status of GET handler (done), PUT handler (not done), validation middleware (not done)",
+    "The document references docs/implementation-plan.md and identifies the current phase (phase 2)",
+    "File references use path or path:line syntax rather than pasting full file contents",
+    "The document does not contain code blocks longer than 10 lines",
+    "The Learnings section mentions the repository pattern discovery (that preferences_repo follows user_repo pattern)",
+    "Action items include specific next steps like implementing PutPreferences or creating preferences_schema.json",
+    "The response to the user includes the /resume-handoff command with the handoff file path"
+  ]
+}

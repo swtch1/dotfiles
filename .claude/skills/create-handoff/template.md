@@ -15,20 +15,28 @@ summary: [One-line summary of what this handoff covers]
 # Handoff: ENG-XXXX {very concise description}
 
 ## Task(s)
-{description of the task(s) that you were working on, along with the status of each (completed, work in progress, planned/discussed). If you are working on an implementation plan, make sure to call out which phase you are on. Make sure to reference the plan document and/or research document(s) you are working from that were provided to you at the beginning of the session, if applicable.}
-
-## Critical Context
-{Files the next session must read BEFORE doing anything. If it starts coding without these, it will go in the wrong direction. 2-3 paths max.}
-
-## Working Set
-{Files the next session will touch. Don't read upfront — reference when the relevant task starts. Include file:line references. Note uncommitted changes.}
+{What you were working on and the status of each. Use completion markers (✅ done, ⏳ in progress, ❌ not started). If following a plan, note which phase and reference the plan document.}
 
 ## Learnings
-{Things the next session will get wrong without this information. Root causes discovered, non-obvious constraints, patterns that looked right but failed. Not summaries of what you did — only what you learned that isn't obvious from reading the code.}
+{The most valuable section. Things the next session will get wrong without this.
 
-## Action Items & Next Steps
-{Start with the single most important next step. If there's only one, that's fine. Prefer one clear action over a list of five vague ones.}
+Write what you KNOW, not what files to read. Bad: "See user_repo.go for the pattern." Good: "All repositories use QueryRowContext + Scan into a struct. Follow user_repo.go when writing new ones."
+
+Include: root causes discovered, constraints that aren't obvious from the code, approaches that failed and why. Exclude: summaries of what you did, explanations of standard patterns that are self-evident from reading the code.}
+
+## Next Step
+{The single most important action for the next session. One clear direction. The next session will verify state and build its own plan — give it a starting point, not a full roadmap. Never say the next step is to commit.}
+
+## References
+{Files the next session will need, in two tiers:
+
+**Read on resume** (2-3 max — each triggers a subagent read):
+- Only files that affect the plan. Ask: "Would the next session make a wrong decision without reading this?"
+
+**Touch during execution** (not read upfront):
+- Files to modify, with path:line where helpful
+- Note uncommitted changes with (uncommitted)}
 
 ## Other Notes
-{ other notes, references, or useful information - e.g. where relevant sections of the codebase are, where relevant documents are, or other important things you learned that you want to pass on but that don't fall into the above categories}
+{Anything important that doesn't fit above.}
 ```

@@ -1,0 +1,55 @@
+{
+  "expectations": [
+    {
+      "text": "SQL injection vulnerability identified as Critical",
+      "passed": true,
+      "evidence": "Report: 'Critical — SQL injection via string interpolation. Evidence: auth.go:18 uses fmt.Sprintf with untrusted user input.'"
+    },
+    {
+      "text": "Hardcoded JWT secret identified as a security issue",
+      "passed": true,
+      "evidence": "Report: 'Critical — Hardcoded JWT secret. Evidence: auth.go:9 sets jwtSecret = \"super-secret-key-12345\".'"
+    },
+    {
+      "text": "Unchecked row.Scan error identified",
+      "passed": true,
+      "evidence": "Report: 'Important — Database errors are ignored; scan result not checked. Evidence: auth.go:23.'"
+    },
+    {
+      "text": "Missing input validation identified — email/password could be empty",
+      "passed": false,
+      "evidence": "Report does not explicitly flag empty email/password input validation."
+    },
+    {
+      "text": "Commented-out old implementation removed as dead code",
+      "passed": true,
+      "evidence": "Report: 'Removed commented-out legacy LoginHandlerOld block.'"
+    },
+    {
+      "text": "Unused 'os' import identified",
+      "passed": true,
+      "evidence": "Report: 'removed unused os import.'"
+    },
+    {
+      "text": "Information leakage identified — error message includes user email",
+      "passed": true,
+      "evidence": "Report: 'Important — Authentication error leaks user identifier. Evidence: auth.go:26 returns login failed for user: <email>.'"
+    },
+    {
+      "text": "Missing test coverage flagged",
+      "passed": true,
+      "evidence": "Report: 'Minor (Tests) — No tests present. Evidence: repository contains no *_test.go files.'"
+    },
+    {
+      "text": "Git state was not modified",
+      "passed": true,
+      "evidence": "Transcript confirms only read-only git operations."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 1,
+    "total": 9,
+    "pass_rate": 0.889
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "expectations": [
+    {"text": "Report file is saved as a markdown file at the specified output path", "passed": true, "evidence": "File exists (301 lines)"},
+    {"text": "Report has an Options Analysis section that is more than 20 lines", "passed": true, "evidence": "Options Analysis section (lines 134-155) is 22 lines. Additionally, the report has a 'Put-Selling Decision Framework' section (lines 264-276, 13 lines) and 'What Would Invalidate This Thesis' (lines 278-283, 6 lines) that extend options analysis further."},
+    {"text": "Report mentions IV Rank or IV Percentile with numeric values in the options analysis", "passed": true, "evidence": "'IV Rank: ~60-75% (estimated)' and 'Historical Median IV: 62.5% (per Market Chameleon data)' — estimated but numeric, not N/A"},
+    {"text": "Report specifically evaluates the put-selling strategy the user asked about", "passed": true, "evidence": "Detailed put-selling analysis: March 27 $17P, April 17 $16P, April 17 $17P with premiums, breakevens, annualized yields"},
+    {"text": "Report recommends for or against selling puts with reasoning tied to IV environment", "passed": true, "evidence": "'SELL PUTS — IV elevated, fundamentals strong, insider buying provides conviction floor. Cash-secured puts at $16-$17 strike, April 17 expiry.'"},
+    {"text": "Report contains a Recommendation section with explicit action", "passed": true, "evidence": "'Action: SELL PUTS (Cash-Secured)'"},
+    {"text": "Report contains Conviction level (High, Medium, or Low)", "passed": true, "evidence": "'Conviction: Medium-High'"},
+    {"text": "Report has a Valuation Summary section with multiples", "passed": true, "evidence": "P/E trailing ~48x, forward 31.3x, P/S 6.7x, P/B 2.27x with peer comparisons"},
+    {"text": "Report has fundamental analysis providing context for the options play", "passed": true, "evidence": "Extensive fundamental section: Q4 revenue $1.013B, EBITDA $318M, member growth 13.7M, loan originations $10.5B, revenue diversification analysis"},
+    {"text": "Report has a Sources section with references", "passed": true, "evidence": "13 sources with hyperlinks"},
+    {"text": "Report contains actual current SOFI price data (not fabricated)", "passed": true, "evidence": "$18.79 — consistent with real data"},
+    {"text": "Report presents multiple named options strategies or strike/expiry alternatives", "passed": true, "evidence": "Multiple strategies: March 27 $17P ($0.97), April 17 $16P ($0.50-0.70), April 17 $17P ($0.80-1.10), plus Jan 2027 $50 calls as alternative"},
+    {"text": "Report includes risk factors or invalidation criteria specific to the options position", "passed": true, "evidence": "Dedicated 'What Would Invalidate This Thesis' section with 5 specific conditions: credit deterioration, member growth <20%, NIM <4.5%, management changes, macro recession. Plus 'Put-Selling Decision Framework' table."}
+  ],
+  "summary": {"passed": 13, "failed": 0, "total": 13, "pass_rate": 1.0}
+}

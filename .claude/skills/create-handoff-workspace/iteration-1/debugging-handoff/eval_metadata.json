@@ -1,0 +1,17 @@
+{
+  "eval_id": 2,
+  "eval_name": "debugging-handoff",
+  "prompt": "I've been debugging the flaky TestConcurrentOrderProcessing test. I found the root cause: OrderHandler.processedOrders is a plain map with no synchronization, and concurrent goroutines cause 'concurrent map writes' panics. I checked the git history and found a previous attempt to fix this with a mutex was reverted because it caused a deadlock in production — the deadlock happened because Dispatch() holds an RLock and the handler tried to Lock on the same mutex chain. I added a DebugListHandlers method to the dispatcher and wrote up my findings in thoughts/debug-notes.md. The real fix needs to either use sync.Map, a channel, or restructure the locking. Create a handoff.",
+  "assertions": [
+    "A handoff markdown file was created in a thoughts/handoffs/ or thoughts/shared/handoffs/ directory",
+    "The handoff file has valid YAML frontmatter containing at least date and branch fields",
+    "The handoff document is under 200 lines total",
+    "The Tasks section describes the debugging investigation and its status (root cause found, fix not implemented)",
+    "The Learnings section captures the deadlock root cause: that the previous mutex fix was reverted because Dispatch() RLock conflicts with handler Lock",
+    "The document references thoughts/debug-notes.md as prior investigation notes",
+    "The document mentions the three fix options (sync.Map, channel, restructure locking)",
+    "Action items specify implementing one of the fix approaches, not just 'continue debugging'",
+    "The document does not contain code blocks longer than 10 lines",
+    "The response to the user includes the /resume-handoff command with the handoff file path"
+  ]
+}

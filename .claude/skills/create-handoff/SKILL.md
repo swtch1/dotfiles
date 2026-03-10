@@ -6,7 +6,16 @@ disable-model-invocation: true
 
 # Create Handoff
 
-You are tasked with writing a handoff document to hand off your work to another agent in a new session. You will create a handoff document that is thorough, but also **concise**. The goal is to compact and summarize your context without losing any of the key details of what you're working on.
+You are writing a handoff document so a new session can pick up where you left off. The handoff is the new session's only starting context — it determines whether the next agent hits the ground running or wastes half its context window re-reading files you already understood.
+
+## How handoffs get consumed
+
+The resume-handoff skill loads your document in three layers:
+1. **Handoff body** — read in full, immediately. This is free. Put knowledge here.
+2. **Files marked "read on resume"** — each one triggers a subagent to read and summarize. Budget: 2-3 files max.
+3. **Working set files** — NOT read on resume. Referenced only during execution.
+
+This means: **state facts in the document body instead of pointing to files.** If the next session needs to know "the codebase uses the repository pattern from user_repo.go", just say that — don't list user_repo.go as required reading. File references are for when the session needs to actually edit or deeply inspect something, not for building understanding.
 
 ## Process
 
@@ -40,8 +49,11 @@ Handoff created and synced! You can resume from this handoff in a new session wi
 
 ---
 
-## Additional Notes & Instructions
-- **include only what the next session can't discover from the filesystem**. If it's in a committed file, reference it — don't describe it. Do not include full file contents, tool output logs, exploration dead ends, or narration of how you arrived at decisions.
-- **the entire handoff document should be under 100 lines**. If you're exceeding that, you're including content instead of references.
-- **be thorough and precise**. include both top-level objectives, and lower-level details as necessary.
-- **avoid excessive code snippets**. While a brief snippet to describe some key change is important, avoid large code blocks or diffs; do not include one unless it's necessary (e.g. pertains to an error you're debugging). Prefer using `/path/to/file.ext:line` references that an agent can follow later when it's ready, e.g. `packages/dashboard/src/app/dashboard/page.tsx:12-24`
+## Writing guidelines
+
+- **do not reference past handoffs**. Carry forward learnings, but do not reference another handoff document even if you started your session from one.
+- **inline knowledge, reference files**. State what you learned in the document body. File references are for editing and deep inspection — not for the next session to "go read and understand." Each file in "read on resume" costs a subagent.
+- **the handoff should be under 100 lines**. If you're over that, you're including content instead of knowledge. The handoff is a compass, not a map.
+- **the Learnings section is the most valuable part**. This is where you prevent the next session from repeating your mistakes. Be specific: what failed, why, and what constraint the next session must respect.
+- **avoid code snippets unless they capture an unsaved insight**. If it's committed code, use `path/to/file:line`. If it's a pattern you discovered that isn't written down anywhere, a brief snippet is fine.
+- **one clear next step beats five vague ones**. The next session will build its own plan after verifying state. Give it a direction, not a roadmap.

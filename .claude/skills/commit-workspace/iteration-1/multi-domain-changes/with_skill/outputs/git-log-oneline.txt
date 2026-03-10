@@ -1,0 +1,6 @@
+e112f21 Update README with authentication documentation
+591aa45 Add auth configuration fields to config struct
+bb8a6e9 Update API handlers with new user data and delete endpoint
+ff41602 Add logging utility with UTC timestamp fix
+2e5d205 Add auth middleware for request validation
+88343a6 initial project structure

@@ -1,0 +1,15 @@
+{
+  "expectations": [
+    {"text": "A handoff markdown file was created", "passed": true, "evidence": "Created via init-handoff.sh at thoughts/handoffs/"},
+    {"text": "The handoff document is under 100 lines total", "passed": true, "evidence": "45 lines total"},
+    {"text": "The YAML frontmatter has 7 or fewer fields", "passed": true, "evidence": "5 fields: date, git_commit, branch, repository, summary"},
+    {"text": "The Learnings section explains the write-through cache pattern inline", "passed": true, "evidence": "Line 26: 'The cache uses write-through on read-miss... UpdateProduct currently doesn't invalidate the cache — the stale entry persists until the next read-miss. This is a bug that needs fixing'"},
+    {"text": "The References section has 3 or fewer files in the 'read on resume' tier", "passed": true, "evidence": "1 file: docs/code-review-feedback.md"},
+    {"text": "The document does NOT have a separate 'Recent changes' or 'Artifacts' section", "passed": true, "evidence": "Sections are: Tasks, Learnings, Next Step, References"},
+    {"text": "There is a single clear 'Next Step' rather than a numbered list of 5+ items", "passed": true, "evidence": "Line 34: Single paragraph — 'Wire cache invalidation into UpdateProduct... This unblocks the remaining code review items'"},
+    {"text": "The Tasks section clearly separates the two work streams", "passed": true, "evidence": "Lines 12-22: 'Code Review Feedback (PR #347)' and 'Cache Invalidation' as labeled sections"},
+    {"text": "The document does not contain code blocks longer than 10 lines", "passed": true, "evidence": "No code blocks"},
+    {"text": "The response includes /resume-handoff command", "passed": true, "evidence": "Included in agent response"}
+  ],
+  "summary": {"passed": 10, "failed": 0, "total": 10, "pass_rate": 1.0}
+}
