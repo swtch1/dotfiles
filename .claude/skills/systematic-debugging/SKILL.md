@@ -1,6 +1,7 @@
 ---
 name: systematic-debugging
-description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes
+description: "Structured debugging process for hard bugs — phased root cause investigation, pattern analysis, hypothesis testing, and fix verification. Use for tricky bugs where the cause isn't obvious, after initial fix attempts have failed, or when the user explicitly wants a systematic debugging approach."
+disable-model-invocation: true
 ---
 
 # Systematic Debugging

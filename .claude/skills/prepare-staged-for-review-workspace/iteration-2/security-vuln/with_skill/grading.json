@@ -1,0 +1,62 @@
+{
+  "expectations": [
+    {
+      "text": "SQL injection as Critical",
+      "passed": true,
+      "evidence": "Report: '[Critical] auth.go:18 — SQL injection in login query construction. Evidence: User-controlled email is interpolated into SQL via fmt.Sprintf.'"
+    },
+    {
+      "text": "Hardcoded JWT secret flagged",
+      "passed": true,
+      "evidence": "Report: '[Critical] auth.go:9 — Hardcoded JWT secret in source. Evidence: var jwtSecret = \"super-secret-key-12345\" is committed secret material.'"
+    },
+    {
+      "text": "Unchecked row.Scan error",
+      "passed": true,
+      "evidence": "Report: '[Important] auth.go:23 — row.Scan error is ignored. Evidence: On missing user / DB error, id/hash remain zero values.'"
+    },
+    {
+      "text": "Empty input validation",
+      "passed": false,
+      "evidence": "Not mentioned in the 31-line report. Report covers SQL injection, JWT secret, row.Scan, token response bug, password verification, and info leakage — but not empty email/password validation."
+    },
+    {
+      "text": "Dead code removed",
+      "passed": true,
+      "evidence": "Report: 'auth.go (deleted block between LoginHandler and checkPassword) — Removed commented-out dead code (LoginHandlerOld) from working tree.'"
+    },
+    {
+      "text": "Unused os import",
+      "passed": true,
+      "evidence": "Report: 'auth.go:3-7 — Removed unused os import.'"
+    },
+    {
+      "text": "Info leakage (email in error)",
+      "passed": true,
+      "evidence": "Report: '[Minor] auth.go:26 — Authentication error leaks user identifier. Evidence: Unauthorized response includes submitted email.'"
+    },
+    {
+      "text": "Missing tests flagged",
+      "passed": false,
+      "evidence": "Not mentioned in the report. The 31-line report covers 6 issues but does not assess test code existence or coverage at all."
+    },
+    {
+      "text": "Git state preserved",
+      "passed": true,
+      "evidence": "Verified: git log shows only 'initial commit', staged diff preserved."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 2,
+    "total": 9,
+    "pass_rate": 0.778
+  },
+  "timing": {
+    "executor_duration_seconds": 183.0
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "New regression: 'missing tests flagged' now fails (was passing in iteration 1 for both configs). The lean skill's compact test assessment instruction ('Also assess test code: existence, edge case coverage...') may not be triggering reliably. The old skill's dedicated 8-bullet 'Assess Test Code' section appears to produce more consistent test assessment."
+  }
+}

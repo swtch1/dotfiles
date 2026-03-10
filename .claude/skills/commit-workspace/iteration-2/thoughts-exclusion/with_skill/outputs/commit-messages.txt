@@ -1,2 +1,0 @@
-Refactor HandleRequest to accept method parameter and update tests
-initial

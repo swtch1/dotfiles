@@ -1,6 +1,6 @@
 ---
 name: create-handoff
-description: Create handoff document for transferring work to another session
+description: "Create a handoff document so a new Claude session can pick up where this one left off — captures current state, learnings, working files, and next steps."
 disable-model-invocation: true
 ---
 

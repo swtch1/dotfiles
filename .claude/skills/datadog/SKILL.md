@@ -1,6 +1,6 @@
 ---
 name: datadog
-description: This skill should be used when the user needs to query Datadog logs or other monitoring resources. Use this skill for searching logs, filtering by service/time/status, or when the user mentions Datadog, log searching, or needs to find specific log entries.
+description: "Query Datadog logs and monitoring resources via CLI scripts. Use when the user mentions Datadog, wants to search logs, check errors in production, investigate incidents, filter logs by service/time/status, find specific log entries, look up what happened in a service, or debug production issues using log data. Trigger on: 'Datadog', 'logs', 'monitoring', 'production error', 'check the logs for', 'what's happening in [service]'."
 ---
 
 # Datadog

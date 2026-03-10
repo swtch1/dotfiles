@@ -1,2 +1,0 @@
-0200c48 Refactor HandleRequest to accept method parameter and update tests
-15c12fd initial

@@ -1,6 +1,6 @@
 ---
 name: commit
-description: commit changes to git
+description: "Create well-structured git commits by grouping changes by intent, not by file. Handles staging, writing conventional commit messages, and splitting work into atomic commits."
 disable-model-invocation: true
 ---
 

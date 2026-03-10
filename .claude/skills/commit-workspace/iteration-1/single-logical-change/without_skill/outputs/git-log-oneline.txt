@@ -1,2 +1,0 @@
-64ffb70 Rename GetUser and GetUsers to FetchUser and FetchUsers
-89c0973 initial user service

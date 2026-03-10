@@ -1,0 +1,57 @@
+{
+  "expectations": [
+    {
+      "text": "Debug fmt.Println lines removed",
+      "passed": true,
+      "evidence": "Report: 'Removed debug printlines (2 lines): fmt.Println(\"ProcessOrder called\", order) and fmt.Println(\"discount:\", x)'"
+    },
+    {
+      "text": "FIXME(JMT) preserved",
+      "passed": true,
+      "evidence": "Report explicitly states: 'Preserved // FIXME: (JMT) comment (orders.go:19) — intentional marker, not debug code.' Verified via grep."
+    },
+    {
+      "text": "Nil dereference identified",
+      "passed": true,
+      "evidence": "Report: 'Critical: Nil pointer dereference — removed nil check (orders.go:7)' with detailed evidence about TestProcessOrder_NilOrder."
+    },
+    {
+      "text": "Float-to-int truncation identified",
+      "passed": true,
+      "evidence": "Report: 'Important: Float-to-int truncation in discount calculation (orders.go:12)' — describes int() truncation toward zero with concrete example (Amount=15, discount=1.5, int(1.5)=1)."
+    },
+    {
+      "text": "Variable x renamed",
+      "passed": true,
+      "evidence": "Report: 'Renamed variable x → discount (orders.go:11)'"
+    },
+    {
+      "text": "Transient comment flagged/removed",
+      "passed": true,
+      "evidence": "Report: 'Replaced chatty comment referencing Bob in 2022 and describing what changed rather than what the function does.'"
+    },
+    {
+      "text": "Severity classifications present",
+      "passed": true,
+      "evidence": "Report uses Critical and Important severity headings with numbered issues."
+    },
+    {
+      "text": "Git state preserved",
+      "passed": true,
+      "evidence": "Verified: git log shows only 'initial commit', staged diff preserved."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "executor_duration_seconds": 171.0
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "Perfect score. Old skill caught float truncation this time (missed in iteration 1). Stochastic improvement."
+  }
+}
