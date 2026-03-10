@@ -1,0 +1,56 @@
+commit e112f21e2f4f879319f8cb9b44798dad066fe4ec
+Author: Test User <test@example.com>
+Date:   Tue Mar 10 08:33:55 2026 -0400
+
+    Update README with authentication documentation
+
+ README.md | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+commit 591aa45a4b07698d40af7d1e07a63a8b785f67e2
+Author: Test User <test@example.com>
+Date:   Tue Mar 10 08:33:53 2026 -0400
+
+    Add auth configuration fields to config struct
+
+ pkg/config/config.go | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+commit bb8a6e99bc39e75294c85638764980290d4accb5
+Author: Test User <test@example.com>
+Date:   Tue Mar 10 08:33:51 2026 -0400
+
+    Update API handlers with new user data and delete endpoint
+
+ pkg/api/handler.go | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+commit ff41602abde1310fda7b96ca5373d4cdaded1df7
+Author: Test User <test@example.com>
+Date:   Tue Mar 10 08:33:50 2026 -0400
+
+    Add logging utility with UTC timestamp fix
+
+ pkg/logging/logger.go | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+commit 2e5d2057ba8ccfc5115a82b12ecc27dd545b86ab
+Author: Test User <test@example.com>
+Date:   Tue Mar 10 08:33:48 2026 -0400
+
+    Add auth middleware for request validation
+
+ pkg/auth/middleware.go | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+commit 88343a6612e298dc9bb60e2c6c3170acf937695d
+Author: Test User <test@example.com>
+Date:   Tue Mar 10 08:32:04 2026 -0400
+
+    initial project structure
+
+ README.md            |  7 +++++++
+ go.mod               |  3 +++
+ pkg/api/handler.go   | 15 +++++++++++++++
+ pkg/config/config.go | 10 ++++++++++
+ 4 files changed, 35 insertions(+)

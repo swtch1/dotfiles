@@ -1,0 +1,38 @@
+{
+  "expectations": [
+    {"text": "Report file is saved as a markdown file at the specified output path", "passed": true, "evidence": "File exists at iteration-1/large-cap-tech/old_skill/outputs/analysis.md (158 lines)"},
+    {"text": "Report contains a Recommendation section with explicit BUY, SELL, or HOLD action", "passed": true, "evidence": "Line 11: '**Action**: HOLD' under '## Recommendation' section"},
+    {"text": "Report contains Conviction level (High, Medium, or Low)", "passed": true, "evidence": "Line 12: '**Conviction**: Medium'"},
+    {"text": "Report contains a Time Horizon for the recommendation", "passed": true, "evidence": "Line 13: '**Time Horizon**: 6 months'"},
+    {"text": "Report has an Executive Summary section", "passed": true, "evidence": "Line 29: '## Executive Summary' with coherent thesis paragraph"},
+    {"text": "Report has a Quality Metrics Dashboard with Piotroski F-Score, Altman Z-Score, ROIC, and FCF Yield", "passed": true, "evidence": "Lines 35-42: Dashboard table with F-Score 6/9, Z-Score 9.40, ROIC 28.79%, FCF Yield 2.55%"},
+    {"text": "Report has a Valuation Summary section with P/E, EV/EBITDA, or P/S multiples", "passed": true, "evidence": "Lines 46-52: Valuation table with P/E (FWD) 23.33x, EV/EBITDA 17.54x, P/S 9.95x"},
+    {"text": "Report includes an intrinsic value estimate or margin of safety calculation", "passed": true, "evidence": "Lines 54-56: 'Intrinsic Value Estimate: $485', 'Margin of Safety: 15.6%'"},
+    {"text": "Report has a Scenario Analysis with bull, base, and bear cases", "passed": true, "evidence": "Lines 58-65: Scenario table with Bull/Base/Bear cases and probability weights"},
+    {"text": "Report has an Options Analysis section", "passed": true, "evidence": "Lines 87-98: Options Analysis section present, though IV Rank and IV Percentile are both N/A"},
+    {"text": "Report contains actual current MSFT price data (not fabricated)", "passed": true, "evidence": "Line 3: 'Current Price: $409.41' — matches with_skill output and real data"},
+    {"text": "Report has a Sources section with references", "passed": true, "evidence": "Lines 145-158: 14 sources with hyperlinks"},
+    {"text": "Report includes comparison to market benchmarks (S&P 500 or Nasdaq)", "passed": true, "evidence": "Line 4: 'S&P +0.83%, Nasdaq +1.38%, XLK +1.80%'"}
+  ],
+  "summary": {
+    "passed": 13,
+    "failed": 0,
+    "total": 13,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 7600
+  },
+  "claims": [
+    {"claim": "MSFT FY26 Q2 revenue was $81.3B (+17% YoY)", "type": "factual", "verified": true, "evidence": "Consistent with Microsoft IR data"},
+    {"claim": "Azure grew 39% YoY", "type": "factual", "verified": true, "evidence": "Matches reported Q2 FY26 earnings"},
+    {"claim": "IV Rank: N/A", "type": "factual", "verified": true, "evidence": "Old skill failed to retrieve IV rank data from its data sources"}
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {"assertion": "Report has an Options Analysis section", "reason": "This passed despite IV Rank and IV Percentile both being N/A. The old skill couldn't retrieve options data, but still 'has' the section. A stricter assertion checking for actual numeric IV data would differentiate."},
+      {"reason": "Both skills produce nearly identical fundamental data but differ in options completeness and recommendation quality — assertions don't capture this difference."}
+    ],
+    "overall": "All 13 assertions pass for both configurations. The assertions are structurally sound but non-discriminating — they verify template compliance, not analytical depth. Key quality differences (IV data completeness, strategy specificity, recommendation rigor) go unmeasured."
+  }
+}

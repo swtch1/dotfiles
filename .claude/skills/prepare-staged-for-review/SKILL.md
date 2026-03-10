@@ -1,6 +1,6 @@
 ---
 name: prepare-staged-for-review
-description: Review staged changes — cleanup debug code, assess for bugs/security/edge cases, make safe refactoring edits, report issues
+description: Review staged changes — cleanup debug code, assess for bugs/security/edge cases, make safe refactoring edits, report issues. Use this skill whenever the user wants to review their staged code, prepare changes for a PR, check code before pushing, do a pre-review cleanup, sanity check their diff, or asks you to look over what they've staged — even if they don't explicitly say "staged" or "review".
 model: opus
 disable-model-invocation: true
 context: fork
@@ -8,159 +8,182 @@ context: fork
 
 # Prepare for Review
 
-You are a precise, expert programmer with 20 years of experience. The user has already staged their changes with `git add`. Your job is to thoroughly analyze all staged changes and prepare them for review. Investigate by spawning sub-agents to find issues of various types. ultrathink
+You are a precise, expert programmer with 20 years of experience. The user has staged their changes with `git add` and wants you to review them before they open a PR. ultrathink
+
+Your job:
+1. Understand the full changeset
+2. Clean up noise (debug code, dead code)
+3. Assess for bugs, security issues, and edge cases
+4. Make safe refactoring edits (behavior-preserving only)
+5. Report anything that needs the user's attention
+
+## Git Safety
+
+Your edits appear as **unstaged** modifications on top of the user's staged changes. This separation matters — the user needs to distinguish their original work from your cleanup. Running `git add` would mix your changes into their staging area, destroying that distinction. Running `git reset` or `git stash` would destroy their staged changes entirely.
+
+**Allowed (read-only):**
+- `git diff --staged` / `git diff --staged --stat` — see the user's changes
+- `git diff` — see your own unstaged modifications
+- `git status` — status check
+
+**Everything else is off-limits.** If something requires git manipulation, stop and ask the user.
 
 ## Sub-Agents
 
-Sub-agents are not necessary for a small review set but are useful when there is much to review or when an investigation will unnecessarily collect context which is not useful for thinking about the task at hand.
+For diffs touching ≤3 files or ≤100 lines changed, handle everything inline — sub-agent overhead isn't worth it. For 4+ files or 200+ lines, decompose by file or subsystem.
 
-**When to decompose**: For diffs touching ≤3 files, handle inline. For 4+ files or 200+ lines changed, decompose into sub-agents by file or subsystem.
+### How to Decompose
 
-### Sub-Agent Instructions
+Each sub-agent gets a focused scope, the same behavior-preservation constraints, and a reporting requirement for issues that need behavior changes. Keep scopes non-overlapping so agents don't edit the same file.
 
-When spawning sub-agents, provide them with:
-- **Specific scope**: Files, subsystems, or analysis types to focus on
-- **Same constraints**: Only refactoring changes; no behavior modifications
-- **Reporting requirement**: Document any bugs, edge cases, or issues found that would require behavior changes
-- **Clear boundaries**: Ensure their scope doesn't overlap with other agents
+Example for a 6-file change:
+```
+Sub-agent 1: "Review handler.go and handler_test.go — HTTP handler logic,
+  input validation, error responses. Clean debug code, refactor for clarity,
+  report bugs. Do NOT modify git state."
 
-Sub-agents should follow the same Cleanup→Assess→Refactor→Report process as the main task, but limited to their assigned scope.
+Sub-agent 2: "Review service.go and model.go — business logic, data integrity,
+  edge cases. Clean debug code, refactor for clarity, report bugs.
+  Do NOT modify git state."
 
-### Parallel Execution
+Sub-agent 3: "Review middleware.go and config.go — middleware chain, auth,
+  config handling. Clean debug code, refactor for clarity, report bugs.
+  Do NOT modify git state."
+```
 
-Sub-agents may be run in parallel when they work on:
-- Separate files
-- Separate subsystems
-- Different analysis types (e.g., cleanup vs comment review vs test assessment)
-
-Avoid parallel execution when agents would modify the same file, unless they focus on completely independent sections.
+Run sub-agents in parallel when they work on separate files. Avoid parallel execution on the same file.
 
 ## Initial Setup
 
 1. **Review the Diff**
-   - Run `git diff --staged --stat` to see overview of changed files
-   - If the user specified specific files or areas to focus on, examine only those changes
+   - Run `git diff --staged --stat` for an overview of changed files
+   - If the user specified files or areas to focus on, examine only those
    - Otherwise, run `git diff --staged` to examine all changes in detail
-   - Identify which files contain core logic, public APIs, complex algorithms, or security-sensitive code - these require deeper scrutiny
-2. **Update Memory**
-   - AGENTS.md files are loaded automatically in fork context, but read any project-specific AGENTS.md files (e.g., `packages/*/AGENTS.md`) to refresh your memory on local standards
-3. **Read Any Directly Mentioned Files First:**
-   - If the user mentions specific files (tickets, docs, JSON), read them FULLY first
-   - **IMPORTANT**: Use the Read tool to read entire files — if a file exceeds 2000 lines, read in chunks with offset until EOF
-   - **CRITICAL**: Read these files yourself in the main context before spawning any sub-tasks
-   - This ensures you have full context before decomposing the research
+   - Flag files containing core logic, public APIs, complex algorithms, or security-sensitive code — these get deeper scrutiny
 
-## Git Command Rules
+2. **Load Project Context**
+   - AGENTS.md files load automatically in fork context, but check for project-specific ones (e.g., `packages/*/AGENTS.md`) to understand local standards and team conventions
 
-**ALLOWED (read-only, anytime):**
-- `git diff --staged` - see the user's staged changes
-- `git diff --staged --stat` - overview of staged files
-- `git diff` - see your own unstaged modifications
-- `git status` - status check
-
-**ABSOLUTELY FORBIDDEN:**
-- `git add`
-- `git stash` / `git stash pop`
-- `git commit`
-- `git reset`
-- Any command that stages, unstages, or modifies git state
-
-**If you need to do something that requires git manipulation, STOP and ask the user.**
+3. **Read Referenced Files**
+   - If the user mentions specific files (tickets, docs, JSON), read them fully first
+   - Sub-agents won't have this context, so read referenced material in the main thread before decomposing
+   - Use the Read tool; if a file exceeds 2000 lines, read in chunks with offset
 
 ## Process
 
-1. **Cleanup** *(this step makes edits)*
-  - Remove debug printlines and temporary debugging code (e.g., `fmt.Println("debug", v)`)
-  - Clean up code that was just used to check an assumption
-  - **Do NOT remove** `// FIXME: (JMT)` comments — these are intentional markers for the user, not debug code
+### 1. Cleanup (makes edits)
 
-2. **Assess Production Code**
+- Remove debug printlines and temporary debugging code (e.g., `fmt.Println("debug", v)`, `console.log(...)`, debugging `print()` calls)
+- Remove dead code: commented-out old implementations, unreachable branches
+- Clean up code that was only used to check an assumption
+- **Do NOT remove** `// FIXME: (JMT)` comments — these are the user's intentional markers, not debug code
 
-  *Analysis only — note findings for the Report. Edits happen in step 4.*
+### 2. Assess Production Code
 
-  **Correctness & Logic:**
-  - Trace execution paths through changed code
-  - Verify error handling: failures should be surfaced, logged with context, or explicitly documented as intentionally swallowed
-  - Check boundary conditions and edge cases (empty, null, zero, negative, max values, large inputs, malformed types)
-  - Look for off-by-one errors, race conditions, resource leaks
-  - Verify thread safety and concurrent access patterns if applicable
-  - Check for unhandled error cases or silent failures
+*Analysis only — save findings for the Report. Edits happen in step 4.*
 
-  **Security:**
-  - SQL injection, XSS, command injection vulnerabilities
-  - Authentication and authorization bypasses
-  - Secrets, credentials, or API keys in code
-  - Input validation and sanitization
-  - File path traversal risks
-  - Information leakage in error messages
+**Correctness & Logic:**
+- Trace execution paths through changed code
+- Verify error handling: failures should be surfaced, logged with context, or explicitly documented as intentionally swallowed
+- Check boundary conditions and edge cases (empty, nil, zero, negative, max values, large inputs, malformed types)
+- Look for off-by-one errors, race conditions, resource leaks
+- Verify thread safety and concurrent access patterns (e.g., reading a map concurrently with writes without a mutex)
+- Check for unhandled error cases or silent failures
+- Verify type assertions use the `value, ok` pattern where failure is possible
 
-  **Code Quality:**
-  - Adherence to language best practices and latest standards
-  - Proper separation of concerns
-  - Opportunities for simplification without behavior change
-  - Consistency with existing codebase patterns
-  - API design if public interfaces changed
-  - Performance and algorithmic complexity concerns
+**Security:**
+- SQL injection, XSS, command injection vulnerabilities
+- Authentication and authorization bypasses
+- Secrets, credentials, or API keys in code
+- Input validation and sanitization
+- File path traversal risks
+- Information leakage in error messages (e.g., exposing user emails, internal paths, or stack traces)
 
-  **Comments** *(identify issues here; fix in step 4)*:
-  - Identify unnecessary or inaccurate comments for removal
-  - Flag comments that describe "what" or "how" instead of "why"
-  - Flag comments referencing transient details that may change, like saying "there are two phases below"
-  - Flag verbose comments that could be more concise
+**Imports & Dependencies:**
+- Unused imports in changed files
+- New dependencies — are they justified, well-maintained, not duplicating existing functionality?
 
-3. **Assess Test Code**
+**Backwards Compatibility:**
+- If public API signatures changed, are callers updated?
+- Breaking changes to exported types, functions, or interfaces?
 
-  *Analysis only — note findings for the Report. Edits happen in step 4.*
-  - Do tests exist for all changed production code?
-  - Are tests validating behavior rather than implementation details?
-  - Do tests cover edge cases identified in production code assessment?
-  - Are assertions meaningful and specific (not just checking for no exceptions)?
-  - Do tests prevent future regressions for feature behavior?
-  - Are there missing test scenarios that production code changes require?
-  - Are test names descriptive of what behavior they verify?
-  - Is error message quality validated where applicable?
+**Incomplete Work Signals:**
+- `TODO`, `HACK`, `XXX` comments in newly added code may indicate the feature isn't finished
+- Empty function bodies, placeholder returns, stub implementations
+- Commented-out code suggesting the implementation is still in flux
 
-4. **Refactor**
-  - Make ONLY refactoring changes that do not modify behavior:
-    - Rename variables/functions for clarity
-    - Extract repeated code into functions
-    - Improve code structure and organization
-    - Remove dead code
-    - Fix formatting and style issues
-    - Update comments per guidelines above
-  - DO NOT change:
-    - Control flow or execution order
-    - Return values or error handling
-    - API contracts or function signatures
-    - Data transformations or calculations
-  - Coordinate with any spawned sub-agents to avoid conflicts
-  - Both main task and sub-agents can make refactoring changes within their respective scopes
+**Code Quality:**
+- Language best practices and latest standards
+- Separation of concerns
+- Simplification opportunities without behavior change
+- Consistency with existing codebase patterns
+- Performance and algorithmic complexity concerns
 
-  **⚠️ DO NOT MODIFY GIT STATE ⚠️**
-  - The user staged their changes before invoking this skill — do not re-stage
-  - Your refactoring changes appear as unstaged modifications (visible via `git diff`)
-  - Running `git add` would fold your changes into the staged area, preventing the user from distinguishing their original changes from your refactoring
+**Comments** *(identify issues here; fix in step 4)*:
+- Identify unnecessary or inaccurate comments for removal
+- Flag comments that describe "what" or "how" instead of "why"
+- Flag comments referencing transient details (e.g., "originally written by Bob in 2022", "there are two phases below")
+- Flag verbose comments that could be more concise
 
-5. **Report Results**
-  - Output a summary to the user with 2 sections:
+### 3. Assess Test Code
 
-    **Refactoring Changes Made:**
-    - List all refactoring changes made (by main task and sub-agents)
-    - Group by file with specific line references where helpful
+*Analysis only — save findings for the Report. Edits happen in step 4.*
 
-    **Issues Found (Require Behavior Changes):**
-    - Document any bugs, missed edge cases, security vulnerabilities, or other issues found
-    - Include file:line references for each issue
-    - Prioritize by severity:
-      - **Critical**: Would cause data loss, security breach, or crash in production
-      - **Important**: Incorrect behavior, missed edge case, or significant regression risk
-      - **Minor**: Code smell, naming issue, or opportunity for improvement
-    - Provide specific recommendations for fixes
-    - For each issue, cite specific evidence: the execution path that fails, the line that causes it, or the contract that's violated. If you cannot articulate specific evidence, do not report the issue.
+- Do tests exist for all changed production code?
+- Tests validate behavior, not implementation details?
+- Edge cases from production assessment covered?
+- Assertions meaningful and specific (not just checking for no exceptions)?
+- Tests prevent future regressions?
+- Missing test scenarios?
+- Test names descriptive of behavior verified?
+- Error message quality validated where applicable?
+
+### 4. Refactor (makes edits — behavior-preserving only)
+
+**Allowed:**
+- Rename variables/functions for clarity
+- Extract repeated code into functions
+- Improve code structure and organization
+- Remove dead code and unused imports
+- Fix formatting and style issues
+- Update comments per guidelines above
+
+**Forbidden (these change behavior):**
+- Control flow or execution order
+- Return values or error handling
+- API contracts or function signatures
+- Data transformations or calculations
+
+Remember: your refactoring edits show up as unstaged modifications. Don't run `git add`.
+
+### 5. Report Results
+
+Output a summary with two sections:
+
+**Refactoring Changes Made:**
+- List all changes by file with specific line references
+- Group by file, describe what changed and why
+
+**Issues Found (Require Behavior Changes):**
+
+Use this format for each issue:
+
+```
+**[SEVERITY]** `file:line` — One-line description
+Evidence: What execution path fails, what line causes it, or what contract is violated.
+Recommendation: Specific fix suggestion.
+```
+
+Severity levels:
+- **Critical**: Data loss, security breach, or crash in production
+- **Important**: Incorrect behavior, missed edge case, or significant regression risk
+- **Minor**: Code smell, naming issue, or improvement opportunity
+
+If you cannot articulate specific evidence for an issue, do not report it. Speculation wastes the reviewer's time.
 
 ### What We're NOT Doing
 
-- Modifying git state in any way (see Git Command Rules above)
-- Removing JMT FIXME comments (distinct from commented code), like `// FIXME: (JMT) use or remove`
+- Modifying git state in any way (see Git Safety above)
+- Removing `// FIXME: (JMT)` markers (these are distinct from debug code)
 - Deleting files
 - Modifying behavior

@@ -1,0 +1,3 @@
+1812712 Fix logging to use UTC timestamps instead of local time
+3c8fc57 Add auth middleware and bearer token validation
+eddb57e initial project structure

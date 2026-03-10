@@ -1,0 +1,213 @@
+{
+  "metadata": {
+    "skill_name": "create-handoff",
+    "skill_path": "/Users/josh/.claude/skills/create-handoff",
+    "timestamp": "2026-03-10T12:55:00Z",
+    "evals_run": [1, 2, 3],
+    "runs_per_configuration": 1,
+    "note": "new_skill = current SKILL.md (48 lines, init-handoff.sh, template.md); old_skill = snapshot from /private/tmp (92 lines, monolithic, manual path)"
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "eval_name": "mid-feature-handoff",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "time_seconds": 38.0,
+        "tokens": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Handoff file created in thoughts/handoffs/", "passed": true, "evidence": "Created via init-handoff.sh at thoughts/handoffs/"},
+        {"text": "Valid YAML frontmatter with date and branch", "passed": true, "evidence": "6 fields: date, git_commit, branch, repository, ticket, summary"},
+        {"text": "Under 200 lines", "passed": true, "evidence": "44 lines"},
+        {"text": "Tasks section with ENG-4521 and component status", "passed": true, "evidence": "GET ✅, PUT ⏳, validation ⏳"},
+        {"text": "References implementation-plan.md and phase 2", "passed": true, "evidence": "Line 13 and 21"},
+        {"text": "Uses path:line references", "passed": true, "evidence": "e.g. src/api/handlers/preferences.go:23"},
+        {"text": "No code blocks > 10 lines", "passed": true, "evidence": "No code blocks"},
+        {"text": "Learnings mentions repository pattern", "passed": true, "evidence": "Line 32"},
+        {"text": "Specific action items", "passed": true, "evidence": "4 specific items including PutPreferences and schema creation"},
+        {"text": "/resume-handoff command in response", "passed": true, "evidence": "Included in agent response"}
+      ],
+      "notes": ["44 lines total. Lean 6-field frontmatter. Critical Context + Working Set distinction. No redundant sections."]
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "mid-feature-handoff",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "time_seconds": 37.0,
+        "tokens": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Handoff file created in thoughts/handoffs/", "passed": true, "evidence": "Created via manual path at thoughts/shared/handoffs/ENG-4521/"},
+        {"text": "Valid YAML frontmatter with date and branch", "passed": true, "evidence": "12 fields including researcher, topic, tags, status, last_updated, type"},
+        {"text": "Under 200 lines", "passed": true, "evidence": "93 lines"},
+        {"text": "Tasks section with ENG-4521 and component status", "passed": true, "evidence": "Detailed phase breakdown with ✅/❌/⏳"},
+        {"text": "References implementation-plan.md and phase 2", "passed": true, "evidence": "Line 39 and 35"},
+        {"text": "Uses path:line references", "passed": true, "evidence": "e.g. src/db/repositories/preferences_repo.go:1-25"},
+        {"text": "No code blocks > 10 lines", "passed": true, "evidence": "No code blocks"},
+        {"text": "Learnings mentions repository pattern", "passed": true, "evidence": "Line 51"},
+        {"text": "Specific action items", "passed": true, "evidence": "3 action categories with sub-items"},
+        {"text": "/resume-handoff command in response", "passed": true, "evidence": "Included in agent response"}
+      ],
+      "notes": ["93 lines (2.1x new skill). 12 frontmatter fields (6 noise). Redundant Artifacts section repeats file list. Code Review action item is self-generated noise."]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "debugging-handoff",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "time_seconds": 26.0,
+        "tokens": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Handoff file created in thoughts/handoffs/", "passed": true, "evidence": "Created via init-handoff.sh"},
+        {"text": "Valid YAML frontmatter with date and branch", "passed": true, "evidence": "6 fields"},
+        {"text": "Under 200 lines", "passed": true, "evidence": "40 lines"},
+        {"text": "Tasks describes debugging status", "passed": true, "evidence": "Root cause confirmed, awaiting implementation"},
+        {"text": "Learnings captures deadlock root cause", "passed": true, "evidence": "Line 27: Dispatch() RLock + handler Lock = deadlock"},
+        {"text": "References thoughts/debug-notes.md", "passed": true, "evidence": "Line 17"},
+        {"text": "Mentions three fix options", "passed": true, "evidence": "Lines 30-32: sync.Map, channel, restructure"},
+        {"text": "Specific fix action items", "passed": true, "evidence": "Recommends sync.Map with verification command"},
+        {"text": "No code blocks > 10 lines", "passed": true, "evidence": "No code blocks"},
+        {"text": "/resume-handoff command in response", "passed": true, "evidence": "Included"}
+      ],
+      "notes": ["40 lines. Extremely concise. Recommends specific fix approach (sync.Map) with verification command."]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "debugging-handoff",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "time_seconds": 34.0,
+        "tokens": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Handoff file created in thoughts/handoffs/", "passed": true, "evidence": "Created at thoughts/shared/handoffs/general/"},
+        {"text": "Valid YAML frontmatter with date and branch", "passed": true, "evidence": "12 fields"},
+        {"text": "Under 200 lines", "passed": true, "evidence": "75 lines"},
+        {"text": "Tasks describes debugging status", "passed": true, "evidence": "Lines 19-26: analysis complete, ready for implementation"},
+        {"text": "Learnings captures deadlock root cause", "passed": true, "evidence": "Lines 42-47: detailed explanation with commit refs"},
+        {"text": "References thoughts/debug-notes.md", "passed": true, "evidence": "Line 32"},
+        {"text": "Mentions three fix options", "passed": true, "evidence": "Lines 57-59"},
+        {"text": "Specific fix action items", "passed": true, "evidence": "Detailed 3-part action plan"},
+        {"text": "No code blocks > 10 lines", "passed": true, "evidence": "No code blocks"},
+        {"text": "/resume-handoff command in response", "passed": true, "evidence": "Included"}
+      ],
+      "notes": ["75 lines (1.9x new skill). Artifacts section self-references 'This handoff document'. Recent changes lists 1 trivial addition (git-discoverable). Clean up action item is noise."]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "multi-concern-handoff",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "time_seconds": 27.0,
+        "tokens": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Handoff file created in thoughts/handoffs/", "passed": true, "evidence": "Created via init-handoff.sh"},
+        {"text": "Valid YAML frontmatter with date and branch", "passed": true, "evidence": "6 fields"},
+        {"text": "Under 200 lines", "passed": true, "evidence": "48 lines"},
+        {"text": "Tasks separates two concerns", "passed": true, "evidence": "Lines 13-20: labeled Code Review and Cache Invalidation sections"},
+        {"text": "Tracks code review items done (1-3) and remaining (4-5)", "passed": true, "evidence": "Lines 14-15"},
+        {"text": "References docs/code-review-feedback.md", "passed": true, "evidence": "Line 25"},
+        {"text": "Learnings mentions write-through pattern", "passed": true, "evidence": "Line 36: explains invalidation timing implication"},
+        {"text": "Action items cover both concerns", "passed": true, "evidence": "Lines 40-43: 4 items spanning both"},
+        {"text": "No code blocks > 10 lines", "passed": true, "evidence": "No code blocks"},
+        {"text": "/resume-handoff command in response", "passed": true, "evidence": "Included"}
+      ],
+      "notes": ["48 lines. Critical Context notes write-through pattern affects WHEN invalidation triggers (actionable insight, not just description)."]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "multi-concern-handoff",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "time_seconds": 34.0,
+        "tokens": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Handoff file created in thoughts/handoffs/", "passed": true, "evidence": "Created at thoughts/shared/handoffs/"},
+        {"text": "Valid YAML frontmatter with date and branch", "passed": true, "evidence": "12 fields"},
+        {"text": "Under 200 lines", "passed": true, "evidence": "80 lines"},
+        {"text": "Tasks separates two concerns", "passed": true, "evidence": "Lines 19-29: Task 1 and Task 2 labeled"},
+        {"text": "Tracks code review items done (1-3) and remaining (4-5)", "passed": true, "evidence": "Lines 20-24: individual item listing"},
+        {"text": "References docs/code-review-feedback.md", "passed": true, "evidence": "Line 33"},
+        {"text": "Learnings mentions write-through pattern", "passed": true, "evidence": "Line 48: detailed description"},
+        {"text": "Action items cover both concerns", "passed": true, "evidence": "Lines 65-73: 5 items"},
+        {"text": "No code blocks > 10 lines", "passed": true, "evidence": "No code blocks"},
+        {"text": "/resume-handoff command in response", "passed": true, "evidence": "Included"}
+      ],
+      "notes": ["80 lines (1.67x new skill). Recent changes lists 7 line-level diffs (all git-discoverable). Learnings items 2-4 explain standard Go patterns that are self-evident from reading the code. Artifacts section repeats file list from Tasks."]
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0},
+      "time_seconds": {"mean": 30.3, "stddev": 5.3, "min": 26.0, "max": 38.0},
+      "tokens": {"mean": 0, "stddev": 0, "min": 0, "max": 0},
+      "line_count": {"mean": 44.0, "stddev": 3.3, "min": 40, "max": 48},
+      "frontmatter_fields": {"mean": 6.0, "stddev": 0.0, "min": 6, "max": 6}
+    },
+    "without_skill": {
+      "pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0},
+      "time_seconds": {"mean": 35.0, "stddev": 1.4, "min": 34.0, "max": 37.0},
+      "tokens": {"mean": 0, "stddev": 0, "min": 0, "max": 0},
+      "line_count": {"mean": 82.7, "stddev": 7.6, "min": 75, "max": 93},
+      "frontmatter_fields": {"mean": 12.0, "stddev": 0.0, "min": 12, "max": 12}
+    },
+    "delta": {
+      "pass_rate": "+0.0",
+      "time_seconds": "-4.7",
+      "line_count": "-38.7 (47% reduction)",
+      "frontmatter_fields": "-6 (50% reduction)"
+    }
+  },
+  "notes": [
+    "All 10 assertions pass for both configurations across all 3 evals — assertions are non-discriminating and test minimum viability only",
+    "New skill outputs average 44 lines vs 82.7 lines for old skill (47% reduction) — the conciseness philosophy is clearly effective",
+    "New skill uses 6 frontmatter fields vs old skill's 12 — old skill includes noise fields (researcher, topic, tags, status, last_updated, last_updated_by, type) that add no value for AI-to-AI handoffs",
+    "Old skill consistently produces redundant 'Artifacts' section that repeats information already in Tasks and Working Set sections",
+    "Old skill's 'Recent changes' section lists git-discoverable diffs — directly contradicts the new skill's philosophy of 'include only what the next session can't discover from the filesystem'",
+    "New skill's Critical Context + Working Set distinction (must-read-first vs will-touch-later) is a structural improvement not present in old skill — old skill's 'Critical References' is a flat list without urgency framing",
+    "New skill's Learnings sections tend toward actionable insights ('write-through pattern means invalidation must happen on write operations') vs old skill's explanatory style ('The cache uses a write-through pattern where Set() is called on read-miss')",
+    "New skill completes faster (30.3s avg vs 35.0s avg) — likely because init-handoff.sh automates frontmatter generation that old skill agents construct manually",
+    "To create discriminating assertions for future iterations, consider: frontmatter field count <= 7, document under 60 lines, no Artifacts section, no Recent changes section, Critical Context present with urgency framing"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "expectations": [
+    {
+      "text": "A regression test for the specific bug is written BEFORE any fix is applied",
+      "passed": true,
+      "evidence": "Agent confirmed red phase: test written first, go test failed before fix applied"
+    },
+    {
+      "text": "The regression test name clearly describes the bug",
+      "passed": true,
+      "evidence": "TestParseDuration_FractionalHours — clearly describes the fractional hours bug"
+    },
+    {
+      "text": "The regression test is run and confirmed to FAIL before the fix",
+      "passed": true,
+      "evidence": "Agent confirmed test failed on ParseDuration('1.5h') before fix"
+    },
+    {
+      "text": "The fix uses strconv.ParseFloat instead of strconv.Atoi",
+      "passed": true,
+      "evidence": "duration.go:39 uses strconv.ParseFloat(numStr, 64)"
+    },
+    {
+      "text": "The fix is minimal — only changes what's needed to handle fractional values",
+      "passed": true,
+      "evidence": "Only changed Atoi→ParseFloat and int→float64 multiplication. No other structural changes."
+    },
+    {
+      "text": "Existing behaviors are preserved (integer durations like '2h' still work)",
+      "passed": true,
+      "evidence": "Fix preserves integer behavior (ParseFloat handles integers). However no explicit regression test for integer durations."
+    },
+    {
+      "text": "Additional edge cases are tested (e.g., '0.5m', '2.25h', fractional seconds)",
+      "passed": false,
+      "evidence": "Only one test: TestParseDuration_FractionalHours testing '1.5h'. No tests for 0.5m, 2.25h, fractional seconds, or any other edge cases."
+    },
+    {
+      "text": "All tests pass after the fix",
+      "passed": true,
+      "evidence": "Agent confirmed go test ./... passes"
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 2,
+    "total": 8,
+    "pass_rate": 0.75
+  }
+}

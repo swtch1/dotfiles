@@ -1,0 +1,61 @@
+{
+  "skill_name": "prepare-staged-for-review",
+  "evals": [
+    {
+      "id": 1,
+      "name": "debug-cleanup",
+      "prompt": "Review my staged changes",
+      "expected_output": "Removes debug printlines, preserves FIXME(JMT), identifies nil dereference and float truncation bugs, renames poor variable, cleans unnecessary comments, produces structured report",
+      "files": [],
+      "repo_path": "test-repos/test-debug-cleanup",
+      "expectations": [
+        "Debug fmt.Println lines were removed from orders.go",
+        "The // FIXME: (JMT) comment was preserved and NOT removed",
+        "Nil dereference risk identified — order.Amount accessed without nil check (original nil check was removed)",
+        "Float-to-int truncation issue identified — int(x) loses precision",
+        "Variable 'x' was renamed to something descriptive like 'discount' or 'discountAmount'",
+        "Comment about 'originally written by Bob in 2022' was flagged or removed as unnecessary/transient",
+        "Report includes severity classifications (Critical/Important/Minor)",
+        "Git state was not modified (no git add, git commit, etc.)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "security-vuln",
+      "prompt": "Check my staged changes before I push",
+      "expected_output": "Identifies SQL injection, hardcoded secret, unchecked error, missing validation; removes dead code; flags missing tests; produces severity-classified report",
+      "files": [],
+      "repo_path": "test-repos/test-security-vuln",
+      "expectations": [
+        "SQL injection vulnerability identified as Critical — string formatting used in SQL query with unsanitized email input",
+        "Hardcoded JWT secret ('super-secret-key-12345') identified as a security issue",
+        "Unchecked row.Scan error identified — error return value is silently ignored",
+        "Missing input validation identified — email and password could be empty",
+        "Commented-out old implementation (LoginHandlerOld) was removed as dead code",
+        "Unused 'os' import identified",
+        "Information leakage identified — error message includes user email",
+        "Missing test coverage flagged — no tests for auth handler",
+        "Git state was not modified"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "multi-file-feature",
+      "prompt": "Prepare my code for review — 5 new files for a users CRUD feature",
+      "expected_output": "Decomposes into sub-agents for 5+ files, identifies race condition, removes debug code, flags ignored errors, notes missing tests and incomplete TODO, produces structured multi-file report",
+      "files": [],
+      "repo_path": "test-repos/test-multi-file",
+      "expectations": [
+        "Race condition identified in service.go — Get() and List() read map without mutex lock while other methods use locking",
+        "Debug fmt.Println removed from handler.go",
+        "Debug fmt.Printf removed from middleware.go",
+        "Ignored strconv.Atoi error identified in handler.go Get and/or Delete handlers",
+        "Missing Delete handler test identified",
+        "TODO comment in middleware.go flagged — 'actually validate the token' indicates incomplete implementation",
+        "Unused 'strings' import in handler.go identified",
+        "Report includes file references for each issue",
+        "Git state was not modified"
+      ]
+    }
+  ]
+}

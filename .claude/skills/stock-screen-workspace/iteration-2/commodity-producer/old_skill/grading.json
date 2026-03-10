@@ -1,0 +1,18 @@
+{
+  "expectations": [
+    {"text": "Report file is saved as a markdown file at the specified output path", "passed": true, "evidence": "File exists (270 lines)"},
+    {"text": "Report identifies or classifies GOLD/Barrick as a commodity producer or miner", "passed": true, "evidence": "'Stock Type: Commodity Producer — Gold & Copper Miner'"},
+    {"text": "Report discusses gold commodity price before or prominently alongside company analysis", "passed": true, "evidence": "'## Commodity Context (This Is 80-90% of the Story)' — prominent section before quality metrics"},
+    {"text": "Report mentions AISC (all-in sustaining cost) or production cost/breakeven", "passed": true, "evidence": "AISC 2025: $1,637/oz, 2026 guidance: $1,760-$1,950/oz"},
+    {"text": "Report explains miner leverage to underlying commodity with quantified amplification", "passed": true, "evidence": "'A 5% move in gold (~$260) at current AISC translates to roughly a 7-8% swing in per-ounce profit. Barrick's operating leverage means the stock moves ~1.5-2x the gold price percentage change.'"},
+    {"text": "Report contains a Recommendation section with explicit BUY, SELL, or HOLD action", "passed": true, "evidence": "'Action: BUY'"},
+    {"text": "Report contains Conviction level (High, Medium, or Low)", "passed": true, "evidence": "'Conviction: Medium-High'"},
+    {"text": "Report has a Valuation Summary section with actual numeric historical averages (not all N/A)", "passed": false, "evidence": "Valuation table columns are 'Metric | Current | Peer Avg | Context' — NO historical average column. Only peer comparisons. No 5-year historical P/E or other historical multiples provided."},
+    {"text": "Report discusses gold price trend or outlook as part of the thesis", "passed": true, "evidence": "Extensive gold context: $5,175/oz, +$2,200 YoY, 2024 +28%, 2025 +65%, structural drivers"},
+    {"text": "Report has a Sources section with references", "passed": true, "evidence": "14 sources with hyperlinks"},
+    {"text": "Recommendation rationale connects back to the gold commodity thesis", "passed": true, "evidence": "'This is a leveraged bet on gold staying elevated' and dedicated bottom-line section addressing user's question"},
+    {"text": "Report calculates explicit per-unit profit margin (spot price minus AISC in $/oz or equivalent)", "passed": true, "evidence": "'At $5,175 gold and $1,855 midpoint AISC guidance, Barrick earns ~$3,320/oz — a 64% margin'"},
+    {"text": "Report has a dedicated commodity price section or heading (not just mentioning gold in passing)", "passed": true, "evidence": "'## Commodity Context (This Is 80-90% of the Story)' — dedicated section with table and analysis"}
+  ],
+  "summary": {"passed": 12, "failed": 1, "total": 13, "pass_rate": 0.923}
+}

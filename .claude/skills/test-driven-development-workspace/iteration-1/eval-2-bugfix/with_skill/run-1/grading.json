@@ -1,0 +1,50 @@
+{
+  "expectations": [
+    {
+      "text": "A regression test for the specific bug is written BEFORE any fix is applied",
+      "passed": true,
+      "evidence": "Transcript shows 'Creating initial bug reproduction test' (msg 10) before 'Fixing duration parsing math' (msg 13). Test file was created first with TestParseDuration_FractionalHours."
+    },
+    {
+      "text": "The regression test name clearly describes the bug (e.g., TestParseDuration_HandlesFractionalHours)",
+      "passed": true,
+      "evidence": "Test is named TestParseDuration_FractionalHours — clearly describes what's being tested."
+    },
+    {
+      "text": "The regression test is run and confirmed to FAIL before the fix",
+      "passed": true,
+      "evidence": "Transcript shows 'Noticing test run failure' (msg 11) after creating the test and before applying the fix."
+    },
+    {
+      "text": "The fix uses strconv.ParseFloat instead of strconv.Atoi (as the bug description suggests)",
+      "passed": true,
+      "evidence": "duration.go line 39: num, err := strconv.ParseFloat(numStr, 64) — correctly replaced strconv.Atoi."
+    },
+    {
+      "text": "The fix is minimal — only changes what's needed to handle fractional values",
+      "passed": true,
+      "evidence": "Fix changes: (1) strconv.Atoi → strconv.ParseFloat, (2) time.Duration(num) * time.Hour → time.Duration(num * float64(time.Hour)). Same pattern for m and s cases. No other changes."
+    },
+    {
+      "text": "Existing behaviors are preserved (integer durations like '2h' still work)",
+      "passed": true,
+      "evidence": "strconv.ParseFloat handles integer strings (e.g., '2') correctly, returning 2.0. The math is identical for whole numbers."
+    },
+    {
+      "text": "Additional edge cases are tested (e.g., '0.5m', '2.25h', fractional seconds)",
+      "passed": false,
+      "evidence": "Only one test: TestParseDuration_FractionalHours for '1.5h'. No tests for fractional minutes, fractional seconds, or other fractional hour values like '2.25h'."
+    },
+    {
+      "text": "All tests pass after the fix",
+      "passed": true,
+      "evidence": "Transcript shows 'Completing task and running tests' (msg 14) and 'Marking todo as complete' (msg 17), indicating tests passed."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 1,
+    "total": 8,
+    "pass_rate": 0.875
+  }
+}

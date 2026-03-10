@@ -1,0 +1,32 @@
+commit 1812712190386880cac9bdbdc9cdd8f808b47dab
+Author: Test User <test@example.com>
+Date:   Tue Mar 10 08:39:35 2026 -0400
+
+    Fix logging to use UTC timestamps instead of local time
+
+ pkg/logging/logger.go | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+commit 3c8fc576c7207ff012456f410d1f72c6084f8e60
+Author: Test User <test@example.com>
+Date:   Tue Mar 10 08:39:31 2026 -0400
+
+    Add auth middleware and bearer token validation
+
+ README.md              | 10 +++++++---
+ pkg/api/handler.go     |  8 ++++++--
+ pkg/auth/middleware.go | 17 +++++++++++++++++
+ pkg/config/config.go   | 13 ++++++++++---
+ 4 files changed, 40 insertions(+), 8 deletions(-)
+
+commit eddb57e397601133735eb0ef4b2a3e7d330490d5
+Author: Test User <test@example.com>
+Date:   Tue Mar 10 08:38:59 2026 -0400
+
+    initial project structure
+
+ README.md            |  7 +++++++
+ go.mod               |  3 +++
+ pkg/api/handler.go   | 15 +++++++++++++++
+ pkg/config/config.go | 10 ++++++++++
+ 4 files changed, 35 insertions(+)

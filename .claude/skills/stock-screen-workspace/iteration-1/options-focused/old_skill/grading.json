@@ -1,0 +1,39 @@
+{
+  "expectations": [
+    {"text": "Report file is saved as a markdown file at the specified output path", "passed": true, "evidence": "File exists at options-focused/old_skill/outputs/analysis.md (270 lines)"},
+    {"text": "Report has an Options Analysis section that is more than 5 lines", "passed": true, "evidence": "Options Analysis section spans lines 107-143 — approximately 36 lines including IV environment, flow analysis, strategy reasoning, and a 3-tier strategy table"},
+    {"text": "Report mentions IV Rank or IV Percentile in the options analysis", "passed": true, "evidence": "Line 110: 'IV Rank: ~65-75% (elevated — well above 12-month median)'"},
+    {"text": "Report specifically evaluates the put-selling strategy the user asked about", "passed": true, "evidence": "Lines 120-141: Detailed put-selling evaluation with 4 reasons to sell puts, plus a 3-tier strategy table (Conservative $15, Moderate $16, Aggressive $17) with delta, DTE, premium, annualized return, and assignment risk"},
+    {"text": "Report recommends for or against selling puts with reasoning tied to IV environment", "passed": true, "evidence": "Lines 120-125: 'SELL PUTS because: 1. IV is elevated — you're being paid premium prices for risk that is well-defined by strong fundamentals'"},
+    {"text": "Report contains a Recommendation section with explicit action (BUY/SELL/HOLD or options strategy)", "passed": true, "evidence": "Line 11: '**Action**: SELL PUTS (Cash-Secured)'"},
+    {"text": "Report contains Conviction level (High, Medium, or Low)", "passed": true, "evidence": "Line 12: '**Conviction**: Medium-High'"},
+    {"text": "Report has a Valuation Summary section with multiples", "passed": true, "evidence": "Lines 49-57: Valuation Summary with P/E TTM 48.2x, P/E FWD 31.4x, P/S 6.6x, P/B 2.3x, PEG 0.79"},
+    {"text": "Report has fundamental analysis providing context for the options play", "passed": true, "evidence": "Lines 147-188: Full Fundamental Analysis with Q4/FY2025 highlights, balance sheet, 2026 guidance, competitive position, management"},
+    {"text": "Report has a Sources section with references", "passed": true, "evidence": "Lines 255-270: 14 sources with hyperlinks"},
+    {"text": "Report contains actual current SOFI price data (not fabricated)", "passed": true, "evidence": "Line 3: '$18.83 (-28.3% YTD)' — consistent with SOFI data on March 10, 2026"}
+  ],
+  "summary": {
+    "passed": 11,
+    "failed": 0,
+    "total": 11,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 13800
+  },
+  "timing": {
+    "total_duration_seconds": 232
+  },
+  "claims": [
+    {"claim": "CEO bought $1M at $17.88 on March 2", "type": "factual", "verified": true, "evidence": "Consistent with with_skill output and Yahoo Finance source"},
+    {"claim": "JPMorgan upgraded to Overweight with $31 PT", "type": "factual", "verified": true, "evidence": "Referenced in multiple sources"},
+    {"claim": "Put/Call OI Ratio 0.58", "type": "factual", "verified": true, "evidence": "Sourced from Fintel link in sources"}
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {"reason": "Old skill produced bonus sections (Risk Summary for Put Sellers, Put-Selling Specific Checklist) that are highly valuable for the user's specific question — no assertion rewards this kind of user-focused adaptation."},
+      {"assertion": "Report has an Options Analysis section that is more than 5 lines", "reason": "'More than 5 lines' is too low a bar. Both outputs have 35-70 lines of options analysis. Raising to 'more than 20 lines' would still pass both but better detect weak implementations."}
+    ],
+    "overall": "All assertions pass. The old skill produced an excellent options analysis despite having less specific guidance. The put-selling checklist and risk summary are genuinely useful additions the template didn't require."
+  }
+}

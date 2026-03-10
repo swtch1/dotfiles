@@ -1,0 +1,21 @@
+{
+  "expectations": [
+    {"text": "Report file is saved as a markdown file at the specified output path", "passed": true, "evidence": "File exists at iteration-2/large-cap-tech/with_skill/outputs/analysis.md (186 lines)"},
+    {"text": "Report contains a Recommendation section with explicit BUY, SELL, or HOLD action", "passed": true, "evidence": "Line 11: 'Action: HOLD (accumulate on weakness, not a chase)'"},
+    {"text": "Report contains Conviction level (High, Medium, or Low)", "passed": true, "evidence": "'Conviction: Medium'"},
+    {"text": "Report contains a Time Horizon for the recommendation", "passed": true, "evidence": "'Time Horizon: 6-12 months'"},
+    {"text": "Report has an Executive Summary section", "passed": true, "evidence": "'## Executive Summary' present with coherent thesis"},
+    {"text": "Report has a Quality Metrics Dashboard with Piotroski F-Score, Altman Z-Score, ROIC, and FCF Yield", "passed": true, "evidence": "Dashboard with F-Score ~7/9, Z-Score N/A (noted as not robust for mega-cap tech), ROIC 23.85%, FCF Yield ~2.55%"},
+    {"text": "Report has a Valuation Summary section with P/E, EV/EBITDA, or P/S multiples", "passed": true, "evidence": "P/E FWD 21.53x, EV/EBITDA 16.64x, P/S 9.95x, P/B 7.78x"},
+    {"text": "Report includes an intrinsic value estimate or margin of safety calculation", "passed": true, "evidence": "Intrinsic Value Estimate: $410, Margin of Safety: ~0%"},
+    {"text": "Report has a Scenario Analysis with bull, base, and bear cases", "passed": true, "evidence": "Bull $520/+27%, Base $410/~0%, Bear $320/-22% with probabilities"},
+    {"text": "Report has an Options Analysis section", "passed": true, "evidence": "'## Options Analysis' with IV environment, flow analysis, and 3 strategy alternatives"},
+    {"text": "Report contains actual current MSFT price data (not fabricated)", "passed": true, "evidence": "$409.41 — consistent with real MSFT price data"},
+    {"text": "Report has a Sources section with references", "passed": true, "evidence": "14 sources with hyperlinks including Microsoft IR, Finviz, Macrotrends, Barchart, AlphaQuery"},
+    {"text": "Report includes comparison to market benchmarks (S&P 500 or Nasdaq)", "passed": true, "evidence": "SPY, QQQ, XLK comparisons in header and peer comparison table"},
+    {"text": "Options Analysis contains numeric IV Rank or IV Percentile values (not N/A or unavailable)", "passed": true, "evidence": "IV Rank: 38%, IV Percentile: 80% — sourced from Barchart and AlphaQuery"},
+    {"text": "Valuation Summary includes historical averages for comparison (not all N/A)", "passed": true, "evidence": "Historical Avg column: P/E ~33x (5Y), P/S ~11.6x (5Y), P/B ~11.1x (5Y)"},
+    {"text": "Report states what would invalidate the thesis (invalidation criteria)", "passed": true, "evidence": "Dedicated '## Invalidation / Kill Switch' section: Azure growth <30% for 2Q AND stock below $345 with weakening fundamentals"}
+  ],
+  "summary": {"passed": 16, "failed": 0, "total": 16, "pass_rate": 1.0}
+}

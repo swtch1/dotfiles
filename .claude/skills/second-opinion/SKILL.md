@@ -33,11 +33,12 @@ Default when user says "get a second opinion": fire **both**.
 ### Codex (codebase-aware review)
 
 ```bash
-codex -m <Codex model> <<'EOF'
+codex exec -m <Codex model> -s read-only -C <repo-path> "$(cat <<'EOF'
 <query with context — file paths and line numbers, not code blocks>
 
 IMPORTANT: Provide feedback and analysis only. You may explore the codebase with commands but DO NOT modify any files.
 EOF
+)"
 ```
 
 ### Gemini (correctness verification)

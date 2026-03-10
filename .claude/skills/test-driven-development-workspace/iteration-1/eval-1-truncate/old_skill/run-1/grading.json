@@ -1,0 +1,60 @@
+{
+  "expectations": [
+    {
+      "text": "A test list or plan of test cases is created before any test code",
+      "passed": false,
+      "evidence": "No test list comment or planning step in strutil_test.go. Tests start directly at line 9 with TestTruncate_NoTruncationWhenWithinMaxLen. No mention of planning in transcript."
+    },
+    {
+      "text": "Test file (strutil_test.go) is created before implementation file (strutil.go)",
+      "passed": true,
+      "evidence": "Transcript shows 'Creating detailed failing tests' (msg 8) before 'Implementing basic word wrap' (msg 13). Test file was written first."
+    },
+    {
+      "text": "Tests use Arrange-Act-Assert structure with clear sections",
+      "passed": false,
+      "evidence": "Tests are one-liner assertions with no separation. Example: TestTruncate_NoTruncationWhenWithinMaxLen (lines 9-12) has two inline assertions: assert.Equal(t, 'hello', Truncate('hello', 10)). No arrange/act separation — call and assertion are combined."
+    },
+    {
+      "text": "At least 5 distinct test cases for Truncate covering degenerate, happy, and edge cases",
+      "passed": false,
+      "evidence": "Only 3 Truncate test functions. TestTruncate_NoTruncationWhenWithinMaxLen, TestTruncate_TruncatesAndAddsEllipsis (1 case), TestTruncate_ZeroOrNegativeMaxLenReturnsEmptyString."
+    },
+    {
+      "text": "At least 4 distinct test cases for WordWrap covering degenerate, happy, and edge cases",
+      "passed": false,
+      "evidence": "Only 3 WordWrap test functions: WrapsAtWordBoundaries, DoesNotSplitSingleLongWord, EmptyInputReturnsEmptyString."
+    },
+    {
+      "text": "Each test function tests exactly one behavior (no multi-assertion mega-tests)",
+      "passed": false,
+      "evidence": "TestTruncate_NoTruncationWhenWithinMaxLen has 2 assertions (lines 10-11) testing the same behavior with different inputs. TestTruncate_ZeroOrNegativeMaxLenReturnsEmptyString also has 2 assertions (lines 19-20)."
+    },
+    {
+      "text": "Test names are descriptive sentences (e.g., TestTruncate_ReturnsOriginalWhenShorterThanLimit)",
+      "passed": true,
+      "evidence": "Names are descriptive: TestTruncate_NoTruncationWhenWithinMaxLen, TestWordWrap_EmptyInputReturnsEmptyString, etc."
+    },
+    {
+      "text": "Implementation uses minimal code to pass tests (no over-engineering)",
+      "passed": false,
+      "evidence": "Implementation has a correctness bug: Truncate returns s[:maxLen] + '...' (line 14), meaning Truncate('hello world', 5) returns 'hello...' (8 chars) — exceeds maxLen. The test expected this wrong behavior, suggesting tests didn't drive correct design."
+    },
+    {
+      "text": "Tests are run and confirmed failing before implementation is written",
+      "passed": true,
+      "evidence": "Transcript shows 'Running initial tests' (msg 9) and 'Running tests to catch undefined functions' (msg 11) before implementation."
+    },
+    {
+      "text": "All tests pass after implementation is complete",
+      "passed": true,
+      "evidence": "Transcript shows 'Confirming Go test success' (msg 16). Tests pass, though the Truncate test asserts incorrect behavior (result exceeds maxLen)."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 6,
+    "total": 10,
+    "pass_rate": 0.40
+  }
+}
