@@ -1,5 +1,0 @@
----
-globs:
-  - 'internal/billing/**'
----
-@file:internal/billing/AGENTS.md

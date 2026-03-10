@@ -1,6 +1,0 @@
-{
-  "eval_id": 3,
-  "eval_name": "domain-doc-billing",
-  "prompt": "Can you create an AGENTS.md domain doc for the billing module? I want AI agents to understand the gotchas and cross-boundary stuff without having to read every file. The codebase is at /Users/josh/.claude/skills/spec-workspace/test-project/.",
-  "assertions": ["AGENTS.md is placed at a path like internal/billing/AGENTS.md next to the code, NOT inside .specs/", "Document is 50 lines or fewer", "Document does NOT restate function signatures, parameter lists, or type definitions from source code", "Document mentions the immediate-cancellation-on-failure behavior as a gotcha", "Document mentions that ChargeResult is consumed by external systems", "User is asked about Cursor integration for .cursor/rules/*.mdc file generation"]
-}
