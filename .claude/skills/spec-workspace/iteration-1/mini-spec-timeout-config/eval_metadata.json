@@ -1,6 +1,0 @@
-{
-  "eval_id": 4,
-  "eval_name": "mini-spec-timeout-config",
-  "prompt": "Quick one — the Stripe client timeout is hardcoded to 30 seconds in main.go. I want to make it configurable via an environment variable. Single file change basically. Codebase: /Users/josh/.claude/skills/spec-workspace/test-project/.",
-  "assertions": ["Model offers or uses a mini-spec format, not the full feature template with all sections", "Spec references stripe_client.go and/or main.go as files to modify", "Output spec is noticeably shorter than a full feature spec", "Spec includes a Verification section with at least one testable condition", "Model does NOT run a full multi-round probing loop for this small change"]
-}

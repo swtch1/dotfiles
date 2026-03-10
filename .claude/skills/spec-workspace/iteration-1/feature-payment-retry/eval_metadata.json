@@ -1,6 +1,0 @@
-{
-  "eval_id": 1,
-  "eval_name": "feature-payment-retry",
-  "prompt": "Hey, I need a spec for adding payment retry logic to our billing service. Right now when a charge fails we just cancel the subscription immediately which is pretty aggressive — we're losing like 8% of subscribers to transient Stripe failures. We want to retry failed charges a few times before giving up. The codebase is at /Users/josh/.claude/skills/spec-workspace/test-project/. No .specs/ directory exists yet.",
-  "assertions": ["Spec file uses YYYY-MM-DD-*/SPEC.md naming convention under .specs/features/", ".specs/ directory is initialized with features/, bugs/, and AGENTS.md", "Spec contains at least one [NEEDS CLARIFICATION] or [ASSUMPTION] marker", "Technical Approach section references real codebase files (charge.go, subscription.go, or stripe_client.go)", "Spec includes a populated Out of Scope / Non-Goals section with at least one item", "Spec includes an Alternatives Considered section with at least one alternative", "Verification section contains the exact text IMPLEMENTING AGENT in an HTML comment", "Probing/discovery questions were generated before the spec draft", "Spec identifies that ChargeResult is consumed by analytics, fraud-detection, or admin dashboard"]
-}
