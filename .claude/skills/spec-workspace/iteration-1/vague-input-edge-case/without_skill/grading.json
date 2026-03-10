@@ -1,0 +1,33 @@
+{
+  "expectations": [
+    {
+      "text": "Model identifies at least 2 vague terms from: robust, scalable, fast, gracefully",
+      "passed": false,
+      "evidence": "Vague terms used directly as organizing principles: 'Robust (no inconsistent state...)', 'Scalable (supports high-volume...)', 'Fast (low API latency...)', 'Graceful under failures'. The terms are elaborated but never flagged as vague or needing concrete definition from the user."
+    },
+    {
+      "text": "Model does NOT produce a spec where vague terms appear unquantified in prose",
+      "passed": false,
+      "evidence": "The spec fabricates specific numbers without user input: 'P95 < 300ms', 'P99 < 800ms', '>= 50k subscriptions/hour/node', '99.95% monthly'. These appear authoritative but are invented — the user never provided these targets. Meanwhile 'robust' and 'graceful' remain qualitative descriptors throughout."
+    },
+    {
+      "text": "Vague terms are replaced with [NEEDS CLARIFICATION] markers that demand specific metrics",
+      "passed": false,
+      "evidence": "No [NEEDS CLARIFICATION] markers or equivalent uncertainty markers anywhere in the 220-line spec. All vague requirements confidently filled with assumed targets."
+    },
+    {
+      "text": "Model asks clarifying questions before or during spec generation about what robust, scalable, etc. mean concretely",
+      "passed": false,
+      "evidence": "No clarifying questions asked. The Open Questions section (lines 209-213) mentions tangential concerns (grace period, invoice flow, RTO/RPO, multi-region) but never questions the original vague terms."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "pass_rate": 0.0
+  },
+  "timing": {
+    "total_duration_seconds": 115.0
+  }
+}

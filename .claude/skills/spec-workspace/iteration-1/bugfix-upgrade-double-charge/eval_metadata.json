@@ -1,0 +1,6 @@
+{
+  "eval_id": 2,
+  "eval_name": "bugfix-upgrade-double-charge",
+  "prompt": "We have a bug report — when a user tries to upgrade their plan and the prorated charge fails, they end up on the new plan without paying. Basically getting a free upgrade. Can you write a bugfix spec? The codebase is at /Users/josh/.claude/skills/spec-workspace/test-project/.",
+  "assertions": ["Spec file is created under a bugs/ directory path", "Spec uses the bugfix template structure with Bug Description, Root Cause, and Fix Approach sections", "Root Cause section specifically identifies subscription.go as the source of the bug", "Root Cause describes the plan-update-before-charge ordering issue", "Spec includes a Severity header field with a value", "Verification section includes at least one automated test checkbox", "Out of Scope section explicitly excludes unrelated refactoring"]
+}

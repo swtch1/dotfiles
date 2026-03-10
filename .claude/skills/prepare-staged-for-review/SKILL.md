@@ -23,6 +23,8 @@ Your edits appear as **unstaged** modifications. This separation is critical —
 
 ## Process
 
+Before starting, re-read any AGENTS.md files in the project (root and per-package) to ensure your review respects project-specific conventions and standards.
+
 ### 1. Cleanup (makes edits)
 
 - Remove debug printlines, temporary debugging code, and dead code (commented-out implementations, unreachable branches)
@@ -54,6 +56,8 @@ Evaluate test coverage for all changed code. This is a separate assessment step 
 Rename for clarity, extract functions, remove dead code/unused imports, clean up comments per assessment above.
 
 **Do NOT change:** control flow, return values, error handling, API contracts, or data transformations.
+
+If `make lint` (or equivalent) is available, run it after refactoring and fix any issues it flags.
 
 ### 5. Report
 

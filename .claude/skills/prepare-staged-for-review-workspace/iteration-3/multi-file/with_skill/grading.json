@@ -1,0 +1,14 @@
+{
+  "expectations": [
+    {"text": "Race condition in Get/List", "passed": true, "evidence": "Report: '[Important] service.go:40-46 and service.go:62-67 — reads/iterates shared map without mutex.'"},
+    {"text": "Debug print removed handler.go", "passed": true, "evidence": "Report: 'Removed debug print and unused imports (fmt, strings).'"},
+    {"text": "Debug print removed middleware.go", "passed": true, "evidence": "Report: 'Removed debug logging and now-unused fmt import.'"},
+    {"text": "Ignored strconv.Atoi error", "passed": true, "evidence": "Report: '[Minor] handler.go:64-66 — invalid/missing id is coerced to 0.' Also noted in refactoring: 'Atoi error still ignored.'"},
+    {"text": "Missing Delete test", "passed": true, "evidence": "Report: '[Minor] handler_test.go:10-39 — no tests for Delete.'"},
+    {"text": "TODO in middleware flagged", "passed": true, "evidence": "Report: '[Important] middleware.go:23-24 — middleware does not validate bearer token. Evidence: TODO for token validation.'"},
+    {"text": "Unused strings import", "passed": true, "evidence": "Report: 'Removed debug print and unused imports (fmt, strings).'"},
+    {"text": "File references in report", "passed": true, "evidence": "Every issue has file:line references."},
+    {"text": "Git state preserved", "passed": true, "evidence": "Verified: 1 commit, staged diff intact."}
+  ],
+  "summary": {"passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0}
+}

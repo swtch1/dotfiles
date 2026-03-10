@@ -1,0 +1,58 @@
+{
+  "expectations": [
+    {
+      "text": "Spec file uses YYYY-MM-DD-*/SPEC.md naming convention under .specs/features/",
+      "passed": true,
+      "evidence": "File created at .specs/features/2026-03-10-payment-retry-logic/SPEC.md — exact naming convention."
+    },
+    {
+      "text": ".specs/ directory is initialized with features/, bugs/, and AGENTS.md",
+      "passed": true,
+      "evidence": ".specs/AGENTS.md exists with full agent workflow guide. Directory structure .specs/features/ created."
+    },
+    {
+      "text": "Spec contains at least one [NEEDS CLARIFICATION] or [ASSUMPTION] marker",
+      "passed": true,
+      "evidence": "Multiple markers: [ASSUMPTION: Use 3 total attempts], [ASSUMPTION: Retry scheduling occurs on subsequent RunBillingCycle], [OPEN QUESTION: choose retry-state persistence medium], [RISK: Retry metadata added to ChargeResult may impact consumers]. At least 10 markers total."
+    },
+    {
+      "text": "Technical Approach section references real codebase files (charge.go, subscription.go, or stripe_client.go)",
+      "passed": true,
+      "evidence": "Entry Points lists: internal/billing/subscription.go, internal/billing/charge.go, internal/billing/stripe_client.go. Also marks NEW: internal/billing/retry_store.go and NEW: internal/billing/charge_retry_test.go."
+    },
+    {
+      "text": "Spec includes a populated Out of Scope / Non-Goals section with at least one item",
+      "passed": true,
+      "evidence": "4 items in Out of Scope: smart retry strategy, dunning workflows, refactoring UpgradePlan bug, real-time async queue infrastructure."
+    },
+    {
+      "text": "Spec includes an Alternatives Considered section with at least one alternative",
+      "passed": true,
+      "evidence": "3 alternatives: inline immediate retries (rejected), delegate to Stripe smart retries (deprioritized), do nothing (rejected)."
+    },
+    {
+      "text": "Verification section contains the exact text 'IMPLEMENTING AGENT' in an HTML comment",
+      "passed": true,
+      "evidence": "Lines 86-88: '<!-- IMPLEMENTING AGENT: You MUST check each box as you complete it and run every command listed below. An unchecked box = incomplete work. -->'"
+    },
+    {
+      "text": "Probing/discovery questions were generated before the spec draft",
+      "passed": true,
+      "evidence": "probing_questions.md contains 3 questions (2 Critical, 1 High) with proper scoreboard format: 'Remaining: Critical: 2 | High: 1 | Medium: 0'. Questions reference specific code locations."
+    },
+    {
+      "text": "Spec identifies that ChargeResult is consumed by analytics, fraud-detection, or admin dashboard",
+      "passed": true,
+      "evidence": "Probing question #2 explicitly states 'ChargeResult is documented as consumed by analytics, fraud-detection, and the admin dashboard'. Risk section also references this: 'Retry metadata added to ChargeResult may impact analytics/fraud/admin consumers'."
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "failed": 0,
+    "total": 9,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_duration_seconds": 155.0
+  }
+}

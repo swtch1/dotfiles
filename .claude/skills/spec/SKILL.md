@@ -29,26 +29,22 @@ Domain knowledge does NOT live in `.specs/` — it lives in per-directory `AGENT
 
 ### Step 1: Determine Spec Type and Weight
 
-Based on the user's input, determine which spec type to create:
-
-- **Feature spec** - New capability, enhancement, or significant change
-- **Bugfix spec** - Something is broken and needs fixing
-- **Domain doc (AGENTS.md)** - Document how an existing module/domain works, placed next to the code
-
-If ambiguous between feature and bugfix, default to feature spec.
-
-**Mini-spec option:** For small changes (single file, <1 hour of work), the user may not need a full template. Offer a mini-spec: use the feature template but include only **Problem**, **Scope**, **Technical Approach** (entry points and key files only), and **Verification** sections, deleting the rest. This keeps overhead proportional to the work. The mini-spec uses the same directory, naming convention, and header fields (Status, Branch, etc.) — agents should treat it identically to a full spec.
-
-**When iterating on shipped work**, match ceremony to risk:
+First, assess whether a spec is even warranted. Match ceremony to risk:
 
 | Change size | Action |
 |---|---|
-| **Trivial** (CSS, config, typo) | Just do it. Commit message is sufficient. |
-| **Small tweak** (timeout, default, log line) | Do it. Update `AGENTS.md` if behavior changed. |
-| **Meaningful change** (new edge case, new mode) | New mini-spec or full spec referencing the original. |
-| **Fundamental redesign** | New full spec. Archive the old spec with a `Superseded-by` link. |
+| **Trivial** (CSS, config, typo) | Recommend **no spec**. Commit message is sufficient. |
+| **Small tweak** (timeout, default, log line) | Recommend **no spec**. Update `AGENTS.md` if behavior changed. |
+| **Meaningful change** (new edge case, new mode, single-file <1hr) | **Mini-spec** — feature template with only Problem, Scope, Technical Approach (entry points/key files), and Verification. Same directory/naming/header conventions. |
+| **Significant feature or enhancement** | **Full feature spec** from template. |
+| **Bug** (something is broken) | **Bugfix spec** from template. |
+| **Document existing code** | **Domain doc (AGENTS.md)** placed next to the code. |
 
-**Note:** Changes discovered *during* active implementation use Implementation Delta (Step 7). The table above applies to post-ship iteration.
+**If the change is trivial or a small tweak**: Tell the user you don't think a spec is needed and why. **Ask them to confirm** before proceeding without one. If they still want a spec, create a mini-spec.
+
+If ambiguous between feature and bugfix, default to feature spec.
+
+**Note:** Changes discovered *during* active implementation use Implementation Delta (Step 7). The table above applies to both new requests and post-ship iteration.
 
 ### Step 2: Gather Context
 

@@ -1,0 +1,6 @@
+{
+  "eval_id": 5,
+  "eval_name": "vague-input-edge-case",
+  "prompt": "We need to make the billing system more robust and scalable. It should also be fast and handle errors gracefully. Can you spec this out? Codebase: /Users/josh/.claude/skills/spec-workspace/test-project/.",
+  "assertions": ["Model identifies at least 2 vague terms from: robust, scalable, fast, gracefully", "Model does NOT produce a spec where vague terms appear unquantified in prose", "Vague terms are replaced with [NEEDS CLARIFICATION] markers that demand specific metrics", "Model asks clarifying questions before or during spec generation about what robust, scalable, etc. mean concretely"]
+}
