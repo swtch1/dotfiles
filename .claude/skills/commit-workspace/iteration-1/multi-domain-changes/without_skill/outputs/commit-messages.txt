@@ -1,6 +1,0 @@
-Update README with authentication documentation
-Add DeleteUser endpoint and update API handlers
-Add auth configuration fields (AuthToken, JWTSecret)
-Add logging package with UTC timestamp fix
-Add auth middleware for Bearer token validation
-initial project structure

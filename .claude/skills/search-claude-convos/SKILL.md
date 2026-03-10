@@ -1,6 +1,6 @@
 ---
 name: search-claude-convos
-description: Search through Claude CLI conversation transcripts to find specific content.
+description: "Search past Claude CLI conversation transcripts to find specific discussions, decisions, or code changes. Use when the user says 'I talked about this before', 'find that conversation where we...', 'what did we discuss about X', or needs to locate a previous session's context."
 disable-model-invocation: true
 ---
 

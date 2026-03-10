@@ -1,6 +1,6 @@
 ---
 name: resume-handoff
-description: Resume work from handoff document with context analysis and validation
+description: "Resume work from a previous session's handoff document — reads context, verifies current state, proposes a plan, and continues implementation after user confirmation."
 disable-model-invocation: true
 ---
 

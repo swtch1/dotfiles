@@ -1,6 +1,6 @@
 ---
 name: second-opinion
-description: "This skill should be used to get external AI review from other models. Trigger on: 'second opinion', 'get feedback from codex/gemini', 'review this', 'verify this', 'double-check', 'validate my approach', or when external AI validation is explicitly requested."
+description: "Get external AI review from Codex and Gemini models. Use when the user asks for a second opinion, wants feedback from another AI, says 'double-check this', 'verify this approach', 'validate my thinking', or explicitly requests external AI review. Also trigger when the user seems uncertain about a major decision and could benefit from cross-model validation."
 ---
 
 # Second Opinion

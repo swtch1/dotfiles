@@ -1,3 +1,0 @@
-Fix logging to use UTC timestamps instead of local time
-Add auth middleware and bearer token validation
-initial project structure

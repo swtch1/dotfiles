@@ -1,6 +1,6 @@
 ---
 name: deep-research
-description: Deep research using parallel agents with comprehensive source analysis
+description: "Deep research using parallel agents with comprehensive source analysis. Use when the user needs thorough multi-source research on a topic, wants to 'research this thoroughly', 'find everything about X', 'do a deep dive on', needs comprehensive analysis with citations, or asks a question complex enough to require multiple search angles and source cross-referencing."
 model: sonnet
 ---
 

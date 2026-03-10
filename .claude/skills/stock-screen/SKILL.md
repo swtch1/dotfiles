@@ -108,9 +108,11 @@ Calculate where data permits, estimate where it doesn't, mark N/A where impossib
 
 ### Options Analysis
 Skip this section for stocks with thin options markets (most small caps). Include when options are liquid.
-- **IV environment**: IV Rank and IV Percentile tell you whether options are cheap or expensive relative to history. High IV (>50th percentile) favors selling premium; low IV favors buying premium. Get actual numeric values — search AlphaQuery, Barchart, or MarketChameleon if general financial sites don't surface them. Returning N/A here when the user asked about options is a failure mode to avoid.
+- **IV environment**: IV Rank and IV Percentile tell you whether options are cheap or expensive relative to history. High IV (>50th percentile) favors selling premium; low IV favors buying premium. Get actual numeric values — search AlphaQuery, Barchart, or MarketChameleon if general financial sites don't surface them. If exact IV Rank/Percentile data is unavailable from these sources, estimate from context (recent price action, VIX level, earnings proximity, historical patterns) with clear caveats — e.g., "IV Rank estimated ~60-70% based on recent 9.4% weekly drop and elevated VIX." A labeled estimate is far more useful than N/A.
 - **Flow signals**: Put/call ratio, unusual activity at specific strikes, open interest concentration
 - **Strategy alternatives**: Present 2-3 named strategies (e.g., cash-secured puts at different strikes, put spreads, covered calls) with specific strike/expiry suggestions and expected risk/reward. Match strategy to IV + directional thesis. The reader should walk away knowing not just "sell puts" but which puts, at what strike, and why.
+
+**Keep the full options analysis in this section.** All IV discussion, strategy evaluation, strike/expiry details, and risk/reward math belongs here — not distributed across the Recommendation or bonus sections. The Recommendation can reference the options conclusion, but the analytical substance stays here so the reader finds everything in one place.
 
 ### Technical vs Fundamental Assessment
 When price action contradicts fundamentals, flag it explicitly. Use this causation hierarchy to avoid forcing narratives:

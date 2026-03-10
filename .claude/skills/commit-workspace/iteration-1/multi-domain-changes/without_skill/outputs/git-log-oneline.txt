@@ -1,6 +1,0 @@
-f20163b Update README with authentication documentation
-e86d3cd Add DeleteUser endpoint and update API handlers
-b7f9799 Add auth configuration fields (AuthToken, JWTSecret)
-14fab8d Add logging package with UTC timestamp fix
-7fa73ec Add auth middleware for Bearer token validation
-88343a6 initial project structure

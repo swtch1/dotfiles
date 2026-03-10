@@ -1,6 +1,6 @@
 ---
 name: create-plan
-description: Create detailed implementation plans with thorough research and iteration
+description: "Create detailed implementation plans through interactive research and iteration. Use when the user says 'plan this out', 'how should we approach this', 'create a plan for', 'break this down', or needs a structured technical specification before implementation begins."
 model: opus
 disable-model-invocation: true
 ---

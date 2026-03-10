@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "prepare-staged-for-review", "runs": [{"id": "debug-cleanup-old_skill", "prompt": "Review my staged changes", "eval_id": 1, "outputs": [{"name": "report.md", "type": "text", "content": "# Review Report: orders.go\n\n## Refactoring Changes Made\n\nAll changes are in `orders.go` (unstaged, visible via `git diff`):\n\n1. **Removed debug printlines** (2 lines):\n   - `fmt.Println(\"ProcessOrder called\", order)` \u2014 debug logging of function entry\n   - `fmt.Println(\"discount:\", x)` \u2014 debug logging of discount value\n\n2. **Renamed variable `x` \u2192 `discount`** (`orders.go:11`):\n   - `x := calculateDiscount(order)` \u2192 `discount := calculateDiscount(order)`\n   - Descriptive name matching the return value semantics\n\n3. **Replaced chatty comment with proper Go doc comment** (`orders.go:5`):\n   - Removed 3-line comment referencing \"Bob in 2022\" and describing what changed rather than what the function does\n   - Replaced with: `// ProcessOrder validates and processes an order, applying applicable discounts.`\n\n4. **Preserved `// FIXME: (JMT)` comment** (`orders.go:19`) \u2014 intentional marker, not debug code.\n\n---\n\n## Issues Found (Require Behavior Changes)\n\n### Critical\n\n**1. Nil pointer dereference \u2014 removed nil check** (`orders.go:7`)\n\nThe staged diff removes the existing guard:\n```go\nif order == nil {\n    return fmt.Errorf(\"order is nil\")\n}\n```\n`ProcessOrder` now accesses `order.Amount` on line 7 without any nil check, which will panic on nil input. This also breaks the existing test `TestProcessOrder_NilOrder` (`orders_test.go:5-10`), which explicitly passes `nil` and expects an error return \u2014 it will get a panic instead.\n\n**Recommendation:** Restore the nil check before the `Amount` validation.\n\n---\n\n### Important\n\n**2. Float-to-int truncation in discount calculation** (`orders.go:12`)\n\n`calculateDiscount` returns `float64`, but the result is truncated via `int(discount)`:\n```go\norder.Total = order.Amount - int(discount)\n```\n`int()` truncates toward zero, not rounds. For Amount=15 (premium): discount=1.5, `int(1.5)` = 1, Total = 14. Depending on business requirements, the discount should either be rounded (`math.Round`) or the entire calculation should use integer arithmetic (e.g., basis points).\n\n**Recommendation:** Define a rounding policy and apply it explicitly, or use integer-only arithmetic.\n\n**3. No tests for new discount functionality**\n\nThe staged changes add `calculateDiscount` and the `Total` field computation, but no tests were added or modified. Missing coverage:\n- Premium order receives 10% discount\n- Non-premium order receives zero discount\n- `order.Total` is computed correctly\n- Edge cases: Amount=0 with premium flag, very large amounts\n\nThe only existing tests cover nil order and invalid amount \u2014 neither exercises the new code paths.\n\n**Recommendation:** Add tests covering premium/non-premium discount paths and verify `Total` values.\n"}], "grading": {"expectations": [{"text": "Debug fmt.Println lines removed", "passed": true, "evidence": "Report: 'Removed debug printlines (2 lines): fmt.Println(\"ProcessOrder called\", order) and fmt.Println(\"discount:\", x)'"}, {"text": "FIXME(JMT) preserved", "passed": true, "evidence": "Report explicitly states: 'Preserved // FIXME: (JMT) comment (orders.go:19) \u2014 intentional marker, not debug code.' Verified via grep."}, {"text": "Nil dereference identified", "passed": true, "evidence": "Report: 'Critical: Nil pointer dereference \u2014 removed nil check (orders.go:7)' with detailed evidence about TestProcessOrder_NilOrder."}, {"text": "Float-to-int truncation identified", "passed": true, "evidence": "Report: 'Important: Float-to-int truncation in discount calculation (orders.go:12)' \u2014 describes int() truncation toward zero with concrete example (Amount=15, discount=1.5, int(1.5)=1)."}, {"text": "Variable x renamed", "passed": true, "evidence": "Report: 'Renamed variable x \u2192 discount (orders.go:11)'"}, {"text": "Transient comment flagged/removed", "passed": true, "evidence": "Report: 'Replaced chatty comment referencing Bob in 2022 and describing what changed rather than what the function does.'"}, {"text": "Severity classifications present", "passed": true, "evidence": "Report uses Critical and Important severity headings with numbered issues."}, {"text": "Git state preserved", "passed": true, "evidence": "Verified: git log shows only 'initial commit', staged diff preserved."}], "summary": {"passed": 8, "failed": 0, "total": 8, "pass_rate": 1.0}, "timing": {"executor_duration_seconds": 171.0}, "eval_feedback": {"suggestions": [], "overall": "Perfect score. Old skill caught float truncation this time (missed in iteration 1). Stochastic improvement."}}}, {"id": "debug-cleanup-with_skill", "prompt": "Review my staged changes", "eval_id": 1, "outputs": [{"name": "report.md", "type": "text", "content": "## Refactoring Changes Made\n\n- `orders.go:5-11`\n  - Removed transient/process-history comments above `ProcessOrder` (commentary about prior author/date and change history).\n  - Removed debug printlines:\n    - `fmt.Println(\"ProcessOrder called\", order)`\n    - `fmt.Println(\"discount:\", x)`\n  - Renamed temporary variable `x` to `discount` for clarity.\n\n## Issues Found (Require Behavior Changes)\n\n**[Important]** `orders.go:6` \u2014 `ProcessOrder` dereferences `order` without nil guard and panics on nil input.\nEvidence: execution path `TestProcessOrder_NilOrder -> ProcessOrder(nil) -> order.Amount` triggers `panic: invalid memory address or nil pointer dereference` (`orders_test.go:6`, `orders.go:6`) during `go test .`.\nRecommendation: restore/introduce an early nil check at function entry, e.g. return `fmt.Errorf(\"order is nil\")` before accessing `order.Amount`.\n"}], "grading": {"expectations": [{"text": "Debug fmt.Println lines removed", "passed": true, "evidence": "Report: 'Removed debug printlines: fmt.Println(\"ProcessOrder called\", order) and fmt.Println(\"discount:\", x)'"}, {"text": "FIXME(JMT) preserved", "passed": true, "evidence": "Verified via grep: line 18 still contains '// FIXME: (JMT) need to add tiered discount logic'. Not mentioned as removed in report."}, {"text": "Nil dereference identified", "passed": true, "evidence": "Report: '[Important] orders.go:6 \u2014 ProcessOrder dereferences order without nil guard and panics on nil input. Evidence: execution path TestProcessOrder_NilOrder -> ProcessOrder(nil) -> order.Amount triggers panic.'"}, {"text": "Float-to-int truncation identified", "passed": false, "evidence": "Not mentioned anywhere in the 14-line report. Report only identifies nil dereference as an issue."}, {"text": "Variable x renamed", "passed": true, "evidence": "Report: 'Renamed temporary variable x to discount for clarity.'"}, {"text": "Transient comment flagged/removed", "passed": true, "evidence": "Report: 'Removed transient/process-history comments above ProcessOrder (commentary about prior author/date and change history).'"}, {"text": "Severity classifications present", "passed": true, "evidence": "Report uses '[Important]' severity tag on the nil dereference issue."}, {"text": "Git state preserved", "passed": true, "evidence": "Verified: git log shows only 'initial commit', staged diff preserved (orders.go 23 insertions/4 deletions unchanged)."}], "summary": {"passed": 7, "failed": 1, "total": 8, "pass_rate": 0.875}, "timing": {"executor_duration_seconds": 127.0}, "eval_feedback": {"suggestions": [], "overall": "Same failure as iteration 1 \u2014 float-to-int truncation not caught. This appears to be a consistently non-discriminating assertion for the lean skill."}}}, {"id": "security-vuln-old_skill", "prompt": "Check my staged changes before I push", "eval_id": 2, "outputs": [{"name": "report.md", "type": "text", "content": "# Review Report: `auth.go`\n\n## Refactoring Changes Made\n\n### `auth.go`\n\n| Change | Lines | Description |\n|--------|-------|-------------|\n| Removed redundant comment | Was line 17 | `// check if user exists` \u2014 \"what\" comment that restates the SQL query immediately below. Adds no context for *why*. |\n\n> **Note:** The working copy already contained these prior cleanup edits (not made by this review): removed unused `\"os\"` import, removed commented-out `LoginHandlerOld` dead code, added `_ = token` to suppress unused-variable compiler error.\n\n---\n\n## Issues Found (Require Behavior Changes)\n\n### 1. SQL Injection \u2014 `auth.go:18` (staged line 19)\n\n**Severity: Critical**\n\n```go\nquery := fmt.Sprintf(\"SELECT id, password_hash FROM users WHERE email = '%s'\", email)\n```\n\nUser-supplied `email` is directly interpolated into the SQL query string. An attacker can inject arbitrary SQL:\n\n```\nemail: ' OR '1'='1' --\n```\n\nThis bypasses authentication entirely, returning the first user in the table.\n\n**Recommendation:** Use parameterized queries:\n```go\nrow := db.QueryRow(\"SELECT id, password_hash FROM users WHERE email = $1\", email)\n```\n\n---\n\n### 2. Hardcoded JWT Secret \u2014 `auth.go:9` (staged line 10)\n\n**Severity: Critical**\n\n```go\nvar jwtSecret = \"super-secret-key-12345\"\n```\n\nA secret key committed to source code is visible to anyone with repo access, persists in git history, and cannot be rotated without code changes.\n\n**Recommendation:** Load from environment variable or secrets manager:\n```go\njwtSecret := os.Getenv(\"JWT_SECRET\")\nif jwtSecret == \"\" {\n    log.Fatal(\"JWT_SECRET environment variable is required\")\n}\n```\n\n---\n\n### 3. Plaintext Password Comparison \u2014 `auth.go:39` (staged line 49)\n\n**Severity: Critical**\n\n```go\nfunc checkPassword(password, hash string) bool {\n    return password == hash\n}\n```\n\nEven marked `// placeholder`, this compares the raw password string directly to the stored hash. If the database stores bcrypt hashes, this will never match. If the database stores plaintext passwords, that's a separate catastrophe. Either way, this must not ship.\n\n**Recommendation:** Use `bcrypt.CompareHashAndPassword()`:\n```go\nfunc checkPassword(password, hash string) bool {\n    err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))\n    return err == nil\n}\n```\n\n---\n\n### 4. Format String Bug \u2014 Token Never Sent \u2014 `auth.go:33` (staged line 33)\n\n**Severity: Critical**\n\n```go\ntoken := generateJWT(id, jwtSecret)\n_ = token\nw.Header().Set(\"Content-Type\", \"application/json\")\nfmt.Fprintf(w, `{\"token\": \"%s\"}`)\n```\n\n`fmt.Fprintf` has a `%s` verb but no corresponding argument. Go outputs `{\"token\": \"%!s(MISSING)\"}`. The generated token is assigned, suppressed with `_ = token`, and never written to the response. Authentication succeeds but the client receives a garbage token.\n\n**Recommendation:**\n```go\ntoken := generateJWT(id, jwtSecret)\nw.Header().Set(\"Content-Type\", \"application/json\")\nfmt.Fprintf(w, `{\"token\": \"%s\"}`, token)\n```\n\n---\n\n### 5. Unchecked `row.Scan` Error + Auth Bypass \u2014 `auth.go:23` (staged line 24)\n\n**Severity: Critical**\n\n```go\nrow.Scan(&id, &hash)\n```\n\nThe error return from `Scan` is discarded. If the user doesn't exist, `Scan` returns `sql.ErrNoRows`, and `id` remains `0`, `hash` remains `\"\"`. Then `checkPassword(password, \"\")` is called. Combined with the plaintext comparison, if the attacker submits an empty password, `checkPassword(\"\", \"\") == true` \u2014 authentication bypass for a non-existent user, returning a JWT for user ID `0`.\n\n**Recommendation:**\n```go\nif err := row.Scan(&id, &hash); err != nil {\n    if errors.Is(err, sql.ErrNoRows) {\n        http.Error(w, \"invalid credentials\", http.StatusUnauthorized)\n        return\n    }\n    http.Error(w, \"internal error\", http.StatusInternalServerError)\n    return\n}\n```\n\n---\n\n### 6. Information Disclosure in Error Response \u2014 `auth.go:26` (staged line 27)\n\n**Severity: Important**\n\n```go\nhttp.Error(w, fmt.Sprintf(\"login failed for user: %s\", email), http.StatusUnauthorized)\n```\n\nEchoing the submitted email in the error response confirms to an attacker that their input was received and processed. Combined with different response behavior for existing vs non-existing users, this enables user enumeration.\n\n**Recommendation:** Use a generic message:\n```go\nhttp.Error(w, \"invalid credentials\", http.StatusUnauthorized)\n```\n\n---\n\n### 7. Unused Import \u2014 Code Won't Compile \u2014 `auth.go:7` (staged)\n\n**Severity: Critical**\n\n```go\nimport (\n    ...\n    \"os\"\n)\n```\n\n`\"os\"` is imported but never used. **Go will refuse to compile this file.** The staged code is broken \u2014 it cannot be built.\n\n**Recommendation:** Remove the unused import. (Working copy already has this fix.)\n\n---\n\n### 8. No Input Validation \u2014 `auth.go:14-15`\n\n**Severity: Important**\n\n```go\nemail := r.FormValue(\"email\")\npassword := r.FormValue(\"password\")\n```\n\nNo validation for empty strings, length limits, or email format. An empty email hits the database directly. A maliciously long input could cause issues depending on the database driver.\n\n**Recommendation:** Validate before querying:\n```go\nif email == \"\" || password == \"\" {\n    http.Error(w, \"email and password are required\", http.StatusBadRequest)\n    return\n}\n```\n\n---\n\n### 9. No HTTP Method Restriction \u2014 `auth.go:13`\n\n**Severity: Minor**\n\nThe handler doesn't verify the request method is POST. Login attempts via GET (with form values in query params) would be logged in server access logs, proxy logs, and browser history \u2014 leaking credentials.\n\n**Recommendation:** Check method at handler entry:\n```go\nif r.Method != http.MethodPost {\n    http.Error(w, \"method not allowed\", http.StatusMethodNotAllowed)\n    return\n}\n```\n\n---\n\n### 10. Commented-Out Dead Code \u2014 `auth.go:38-45` (staged)\n\n**Severity: Minor**\n\n```go\n// Old implementation using session cookies\n// func LoginHandlerOld(db *sql.DB) http.HandlerFunc { ... }\n```\n\nDead code in comments. Version control exists for history. (Working copy already removed this.)\n\n---\n\n### 11. No Tests\n\n**Severity: Important**\n\nZero test files in the repository. An authentication handler with SQL, password verification, JWT generation, and HTTP response handling has no test coverage whatsoever. Given the critical security issues above, the absence of tests means these bugs have no safety net.\n\n**Recommendation:** At minimum, test:\n- Successful login returns a valid JWT\n- Invalid password returns 401\n- Non-existent user returns 401\n- SQL injection payloads are safely handled\n- Empty email/password returns 400\n\n---\n\n## Summary\n\nThis file has **5 critical issues** that must be fixed before merging \u2014 SQL injection, hardcoded secret, plaintext password comparison, auth bypass via unchecked scan, and a format string bug that prevents the token from ever being sent. The staged version also won't compile due to an unused import. There are zero tests.\n\n**Do not push this.**\n"}], "grading": {"expectations": [{"text": "SQL injection as Critical", "passed": true, "evidence": "Report: 'Critical: SQL Injection \u2014 auth.go:18' with detailed injection example (email: ' OR '1'='1' --) and parameterized query recommendation."}, {"text": "Hardcoded JWT secret flagged", "passed": true, "evidence": "Report: 'Critical: Hardcoded JWT Secret \u2014 auth.go:9' with evidence about repo access and git history persistence."}, {"text": "Unchecked row.Scan error", "passed": true, "evidence": "Report: 'Critical: Unchecked row.Scan Error + Auth Bypass \u2014 auth.go:23' \u2014 identifies full auth bypass chain through zero values."}, {"text": "Empty input validation", "passed": true, "evidence": "Report: 'Important: No Input Validation \u2014 auth.go:14-15' \u2014 explicitly identifies empty strings, length limits, email format validation missing."}, {"text": "Dead code removed", "passed": true, "evidence": "Report Note: 'Working copy already contained these prior cleanup edits... removed commented-out LoginHandlerOld dead code.' Also Report Issue #10: 'Minor: Commented-Out Dead Code \u2014 auth.go:38-45'."}, {"text": "Unused os import", "passed": true, "evidence": "Report: 'Critical: Unused Import \u2014 Code Won't Compile \u2014 auth.go:7' \u2014 notes Go will refuse to compile."}, {"text": "Info leakage (email in error)", "passed": true, "evidence": "Report: 'Important: Information Disclosure in Error Response \u2014 auth.go:26' \u2014 identifies user enumeration risk."}, {"text": "Missing tests flagged", "passed": true, "evidence": "Report: 'Important: No Tests' \u2014 'Zero test files in the repository. An authentication handler with SQL, password verification, JWT generation, and HTTP response handling has no test coverage whatsoever.' Includes 5 specific test recommendations."}, {"text": "Git state preserved", "passed": true, "evidence": "Verified: git log shows only 'initial commit', staged diff preserved."}], "summary": {"passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0}, "timing": {"executor_duration_seconds": 234.0}, "eval_feedback": {"suggestions": [], "overall": "Perfect score. Old skill caught both previously-missed assertions (empty validation + missing tests). The 231-line report is extremely thorough \u2014 11 issues + summary. The dedicated assessment sections clearly drive more comprehensive coverage."}}}, {"id": "security-vuln-with_skill", "prompt": "Check my staged changes before I push", "eval_id": 2, "outputs": [{"name": "report.md", "type": "text", "content": "## Refactoring Changes Made\n\n- `auth.go:3-7` \u2014 Removed unused `os` import.\n- `auth.go:30-33` \u2014 Preserved existing staged runtime behavior while making file compile cleanly by explicitly discarding `token` (`_ = token`) and writing the literal response via `w.Write`.\n- `auth.go` (deleted block between `LoginHandler` and `checkPassword`) \u2014 Removed commented-out dead code (`LoginHandlerOld`) from working tree.\n\n## Issues Found (Require Behavior Changes)\n\n**[Critical]** `auth.go:18` \u2014 SQL injection in login query construction.\nEvidence: User-controlled `email` is interpolated into SQL via `fmt.Sprintf(\"... '%s'\", email)`; crafted input can alter query semantics.\nRecommendation: Use parameterized query (`db.QueryRow(\"SELECT ... WHERE email = ?\", email)` or driver-appropriate placeholder).\n\n**[Critical]** `auth.go:9` \u2014 Hardcoded JWT secret in source.\nEvidence: `var jwtSecret = \"super-secret-key-12345\"` is committed secret material; compromise of source leaks signing key.\nRecommendation: Load secret from environment/secret manager and fail fast if missing.\n\n**[Important]** `auth.go:23` \u2014 `row.Scan` error is ignored.\nEvidence: On missing user / DB error, `id`/`hash` remain zero values and execution continues to password check path, masking root cause and conflating auth/db failures.\nRecommendation: Check `Scan` error explicitly; handle `sql.ErrNoRows` as auth failure and other errors as server error.\n\n**[Important]** `auth.go:33` \u2014 Response writes literal `%s` instead of actual token.\nEvidence: Handler generates token but response body is `{\"token\": \"%s\"}`; clients never receive usable JWT.\nRecommendation: Serialize actual token value (e.g., `fmt.Fprintf(..., token)` or JSON encoder struct/map).\n\n**[Important]** `auth.go:37-39` \u2014 Password verification is placeholder/insecure.\nEvidence: `checkPassword` performs raw string equality (`password == hash`), violating password-hash verification contract.\nRecommendation: Replace with constant-time hash verification (bcrypt/argon2 appropriate to stored format).\n\n**[Minor]** `auth.go:26` \u2014 Authentication error leaks user identifier.\nEvidence: Unauthorized response includes submitted email (`login failed for user: %s`), exposing account data in client-visible error text.\nRecommendation: Return generic auth failure message; log details server-side only.\n"}], "grading": {"expectations": [{"text": "SQL injection as Critical", "passed": true, "evidence": "Report: '[Critical] auth.go:18 \u2014 SQL injection in login query construction. Evidence: User-controlled email is interpolated into SQL via fmt.Sprintf.'"}, {"text": "Hardcoded JWT secret flagged", "passed": true, "evidence": "Report: '[Critical] auth.go:9 \u2014 Hardcoded JWT secret in source. Evidence: var jwtSecret = \"super-secret-key-12345\" is committed secret material.'"}, {"text": "Unchecked row.Scan error", "passed": true, "evidence": "Report: '[Important] auth.go:23 \u2014 row.Scan error is ignored. Evidence: On missing user / DB error, id/hash remain zero values.'"}, {"text": "Empty input validation", "passed": false, "evidence": "Not mentioned in the 31-line report. Report covers SQL injection, JWT secret, row.Scan, token response bug, password verification, and info leakage \u2014 but not empty email/password validation."}, {"text": "Dead code removed", "passed": true, "evidence": "Report: 'auth.go (deleted block between LoginHandler and checkPassword) \u2014 Removed commented-out dead code (LoginHandlerOld) from working tree.'"}, {"text": "Unused os import", "passed": true, "evidence": "Report: 'auth.go:3-7 \u2014 Removed unused os import.'"}, {"text": "Info leakage (email in error)", "passed": true, "evidence": "Report: '[Minor] auth.go:26 \u2014 Authentication error leaks user identifier. Evidence: Unauthorized response includes submitted email.'"}, {"text": "Missing tests flagged", "passed": false, "evidence": "Not mentioned in the report. The 31-line report covers 6 issues but does not assess test code existence or coverage at all."}, {"text": "Git state preserved", "passed": true, "evidence": "Verified: git log shows only 'initial commit', staged diff preserved."}], "summary": {"passed": 7, "failed": 2, "total": 9, "pass_rate": 0.778}, "timing": {"executor_duration_seconds": 183.0}, "eval_feedback": {"suggestions": [], "overall": "New regression: 'missing tests flagged' now fails (was passing in iteration 1 for both configs). The lean skill's compact test assessment instruction ('Also assess test code: existence, edge case coverage...') may not be triggering reliably. The old skill's dedicated 8-bullet 'Assess Test Code' section appears to produce more consistent test assessment."}}}, {"id": "multi-file-old_skill", "prompt": "Prepare my code for review \u2014 5 new files for a users CRUD feature", "eval_id": 3, "outputs": [{"name": "report.md", "type": "text", "content": "# Review Report \u2014 Users CRUD Feature\n\n## Refactoring Changes Made\n\n### `handler.go`\n- **Removed debug printline** (was line 23): `fmt.Println(\"Create handler called\")` \u2014 no `// FIXME: (JMT)` tag, pure debug code\n- **Removed unused imports** (were lines 5, 8): `\"fmt\"` and `\"strings\"` \u2014 `\"fmt\"` was only used by the debug print; `\"strings\"` was never used (would cause compile failure)\n\n### `middleware.go`\n- **Removed debug printline** (was line 12): `fmt.Printf(\"AuthMiddleware: %s %s\\n\", r.Method, r.URL.Path)` \u2014 no `// FIXME: (JMT)` tag, pure debug code\n- **Removed unused import** (was line 4): `\"fmt\"` \u2014 only used by the debug printf\n- **Removed stale blank line** left after debug code removal\n\n### Verification\nAll changes verified: `go vet`, `go build`, and `go test` pass cleanly. No git state modified.\n\n---\n\n## Issues Found (Require Behavior Changes)\n\n### Critical\n\n| # | File:Line | Issue | Evidence | Recommendation |\n|---|-----------|-------|----------|----------------|\n| 1 | `service.go:40-46` | **Data race in `Get()`** \u2014 reads `s.users` map without holding mutex | `Create`/`Delete` lock `s.mu` but `Get` does not; concurrent map read+write panics in Go | Use `sync.RWMutex`; take `RLock` in `Get` |\n| 2 | `service.go:62-68` | **Data race in `List()`** \u2014 iterates `s.users` map without holding mutex | Same root cause as #1; concurrent iteration + mutation panics | Take `RLock` in `List` |\n| 3 | `middleware.go:18-25` | **Empty bearer token accepted** \u2014 `Authorization: Bearer ` (empty token) passes all checks | `strings.TrimPrefix(\"Bearer \", \"Bearer \")` \u2192 `\"\"`, which is `!= auth`, so check passes; then `// TODO: actually validate the token` means any non-empty header works | Reject empty/whitespace tokens; implement actual token validation |\n\n### Important\n\n| # | File:Line | Issue | Evidence | Recommendation |\n|---|-----------|-------|----------|----------------|\n| 4 | `handler.go:40` | **`strconv.Atoi` error silently ignored in `Get`** \u2014 non-numeric `id` becomes `0` | `n, _ := strconv.Atoi(id)` discards error; `?id=abc` \u2192 `n=0` \u2192 misleading 404 instead of 400 | Check error; return 400 for invalid/missing/non-positive IDs |\n| 5 | `handler.go:55` | **Same `strconv.Atoi` issue in `Delete`** | Identical pattern: `n, _ := strconv.Atoi(id)` | Same fix as #4 |\n| 6 | `handler.go:29` | **Internal error messages leaked to HTTP clients** | `http.Error(w, err.Error(), http.StatusInternalServerError)` \u2014 as error messages evolve (DB errors, stack traces), they'll be exposed | Return generic client messages; log detailed errors server-side |\n| 7 | `handler.go:22-25` | **No request body size limit** | `json.NewDecoder(r.Body)` reads unbounded input | Wrap with `http.MaxBytesReader(w, r.Body, maxBytes)` |\n| 8 | `handler.go:22-25` | **JSON decoder accepts unknown fields and trailing data** | No `DisallowUnknownFields()`, no EOF check after decode | Add `dec.DisallowUnknownFields()` and verify no trailing tokens |\n| 9 | `service.go:36,45,67` | **Internal `*User` pointers returned to callers** \u2014 shared mutable state | Callers can mutate `Role`, `Name`, etc. on the shared object without locks | Return value copies (`User`) instead of pointers to internal map entries |\n| 10 | `handler.go:20-35` | **Create returns 200 instead of 201** | No explicit `WriteHeader` call; `http.ResponseWriter` defaults to 200 | Add `w.WriteHeader(http.StatusCreated)` before encoding response |\n| 11 | `service.go:24-37` | **No input validation on Create** | Empty `Email`, `Name`, `Role` all accepted; no email format check, no role allowlist | Validate required fields; constrain `Role` to known values |\n\n### Minor\n\n| # | File:Line | Issue | Evidence | Recommendation |\n|---|-----------|-------|----------|----------------|\n| 12 | `model.go:21-25` | **`UpdateUserRequest` defined but never used** | No update handler or service method exists | Remove until update feature is implemented, or implement it |\n| 13 | `model.go:11` + `service.go:49-58` | **`DeletedAt` field exists but `Delete` does hard delete** | Model suggests soft-delete intent; service does `delete(s.users, id)` | Align: either implement soft delete or remove `DeletedAt` |\n| 14 | `handler.go:34,49` | **`json.Encode` error ignored** | `json.NewEncoder(w).Encode(user)` \u2014 error discarded | Check and log encode errors (don't send second response) |\n| 15 | `service.go:62-68` | **`List()` returns unstable order** | Map iteration order is random in Go | Sort by ID or document that order is undefined |\n\n---\n\n### Test Coverage Issues\n\n| # | Severity | Issue | Evidence | Recommendation |\n|---|----------|-------|----------|----------------|\n| T1 | Critical | **No test for `Delete` handler** | `handler_test.go:41` acknowledges gap; `handler.go:53-63` untested | Add: create user \u2192 DELETE \u2192 assert 204 + empty body \u2192 GET \u2192 assert 404 |\n| T2 | Critical | **Tests only verify status codes, not response content** | `handler_test.go:20-22`, `handler_test.go:36-38` \u2014 only `rec.Code` checked | Decode response JSON; assert fields match (`id`, `email`, `name`, `role`); check `Content-Type` header |\n| T3 | Important | **No error-path tests for Create** | 400 path at `handler.go:22-25` never exercised | Add: empty body \u2192 400; malformed JSON \u2192 400; assert body contains `\"bad request\"` |\n| T4 | Important | **No not-found tests for Get/Delete** | 404 paths at `handler.go:43-46`, `handler.go:57-60` never exercised | Add: GET/DELETE with nonexistent ID \u2192 404 |\n| T5 | Important | **No invalid-ID tests** | `handler.go:40,55` \u2014 `strconv.Atoi` error path never tested | Add: `?id=abc`, `?id=`, missing param \u2192 assert current behavior (404 from id=0) or desired behavior (400) |\n| T6 | Important | **`AuthMiddleware` completely untested** | `middleware.go:9-27` \u2014 no test file or test function | Add: no header \u2192 401; bad format \u2192 401; valid Bearer \u2192 next handler called |\n| T7 | Minor | **Repetitive test setup, no table-driven tests** | `handler_test.go:11-13` and `handler_test.go:26-28` duplicate setup | Extract helper; use table-driven subtests for error case matrix |\n"}], "grading": {"expectations": [{"text": "Race condition in Get/List", "passed": true, "evidence": "Report: 'Critical #1: Data race in Get() \u2014 reads s.users map without holding mutex' AND 'Critical #2: Data race in List() \u2014 iterates s.users map without holding mutex.' Both with evidence of concurrent map read+write panics."}, {"text": "Debug print removed handler.go", "passed": true, "evidence": "Report: 'handler.go \u2014 Removed debug printline (was line 23): fmt.Println(\"Create handler called\")'"}, {"text": "Debug print removed middleware.go", "passed": true, "evidence": "Report: 'middleware.go \u2014 Removed debug printline (was line 12): fmt.Printf(\"AuthMiddleware: %s %s\\n\", r.Method, r.URL.Path)'"}, {"text": "Ignored strconv.Atoi error", "passed": true, "evidence": "Report: 'Important #4: strconv.Atoi error silently ignored in Get \u2014 handler.go:40' AND 'Important #5: Same strconv.Atoi issue in Delete \u2014 handler.go:55'"}, {"text": "Missing Delete test", "passed": true, "evidence": "Report: 'Test Issue T1 Critical: No test for Delete handler \u2014 handler_test.go:41 acknowledges gap'"}, {"text": "TODO in middleware flagged", "passed": true, "evidence": "Report: 'Critical #3: Empty bearer token accepted \u2014 middleware.go:18-25' references '// TODO: actually validate the token' as evidence."}, {"text": "Unused strings import", "passed": true, "evidence": "Report: 'Removed unused imports (were lines 5, 8): \"fmt\" and \"strings\"'"}, {"text": "File references in report", "passed": true, "evidence": "All 15 production issues and 7 test issues include file:line references in structured table format."}, {"text": "Git state preserved", "passed": true, "evidence": "Verified: git log shows only 'initial commit', staged diff preserved. Report states 'No git state modified.'"}], "summary": {"passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0}, "timing": {"executor_duration_seconds": 293.0}, "eval_feedback": {"suggestions": [], "overall": "Perfect score. Old skill produced extremely thorough 63-line report with 15 production issues + 7 test issues in structured table format. Very comprehensive but takes ~70s longer than lean skill."}}}, {"id": "multi-file-with_skill", "prompt": "Prepare my code for review \u2014 5 new files for a users CRUD feature", "eval_id": 3, "outputs": [{"name": "report.md", "type": "text", "content": "## Refactoring Changes Made\n\n- `handler.go:3-7,20` \u2014 Removed debug-only `fmt.Println` call and dropped unused imports (`fmt`, `strings`) from the import block.\n- `middleware.go:3-6,10` \u2014 Removed debug logging (`fmt.Printf`) and dropped now-unused `fmt` import.\n- `handler_test.go:41-43` (staged version) \u2014 Removed transient TODO-style coverage-gap comments at EOF to keep test file focused on executable assertions.\n\n## Issues Found (Require Behavior Changes)\n\n**[Important]** `service.go:40-45` \u2014 `Get` reads shared map without synchronization.\nEvidence: `Create`/`Delete` lock `s.mu` (`service.go:25-26`, `service.go:50-51`) but `Get` directly reads `s.users[id]` with no lock; concurrent access can race.\nRecommendation: Guard `Get` with `s.mu` (or migrate to `sync.RWMutex` and use `RLock`).\n\n**[Important]** `service.go:62-66` \u2014 `List` iterates shared map without synchronization.\nEvidence: `for _, u := range s.users` runs without lock while other methods mutate the same map under mutex.\nRecommendation: Guard `List` with `s.mu` (or `RLock` with `RWMutex`) while iterating.\n\n**[Important]** `handler.go:40` and `handler.go:55` \u2014 Invalid/missing `id` is silently coerced to `0`.\nEvidence: `n, _ := strconv.Atoi(id)` discards parse errors; malformed `id` flows to service and is reported as not-found instead of bad request.\nRecommendation: Check `Atoi` error and return `http.StatusBadRequest` for invalid query input.\n\n**[Important]** `middleware.go:23-24` \u2014 Auth middleware accepts any `Bearer ...` value without token validation.\nEvidence: After format check, code immediately executes `next.ServeHTTP` and has explicit `// TODO: actually validate the token`.\nRecommendation: Implement token verification before calling `next`, and reject invalid/expired tokens with `401`.\n\n**[Minor]** `handler.go:33-34`, `handler_test.go:20-21` \u2014 Create endpoint/test use `200 OK` instead of `201 Created` for resource creation.\nEvidence: `Create` writes JSON without `WriteHeader(http.StatusCreated)`; test asserts `StatusOK`.\nRecommendation: Set `201 Created` in handler and update test expectation accordingly.\n\n**[Minor]** `handler_test.go:10-39` \u2014 Test coverage is happy-path only.\nEvidence: Only `TestCreateUser` and `TestGetUser` exist; no tests exercise delete, invalid ID parsing, or not-found behavior.\nRecommendation: Add handler tests for delete success, non-numeric `id` (400), and missing user (404).\n"}], "grading": {"expectations": [{"text": "Race condition in Get/List", "passed": true, "evidence": "Report: '[Important] service.go:40-45 \u2014 Get reads shared map without synchronization' AND '[Important] service.go:62-66 \u2014 List iterates shared map without synchronization.' Both identified with evidence of mutex usage in Create/Delete."}, {"text": "Debug print removed handler.go", "passed": true, "evidence": "Report: 'handler.go:3-7,20 \u2014 Removed debug-only fmt.Println call and dropped unused imports (fmt, strings).'"}, {"text": "Debug print removed middleware.go", "passed": true, "evidence": "Report: 'middleware.go:3-6,10 \u2014 Removed debug logging (fmt.Printf) and dropped now-unused fmt import.'"}, {"text": "Ignored strconv.Atoi error", "passed": true, "evidence": "Report: '[Important] handler.go:40 and handler.go:55 \u2014 Invalid/missing id is silently coerced to 0. Evidence: strconv.Atoi(id) discards parse errors.'"}, {"text": "Missing Delete test", "passed": true, "evidence": "Report: '[Minor] handler_test.go:10-39 \u2014 Test coverage is happy-path only. Evidence: Only TestCreateUser and TestGetUser exist; no tests exercise delete.'"}, {"text": "TODO in middleware flagged", "passed": true, "evidence": "Report: '[Important] middleware.go:23-24 \u2014 Auth middleware accepts any Bearer ... value without token validation. Evidence: code immediately executes next.ServeHTTP and has explicit // TODO: actually validate the token.'"}, {"text": "Unused strings import", "passed": true, "evidence": "Report: 'handler.go:3-7,20 \u2014 Removed debug-only fmt.Println call and dropped unused imports (fmt, strings) from the import block.'"}, {"text": "File references in report", "passed": true, "evidence": "Every issue in the report includes file:line references \u2014 service.go:40-45, service.go:62-66, handler.go:40, handler.go:55, middleware.go:23-24, handler.go:33-34, handler_test.go:10-39."}, {"text": "Git state preserved", "passed": true, "evidence": "Verified: git log shows only 'initial commit', staged diff preserved."}], "summary": {"passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0}, "timing": {"executor_duration_seconds": 223.0}, "eval_feedback": {"suggestions": [], "overall": "Perfect score. Lean skill handles multi-file review excellently \u2014 concise 31-line report with all issues identified."}}}], "previous_feedback": {}, "previous_outputs": {"debug-cleanup-old_skill": [{"name": "report.md", "type": "text", "content": "# Staged Change Review\n\n## Refactoring Changes Made\n\n- `orders.go:5-8`\n  - Replaced transient/attribution comments with a single durable summary comment for `ProcessOrder`.\n- `orders.go:9`\n  - Removed debug printline: `fmt.Println(\"ProcessOrder called\", order)`.\n- `orders.go:14-16`\n  - Renamed `x` to `discount` for clarity.\n- `orders.go:15`\n  - Removed debug printline: `fmt.Println(\"discount:\", x)`.\n\n## Issues Found (Require Behavior Changes)\n\n### Critical\n\n- Nil pointer dereference in `ProcessOrder` when `order == nil`.\n  - Evidence: `orders.go:7` reads `order.Amount` before any nil guard.\n  - Impact: runtime panic instead of returning an error.\n  - Corroboration: existing test expects nil input handling at `orders_test.go:5-10`.\n\n### Important\n\n- Validation tooling cannot run fully in current repo state due missing Go module metadata.\n  - Evidence: `go test` fails with `cannot find main module`.\n  - Impact: cannot get a passing build/test signal in this workspace until module setup is present.\n\n### Minor\n\n- Test coverage does not validate new discount/total behavior paths.\n  - Evidence: `orders_test.go:5-17` only covers nil and negative amount; no assertions for premium/non-premium total calculation.\n  - Impact: regression risk around discount math and `Total` assignment.\n"}], "debug-cleanup-with_skill": [{"name": "report.md", "type": "text", "content": "## Refactoring Changes Made:\n\n- `orders.go:5` \u2014 Replaced the verbose/transient ProcessOrder doc comment with a concise API-level description to remove historical noise while preserving intent.\n- `orders.go:7` \u2014 Removed debug printline `fmt.Println(\"ProcessOrder called\", order)`.\n- `orders.go:12-13` \u2014 Renamed temporary variable `x` to `discount` for clarity.\n- `orders.go:13` \u2014 Removed debug printline `fmt.Println(\"discount:\", x)`.\n\n## Issues Found (Require Behavior Changes):\n\n**[Important]** `orders.go:7` \u2014 Nil pointer dereference when `ProcessOrder(nil)` is called.\nEvidence: The staged change removed the prior nil guard, and `order.Amount` is accessed unconditionally. Running `GO111MODULE=off go test .` panics in `TestProcessOrder_NilOrder` with `panic: runtime error: invalid memory address or nil pointer dereference`, stack pointing to `orders.go:7`.\nRecommendation: Reintroduce a nil check at the top of `ProcessOrder` (e.g. `if order == nil { return fmt.Errorf(\"order is nil\") }`) before reading fields.\n"}], "security-vuln-old_skill": [{"name": "report.md", "type": "text", "content": "# Staged Change Review Report\n\n## Refactoring Changes Made\n\n- `auth.go:7` \u2014 removed unused `\"os\"` import (compile/cleanliness fix, no behavior change).\n- `auth.go:31` \u2014 added `_ = token` to preserve existing behavior while eliminating unused-variable compile failure.\n- `auth.go:37` \u2014 removed commented-out legacy `LoginHandlerOld` block (dead/commented code cleanup only).\n\n## Issues Found\n\n- **Critical** \u2014 SQL injection via string interpolation in query construction.  \n  **Evidence:** `auth.go:18` uses `fmt.Sprintf(\"SELECT ... WHERE email = '%s'\", email)` with untrusted user input.\n\n- **Critical** \u2014 Hardcoded JWT secret in source code.  \n  **Evidence:** `auth.go:9` sets `jwtSecret = \"super-secret-key-12345\"`.\n\n- **Important** \u2014 Authentication error leaks user identifier in response body.  \n  **Evidence:** `auth.go:26` returns `login failed for user: <email>` to clients.\n\n- **Important** \u2014 Password verification is plaintext equality placeholder (no hash verification).  \n  **Evidence:** `auth.go:39` returns `password == hash`.\n\n- **Important** \u2014 Database errors are ignored; scan result not checked.  \n  **Evidence:** `auth.go:23` calls `row.Scan(&id, &hash)` and discards error, allowing ambiguous auth failure modes.\n\n- **Important** \u2014 JWT token generated but never written into response payload.  \n  **Evidence:** `auth.go:30` computes token, but `auth.go:33` uses `fmt.Fprintf(w, `{\"token\": \"%s\"}`)` without token argument.\n\n- **Minor** \u2014 Global mutable secret variable should be immutable/config-driven.  \n  **Evidence:** `auth.go:9` uses package-level `var` instead of secure injected config.\n\n- **Minor (Tests)** \u2014 No tests present for login flow, auth failure behavior, SQLi handling, or token response correctness.  \n  **Evidence:** repository contains no `*_test.go` files.\n"}], "security-vuln-with_skill": [{"name": "report.md", "type": "text", "content": "## Refactoring Changes Made:\n\n- `auth.go:3-7` \u2014 Removed unused import `os` to eliminate dead dependency noise and keep import block clean.\n- `auth.go:31` \u2014 Added `_ = token` so the staged code remains buildable for analysis without changing runtime behavior.\n- `auth.go:37-44` (previous location in staged snapshot) \u2014 Removed commented-out legacy `LoginHandlerOld` block as dead code/comment noise.\n\n## Issues Found (Require Behavior Changes):\n\n**[Critical]** `auth.go:18` \u2014 SQL injection in login query construction\nEvidence: `fmt.Sprintf(\"SELECT id, password_hash FROM users WHERE email = '%s'\", email)` directly interpolates untrusted `email` into SQL. Input like `' OR 1=1 --` can alter query semantics.\nRecommendation: Use parameterized SQL (`db.QueryRow(\"SELECT id, password_hash FROM users WHERE email = ?\", email)` or driver-equivalent placeholders).\n\n**[Critical]** `auth.go:9` \u2014 Hardcoded JWT secret in source code\nEvidence: `var jwtSecret = \"super-secret-key-12345\"` embeds credential material directly in code and repository history.\nRecommendation: Load signing key from environment/secret manager, enforce rotation, and fail fast if unset.\n\n**[Important]** `auth.go:23` \u2014 Ignored DB scan error causes auth logic corruption\nEvidence: `row.Scan(&id, &hash)` return error is ignored. Missing user / DB failure leaves zero-values and proceeds into password/token flow.\nRecommendation: Check `Scan` error; map not-found to 401 and internal DB errors to 500 with generic response.\n\n**[Important]** `auth.go:33` \u2014 JWT token is never written to response payload\nEvidence: `fmt.Fprintf(w, `{\"token\": \"%s\"}`)` has `%s` with no argument; `go test ./...` reports `fmt.Fprintf format %s reads arg #1, but call has 0 args`.\nRecommendation: Pass `token` as format arg or switch to safe JSON encoding (`json.NewEncoder(w).Encode(...)`).\n\n**[Important]** `auth.go:39` \u2014 Password validation compares plaintext to stored hash\nEvidence: `return password == hash` does direct string equality and does not perform secure hash verification.\nRecommendation: Use proper password hash verification (e.g., bcrypt/argon2 compare function).\n\n**[Minor]** `auth.go:26` \u2014 Authentication error leaks user identifier\nEvidence: Response includes `login failed for user: <email>`, exposing submitted identifier in error body.\nRecommendation: Return generic auth failure message without echoing email.\n\n**[Minor]** `auth.go` \u2014 No tests covering new login handler/auth behavior\nEvidence: Repository contains only `auth.go`; no `*_test.go` files exist.\nRecommendation: Add tests for successful login, invalid credentials, SQL error path, and injection payload handling.\n"}], "multi-file-old_skill": [{"name": "report.md", "type": "text", "content": "## Refactoring Changes Made\n\n- `handler.go:3-7,20`\n  - Removed debug printline from `Create` handler.\n  - Removed now-unused imports (`fmt`, `strings`) caused by debug cleanup.\n- `middleware.go:3-6,10`\n  - Removed debug printline from auth middleware.\n  - Removed now-unused `fmt` import.\n- `handler_test.go:40-43` (previous staged version)\n  - Removed transient \u201cmissing tests\u201d comments; kept review findings in this report instead of code comments.\n- `service.go:63`\n  - Minor behavior-preserving refactor: preallocated slice capacity in `List` with `len(s.users)`.\n\n## Issues Found\n\n- **Critical** \u2014 Missing auth validation allows bypass.\n  - Evidence: `middleware.go:23-24` contains `// TODO: actually validate the token` then unconditionally calls `next.ServeHTTP`.\n- **Critical** \u2014 Concurrent map access race in read paths.\n  - Evidence: `service.go:41` (`Get`) reads `s.users` without lock; `service.go:64` (`List`) iterates `s.users` without lock while writes are locked in `Create`/`Delete`.\n- **Important** \u2014 Invalid/non-numeric `id` silently coerced to `0`.\n  - Evidence: `handler.go:40` and `handler.go:55` ignore `strconv.Atoi` errors (`n, _ := strconv.Atoi(id)`).\n- **Important** \u2014 Internal error strings exposed to clients on 500 path.\n  - Evidence: `handler.go:29` sends `err.Error()` via `http.Error(..., StatusInternalServerError)`.\n- **Important** \u2014 `List` leaks internal mutable pointers.\n  - Evidence: `service.go:65` appends internal `*User` pointers directly to return slice.\n- **Important** \u2014 Test coverage gaps for handler behavior.\n  - Evidence: `handler_test.go` has only create/get happy paths; missing delete path and error-path tests (invalid id, not found).\n- **Minor** \u2014 JSON encode errors ignored in success responses.\n  - Evidence: `handler.go:34` and `handler.go:49` ignore `json.NewEncoder(w).Encode(...)` return value.\n- **Minor** \u2014 Role/input validation undefined in model/service contracts.\n  - Evidence: `model.go:15-19` accepts free-form role/email values with no validation constraints.\n"}], "multi-file-with_skill": [{"name": "report.md", "type": "text", "content": "## Refactoring Changes Made\n\n- `handler.go:3-7,20` \u2014 removed debug/unused imports (`fmt`, `strings`) and removed debug print from `Create` handler. Keeps behavior intact while removing noise and compile-risk from unused imports.\n- `middleware.go:3-6,10` \u2014 removed debug `fmt.Printf` and dropped unused `fmt` import. Behavior of auth checks is unchanged.\n- `service.go:63` \u2014 preallocated result slice capacity in `List` with `len(s.users)`; behavior unchanged, fewer reallocations.\n- `handler_test.go:39` \u2014 removed placeholder \u201cmissing test\u201d comments; no runtime/test behavior change.\n\n## Issues Found (Require Behavior Changes)\n\n**[Critical]** `service.go:41` \u2014 Unsynchronized map read in `Get`\nEvidence: `Get` reads `s.users[id]` without holding `s.mu`, while `Create`/`Delete` mutate `s.users` under lock (`service.go:25`, `service.go:50`). This can race under concurrent access.\nRecommendation: Guard `Get` with `s.mu` (`Lock/Unlock` or `RLock/RUnlock` if switching to `sync.RWMutex`).\n\n**[Critical]** `service.go:64` \u2014 Unsynchronized map iteration in `List`\nEvidence: `List` iterates `s.users` without any lock. Concurrent writes from `Create`/`Delete` can trigger map race/panic.\nRecommendation: Guard `List` with `s.mu` (`Lock/Unlock` or `RLock/RUnlock` with `RWMutex`).\n\n**[Important]** `handler.go:40` \u2014 `Get` ignores `strconv.Atoi` error\nEvidence: `n, _ := strconv.Atoi(id)` discards parse failures; invalid/missing `id` becomes `0`, producing a not-found path instead of bad-request.\nRecommendation: check parse error and return `400 Bad Request` for malformed `id`.\n\n**[Important]** `handler.go:55` \u2014 `Delete` ignores `strconv.Atoi` error\nEvidence: same pattern as `Get`; malformed `id` is treated as `0` and mapped to not-found instead of input validation error.\nRecommendation: check parse error and return `400 Bad Request` for malformed `id`.\n\n**[Important]** `handler.go:29` \u2014 Internal service errors are returned verbatim to clients\nEvidence: `http.Error(w, err.Error(), http.StatusInternalServerError)` exposes backend error text directly.\nRecommendation: return a generic client-safe message; log detailed server error internally.\n\n**[Important]** `middleware.go:23` \u2014 Auth middleware does not validate bearer token\nEvidence: explicit `// TODO: actually validate the token`; any syntactically valid `Bearer ...` passes.\nRecommendation: implement real token validation (signature/expiry/issuer/audience checks) before calling `next`.\n\n**[Important]** `handler_test.go:10`, `handler_test.go:25` \u2014 Test coverage misses key handler behaviors\nEvidence: tests only cover happy-path `Create` and `Get`; no coverage for `Delete`, malformed `id`, and not-found cases.\nRecommendation: add tests for `Delete` success/not-found and `Get`/`Delete` invalid `id` handling.\n"}]}, "benchmark": {"metadata": {"skill_name": "prepare-staged-for-review", "skill_path": "/Users/josh/.claude/skills/prepare-staged-for-review", "timestamp": "2026-03-10T14:15:00Z", "evals_run": [1, 2, 3], "runs_per_configuration": 1, "iteration": 2, "with_skill_version": "lean (65 lines)", "baseline_version": "original (166 lines)"}, "runs": [{"eval_id": 1, "eval_name": "debug-cleanup", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 0.875, "passed": 7, "failed": 1, "total": 8, "time_seconds": 127.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Debug fmt.Println lines removed", "passed": true, "evidence": "Two debug prints removed from orders.go"}, {"text": "FIXME(JMT) preserved", "passed": true, "evidence": "Verified via grep \u2014 still on line 18"}, {"text": "Nil dereference identified", "passed": true, "evidence": "[Important] orders.go:6 with test evidence"}, {"text": "Float-to-int truncation identified", "passed": false, "evidence": "Not mentioned in report"}, {"text": "Variable x renamed", "passed": true, "evidence": "Renamed to 'discount'"}, {"text": "Transient comment flagged/removed", "passed": true, "evidence": "Transient/process-history comments removed"}, {"text": "Severity classifications present", "passed": true, "evidence": "Uses [Important] tag"}, {"text": "Git state preserved", "passed": true, "evidence": "Verified via git log + git diff --staged"}]}, {"eval_id": 1, "eval_name": "debug-cleanup", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 8, "failed": 0, "total": 8, "time_seconds": 171.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Debug fmt.Println lines removed", "passed": true, "evidence": "Two debug prints removed"}, {"text": "FIXME(JMT) preserved", "passed": true, "evidence": "Explicitly stated as preserved"}, {"text": "Nil dereference identified", "passed": true, "evidence": "Critical \u2014 nil pointer dereference with test evidence"}, {"text": "Float-to-int truncation identified", "passed": true, "evidence": "Important \u2014 int() truncation with concrete example (Amount=15, discount=1.5)"}, {"text": "Variable x renamed", "passed": true, "evidence": "Renamed to discount"}, {"text": "Transient comment flagged/removed", "passed": true, "evidence": "Bob in 2022 comment replaced with Go doc comment"}, {"text": "Severity classifications present", "passed": true, "evidence": "Uses Critical/Important headings"}, {"text": "Git state preserved", "passed": true, "evidence": "Verified via git log + git diff --staged"}]}, {"eval_id": 2, "eval_name": "security-vuln", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 0.778, "passed": 7, "failed": 2, "total": 9, "time_seconds": 183.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "SQL injection as Critical", "passed": true, "evidence": "[Critical] auth.go:18 \u2014 SQL injection"}, {"text": "Hardcoded JWT secret flagged", "passed": true, "evidence": "[Critical] auth.go:9 \u2014 Hardcoded JWT secret"}, {"text": "Unchecked row.Scan error", "passed": true, "evidence": "[Important] auth.go:23 \u2014 row.Scan error ignored"}, {"text": "Empty input validation", "passed": false, "evidence": "Not mentioned in 31-line report"}, {"text": "Dead code removed", "passed": true, "evidence": "LoginHandlerOld removed from working tree"}, {"text": "Unused os import", "passed": true, "evidence": "Removed unused os import"}, {"text": "Info leakage (email in error)", "passed": true, "evidence": "[Minor] auth.go:26 \u2014 error leaks user identifier"}, {"text": "Missing tests flagged", "passed": false, "evidence": "Not mentioned \u2014 report covers 6 production issues but no test assessment"}, {"text": "Git state preserved", "passed": true, "evidence": "Verified via git log + git diff --staged"}]}, {"eval_id": 2, "eval_name": "security-vuln", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 9, "failed": 0, "total": 9, "time_seconds": 234.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "SQL injection as Critical", "passed": true, "evidence": "Critical with detailed injection example"}, {"text": "Hardcoded JWT secret flagged", "passed": true, "evidence": "Critical \u2014 repo access and git history risk"}, {"text": "Unchecked row.Scan error", "passed": true, "evidence": "Critical \u2014 full auth bypass chain identified"}, {"text": "Empty input validation", "passed": true, "evidence": "Important \u2014 empty strings, length limits, email format"}, {"text": "Dead code removed", "passed": true, "evidence": "LoginHandlerOld removed in cleanup"}, {"text": "Unused os import", "passed": true, "evidence": "Critical \u2014 code won't compile"}, {"text": "Info leakage (email in error)", "passed": true, "evidence": "Important \u2014 user enumeration risk"}, {"text": "Missing tests flagged", "passed": true, "evidence": "Important \u2014 'Zero test files in the repository' with 5 test recommendations"}, {"text": "Git state preserved", "passed": true, "evidence": "Verified via git log + git diff --staged"}]}, {"eval_id": 3, "eval_name": "multi-file-feature", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 9, "failed": 0, "total": 9, "time_seconds": 223.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Race condition in Get/List", "passed": true, "evidence": "[Important] service.go:40-45 and :62-66"}, {"text": "Debug print removed handler.go", "passed": true, "evidence": "Removed with unused imports"}, {"text": "Debug print removed middleware.go", "passed": true, "evidence": "Removed with unused import"}, {"text": "Ignored strconv.Atoi error", "passed": true, "evidence": "[Important] handler.go:40 and :55"}, {"text": "Missing Delete test", "passed": true, "evidence": "[Minor] happy-path only, no delete test"}, {"text": "TODO in middleware flagged", "passed": true, "evidence": "[Important] middleware.go:23-24 with TODO evidence"}, {"text": "Unused strings import", "passed": true, "evidence": "Removed (fmt, strings) from handler.go"}, {"text": "File references in report", "passed": true, "evidence": "Every issue has file:line references"}, {"text": "Git state preserved", "passed": true, "evidence": "Verified via git log + git diff --staged"}]}, {"eval_id": 3, "eval_name": "multi-file-feature", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 9, "failed": 0, "total": 9, "time_seconds": 293.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Race condition in Get/List", "passed": true, "evidence": "Critical \u2014 both Get() and List() data races identified"}, {"text": "Debug print removed handler.go", "passed": true, "evidence": "Removed fmt.Println"}, {"text": "Debug print removed middleware.go", "passed": true, "evidence": "Removed fmt.Printf"}, {"text": "Ignored strconv.Atoi error", "passed": true, "evidence": "Important \u2014 both Get and Delete handlers"}, {"text": "Missing Delete test", "passed": true, "evidence": "Critical test issue T1"}, {"text": "TODO in middleware flagged", "passed": true, "evidence": "Critical \u2014 empty bearer token + TODO reference"}, {"text": "Unused strings import", "passed": true, "evidence": "Removed (fmt, strings)"}, {"text": "File references in report", "passed": true, "evidence": "All 22 issues have file:line in table format"}, {"text": "Git state preserved", "passed": true, "evidence": "Report confirms 'No git state modified'. Verified."}]}], "run_summary": {"with_skill": {"pass_rate": {"mean": 0.884, "stddev": 0.107, "min": 0.778, "max": 1.0}, "time_seconds": {"mean": 177.7, "stddev": 48.2, "min": 127.0, "max": 223.0}, "tokens": {"mean": 0, "stddev": 0, "min": 0, "max": 0}}, "without_skill": {"pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0}, "time_seconds": {"mean": 232.7, "stddev": 61.1, "min": 171.0, "max": 293.0}, "tokens": {"mean": 0, "stddev": 0, "min": 0, "max": 0}}, "delta": {"pass_rate": "-0.116", "time_seconds": "-55.0", "tokens": "+0"}}, "notes": ["REGRESSION: Lean skill (65 lines) scores 88.5% vs old skill (166 lines) at 100%. Delta = -11.5 percentage points.", "Lean skill fails 3 assertions: float-to-int truncation (debug-cleanup), empty input validation (security-vuln), missing test coverage (security-vuln). The first two are inherited from iteration 1. The third is a NEW regression.", "NEW REGRESSION: 'Missing tests flagged' \u2014 the lean skill's compact test assessment line ('Also assess test code: existence, edge case coverage...') did not trigger test assessment in security-vuln. The old skill's dedicated 8-bullet 'Assess Test Code' section produces more reliable test coverage analysis.", "Old skill improved from 92.1% (iter 1) to 100% (iter 2) \u2014 stochastic improvement. Both previously-missed assertions (float truncation, empty validation) now pass.", "SPEED: Lean skill is ~55s faster on average (177.7s vs 232.7s) \u2014 23.6% faster. The token savings from shorter instructions translate to faster execution.", "QUALITATIVE: Old skill reports are dramatically more detailed (63-231 lines) vs lean skill (14-31 lines). Old skill security-vuln report found 11 issues; lean found 6. The extra issues (HTTP method check, format string bug) were genuinely useful.", "CRITICAL FINDING: The lean skill's security-vuln run produced no test assessment at all. This suggests that collapsing test assessment into a single line is too aggressive \u2014 a dedicated section with specific prompts is needed to reliably trigger test evaluation.", "CAVEAT: Single runs per configuration. Variance is high (old skill went from 92.1% to 100% between iterations). Multiple runs needed for statistical confidence."]}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 ---
 name: research-codebase
-description: Document codebase as-is with thoughts directory for historical context
+description: "Research and document how existing code works — map modules, trace data flows, explain architecture. Use when the user asks 'how does this work', 'explain this module', 'map the codebase', 'what does this service do', wants to understand an unfamiliar part of the codebase, or needs documentation of existing code structure. Does NOT suggest improvements — purely documents what exists."
 model: opus
 ---
 

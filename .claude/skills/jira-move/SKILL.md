@@ -1,6 +1,6 @@
 ---
 name: jira-move
-description: Automatically move my Jira tickets from "In Review" status to "Merged" status when all their associated GitLab merge requests have been merged.
+description: "Bulk-transition Jira tickets from 'In Review' to 'Merged' by checking that all associated GitLab MRs have been merged. Use when the user says 'update my tickets', 'sync Jira', 'move merged tickets', or wants to batch-transition review tickets after MRs land."
 disable-model-invocation: true
 ---
 
