@@ -23,7 +23,7 @@ Your edits appear as **unstaged** modifications. This separation is critical —
 
 ## Process
 
-Before starting, re-read any AGENTS.md files in the project (root and per-package) to ensure your review respects project-specific conventions and standards.
+Before starting, re-read relevant AGENTS.md files **in full** (root and per-package for modified packages) to ensure your review respects project-specific conventions and standards.
 
 ### 1. Cleanup (makes edits)
 
