@@ -1,0 +1,12 @@
+{
+  "expectations": [
+    { "text": "Dependency direction violation", "passed": true, "evidence": "Report [Important]: 'Domain model now depends on database/sql and embeds SQL query logic... violating dependency direction.'" },
+    { "text": "Unnecessary exports flagged", "passed": true, "evidence": "Report flags LoadOrderFromDB, ValidateOrderMinimum, FormatPrice, GetShippingZip, GetOrderSummary as zero cross-package usage. Correctly excludes CalculateOrderTotal (has cross-package ref in domain/validation.go)." },
+    { "text": "Upstream knowledge comment removed", "passed": true, "evidence": "Refactoring: removed transient caller-specific comments on LoadOrderFromDB and FormatPrice." },
+    { "text": "Debug println removed", "passed": true, "evidence": "Refactoring: 'removed debug printline from FormatPrice.'" },
+    { "text": "LoD method chains flagged", "passed": true, "evidence": "Report [Minor]: 'Law-of-Demeter violation via deep getter chaining. Evidence: order.GetCustomer().GetAddress().GetZipCode().'" },
+    { "text": "Circular dependency flagged", "passed": true, "evidence": "Report [Important]: 'Domain package imports service package, creating an import cycle that breaks compilation.'" },
+    { "text": "Severity format correct", "passed": true, "evidence": "Uses [Important] and [Minor] with file:line, Evidence, Recommendation." }
+  ],
+  "summary": { "passed": 7, "failed": 0, "total": 7, "pass_rate": 1.0 }
+}

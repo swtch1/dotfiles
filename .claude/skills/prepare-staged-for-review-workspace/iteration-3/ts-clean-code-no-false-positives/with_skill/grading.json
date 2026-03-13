@@ -1,0 +1,10 @@
+{
+  "expectations": [
+    { "text": "No false dependency direction flag", "passed": true, "evidence": "Report: 'Issues Found: None.'" },
+    { "text": "No false barrel export flag", "passed": true, "evidence": "New export audit verified each export IS consumed externally. No false positive." },
+    { "text": "DI pattern recognized as correct", "passed": true, "evidence": "No false positive on NotificationSender/NotificationStore injection." },
+    { "text": "No false test boundary flag", "passed": true, "evidence": "Tests import through public barrel — not flagged." },
+    { "text": "No invented issues", "passed": true, "evidence": "Report: 'Issues Found: None.' Zero false positives." }
+  ],
+  "summary": { "passed": 5, "failed": 0, "total": 5, "pass_rate": 1.0 }
+}

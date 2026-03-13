@@ -1,0 +1,35 @@
+{
+  "expectations": [
+    {
+      "text": "The review identifies the test file importing from '../src/internal/helpers' as a test boundary violation",
+      "passed": true,
+      "evidence": "Report [Important] tests/user-service.test.ts:2,32-42: 'Tests are coupled to internal implementation details. Evidence: Tests import ../src/internal/helpers directly and validate helper internals instead of public module behavior.'"
+    },
+    {
+      "text": "The review identifies the comment 'Used by the UserRegistration component' as upstream knowledge that will rot",
+      "passed": true,
+      "evidence": "Refactoring: 'Removed transient/upstream-coupled comments (\"Used by ... pages/register.tsx ...\") that encode caller knowledge and will drift.'"
+    },
+    {
+      "text": "The review identifies the 'export * from ./internal/helpers' in index.ts as leaking internal implementation details through the barrel",
+      "passed": true,
+      "evidence": "Report [Minor] src/index.ts:3: 'Internal helper module is now exported as public API surface. Evidence: export * from ./internal/helpers exposes validateEmail, hashPassword, generateUserId from an internal path through the package root.'"
+    },
+    {
+      "text": "The review identifies the constructor doing require('pg') and new Client() as a DI anti-pattern",
+      "passed": true,
+      "evidence": "Report [Important] src/user-service.ts:29-36: 'Domain service now depends directly on infrastructure (pg) and opens DB connections in constructor... this inverts dependency direction and hard-couples domain logic to Postgres. Recommendation: Inject an AuditLogger interface.'"
+    },
+    {
+      "text": "The report uses the specified severity format",
+      "passed": true,
+      "evidence": "Report uses [Important] and [Minor] with file:line, Evidence, Recommendation throughout."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

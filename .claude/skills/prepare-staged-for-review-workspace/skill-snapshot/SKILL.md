@@ -8,7 +8,7 @@ context: fork
 
 # Prepare for Review
 
-The user has staged changes with `git add`. Review them thoroughly before they open a PR.
+The user has staged changes with `git add`. Review them thoroughly before they open a PR. ultrathink
 
 ## Git Safety
 
@@ -32,27 +32,15 @@ Before starting, re-read relevant AGENTS.md files **in full** (root and per-pack
 
 ### 2. Assess Production Code (analysis only — no edits)
 
-Do a thorough code review of staged changes. Focus extra attention on areas prone to oversight:
+Do a thorough code review of staged changes. You know what to look for — bugs, security issues, edge cases, error handling gaps. Focus extra attention on areas the model is prone to overlook:
 
 - **Boundary conditions and type safety**: Empty/nil/zero inputs, integer overflow/truncation, float-to-int conversion loss, off-by-one errors, large/malformed inputs
 - **Input validation**: Are all user-supplied values validated before use? Empty strings, missing fields, format constraints
 - **Backwards compatibility**: Did public API signatures change? Are callers updated? Breaking changes to exported types/interfaces?
 - **Incomplete work signals**: `TODO`/`HACK`/`XXX` in new code, empty function bodies, placeholder returns, stub implementations
-- **Transient/upstream comments**: Comments referencing "what" happened instead of "why", or encoding caller knowledge ("called by the auth handler", "used in the checkout flow") that becomes wrong when new callers appear
+- **Transient comments**: Comments referencing "what" happened ("originally written by Bob in 2022") instead of "why"; comments describing structure that will drift from the code
 - **Unused imports and unjustified new dependencies**
 - **Information leakage** in error messages (user emails, internal paths, stack traces exposed to clients)
-
-Architectural boundary violations:
-
-- **Dependency direction**: New imports should flow inward. Domain/business logic importing infrastructure types (DB clients, HTTP frameworks, ORM decorators) is a structural violation — flag any import that points the wrong way.
-- **Unnecessary exports**: Newly exported/public symbols used only within their own package are unjustified public surface area. In Go, look for uppercase identifiers used only within the package. In TS, check if new `export` declarations are imported outside their module.
-- **Law of Demeter**: Method chains reaching through object graphs (`a.GetB().GetC().GetD()`) couple the caller to every intermediate type. Suggest the caller ask its direct collaborator for what it needs instead.
-- **Circular dependencies**: Do the changes create import cycles between packages?
-
-Before concluding this assessment, perform two explicit scans on the staged diff:
-
-1. **Grep for markers**: Search the diff for `TODO`, `HACK`, `XXX`, `FIXME` in new/modified lines. Each is a finding.
-2. **Audit new exports**: For each newly exported/public symbol in the diff, search all other packages/modules in the repo for references (imports, type assertions, interface implementations, compile-time checks). Only flag symbols with genuinely zero cross-package references.
 
 ### 3. Assess Test Code (analysis only — no edits)
 
@@ -61,7 +49,6 @@ Evaluate test coverage for all changed code. This is a separate assessment step 
 - Do tests exist for the changed code? If not, flag it explicitly.
 - Are edge cases from the production assessment covered?
 - Are tests verifying behavior (inputs→outputs) rather than implementation details?
-- Are tests going through the public interface, or reaching into unexported/internal identifiers? Tests coupled to implementation details (accessing private fields, importing from internal paths instead of the barrel/package boundary) break on every refactor and give false confidence — they verify *how* the code works, not *that* it works.
 - What test scenarios are missing? Be specific about which code paths lack coverage.
 
 ### 4. Refactor (makes edits — behavior-preserving only)

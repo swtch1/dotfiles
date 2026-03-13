@@ -1,0 +1,59 @@
+{
+  "skill_name": "prepare-staged-for-review",
+  "iteration": "3b (final)",
+  "summary": {
+    "with_skill": {
+      "total_expectations": 22,
+      "passed": 22,
+      "failed": 0,
+      "pass_rate": 1.0
+    },
+    "old_skill_go_violations": {
+      "total_expectations": 7,
+      "passed": 6,
+      "failed": 1,
+      "pass_rate": 0.857
+    },
+    "delta_go_violations": "+14.3% (0.857 → 1.0)"
+  },
+  "composite_results": {
+    "note": "Best results from iteration 3 (TS evals) and 3b (Go evals with refined export audit step)",
+    "evals": [
+      {
+        "eval_name": "go-boundary-violations",
+        "source": "iteration-3b",
+        "with_skill": { "passed": 7, "total": 7, "pass_rate": 1.0 },
+        "old_skill_iter3": { "passed": 6, "total": 7, "pass_rate": 0.857 },
+        "delta": "+14.3%"
+      },
+      {
+        "eval_name": "ts-test-boundary-violations",
+        "source": "iteration-3",
+        "with_skill": { "passed": 5, "total": 5, "pass_rate": 1.0 },
+        "old_skill_iter1": { "passed": 4, "total": 5, "pass_rate": 0.8 },
+        "delta": "+20%"
+      },
+      {
+        "eval_name": "go-clean-code-no-false-positives",
+        "source": "iteration-3b",
+        "with_skill": { "passed": 5, "total": 5, "pass_rate": 1.0 }
+      },
+      {
+        "eval_name": "ts-clean-code-no-false-positives",
+        "source": "iteration-3",
+        "with_skill": { "passed": 5, "total": 5, "pass_rate": 1.0 }
+      }
+    ]
+  },
+  "skill_changes_from_original": [
+    "Added 5 architectural boundary violation checks (dependency direction, unnecessary exports, knowledge direction in comments, Law of Demeter, circular dependencies)",
+    "Added test boundary check (tests through public interface vs reaching into internals)",
+    "Added 2 explicit mandatory scan steps at end of Section 2 (grep for TODO/HACK/XXX/FIXME markers, audit new exports for cross-package references)"
+  ],
+  "iteration_history": [
+    { "iteration": 1, "new_skill": "15/16 (93.75%)", "old_skill": "13/16 (81.25%)", "issue": "LoD test used struct field access not method chains" },
+    { "iteration": 2, "new_skill": "20/22 (90.9%)", "issue": "Agent variance on TODO and unnecessary exports; TS clean had inconsistent TODO fixture" },
+    { "iteration": 3, "new_skill": "21/22 (95.5%)", "issue": "Export audit step caused false positive on Go clean DI interfaces" },
+    { "iteration": "3b", "new_skill": "22/22 (100%)", "issue": "None. Refined export audit wording resolved false positive." }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "expectations": [
+    { "text": "Dependency direction violation", "passed": true, "evidence": "Report [Important]: 'Domain model now depends directly on infrastructure (*sql.DB).'" },
+    { "text": "Unnecessary exports flagged", "passed": true, "evidence": "Report flags domain/order.go:53, domain/validation.go:11, service/pricing.go:10,26,31 as zero cross-package usage. Includes FormatPrice. CalculateOrderTotal not flagged (correctly has cross-package ref)." },
+    { "text": "Upstream knowledge comment removed", "passed": true, "evidence": "Refactoring: 'removed caller-coupled transient comment on LoadOrderFromDB' and 'removed caller-coupled transient comment on FormatPrice.'" },
+    { "text": "Debug println removed", "passed": true, "evidence": "Refactoring: 'removed debug printline from FormatPrice.'" },
+    { "text": "LoD method chains addressed", "passed": true, "evidence": "Refactoring: 'refactored GetOrderSummary to call GetShippingZip(order) instead of repeating the method chain.'" },
+    { "text": "Circular dependency flagged", "passed": true, "evidence": "Report [Critical]: 'New import creates a Go package cycle that breaks compilation.'" },
+    { "text": "Severity format correct", "passed": true, "evidence": "Uses [Critical], [Important], [Minor] with file:line, Evidence, Recommendation." }
+  ],
+  "summary": { "passed": 7, "failed": 0, "total": 7, "pass_rate": 1.0 }
+}

@@ -1,0 +1,35 @@
+{
+  "expectations": [
+    {
+      "text": "The review does NOT flag a dependency direction violation",
+      "passed": true,
+      "evidence": "Report: 'Issues Found: None.' Zero false positives on dependency direction."
+    },
+    {
+      "text": "The review does NOT flag the barrel export as leaking internals",
+      "passed": true,
+      "evidence": "Report does not mention barrel exports. No false positive — correct because barrel explicitly re-exports only named public types."
+    },
+    {
+      "text": "The review recognizes the interface-based DI pattern as correct",
+      "passed": true,
+      "evidence": "Report does not flag DI pattern as problematic. NotificationSender and NotificationStore injection via constructor is not questioned."
+    },
+    {
+      "text": "The review does NOT flag test imports as boundary violations",
+      "passed": true,
+      "evidence": "Report does not mention test imports. Tests correctly import through ../src barrel — no false positive."
+    },
+    {
+      "text": "The report notes the TODO about crypto.randomUUID() or the placeholder generateId implementation as incomplete work",
+      "passed": false,
+      "evidence": "Report says 'Issues Found: None.' The TODO comment 'TODO: use crypto.randomUUID() in production' in the staged generateId function was not flagged as an incomplete work signal. Agent variance — skill text explicitly calls out TODO/HACK/XXX in new code."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "pass_rate": 0.8
+  }
+}
