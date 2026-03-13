@@ -1,9 +1,12 @@
 k9s:
   cluster: minikube
   namespace:
-    active: speedscale
+    active: autogen-test
     lockFavorites: false
     favorites:
+      - autogen-test
+      - verify-dlp-on-passthrough
+      - speedscale-test
       - echo
       - smart-replace-demo
       - microservices
