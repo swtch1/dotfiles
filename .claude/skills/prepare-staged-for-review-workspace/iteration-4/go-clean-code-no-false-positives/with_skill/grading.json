@@ -1,0 +1,10 @@
+{
+  "expectations": [
+    { "text": "No false dependency direction flag", "passed": true, "evidence": "No dependency direction violations flagged." },
+    { "text": "No false flag on unexported helpers", "passed": true, "evidence": "normalizeEmail, isValidEmail, generateID not flagged." },
+    { "text": "DI pattern recognized as correct", "passed": true, "evidence": "UserRepository correctly NOT flagged — agent found cross-package reference in adapter (postgres_repo.go:12). Notifier/RegisterService/NewRegisterService correctly flagged as genuinely unused (no implementation or caller outside usecase)." },
+    { "text": "Placeholder generateID noted", "passed": true, "evidence": "Report [Important]: 'ID generation is deterministic and causes duplicate user IDs... generateID() always returns usr_placeholder.'" },
+    { "text": "Standard checks performed", "passed": true, "evidence": "Covers nil notifier panic, email validation weakness, missing test coverage." }
+  ],
+  "summary": { "passed": 5, "failed": 0, "total": 5, "pass_rate": 1.0 }
+}

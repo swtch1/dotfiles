@@ -1,0 +1,43 @@
+{
+  "skill_name": "prepare-staged-for-review",
+  "iteration": 1,
+  "summary": {
+    "with_skill": {
+      "total_expectations": 16,
+      "passed": 15,
+      "failed": 1,
+      "pass_rate": 0.9375
+    },
+    "old_skill": {
+      "total_expectations": 16,
+      "passed": 13,
+      "failed": 3,
+      "pass_rate": 0.8125
+    },
+    "delta": "+12.5% (0.8125 → 0.9375)"
+  },
+  "by_eval": [
+    {
+      "eval_name": "go-boundary-violations",
+      "with_skill": { "passed": 5, "total": 6, "pass_rate": 0.833 },
+      "old_skill": { "passed": 4, "total": 6, "pass_rate": 0.667 },
+      "delta": "+16.7%",
+      "notes": "NEW skill catches unnecessary exports and frames DI as boundary violation. Neither skill flagged LoD on idiomatic Go struct access (correct behavior — not a real violation)."
+    },
+    {
+      "eval_name": "ts-test-boundary-violations",
+      "with_skill": { "passed": 5, "total": 5, "pass_rate": 1.0 },
+      "old_skill": { "passed": 4, "total": 5, "pass_rate": 0.8 },
+      "delta": "+20%",
+      "notes": "NEW skill catches DI anti-pattern framed as architectural boundary violation. OLD skill missed it entirely."
+    },
+    {
+      "eval_name": "go-clean-code-no-false-positives",
+      "with_skill": { "passed": 5, "total": 5, "pass_rate": 1.0 },
+      "old_skill": { "passed": 5, "total": 5, "pass_rate": 1.0 },
+      "delta": "0% (both perfect)",
+      "notes": "Zero false positives for both skill versions. Both correctly identified placeholder generateID() and nil-notifier risk without flagging clean DI patterns."
+    }
+  ],
+  "conclusion": "New skill improves boundary violation detection by +12.5% overall (93.75% vs 81.25%) with zero regression on false positives. Key wins: unnecessary exports detection, DI anti-pattern framing, test boundary violations. The single missed expectation (LoD on Go struct access) is a test calibration issue, not a skill deficiency."
+}

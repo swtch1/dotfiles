@@ -1,0 +1,10 @@
+{
+  "expectations": [
+    { "text": "Test boundary violation flagged", "passed": true, "evidence": "Report [Minor]: 'Tests couple to internal implementation details... imports from ../src/internal/helpers.'" },
+    { "text": "Upstream knowledge comment removed", "passed": true, "evidence": "Refactoring: 'Removed caller-specific comment that encoded upstream usage context.'" },
+    { "text": "Leaky barrel export flagged", "passed": true, "evidence": "Report [Important]: 'New broad re-export expands public API surface... export * from ./internal/helpers.'" },
+    { "text": "DI anti-pattern flagged", "passed": true, "evidence": "Report [Important]: 'Domain service now depends directly on infrastructure (pg client), violating dependency direction.'" },
+    { "text": "Severity format correct", "passed": true, "evidence": "Uses [Critical], [Important], [Minor] with file:line, Evidence, Recommendation." }
+  ],
+  "summary": { "passed": 5, "failed": 0, "total": 5, "pass_rate": 1.0 }
+}

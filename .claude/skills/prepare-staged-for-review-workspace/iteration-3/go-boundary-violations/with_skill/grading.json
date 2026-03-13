@@ -1,0 +1,12 @@
+{
+  "expectations": [
+    { "text": "Dependency direction violation", "passed": true, "evidence": "Report [Important]: 'Domain layer now depends on database/sql infrastructure type... reversing dependency direction.'" },
+    { "text": "Unnecessary exports flagged", "passed": true, "evidence": "Report flags FormatPrice, CalculateOrderTotal, GetShippingZip, GetOrderSummary, LoadOrderFromDB, ValidateOrderMinimum as unused outside package. All 6 new exports caught." },
+    { "text": "Upstream knowledge comment removed", "passed": true, "evidence": "Refactoring: 'Rewrote transient caller-oriented doc comment to describe local behavior.'" },
+    { "text": "Debug println removed", "passed": true, "evidence": "Refactoring: 'Removed debug print (fmt.Println) from FormatPrice.'" },
+    { "text": "LoD method chains addressed", "passed": true, "evidence": "Refactoring: 'Refactored GetShippingZip to use local variables instead of deep method chaining' and same for GetOrderSummary." },
+    { "text": "Circular dependency addressed", "passed": true, "evidence": "Refactoring: 'Removed service package import and inlined total calculation... eliminating the domain -> service dependency edge.'" },
+    { "text": "Severity format correct", "passed": true, "evidence": "Uses [Important] and [Minor] with file:line, Evidence, Recommendation." }
+  ],
+  "summary": { "passed": 7, "failed": 0, "total": 7, "pass_rate": 1.0 }
+}

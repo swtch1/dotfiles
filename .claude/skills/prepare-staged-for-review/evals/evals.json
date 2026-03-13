@@ -1,0 +1,63 @@
+{
+  "skill_name": "prepare-staged-for-review",
+  "evals": [
+    {
+      "id": 1,
+      "name": "go-boundary-violations",
+      "prompt": "I've staged some changes to an order service. Take a look before I push.\n\nThe repo is at /Users/josh/.claude/skills/prepare-staged-for-review-workspace/test-repos/go-order-service",
+      "expected_output": "Report should identify: dependency direction violation (domain importing database/sql), unnecessary export (FormatPrice only used in-package), upstream knowledge comment ('Called by the OrderHandler'), Law of Demeter (method chain GetCustomer().GetAddress().GetZipCode()), circular dependency (domain imports service), and debug fmt.Println. Should use correct severity format.",
+      "files": [],
+      "expectations": [
+        "The review identifies that domain/order.go imports database/sql, which is a dependency direction violation — the domain layer should not depend on infrastructure",
+        "The review identifies or questions the FormatPrice export — either flagging it as unnecessarily exported or asking whether it's used outside the service package",
+        "The review identifies the comment 'Called by the OrderHandler in api/handler.go' as encoding upstream caller knowledge that will become stale",
+        "The review identifies the fmt.Println debug line and either removes it or flags it for removal",
+        "The review identifies a Law of Demeter concern with the method chains order.GetCustomer().GetAddress().GetZipCode() in service/pricing.go — the caller reaches through multiple objects instead of asking its direct collaborator",
+        "The review identifies the circular dependency in domain/validation.go which imports the service package, creating a domain ↔ service import cycle",
+        "The report uses the specified severity format (Critical/Important/Minor with file:line, evidence, recommendation)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "ts-test-boundary-violations",
+      "prompt": "Hey, got some changes staged on the user module. Can you review before I open a PR?\n\nRepo: /Users/josh/.claude/skills/prepare-staged-for-review-workspace/test-repos/ts-user-module",
+      "expected_output": "Report should identify: test importing from internal paths, upstream knowledge comment ('Used by the UserRegistration component'), leaky barrel export (export *), and the DI anti-pattern (constructing PostgresClient internally via require('pg')).",
+      "files": [],
+      "expectations": [
+        "The review identifies the test file importing from '../src/internal/helpers' as a test boundary violation — tests should import through the public barrel (../src)",
+        "The review identifies the comment 'Used by the UserRegistration component in pages/register.tsx and the AdminPanel' as upstream knowledge that will rot",
+        "The review identifies the 'export * from ./internal/helpers' in index.ts as leaking internal implementation details through the barrel",
+        "The review identifies the constructor doing require('pg') and new Client() as a DI anti-pattern — the audit database client should be injected, not constructed internally",
+        "The report uses the specified severity format (Critical/Important/Minor with file:line, evidence, recommendation)"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "go-clean-code-no-false-positives",
+      "prompt": "Review my staged changes please.\n\nRepo: /Users/josh/.claude/skills/prepare-staged-for-review-workspace/test-repos/go-clean-service",
+      "expected_output": "Report should recognize well-structured code. Should NOT flag false positive boundary violations. May note minor issues like placeholder generateID() or the TODO-like comment about uuid. Should not invent problems.",
+      "files": [],
+      "expectations": [
+        "The review does NOT flag a dependency direction violation — the adapter correctly imports from domain and usecase, not the other way around",
+        "The review does NOT flag the unexported helper functions (normalizeEmail, isValidEmail, generateID) as issues — they are correctly unexported",
+        "The review recognizes the interface-based DI pattern as correct (UserRepository and Notifier interfaces in usecase, implemented by adapter)",
+        "The review notes the placeholder generateID() implementation as incomplete work or flags the 'In production, use uuid.New().String()' comment",
+        "The report still performs standard checks (error handling, edge cases) and doesn't only focus on boundary issues"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "ts-clean-code-no-false-positives",
+      "prompt": "Can you review my staged changes? Want to make sure everything looks good before merging.\n\nRepo: /Users/josh/.claude/skills/prepare-staged-for-review-workspace/test-repos/ts-clean-module",
+      "expected_output": "Report should recognize well-structured TypeScript code with proper DI, barrel exports, and tests through the public interface. Should NOT flag false positive boundary violations. Code is genuinely clean — should not invent problems.",
+      "files": [],
+      "expectations": [
+        "The review does NOT flag a dependency direction violation — the service imports only types and interfaces, not infrastructure",
+        "The review does NOT flag the barrel export as leaking internals — the barrel explicitly re-exports only public types (no wildcard, no internal paths)",
+        "The review recognizes the interface-based DI pattern as correct (NotificationSender and NotificationStore interfaces injected via constructor)",
+        "The review does NOT flag test imports as boundary violations — tests import through the public barrel (../src), not internal paths",
+        "The report does NOT invent issues — it either reports no behavior-change issues or only reports genuine concerns (not false boundary violations)"
+      ]
+    }
+  ]
+}

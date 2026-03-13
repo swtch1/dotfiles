@@ -1,0 +1,12 @@
+{
+  "expectations": [
+    { "text": "Dependency direction violation", "passed": true, "evidence": "Report [Important]: 'Domain layer now owns direct SQL/database access... coupling business types to infrastructure.'" },
+    { "text": "Unnecessary exports flagged", "passed": false, "evidence": "Old skill flagged LoadOrderFromDB, ValidateOrderMinimum, GetShippingZip, GetOrderSummary (4/6) but missed FormatPrice and CalculateOrderTotal (used within same package by GetOrderSummary)." },
+    { "text": "Upstream knowledge comment removed", "passed": true, "evidence": "Refactoring: 'Rewrote transient caller-specific comment on LoadOrderFromDB.'" },
+    { "text": "Debug println removed", "passed": true, "evidence": "Refactoring: 'Removed debug printline from FormatPrice.'" },
+    { "text": "LoD method chains addressed", "passed": true, "evidence": "Refactoring: 'Refactored GetShippingZip/GetOrderSummary to use local variables instead of deep method chaining.'" },
+    { "text": "Circular dependency addressed", "passed": true, "evidence": "Refactoring: 'Removed service package dependency and inlined total calculation to keep domain logic decoupled and avoid package cycle.'" },
+    { "text": "Severity format correct", "passed": true, "evidence": "Uses [Important] and [Minor] with file:line, Evidence, Recommendation." }
+  ],
+  "summary": { "passed": 6, "failed": 1, "total": 7, "pass_rate": 0.857 }
+}
