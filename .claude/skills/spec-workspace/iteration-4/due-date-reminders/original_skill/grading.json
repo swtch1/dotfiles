@@ -1,0 +1,61 @@
+{
+  "eval_name": "due-date-reminders",
+  "expectations": [
+    {
+      "text": "has_all_sections",
+      "passed": true,
+      "evidence": "All required headings appear in /Users/josh/.claude/skills/spec-workspace/iteration-4/due-date-reminders/original_skill/outputs/SPEC.md at lines 12, 18, 42, 62, 101, 108, and 115."
+    },
+    {
+      "text": "no_line_numbers",
+      "passed": true,
+      "evidence": "Regex \\\"\\w+\\.(ts|tsx|js|jsx):\\d+\\\" has zero matches in /Users/josh/.claude/skills/spec-workspace/iteration-4/due-date-reminders/original_skill/outputs/SPEC.md (lines 1-151)."
+    },
+    {
+      "text": "no_code_snippets",
+      "passed": true,
+      "evidence": "No fenced code blocks with js/ts language tags are present in /Users/josh/.claude/skills/spec-workspace/iteration-4/due-date-reminders/original_skill/outputs/SPEC.md (lines 1-151)."
+    },
+    {
+      "text": "spec_under_120_lines",
+      "passed": false,
+      "evidence": "Line count is 151 in /Users/josh/.claude/skills/spec-workspace/iteration-4/due-date-reminders/original_skill/outputs/SPEC.md, exceeding max_lines=120."
+    },
+    {
+      "text": "implementer_can_start",
+      "passed": true,
+      "evidence": "Technical Approach defines state/persistence and core behaviors: UI entry points (66-71), new persistence/migration and scheduler paths (72-75), and data reads/writes including timezone and overdue updates (79-91) in /Users/josh/.claude/skills/spec-workspace/iteration-4/due-date-reminders/original_skill/outputs/SPEC.md."
+    },
+    {
+      "text": "events_tied_to_triggers",
+      "passed": false,
+      "evidence": "Some scoped behaviors are not tied to explicit trigger conditions in Technical Approach: banner click-to-dueToday and dueSoon trigger semantics are introduced in Scope/Solution (/Users/josh/.claude/skills/spec-workspace/iteration-4/due-date-reminders/original_skill/outputs/SPEC.md:24-31, 51-52) but not fully specified as trigger logic in lines 62-92."
+    },
+    {
+      "text": "decisions_in_topic_sentences",
+      "passed": false,
+      "evidence": "Technical Approach (lines 62-99) is list-heavy; major decisions are embedded in sub-bullets and formulas rather than clear first-sentence topic statements."
+    },
+    {
+      "text": "no_verbal_tics",
+      "passed": true,
+      "evidence": "No repeated self-referential decision-announcement phrases are present in /Users/josh/.claude/skills/spec-workspace/iteration-4/due-date-reminders/original_skill/outputs/SPEC.md:62-114."
+    },
+    {
+      "text": "no_implementation_leaks",
+      "passed": false,
+      "evidence": "Spec includes implementation leakage: exact schema/migration paths (72-73), SQL update statement (74), and concrete cron expression (75) in /Users/josh/.claude/skills/spec-workspace/iteration-4/due-date-reminders/original_skill/outputs/SPEC.md."
+    },
+    {
+      "text": "failure_modes_are_policy",
+      "passed": true,
+      "evidence": "There are 5 failure modes in /Users/josh/.claude/skills/spec-workspace/iteration-4/due-date-reminders/original_skill/outputs/SPEC.md:95-99, each choosing a concrete recovery policy (fallback calculations, UTC defaulting, DST handling rule, null exclusion, idempotent race handling)."
+    },
+    {
+      "text": "scope_boundaries_clear",
+      "passed": true,
+      "evidence": "Out-of-scope items are adjacent and specific (notifications channels, custom reminders, snooze, per-user overdue persistence, layout rewrite) at /Users/josh/.claude/skills/spec-workspace/iteration-4/due-date-reminders/original_skill/outputs/SPEC.md:56-60."
+    }
+  ],
+  "pass_rate": 0.64
+}

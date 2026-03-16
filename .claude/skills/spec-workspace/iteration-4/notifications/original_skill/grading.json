@@ -1,0 +1,61 @@
+{
+  "eval_name": "notifications",
+  "expectations": [
+    {
+      "text": "has_all_sections",
+      "passed": true,
+      "evidence": "All required headings appear in /Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/original_skill/outputs/SPEC.md at lines 12, 16, 29, 54, 93, 99, and 105."
+    },
+    {
+      "text": "no_line_numbers",
+      "passed": true,
+      "evidence": "Regex \\\"\\w+\\.(ts|tsx|js|jsx):\\d+\\\" has zero matches in /Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/original_skill/outputs/SPEC.md (lines 1-140)."
+    },
+    {
+      "text": "no_code_snippets",
+      "passed": true,
+      "evidence": "No fenced code blocks with js/ts language tags are present in /Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/original_skill/outputs/SPEC.md (lines 1-140)."
+    },
+    {
+      "text": "spec_under_120_lines",
+      "passed": false,
+      "evidence": "Line count is 140 in /Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/original_skill/outputs/SPEC.md, exceeding max_lines=120."
+    },
+    {
+      "text": "implementer_can_start",
+      "passed": false,
+      "evidence": "Technical Approach in /Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/original_skill/outputs/SPEC.md:54-92 lists files/data but does not cleanly define per-behavior trigger logic and user-facing flow there; key triggers are mostly in Scope (lines 34-38)."
+    },
+    {
+      "text": "events_tied_to_triggers",
+      "passed": false,
+      "evidence": "Distinct scoped behaviors in /Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/original_skill/outputs/SPEC.md:34-45 are not each tied to explicit trigger conditions in Technical Approach (lines 54-92)."
+    },
+    {
+      "text": "decisions_in_topic_sentences",
+      "passed": false,
+      "evidence": "Technical Approach is mostly bullet inventory; major decisions (best-effort write, dedupe key, race handling) appear deep in bullets at /Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/original_skill/outputs/SPEC.md:87-91, not as clear topic sentences."
+    },
+    {
+      "text": "no_verbal_tics",
+      "passed": true,
+      "evidence": "No repeated meta-phrases like 'The design decision is...' appear in /Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/original_skill/outputs/SPEC.md:54-103."
+    },
+    {
+      "text": "no_implementation_leaks",
+      "passed": false,
+      "evidence": "Spec includes implementation-level detail: exact new file paths (/Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/original_skill/outputs/SPEC.md:58-66), schema/index specifics (79-83), and algorithmic dedupe key (88)."
+    },
+    {
+      "text": "failure_modes_are_policy",
+      "passed": true,
+      "evidence": "There are 5 failure modes in /Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/original_skill/outputs/SPEC.md:87-91 and they include explicit recovery policy choices (best-effort notifications, 404 leak prevention, bounded mark-all-read semantics)."
+    },
+    {
+      "text": "scope_boundaries_clear",
+      "passed": true,
+      "evidence": "Out-of-scope list is adjacent and specific (email, push/mobile, realtime transport, preferences, comment authoring) in /Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/original_skill/outputs/SPEC.md:48-52."
+    }
+  ],
+  "pass_rate": 0.55
+}

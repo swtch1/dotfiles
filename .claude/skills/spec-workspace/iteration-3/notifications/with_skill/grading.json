@@ -1,0 +1,22 @@
+{
+  "eval_name": "notifications",
+  "expectations": [
+    {"text": "has_all_sections", "passed": true, "evidence": "All 7 required sections present"},
+    {"text": "problem_explains_why", "passed": true, "evidence": "Explains coordination drag, missed assignments/completions, manual polling"},
+    {"text": "scope_has_nongoals", "passed": true, "evidence": "4 non-goals: email/push, websocket, preferences, comments feature"},
+    {"text": "references_real_files", "passed": true, "evidence": "tasks.ts, taskStore.ts, api.ts, App.tsx, TaskBoard.tsx inline in prose"},
+    {"text": "makes_architectural_decisions", "passed": true, "evidence": "6 decisions: server-owned vs client, inline vs event bus, state-transition detection, watching as server concern, pull-based freshness, store ownership"},
+    {"text": "verification_is_testable", "passed": true, "evidence": "Specific: emission per event type, API state transitions, comment-type plumbing, bell badge behavior"},
+    {"text": "has_alternatives", "passed": true, "evidence": "3: event pipeline, ephemeral frontend, do nothing"},
+    {"text": "no_line_numbers", "passed": true, "evidence": "No file:line patterns"},
+    {"text": "no_code_snippets", "passed": true, "evidence": "No code blocks"},
+    {"text": "no_json_shapes", "passed": true, "evidence": "No schema/interface definitions"},
+    {"text": "no_mechanism_tables", "passed": true, "evidence": "No tables"},
+    {"text": "spec_under_150_lines", "passed": true, "evidence": "91 lines"},
+    {"text": "no_redundant_subsections", "passed": true, "evidence": "Technical Approach is one unified prose section — no separate Key Modules, Data & State, or file manifest. File refs woven inline."},
+    {"text": "decision_density", "passed": true, "evidence": "6 distinct decisions: server-owned emission, inline vs event bus, transition-only triggers, watching as server concern, pull-based freshness, centralized store ownership"},
+    {"text": "no_obvious_failure_modes", "passed": true, "evidence": "All 3 failure modes are non-obvious: idempotent dedup keying, status-churn coalescing, deleted-task graceful degradation"}
+  ],
+  "pass_rate": 1.0,
+  "notes": "Perfect score across all 15 assertions. 91 lines — 42 lines shorter than iter-2 (133). No redundancy. Dense with decisions."
+}

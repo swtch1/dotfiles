@@ -1,0 +1,20 @@
+{
+  "skill_name": "spec",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a feature spec for adding a notifications system to TaskFlow. Here's what I need:\n\nUsers should get notified when: they're assigned a task, a task they're watching has its status changed, a task they created is completed, and when someone comments on their task (comments don't exist yet but will come later — just the notification plumbing for now, not the comment feature).\n\nNotifications should be in-app only for v1 — a bell icon in the sidebar with an unread count badge, clicking opens a dropdown list of recent notifications. Each notification links to the relevant task. Users can mark individual notifications as read, or mark all as read.\n\nOn the backend, we need a notifications table (Prisma), a REST endpoint to fetch/mark-read, and we need to emit notifications from the task mutation handlers that already exist.\n\nWe're NOT doing email, push notifications, real-time websockets, or notification preferences/settings in this version. Those are follow-ups.\n\nThe app uses React + Zustand on the frontend, Express + Prisma on the backend. Standard REST, no GraphQL.",
+      "expected_output": "A feature spec that captures all notification behaviors and constraints, references the right modules (task routes, sidebar, store pattern), makes key design decisions (polling vs websocket — polling for v1), but does NOT prescribe exact code, line numbers, JSON shapes, or step-by-step implementation."
+    },
+    {
+      "id": 2,
+      "prompt": "I need a spec for adding keyboard shortcuts to the task board. The main ones:\n\n- 'n' to create a new task in the currently focused column\n- Arrow keys to navigate between tasks and columns\n- Enter to open task detail\n- Escape to close task detail / cancel\n- 'd' to delete (with confirmation)\n- 'p' then 1-4 to set priority\n- '/' to focus the search/filter bar (which doesn't exist yet — include adding a basic filter bar as part of this)\n\nShould work like Trello/Linear keyboard nav. Don't want conflicts with browser shortcuts or input fields. Need a way to show available shortcuts (? key for help overlay).\n\nSame stack: React + Zustand frontend.",
+      "expected_output": "A feature spec that defines all keyboard behaviors, edge cases (focus management, input field conflicts), and the filter bar addition. Should reference TaskBoard and TaskCard components. Should make the architectural decision about how to handle keyboard events (global listener vs per-component) but NOT specify exact event handler code, hook implementations, or component-level wiring details."
+    },
+    {
+      "id": 3,
+      "prompt": "Spec out adding task due date reminders. Right now tasks have a dueDate field but nothing happens when it passes.\n\nI want:\n- A visual indicator on the task card when a task is overdue (past due) or due soon (within 24 hours)\n- An 'overdue' filter on the board that highlights/filters to overdue tasks\n- A daily digest: a banner at the top of the board showing 'You have N tasks due today' with a click to filter to them\n- Backend: a cron job that runs daily and marks tasks as overdue in the database (adds an 'overdue' boolean or status)\n\nNo email reminders, no custom reminder times, no snooze. Just visual indicators and the cron.\n\nThe tricky part is timezone handling — we store dates as UTC in Prisma but need to determine 'today' relative to the user's timezone. The cron runs server-side so it needs to handle this.\n\nReact + Zustand + Express + Prisma stack.",
+      "expected_output": "A feature spec that captures the timezone complexity, defines visual behaviors, makes the architectural decision about where timezone conversion happens (client vs server vs both), and scopes the cron job approach. Should NOT prescribe exact Prisma schema changes, React component code, cron implementation details, or CSS classes."
+    }
+  ]
+}

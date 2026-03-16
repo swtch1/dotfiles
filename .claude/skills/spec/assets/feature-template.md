@@ -31,22 +31,19 @@
 
 ## Technical Approach
 
-### Entry Points
+[Organize by behavior area, not by file or architecture layer. Each paragraph covers one aspect of the feature and opens with a **bold topic sentence** stating the design decision as a fact. Reasoning and codebase references follow.
 
-- `path/to/handler.ext` — [what this entry point does]
-- `path/to/route.ext` — [what this entry point does]
+An implementer scanning only the bold sentences should reconstruct the full plan.
+An implementer reading in full should be able to start coding without asking questions.
 
-### Data & IO
-
-- **Reads:** [data sources — DB tables, API responses, config files]
-- **Writes:** [data sinks — DB tables, files, API calls, events emitted]
-- **New dependencies:** [libraries/services, or "None — uses existing"]
-- **Migration/rollback:** [data migration needed? How to roll back?]
+Example paragraph structure:
+**Notifications emit from server-side task mutation handlers, not from frontend event inference.** The task routes in `src/api/routes/tasks.ts` already centralize writes, so... (reasoning follows).]
 
 ### Failure Modes
 
-- [Failure scenario] → [expected behavior / recovery strategy]
-- [Another failure scenario] → [expected behavior]
+[Include scenarios where the recovery strategy is a policy decision the team could reasonably disagree on. At least 2-3 entries.]
+
+- [Failure scenario] → [recovery policy]
 
 ## Risks & Open Questions
 

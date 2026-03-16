@@ -1,0 +1,47 @@
+{
+  "skill_name": "spec",
+  "iteration": 3,
+  "configurations": [
+    {
+      "name": "iteration_3_skill",
+      "label": "Iteration 3 (merged approach, decision-dense)",
+      "evals": [
+        {"eval_name": "notifications", "pass_rate": 1.0, "passed": 15, "failed": 0, "total": 15, "time_seconds": 122, "line_count": 91, "failures": []},
+        {"eval_name": "keyboard-shortcuts", "pass_rate": 1.0, "passed": 15, "failed": 0, "total": 15, "time_seconds": 145, "line_count": 105, "failures": []},
+        {"eval_name": "due-date-reminders", "pass_rate": 1.0, "passed": 15, "failed": 0, "total": 15, "time_seconds": 141, "line_count": 101, "failures": []}
+      ],
+      "aggregate": {"mean_pass_rate": 1.0, "total_passed": 45, "total_failed": 0, "total_assertions": 45, "mean_time_seconds": 136, "mean_line_count": 99}
+    },
+    {
+      "name": "iteration_2_skill",
+      "label": "Iteration 2 (solved-but-rough, separate subsections)",
+      "evals": [
+        {"eval_name": "notifications", "pass_rate": 1.0, "passed": 15, "failed": 0, "total": 15, "time_seconds": 116, "line_count": 133, "failures": []},
+        {"eval_name": "keyboard-shortcuts", "pass_rate": 0.8, "passed": 12, "failed": 3, "total": 15, "time_seconds": 151, "line_count": 154, "failures": ["spec_under_150_lines", "no_redundant_subsections", "no_obvious_failure_modes"]},
+        {"eval_name": "due-date-reminders", "pass_rate": 0.867, "passed": 13, "failed": 2, "total": 15, "time_seconds": 162, "line_count": 146, "failures": ["no_redundant_subsections", "no_obvious_failure_modes"]}
+      ],
+      "aggregate": {"mean_pass_rate": 0.889, "total_passed": 40, "total_failed": 5, "total_assertions": 45, "mean_time_seconds": 143, "mean_line_count": 144}
+    },
+    {
+      "name": "original_skill",
+      "label": "Original Skill (baseline)",
+      "evals": [
+        {"eval_name": "notifications", "pass_rate": 0.867, "passed": 13, "failed": 2, "total": 15, "time_seconds": 131, "line_count": 140, "failures": ["no_redundant_subsections", "no_obvious_failure_modes"]},
+        {"eval_name": "keyboard-shortcuts", "pass_rate": 0.733, "passed": 11, "failed": 4, "total": 15, "time_seconds": 113, "line_count": 141, "failures": ["no_mechanism_tables", "no_redundant_subsections", "no_obvious_failure_modes", "decision_density"]},
+        {"eval_name": "due-date-reminders", "pass_rate": 0.667, "passed": 10, "failed": 5, "total": 15, "time_seconds": 131, "line_count": 151, "failures": ["no_json_shapes", "spec_under_150_lines", "no_redundant_subsections", "no_obvious_failure_modes", "decision_density"]}
+      ],
+      "aggregate": {"mean_pass_rate": 0.756, "total_passed": 34, "total_failed": 11, "total_assertions": 45, "mean_time_seconds": 125, "mean_line_count": 144}
+    }
+  ],
+  "delta": {
+    "iter3_vs_iter2": {"pass_rate_change": "+11.1% (88.9% → 100%)", "net_assertions_improved": 5, "line_count_change": "-45 avg (144 → 99)"},
+    "iter3_vs_original": {"pass_rate_change": "+24.4% (75.6% → 100%)", "net_assertions_improved": 11, "line_count_change": "-45 avg (144 → 99)"},
+    "qualitative_improvements_iter3": [
+      "Technical Approach is now ONE unified prose narrative — no separate Key Modules, Data & State subsections",
+      "Every paragraph contains a non-obvious design decision with explicit alternatives",
+      "Failure Modes filtered to non-obvious recovery strategies only",
+      "Average spec length dropped from 144 to 99 lines — 31% reduction with MORE design signal",
+      "No redundant information across sections"
+    ]
+  }
+}

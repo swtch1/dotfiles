@@ -1,0 +1,61 @@
+{
+  "eval_name": "keyboard-shortcuts",
+  "expectations": [
+    {
+      "text": "has_all_sections",
+      "passed": true,
+      "evidence": "All required headings appear in /Users/josh/.claude/skills/spec-workspace/iteration-4/keyboard-shortcuts/original_skill/outputs/SPEC.md at lines 12, 18, 29, 50, 86, 95, and 101."
+    },
+    {
+      "text": "no_line_numbers",
+      "passed": true,
+      "evidence": "Regex \\\"\\w+\\.(ts|tsx|js|jsx):\\d+\\\" has zero matches in /Users/josh/.claude/skills/spec-workspace/iteration-4/keyboard-shortcuts/original_skill/outputs/SPEC.md (lines 1-141)."
+    },
+    {
+      "text": "no_code_snippets",
+      "passed": true,
+      "evidence": "No fenced code blocks with js/ts language tags are present in /Users/josh/.claude/skills/spec-workspace/iteration-4/keyboard-shortcuts/original_skill/outputs/SPEC.md (lines 1-141)."
+    },
+    {
+      "text": "spec_under_120_lines",
+      "passed": false,
+      "evidence": "Line count is 141 in /Users/josh/.claude/skills/spec-workspace/iteration-4/keyboard-shortcuts/original_skill/outputs/SPEC.md, exceeding max_lines=120."
+    },
+    {
+      "text": "implementer_can_start",
+      "passed": true,
+      "evidence": "Technical Approach specifies state location (/Users/josh/.claude/skills/spec-workspace/iteration-4/keyboard-shortcuts/original_skill/outputs/SPEC.md:56), shortcut action mapping (70-74), component boundaries (54-60), and no new persistence (76), sufficient for core-flow implementation."
+    },
+    {
+      "text": "events_tied_to_triggers",
+      "passed": false,
+      "evidence": "Not every scoped behavior has explicit trigger logic in Technical Approach: '/' focus and '?' help overlay are scoped at /Users/josh/.claude/skills/spec-workspace/iteration-4/keyboard-shortcuts/original_skill/outputs/SPEC.md:35-36 but Data & IO trigger mapping lists only n/Enter/Escape/d/p+digit at 70-74."
+    },
+    {
+      "text": "decisions_in_topic_sentences",
+      "passed": false,
+      "evidence": "Technical Approach (lines 50-84) is mostly bullet lists; key design decisions are distributed across sub-bullets rather than first-sentence topic statements."
+    },
+    {
+      "text": "no_verbal_tics",
+      "passed": true,
+      "evidence": "No repeated meta-announcement phrases (e.g., 'The key decision is...') in /Users/josh/.claude/skills/spec-workspace/iteration-4/keyboard-shortcuts/original_skill/outputs/SPEC.md:50-100."
+    },
+    {
+      "text": "no_implementation_leaks",
+      "passed": false,
+      "evidence": "Spec contains implementation-level details: exact file paths and hook/module names (54-60), exact store field names (56), and concrete timeout mechanics (82) in /Users/josh/.claude/skills/spec-workspace/iteration-4/keyboard-shortcuts/original_skill/outputs/SPEC.md."
+    },
+    {
+      "text": "failure_modes_are_policy",
+      "passed": true,
+      "evidence": "There are 5 failure modes in /Users/josh/.claude/skills/spec-workspace/iteration-4/keyboard-shortcuts/original_skill/outputs/SPEC.md:80-84, each with explicit recovery behavior (focus fallback, suppression in inputs, sequence expiry, guarded delete, overlay key restrictions)."
+    },
+    {
+      "text": "scope_boundaries_clear",
+      "passed": true,
+      "evidence": "Out-of-scope section names realistic adjacent creep items (backend changes, server-side search, vim-style expansion, DnD replacement, global shortcut manager) in /Users/josh/.claude/skills/spec-workspace/iteration-4/keyboard-shortcuts/original_skill/outputs/SPEC.md:44-49."
+    }
+  ],
+  "pass_rate": 0.64
+}

@@ -1,0 +1,67 @@
+{
+  "eval_name": "notifications",
+  "expectations": [
+    {
+      "text": "has_all_sections",
+      "passed": true,
+      "evidence": "All required section headers are present: Problem, Solution, Scope, Technical Approach, Risks, Alternatives, Verification."
+    },
+    {
+      "text": "no_line_numbers",
+      "passed": true,
+      "evidence": "No matches for file-line patterns like 'file.ts:123' were found."
+    },
+    {
+      "text": "no_code_snippets",
+      "passed": true,
+      "evidence": "No fenced code blocks with ts/tsx/typescript/javascript/js language tags appear in the spec."
+    },
+    {
+      "text": "spec_under_120_lines",
+      "passed": true,
+      "evidence": "Spec is 91 lines, which is under the 120-line maximum."
+    },
+    {
+      "text": "implementer_can_start",
+      "passed": true,
+      "evidence": "Technical Approach defines core triggers (assignment/status/completion transitions), backend persistence ownership, frontend state location (dedicated Zustand store), and user flow via bell/dropdown and read actions."
+    },
+    {
+      "text": "events_tied_to_triggers",
+      "passed": true,
+      "evidence": "Behavior triggers are specified: emit after successful task mutations, status notifications on semantic transitions, completion notifications only when newly complete, and pull-based UI refresh on initial load/post-mutation/periodic refresh."
+    },
+    {
+      "text": "decisions_in_topic_sentences",
+      "passed": true,
+      "evidence": "First sentences in each Technical Approach paragraph state major decisions directly (domain model location, emission strategy, watch trigger ownership, frontend store strategy)."
+    },
+    {
+      "text": "no_verbal_tics",
+      "passed": false,
+      "evidence": "Uses repeated meta-phrases at least 3 times (e.g., 'The design decision is...', 'The non-obvious choice here is...', 'The non-obvious choice is...'), exceeding the allowed threshold."
+    },
+    {
+      "text": "no_implementation_leaks",
+      "passed": false,
+      "evidence": "Technical Approach includes algorithmic implementation detail (e.g., 'state-transition logic anchored to before/after task values at write time') and route-level mechanism specifics rather than pure behavior/policy."
+    },
+    {
+      "text": "failure_modes_are_policy",
+      "passed": true,
+      "evidence": "Three failure modes are present and each includes a policy choice (idempotent creation, coalescing unread status changes, preserving records with board-level fallback links)."
+    },
+    {
+      "text": "scope_boundaries_clear",
+      "passed": true,
+      "evidence": "Out-of-scope list names realistic adjacent creep items: email/push channels, realtime delivery, notification preferences, and full comments feature."
+    }
+  ],
+  "pass_rate": 0.82,
+  "summary": {
+    "passed": 9,
+    "failed": 2,
+    "total": 11,
+    "pass_rate": 0.8182
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "eval_name": "due-date-reminders",
+  "expectations": [
+    {
+      "text": "has_all_sections",
+      "passed": true,
+      "evidence": "Found required headings in /Users/josh/.claude/skills/spec-workspace/iteration-4/due-date-reminders/with_skill/outputs/SPEC.md: ## Problem (L12), ## Solution (L16), ## Scope (L20), ## Technical Approach (L37), ## Risks (as '## Risks & Open Questions', L56), ## Alternatives (as '## Alternatives Considered', L64), ## Verification (L70)."
+    },
+    {
+      "text": "no_line_numbers",
+      "passed": true,
+      "evidence": "Regex \\w+\\.(ts|tsx|js|jsx):\\d+ has zero matches in /Users/josh/.claude/skills/spec-workspace/iteration-4/due-date-reminders/with_skill/outputs/SPEC.md (grep count returned no matches)."
+    },
+    {
+      "text": "no_code_snippets",
+      "passed": true,
+      "evidence": "Regex ```(ts|tsx|typescript|javascript|js) has zero matches in /Users/josh/.claude/skills/spec-workspace/iteration-4/due-date-reminders/with_skill/outputs/SPEC.md (grep count returned no matches)."
+    },
+    {
+      "text": "spec_under_120_lines",
+      "passed": true,
+      "evidence": "SPEC line count is 99 (Read tool footer), meeting max_lines=120."
+    },
+    {
+      "text": "implementer_can_start",
+      "passed": false,
+      "evidence": "Core flow is not fully actionable without follow-up: due-soon classification window is left as an open question (L62) even though due-soon indicators are in core scope (L24, L43), so an implementer still needs author confirmation before coding final reminder-state behavior."
+    },
+    {
+      "text": "events_tied_to_triggers",
+      "passed": true,
+      "evidence": "Most scoped behaviors are tied to triggers in Technical Approach: daily job marks overdue (L39), banner refresh on board load and click-to-filter (L47), filter mode activation in store (L45), and card-state derivation from due-date classification (L43)."
+    },
+    {
+      "text": "decisions_in_topic_sentences",
+      "passed": true,
+      "evidence": "Key decisions are stated in bold first sentences of each Technical Approach paragraph (L39, L41, L43, L45, L47)."
+    },
+    {
+      "text": "no_verbal_tics",
+      "passed": true,
+      "evidence": "No repetitive meta-announcement phrases ('The key decision is...') in Technical Approach; decisions are expressed directly (L39-L47)."
+    },
+    {
+      "text": "no_implementation_leaks",
+      "passed": false,
+      "evidence": "Spec includes mechanism-level implementation detail beyond behavior policy: persistent overdue flag transition mechanics in daily worker (L39), centralized shared classification utility for card/banner/filter consistency (L43), explicit store mode taxonomy all/overdue/due-today (L45), and batch-processing strategy in failure mode (L54)."
+    },
+    {
+      "text": "failure_modes_are_policy",
+      "passed": true,
+      "evidence": "Failure Modes has 4 entries (L51-L54), each expressing policy choices (e.g., keep prior overdue states on failed run, fallback timezone behavior, persisted-status tie-break on clock skew, bounded batching instead of blocking API traffic)."
+    },
+    {
+      "text": "scope_boundaries_clear",
+      "passed": true,
+      "evidence": "Out-of-scope section names adjacent scope-creep risks explicitly (external channels, configurable reminders/snooze, custom schedules, websocket streaming) in L32-L35."
+    }
+  ],
+  "pass_rate": 0.8,
+  "summary": {
+    "passed": 9,
+    "failed": 2,
+    "total": 11,
+    "pass_rate": 0.8182
+  }
+}

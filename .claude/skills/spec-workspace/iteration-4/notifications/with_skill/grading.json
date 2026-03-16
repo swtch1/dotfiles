@@ -1,0 +1,67 @@
+{
+  "eval_name": "notifications",
+  "expectations": [
+    {
+      "text": "has_all_sections",
+      "passed": true,
+      "evidence": "Found required headings in /Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/with_skill/outputs/SPEC.md: ## Problem (L12), ## Solution (L18), ## Scope (L22), ## Technical Approach (L44), ## Risks (as '## Risks & Open Questions', L73), ## Alternatives (as '## Alternatives Considered', L81), ## Verification (L87)."
+    },
+    {
+      "text": "no_line_numbers",
+      "passed": true,
+      "evidence": "Regex \\w+\\.(ts|tsx|js|jsx):\\d+ has zero matches in /Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/with_skill/outputs/SPEC.md (grep count returned no matches)."
+    },
+    {
+      "text": "no_code_snippets",
+      "passed": true,
+      "evidence": "Regex ```(ts|tsx|typescript|javascript|js) has zero matches in /Users/josh/.claude/skills/spec-workspace/iteration-4/notifications/with_skill/outputs/SPEC.md (grep count returned no matches)."
+    },
+    {
+      "text": "spec_under_120_lines",
+      "passed": true,
+      "evidence": "SPEC line count is 120 (Read tool footer), meeting max_lines=120."
+    },
+    {
+      "text": "implementer_can_start",
+      "passed": true,
+      "evidence": "Core flow is implementable from Technical Approach: triggers for assignment/status/completion/comment are explicit (L48-L55), persistence/read state is defined (L56), endpoint behaviors are stated (L58), and user-facing bell/dropdown/read flows are defined (L60-L64)."
+    },
+    {
+      "text": "events_tied_to_triggers",
+      "passed": true,
+      "evidence": "Each in-scope behavior has a trigger condition in Technical Approach: assignee change (L48), watched status transition (L50), non-self completion transition (L52), comment-created event (L54), dropdown-open fetch + mark actions (L58-L64)."
+    },
+    {
+      "text": "decisions_in_topic_sentences",
+      "passed": true,
+      "evidence": "Technical Approach uses bold topic sentences at paragraph start (L46, L48, L50, L52, L54, L56, L58, L60, L62, L64) that each state the decision up front."
+    },
+    {
+      "text": "no_verbal_tics",
+      "passed": true,
+      "evidence": "No repeated meta-phrases like 'The key decision is...' or 'The design decision is...'; decisions are written directly as facts throughout Technical Approach (L46-L64)."
+    },
+    {
+      "text": "no_implementation_leaks",
+      "passed": false,
+      "evidence": "Spec includes algorithm/mechanism-level implementation detail rather than pure behavior policy, e.g., evaluating assignee transitions against prior persisted state (L48), transition-edge emission logic (L50-L53), immediate UI updates with reconciliation/revert mechanics (L62), and explicit pull-refresh trigger points (L64)."
+    },
+    {
+      "text": "failure_modes_are_policy",
+      "passed": true,
+      "evidence": "Failure Modes section has 4 entries (L68-L71), each with policy choices teams could debate (e.g., do not block task mutation on notification write failure; degrade dead links to safe fallback; refresh from backend after partial mark-all failure)."
+    },
+    {
+      "text": "scope_boundaries_clear",
+      "passed": true,
+      "evidence": "Out-of-scope items are adjacent and specific (email, push, websockets, preferences, full comment feature) in L38-L43, preventing realistic scope creep."
+    }
+  ],
+  "pass_rate": 0.9,
+  "summary": {
+    "passed": 10,
+    "failed": 1,
+    "total": 11,
+    "pass_rate": 0.9091
+  }
+}

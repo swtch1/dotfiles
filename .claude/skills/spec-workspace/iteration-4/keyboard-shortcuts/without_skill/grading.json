@@ -1,0 +1,67 @@
+{
+  "eval_name": "keyboard-shortcuts",
+  "expectations": [
+    {
+      "text": "has_all_sections",
+      "passed": true,
+      "evidence": "All required sections are present: Problem, Solution, Scope, Technical Approach, Risks, Alternatives, and Verification."
+    },
+    {
+      "text": "no_line_numbers",
+      "passed": true,
+      "evidence": "No matches for explicit file-line references like 'file.ts:123'."
+    },
+    {
+      "text": "no_code_snippets",
+      "passed": true,
+      "evidence": "No fenced code blocks tagged with ts/tsx/typescript/javascript/js are present."
+    },
+    {
+      "text": "spec_under_120_lines",
+      "passed": true,
+      "evidence": "Spec is 105 lines, below the 120-line limit."
+    },
+    {
+      "text": "implementer_can_start",
+      "passed": false,
+      "evidence": "Core behaviors are not fully actionable without follow-up: shortcut details in scope (notably exact `n` create behavior and some key-specific flows) are unresolved or left as clarification/open questions, so an implementer would need to ask before coding complete core flow."
+    },
+    {
+      "text": "events_tied_to_triggers",
+      "passed": false,
+      "evidence": "Scope lists many distinct shortcuts (`n`, arrows, `Enter`, `Escape`, `d`, `p+1-4`, `/`, `?`), but Technical Approach does not provide explicit trigger/behavior mapping for each one; several are only implied."
+    },
+    {
+      "text": "decisions_in_topic_sentences",
+      "passed": true,
+      "evidence": "First sentences of each Technical Approach paragraph clearly state major decisions (board-level orchestration, separate focus model, local filtering, interaction-mode precedence)."
+    },
+    {
+      "text": "no_verbal_tics",
+      "passed": false,
+      "evidence": "Uses formulaic self-referential phrasing at least 4 times (e.g., 'The non-obvious choice here is...', 'The design decision is...', 'The key decision is...'), exceeding the allowed threshold."
+    },
+    {
+      "text": "no_implementation_leaks",
+      "passed": false,
+      "evidence": "Technical Approach leaks implementation mechanics and code-level details (exact file paths, specific store fields like `activeTaskId`, `board?.columns`, and mode-resolution mechanics) rather than staying at behavior/policy level."
+    },
+    {
+      "text": "failure_modes_are_policy",
+      "passed": true,
+      "evidence": "Three failure modes are included and each defines a policy choice (suspend during drag, visible expiring chord mode, deterministic focus re-anchoring fallback)."
+    },
+    {
+      "text": "scope_boundaries_clear",
+      "passed": true,
+      "evidence": "Out-of-scope items are specific and adjacent to likely creep: backend search APIs, custom keymaps, bulk actions, and app-wide global shortcuts."
+    }
+  ],
+  "pass_rate": 0.64,
+  "summary": {
+    "passed": 7,
+    "failed": 4,
+    "total": 11,
+    "pass_rate": 0.6364
+  }
+}
