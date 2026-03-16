@@ -1,5 +1,5 @@
-# startup
 command = /opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf
+abnormal-command-exit-runtime = 0
 
 # Disable title management from shell integration
 # See ~/.zshrc for the other half of this setup

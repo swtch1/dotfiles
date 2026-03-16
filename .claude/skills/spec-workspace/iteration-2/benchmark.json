@@ -1,0 +1,116 @@
+{
+  "skill_name": "spec",
+  "iteration": 2,
+  "configurations": [
+    {
+      "name": "modified_skill",
+      "label": "Modified Skill (solved-but-rough)",
+      "evals": [
+        {
+          "eval_name": "notifications",
+          "pass_rate": 1.0,
+          "passed": 12,
+          "failed": 0,
+          "total": 12,
+          "time_seconds": 116,
+          "line_count": 133,
+          "failures": []
+        },
+        {
+          "eval_name": "keyboard-shortcuts",
+          "pass_rate": 0.917,
+          "passed": 11,
+          "failed": 1,
+          "total": 12,
+          "time_seconds": 151,
+          "line_count": 154,
+          "failures": ["spec_under_150_lines (154 lines — 4 over, tradeoff from prose-based approach)"]
+        },
+        {
+          "eval_name": "due-date-reminders",
+          "pass_rate": 1.0,
+          "passed": 12,
+          "failed": 0,
+          "total": 12,
+          "time_seconds": 162,
+          "line_count": 146,
+          "failures": []
+        }
+      ],
+      "aggregate": {
+        "mean_pass_rate": 0.972,
+        "total_passed": 35,
+        "total_failed": 1,
+        "total_assertions": 36,
+        "mean_time_seconds": 143,
+        "mean_line_count": 144
+      }
+    },
+    {
+      "name": "old_skill",
+      "label": "Original Skill (baseline)",
+      "evals": [
+        {
+          "eval_name": "notifications",
+          "pass_rate": 1.0,
+          "passed": 12,
+          "failed": 0,
+          "total": 12,
+          "time_seconds": 131,
+          "line_count": 140,
+          "failures": []
+        },
+        {
+          "eval_name": "keyboard-shortcuts",
+          "pass_rate": 0.917,
+          "passed": 11,
+          "failed": 1,
+          "total": 12,
+          "time_seconds": 113,
+          "line_count": 141,
+          "failures": ["no_mechanism_tables (shortcut→store method mapping in Data & IO)"]
+        },
+        {
+          "eval_name": "due-date-reminders",
+          "pass_rate": 0.833,
+          "passed": 10,
+          "failed": 2,
+          "total": 12,
+          "time_seconds": 131,
+          "line_count": 151,
+          "failures": ["no_json_shapes (Prisma syntax + SQL pseudo-code)", "spec_under_150_lines (151 lines)"]
+        }
+      ],
+      "aggregate": {
+        "mean_pass_rate": 0.917,
+        "total_passed": 33,
+        "total_failed": 3,
+        "total_assertions": 36,
+        "mean_time_seconds": 125,
+        "mean_line_count": 144
+      }
+    }
+  ],
+  "delta": {
+    "pass_rate_change": "+5.5%",
+    "assertions_fixed": ["no_json_shapes (due-date-reminders)", "spec_under_150_lines (due-date-reminders)", "no_mechanism_tables (keyboard-shortcuts)"],
+    "assertions_regressed": ["spec_under_150_lines (keyboard-shortcuts — prose approach added 13 lines)"],
+    "net_assertions_improved": 2,
+    "time_change": "+14% (prose-based approach takes slightly longer to generate)",
+    "qualitative_improvements": [
+      "No more Prisma schema syntax or SQL in specs",
+      "No more shortcut-to-store-method mechanism mapping",
+      "New files described as roles not exact paths",
+      "Migration described conceptually",
+      "No cron expressions",
+      "Entry Points replaced with Key Modules (less prescriptive)"
+    ]
+  },
+  "analyst_observations": [
+    "The keyboard-shortcuts eval swapped one failure for another (mechanism_table → line_count). This is a net positive: the mechanism table was an abstraction violation, while the line count overshoot is a minor formatting issue from switching to prose.",
+    "Due-date-reminders improved the most (+2 assertions) because the baseline had the most egregious over-specification (Prisma syntax, SQL, cron expressions).",
+    "Notifications was already clean in baseline (12/12) and remained clean — the skill changes didn't regress completeness.",
+    "Time cost increased ~14% — prose-based approaches take slightly longer to generate than terse mechanism mappings. This is acceptable for the quality improvement.",
+    "The 150-line limit may need raising to ~160 for complex features where prose-based Technical Approach naturally requires more space than terse implementation prescriptions."
+  ]
+}

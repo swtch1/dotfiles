@@ -1,0 +1,22 @@
+{
+  "eval_name": "keyboard-shortcuts",
+  "expectations": [
+    {"text": "has_all_sections", "passed": true, "evidence": "All 7 required sections present"},
+    {"text": "problem_explains_why", "passed": true, "evidence": "Explains mouse-first gap, power-user throughput, Trello/Linear parity"},
+    {"text": "scope_has_nongoals", "passed": true, "evidence": "4 non-goals: backend search, custom keymaps, multi-select, global shortcuts"},
+    {"text": "references_real_files", "passed": true, "evidence": "TaskBoard.tsx, TaskCard.tsx, taskStore.ts, types.ts, App.tsx, api.ts all inline in prose"},
+    {"text": "makes_architectural_decisions", "passed": true, "evidence": "7 decisions: route-local vs global, separate focus vs overloading activeTaskId, local filter vs API, mode precedence vs independent handlers, column-level fallback, confirm-first delete, time-bounded chord"},
+    {"text": "verification_is_testable", "passed": true, "evidence": "Per-shortcut verification, input suppression, focus re-anchoring, chord cancel path"},
+    {"text": "has_alternatives", "passed": true, "evidence": "3: distributed per-card handlers, app-global system, do nothing"},
+    {"text": "no_line_numbers", "passed": true, "evidence": "No file:line patterns"},
+    {"text": "no_code_snippets", "passed": true, "evidence": "No code blocks"},
+    {"text": "no_json_shapes", "passed": true, "evidence": "No interfaces"},
+    {"text": "no_mechanism_tables", "passed": true, "evidence": "No tables — approach is pure prose"},
+    {"text": "spec_under_150_lines", "passed": true, "evidence": "105 lines — FIXED from iter-2's 154"},
+    {"text": "no_redundant_subsections", "passed": true, "evidence": "Technical Approach is unified prose. File references woven into decision paragraphs."},
+    {"text": "decision_density", "passed": true, "evidence": "7 decisions: route-local scope, separate focus state, local filtering, mode precedence, column-level fallback, confirm-first, time-bounded chord"},
+    {"text": "no_obvious_failure_modes", "passed": true, "evidence": "All 3 non-obvious: drag-state conflict, chord timeout visibility, filter-invalidated focus re-anchoring"}
+  ],
+  "pass_rate": 1.0,
+  "notes": "Perfect score. 105 lines — 49 lines shorter than iter-2 (154). Fixed the line-count failure from iter-2. No redundant subsections."
+}

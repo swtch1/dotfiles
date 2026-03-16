@@ -1,0 +1,19 @@
+{
+  "eval_name": "due-date-reminders",
+  "expectations": [
+    {"text": "has_all_sections", "passed": true, "evidence": "All 7 required sections present"},
+    {"text": "problem_explains_why", "passed": true, "evidence": "Explains silent missed deadlines, manual scanning, timezone gap — clear user impact"},
+    {"text": "scope_has_nongoals", "passed": true, "evidence": "5 non-goals: email, custom times, snooze, per-user overdue table, layout rewrite"},
+    {"text": "references_real_files", "passed": true, "evidence": "References TaskCard.tsx, TaskBoard.tsx, taskStore.ts, types.ts, tasks.ts, api.ts"},
+    {"text": "makes_architectural_decisions", "passed": true, "evidence": "Excellent: dedicated 'Canonical Timezone Decision' subsection — client for display, server for cron, no per-user persistence"},
+    {"text": "verification_is_testable", "passed": true, "evidence": "Includes DST transition fixtures, OS timezone change test, exact task setup (4 tasks with different due states)"},
+    {"text": "has_alternatives", "passed": true, "evidence": "4 alternatives: per-user persist, client-only, hourly cron, do nothing"},
+    {"text": "no_line_numbers", "passed": true, "evidence": "No file:line patterns found"},
+    {"text": "no_code_snippets", "passed": true, "evidence": "No code blocks"},
+    {"text": "no_json_shapes", "passed": false, "evidence": "Line 72: 'overdue Boolean @default(false)' is Prisma schema syntax. Line 74: SQL pseudo-code 'UPDATE task SET overdue=true WHERE dueDate < now() AND overdue=false'"},
+    {"text": "no_mechanism_tables", "passed": true, "evidence": "No mapping tables"},
+    {"text": "spec_under_150_lines", "passed": false, "evidence": "151 lines (1 over limit)"}
+  ],
+  "pass_rate": 0.833,
+  "notes": "Two assertion fails: Prisma schema syntax and SQL pseudo-code leak implementation details into Entry Points. Also specifies exact cron expression (0 0 * * *), exact migration path names, exact header name (X-User-Timezone)."
+}

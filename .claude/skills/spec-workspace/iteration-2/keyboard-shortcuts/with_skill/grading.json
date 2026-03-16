@@ -1,0 +1,19 @@
+{
+  "eval_name": "keyboard-shortcuts",
+  "expectations": [
+    {"text": "has_all_sections", "passed": true, "evidence": "All 7 required sections present"},
+    {"text": "problem_explains_why", "passed": true, "evidence": "Explains mouse-first interaction, avoidable cost, no keyboard nav model, competitive gap"},
+    {"text": "scope_has_nongoals", "passed": true, "evidence": "5 non-goals: global shortcuts, advanced filtering, custom bindings, multi-select, drag-drop redesign"},
+    {"text": "references_real_files", "passed": true, "evidence": "References TaskBoard.tsx, TaskCard.tsx, taskStore.ts, types.ts, useAuth.tsx"},
+    {"text": "makes_architectural_decisions", "passed": true, "evidence": "Decides: roving focus, board-scoped controller, 4-tier context gating, two-keystroke priority chord, confirm-first delete, deterministic re-homing"},
+    {"text": "verification_is_testable", "passed": true, "evidence": "Per-shortcut verification, input-field suppression, chord lifecycle, delete confirmation flow"},
+    {"text": "has_alternatives", "passed": true, "evidence": "4 alternatives: global manager, single-keystroke priority, mouse-only, do nothing"},
+    {"text": "no_line_numbers", "passed": true, "evidence": "No file:line patterns"},
+    {"text": "no_code_snippets", "passed": true, "evidence": "No code blocks"},
+    {"text": "no_json_shapes", "passed": true, "evidence": "No interface definitions"},
+    {"text": "no_mechanism_tables", "passed": true, "evidence": "No shortcut-to-method mapping — FIXED from baseline. Approach section describes behaviors in prose."},
+    {"text": "spec_under_150_lines", "passed": false, "evidence": "154 lines (4 over limit). Prose-based approach is naturally more verbose than the terse mechanism tables it replaced."}
+  ],
+  "pass_rate": 0.917,
+  "notes": "Fixed the mechanism table issue from baseline. Tradeoff: prose approach adds ~13 lines vs baseline (141→154), pushing over the 150 limit. The abstraction improvement is more valuable than the 4-line overshoot."
+}

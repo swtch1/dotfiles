@@ -1,0 +1,81 @@
+{
+  "eval_id": 3,
+  "eval_name": "due-date-reminders",
+  "prompt": "see evals.json",
+  "assertions": [
+    {
+      "name": "has_all_sections",
+      "type": "contains_all",
+      "values": [
+        "## Problem",
+        "## Solution",
+        "## Scope",
+        "## Technical Approach",
+        "## Risks",
+        "## Alternatives",
+        "## Verification"
+      ],
+      "description": "Required template sections present"
+    },
+    {
+      "name": "no_line_numbers",
+      "type": "regex_absent",
+      "pattern": "\\w+\\.(ts|tsx|js|jsx):\\d+",
+      "description": "No exact line number references"
+    },
+    {
+      "name": "no_code_snippets",
+      "type": "regex_absent",
+      "pattern": "```(ts|tsx|typescript|javascript|js)",
+      "description": "No code blocks in spec"
+    },
+    {
+      "name": "spec_under_120_lines",
+      "type": "line_count",
+      "max_lines": 120,
+      "description": "Concise spec under 120 lines (tighter bar)"
+    },
+    {
+      "name": "implementer_can_start",
+      "type": "llm_judge",
+      "criteria": "Read the Technical Approach as an engineer who needs to implement this feature. Could you start coding the CORE FLOW (not edge cases) without needing to ask the spec author any questions about the approach? The spec must answer: what triggers each behavior, where state lives, what new persistence is needed, and what the user-facing flow looks like. If any of these are missing or vague, FAIL.",
+      "description": "An implementer could start coding the core flow from this spec"
+    },
+    {
+      "name": "events_tied_to_triggers",
+      "type": "llm_judge",
+      "criteria": "For EACH distinct behavior in scope (e.g., each notification event, each keyboard shortcut, each visual state), can you identify its specific trigger condition in the Technical Approach? If behaviors are mentioned in Scope but their trigger logic is scattered or missing from Technical Approach, FAIL.",
+      "description": "Each behavior's trigger condition is clearly stated"
+    },
+    {
+      "name": "decisions_in_topic_sentences",
+      "type": "llm_judge",
+      "criteria": "In the Technical Approach section, are the key design decisions stated in the FIRST sentence of each paragraph (or in bold text)? Or are they buried mid-paragraph after reasoning? Scan only the first sentence of each paragraph \u2014 if you can reconstruct the major architectural decisions from JUST those sentences, PASS. If you have to read full paragraphs to find decisions, FAIL.",
+      "description": "Decisions are in topic sentences, not buried mid-paragraph"
+    },
+    {
+      "name": "no_verbal_tics",
+      "type": "llm_judge",
+      "criteria": "The spec should NOT repeatedly use formulaic phrases like 'The non-obvious choice here is...', 'The design decision is to...', 'The key decision is...'. One or two is fine. Three or more of these self-referential meta-phrases indicates the spec is DESCRIBING its own decisions instead of just MAKING them. Decisions should be stated as facts, not announced.",
+      "description": "Decisions stated as facts, not announced with meta-phrases"
+    },
+    {
+      "name": "no_implementation_leaks",
+      "type": "llm_judge",
+      "criteria": "Check for implementation details masquerading as design decisions: exact schema syntax, SQL/Prisma/cron expressions, JSON payload shapes, interface definitions, exact new file paths, or mechanism mapping tables. Also check for ABSTRACT implementation leaks: phrases like 'state-transition logic anchored to before/after task values at write time' describe HOW to code something, not WHAT the behavior is. The spec should describe behavior and policy, not algorithms.",
+      "description": "No implementation details \u2014 including abstract algorithmic descriptions"
+    },
+    {
+      "name": "failure_modes_are_policy",
+      "type": "llm_judge",
+      "criteria": "Each failure mode entry should state a POLICY DECISION about recovery \u2014 something the team could reasonably disagree on. 'Return 404' is not policy. 'Degrade notification links to board-level fallback instead of hiding them' IS policy. Also: are there at least 2 failure modes? If fewer, the spec may be under-thinking edge cases.",
+      "description": "Failure modes are policy decisions, at least 2 present"
+    },
+    {
+      "name": "scope_boundaries_clear",
+      "type": "llm_judge",
+      "criteria": "The Out of Scope section explicitly names things that are ADJACENT to this feature and could easily creep in. Generic non-goals ('don't rewrite the app') don't count. Each non-goal should name something a reasonable implementer MIGHT accidentally include.",
+      "description": "Non-goals are specific and prevent realistic scope creep"
+    }
+  ]
+}

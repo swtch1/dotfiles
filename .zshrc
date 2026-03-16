@@ -510,6 +510,10 @@ function tw() {
   done
 }
 
+function cpr() {
+  realpath "$1" | tr -d '\n' | pbcopy
+}
+
 function analyze_report() {
   rpt_id=$1
   speedmgmt queue send raw \

@@ -35,7 +35,7 @@ First, assess whether a spec is even warranted. Match ceremony to risk:
 |---|---|
 | **Trivial** (CSS, config, typo) | Recommend **no spec**. Commit message is sufficient. |
 | **Small tweak** (timeout, default, log line) | Recommend **no spec**. Update `AGENTS.md` if behavior changed. |
-| **Meaningful change** (new edge case, new mode, single-file <1hr) | **Mini-spec** — feature template with only Problem, Scope, Technical Approach (entry points/key files), and Verification. Same directory/naming/header conventions. |
+| **Meaningful change** (new edge case, new mode, single-file <1hr) | **Mini-spec** — feature template with only Problem, Scope, Technical Approach (key modules/approach), and Verification. Same directory/naming/header conventions. |
 | **Significant feature or enhancement** | **Full feature spec** from template. |
 | **Bug** (something is broken) | **Bugfix spec** from template. |
 | **Document existing code** | **Domain doc (AGENTS.md)** placed next to the code. |
@@ -159,6 +159,8 @@ Read the appropriate template from the `assets/` directory and generate a draft 
 
 **Incorporate probing results.** If discovery probing (Step 2.5) was run, weave the user's answers directly into the relevant spec sections. These answers replace what would otherwise be `[NEEDS CLARIFICATION]` markers. Unresolved questions from the probing pool become markers per the priority mapping in Step 2.5. The draft should be significantly tighter than it would be without probing.
 
+**Abstraction principle — "solved but rough":** A spec captures every *decision* without prescribing any *implementation*. Think of it as the difference between a code review comment ("use a Zustand store for this, not prop drilling") and a PR diff (the actual store code). The spec should read like a senior engineer briefing a peer: name the patterns, the modules, the constraints, the edge cases — then trust the implementer to write the code. Over-specified specs create the illusion of thoroughness while actually doing the implementation work twice (once in English, once in code) and constraining the implementer from finding a better approach.
+
 **Critical rules for draft generation:**
 
 1. **Fill in what you can confidently infer** from the user's description and codebase context
@@ -171,7 +173,12 @@ Read the appropriate template from the `assets/` directory and generate a draft 
    - Sparse input → many markers, user is forced to think through each gap
 4. **The Problem section must be compelling.** If the user's input doesn't explain *why* this matters, mark it: `[NEEDS CLARIFICATION: Why does this matter? What's the impact of not doing this?]`
 5. **The Scope / No-Gos section is mandatory.** If the user didn't mention boundaries, generate reasonable No-Gos based on codebase context and mark them as `[ASSUMPTION]`
-6. **Technical Approach must reference real files.** Use codebase context from Step 2 to list actual file paths. For files that don't exist yet, prefix with `NEW:` (e.g., `NEW: path/to/new_handler.go`). Never reference hypothetical files without marking them
+6. **Technical Approach must be scannable and actionable.** Write it as prose paragraphs organized by behavior area (not by file or architectural theme). Each paragraph:
+   - Opens with a **bold topic sentence** that states the decision as a fact — e.g., **"Notifications emit from task mutation handlers, not from a frontend event bus."** Don't announce decisions with meta-phrases like "The non-obvious choice here is..." or "The design decision is to..." — just state the decision.
+   - Follows with reasoning (why this choice over alternatives) and codebase anchors.
+   - Covers WHAT triggers the behavior, not just WHY the architecture is designed this way.
+   
+   An implementer reading ONLY the bold topic sentences should be able to reconstruct the full architectural plan. An implementer reading the full paragraphs should be able to start coding the core flow without asking you any questions about the approach.
 7. **Pre-fill the AGENTS.md Updates section.** During Step 2 context gathering, note which directories have `AGENTS.md` files. If the feature touches code in those directories, pre-fill the "AGENTS.md Updates" checkboxes with the specific file paths and what would need updating. Don't leave it as a generic placeholder.
 8. **Always generate at least one alternative** in the Alternatives Considered section, even if it's "Do nothing." Force the spec author to articulate why this approach beats others. If the user didn't mention alternatives, infer reasonable ones from codebase context and mark them as `[ASSUMPTION]`.
 
@@ -188,6 +195,21 @@ After generating the draft, scan it for common quality problems before writing t
 - "simple", "easy", "intuitive" → measurable UX criteria or remove entirely
 - "flexible", "extensible" → specific extension points or remove (YAGNI)
 - "soon", "later", "eventually" → concrete timeline or move to Out of Scope
+
+**Implementation detail lint:** Flag and remove any of these from the spec — they belong in PRs, not specs:
+
+- Code snippets (TypeScript, SQL, Prisma schema syntax, JSON shapes) → describe the data model or behavior in prose instead
+- Exact line numbers (`file.tsx:177`) → name the function or module instead
+- Exact new file paths (`NEW: src/features/chat/stores/useSnapshotChatStore.ts`) → describe the new component's role and let the implementer decide file organization
+- Mechanism mapping tables (feature → exact handler → exact wiring) → summarize the approach in prose; a table of *features and their behaviors* is fine, a table of *features and their implementation mechanisms* is over-specification
+- Interface/type definitions → describe what data is needed and why, not the exact shape
+- Cron expressions, regex patterns, SQL queries → describe the scheduling/matching/query intent
+
+The test: if a sentence could appear verbatim in a code diff, it's too detailed for a spec. Rewrite it as the design decision behind the code.
+
+**Redundancy lint:** After writing Technical Approach, re-read it and check: is any information stated more than once across paragraphs? Common pattern to fix: listing files and their roles, then re-describing the same files in the approach narrative, then listing the same data flows in a separate section. All of this should be ONE prose narrative. If you find yourself writing "Key Modules" as a bullet list and then "Approach" as paragraphs that cover the same ground — merge them.
+
+**Failure mode lint:** Include failure scenarios where the recovery strategy is a *policy decision* — something the team could reasonably disagree on. "Return 404 on not-found" is not policy. "Degrade notification links to board-level fallback instead of hiding stale notifications" IS policy. Include at least 2-3 failure modes per spec. Don't over-prune to seem concise — useful failure modes that document recovery policy earn their place even if the choice seems obvious in hindsight, because explicitly stating the policy prevents future ambiguity.
 
 **Clarification budget:** During initial draft generation, use as many `[NEEDS CLARIFICATION]` markers as needed — capture all genuine unknowns. Before moving the spec to `Review` status, tighten: limit open `[NEEDS CLARIFICATION]` markers to **3 per spec**. Convert lower-impact unknowns to `[ASSUMPTION]` with rationale, saving clarification slots for decisions that genuinely require the user's input.
 

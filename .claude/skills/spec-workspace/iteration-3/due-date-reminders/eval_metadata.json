@@ -1,0 +1,107 @@
+{
+  "eval_id": 3,
+  "eval_name": "due-date-reminders",
+  "prompt": "Add due date reminders: visual overdue/due-soon indicators on task cards, overdue filter, daily digest banner ('N tasks due today'), backend cron to mark overdue. Timezone handling (UTC storage, user-relative 'today'). No email, no custom times, no snooze. React + Zustand + Express + Prisma.",
+  "assertions": [
+    {
+      "name": "has_all_sections",
+      "type": "contains_all",
+      "values": [
+        "## Problem",
+        "## Solution",
+        "## Scope",
+        "## Technical Approach",
+        "## Risks",
+        "## Alternatives",
+        "## Verification"
+      ],
+      "description": "Spec contains all required sections from the template"
+    },
+    {
+      "name": "problem_explains_why",
+      "type": "llm_judge",
+      "criteria": "The Problem section explains WHY due date reminders matter (tasks silently go overdue, users miss deadlines, dueDate field is unused) \u2014 not just 'add reminders'",
+      "description": "Problem section articulates motivation and impact"
+    },
+    {
+      "name": "scope_has_nongoals",
+      "type": "contains_all",
+      "values": [
+        "Out of Scope"
+      ],
+      "description": "Out of Scope section exists"
+    },
+    {
+      "name": "references_real_files",
+      "type": "llm_judge",
+      "criteria": "Technical Approach references at least 2 real files (e.g., TaskCard.tsx, types.ts, tasks.ts, taskStore.ts)",
+      "description": "References actual codebase files"
+    },
+    {
+      "name": "makes_architectural_decisions",
+      "type": "llm_judge",
+      "criteria": "The spec makes a concrete decision about timezone handling: where the conversion happens (client-side for display, server-side for cron), how user timezone is obtained, and how the cron handles multi-timezone users. This is stated as a decision, not an open question.",
+      "description": "Timezone architecture decision is made"
+    },
+    {
+      "name": "verification_is_testable",
+      "type": "llm_judge",
+      "criteria": "Verification section has specific testable behaviors including timezone edge cases (e.g., 'task due today in US timezone shows as due-soon even when UTC date is tomorrow')",
+      "description": "Verification items include timezone edge cases"
+    },
+    {
+      "name": "has_alternatives",
+      "type": "llm_judge",
+      "criteria": "Alternatives Considered section has at least one real alternative (e.g., client-only vs server cron, computed vs stored overdue status)",
+      "description": "At least one substantive alternative considered"
+    },
+    {
+      "name": "no_line_numbers",
+      "type": "regex_absent",
+      "pattern": "\\w+\\.(ts|tsx|js|jsx):\\d+",
+      "description": "No exact line number references"
+    },
+    {
+      "name": "no_code_snippets",
+      "type": "regex_absent",
+      "pattern": "```(ts|tsx|typescript|javascript|js)",
+      "description": "No TypeScript/JS code blocks"
+    },
+    {
+      "name": "no_json_shapes",
+      "type": "llm_judge",
+      "criteria": "The spec does NOT contain verbatim Prisma schema definitions, JSON shapes, or interface definitions. Describing what fields are needed is fine; writing the exact schema is over-specification.",
+      "description": "No verbatim schema/JSON definitions"
+    },
+    {
+      "name": "no_mechanism_tables",
+      "type": "llm_judge",
+      "criteria": "The spec does NOT contain exhaustive tables mapping each visual indicator to exact CSS classes, component props, or implementation wiring.",
+      "description": "No exhaustive mechanism mapping tables"
+    },
+    {
+      "name": "spec_under_150_lines",
+      "type": "line_count",
+      "max_lines": 150,
+      "description": "Spec is concise \u2014 under 150 lines"
+    },
+    {
+      "name": "no_redundant_subsections",
+      "type": "llm_judge",
+      "criteria": "Technical Approach does NOT have separate Key Modules and Approach subsections that restate the same file-to-role mappings. File references should be woven into the approach prose, not listed as a separate manifest. If you can draw a 1:1 mapping between a Key Modules bullet and an Approach paragraph, that is redundancy.",
+      "description": "Technical Approach does not triple-tell the same info across subsections"
+    },
+    {
+      "name": "decision_density",
+      "type": "llm_judge",
+      "criteria": "Count distinct non-obvious architectural decisions stated in the Technical Approach section. A decision is: choosing between two valid alternatives (e.g., polling vs websocket, Zustand vs context, server-owned vs client-inferred). Restating scope or describing how existing code works does NOT count. The spec should contain at least 5 distinct decisions.",
+      "description": "At least 5 distinct architectural decisions in Technical Approach"
+    },
+    {
+      "name": "no_obvious_failure_modes",
+      "type": "llm_judge",
+      "criteria": "Failure Modes section only lists scenarios where the RECOVERY STRATEGY is a non-obvious design decision. Standard error handling (return 404 on not-found, validate auth, return error on bad input) should NOT appear. Every failure mode entry should make the reader think \"oh, I wouldn't have assumed that recovery strategy.\"",
+      "description": "Failure modes contain only non-obvious recovery strategies"
+    }
+  ]
+}
