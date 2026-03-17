@@ -5,6 +5,8 @@
 <!--
   CARDINAL RULE: If an agent can learn it by reading source files, it does NOT
   belong here. Document what the code CANNOT tell you. Target 20-50 lines.
+
+  **ALL** sections are optional.
 -->
 
 ## Overview

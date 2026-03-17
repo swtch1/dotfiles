@@ -99,4 +99,6 @@ NOT implementation tasks ("Add null check in handler") or vague states ("Bug is 
 
 ## AGENTS.md Updates
 
+ Update AGENTS.md **IF** the change is significant enough to justify it. Read .specs/AGENTS.md immediately before changing AGENTS.md files.
+
 - [ ] Update `[path/to/module]/AGENTS.md` if the fix changes documented behavior
