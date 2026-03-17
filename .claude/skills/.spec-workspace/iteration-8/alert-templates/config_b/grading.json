@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {"text": "has_all_sections: All required sections present", "passed": true, "evidence": "Has ## Problem, ## Solution, ## Scope, ## Acceptance Criteria, ## Design Decisions, ## Failure Modes, ## Risks, ## Alternatives, ## Verification. All required sections present."},
+    {"text": "no_code_fences: No code fences outside Implementation Notes", "passed": true, "evidence": "Zero triple-backtick code fences in the entire spec."},
+    {"text": "no_ts_interfaces: No TS types in Design Decisions", "passed": true, "evidence": "Design Decisions contains no TypeScript syntax, interfaces, or type annotations."},
+    {"text": "no_json_shapes: No JSON/proto shapes in Design Decisions", "passed": true, "evidence": "No JSON literals or data structure definitions in Design Decisions."},
+    {"text": "no_exact_file_paths_in_scope: Scope items are capabilities not file paths", "passed": true, "evidence": "In Scope lists behaviors: server-side template storage, seed templates, template picker UI, context menu entry, variable binding UI, validation. No file paths."},
+    {"text": "spec_under_120_lines: Under 120 lines", "passed": true, "evidence": "93 lines total."},
+    {"text": "bold_topic_sentences: Bold topic sentences in Design Decisions", "passed": true, "evidence": "3/3 paragraphs open with bold: 'Templates are server-side proto objects managed through a dedicated API.', 'The dashboard-to-alert bridge uses metric query matching...', 'The template picker is a modal flow, not a separate page.' 100% > 80%."},
+    {"text": "implementer_can_start: Implementer can start without questions", "passed": true, "evidence": "Spec names: server-side proto + API, matching heuristic approach, modal flow (two-step: selection + binding), pre-fill from panel query, seed templates. Sufficient for implementation."},
+    {"text": "no_implementation_leaks: Design Decisions are decisions not implementation", "passed": true, "evidence": "Design Decisions stays at architectural level — API design, matching approach, modal UX flow. No React hook names, no code-level mechanisms prescribed."},
+    {"text": "failure_modes_are_policy: Failure modes are policy decisions", "passed": true, "evidence": "2/2 are policy: (1) stale metric name in template → create rule anyway in OK/no-data state (could block creation), (2) dashboard variable is multi-valued → flag for review (could silently pick first value). Both debatable."},
+    {"text": "scope_is_behavioral: Scope items are behavioral", "passed": true, "evidence": "6/6 In Scope items are behavioral capabilities. 100% > 80%."},
+    {"text": "has_acceptance_criteria: Well-formed Acceptance Criteria", "passed": true, "evidence": "## Acceptance Criteria exists with 6 checkbox items. All observable outcomes: user can select template + fill vars + create rule, right-click panel opens picker pre-filled, no-match shows message, built-in templates available, validation prevents empty fields, created rule indistinguishable from manual."},
+    {"text": "verification_agent_actionable: Verification has agent-actionable checks", "passed": true, "evidence": "### Agent-Verifiable subsection exists with 3 action→outcome checks: Alerts page → create from template flow, Dashboard right-click → pre-filled picker, empty vars → validation error."},
+    {"text": "has_appetite: Spec has Appetite field", "passed": true, "evidence": "Line 4: '**Appetite:** Full Cycle (~6 weeks)' with real time-budget value."},
+    {"text": "has_boundary_tiers: Three-tier boundaries in Design Decisions", "passed": true, "evidence": "Line 44: 'Always: templates are immutable once seeded', 'Ask First: adding new seed templates requires review', 'Never: templates must not bypass alert rule validation'. Line 46: 'Always: matching is best-effort', 'Ask First: if multiple templates match, present disambiguation', 'Never: bridge must not silently drop filters'. 6+ boundary statements across all 3 tiers."}
+  ],
+  "summary": {"passed": 15, "failed": 0, "total": 15, "pass_rate": 1.00}
+}

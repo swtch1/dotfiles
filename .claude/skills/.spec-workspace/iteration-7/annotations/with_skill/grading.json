@@ -1,0 +1,85 @@
+{
+  "expectations": [
+    {
+      "text": "has_all_sections: Spec has all required sections including Acceptance Criteria",
+      "passed": true,
+      "evidence": "All 9 required sections present: ## Problem (L13), ## Solution (L17), ## Scope (L21), ## Acceptance Criteria (L42), ## Design Decisions (L52), ### Failure Modes (L68), ## Risks & Open Questions (L75, matches '## Risks'), ## Alternatives Considered (L81, matches '## Alternatives'), ## Verification (L87)."
+    },
+    {
+      "text": "no_code_fences: No code fences outside Implementation Notes",
+      "passed": true,
+      "evidence": "Zero triple-backtick code fences (```) anywhere in the spec. All code references use single-backtick inline code (e.g., `make build`, `useLatestRef`, `#dash-annotations`), which are not code fences."
+    },
+    {
+      "text": "no_ts_interfaces: No TypeScript types in Design Decisions",
+      "passed": true,
+      "evidence": "Design Decisions (L52-73) contain no TypeScript syntax: no 'interface ' declarations, no ': string'/': number'/': boolean' type annotations, no '=> Promise'. The word 'type' appears in 'message type holds' (L54) and 'panel types ignore' (L58) but these are plain English, not TS syntax."
+    },
+    {
+      "text": "no_json_shapes: No JSON/proto shapes in Design Decisions",
+      "passed": true,
+      "evidence": "Design Decisions describe data model fields in prose ('an ID, start and end timestamps, label text, creator identity, and creation time' at L54) but contain no JSON-like notation, no braces/brackets defining structure, and no proto message definitions."
+    },
+    {
+      "text": "no_exact_file_paths_in_scope: Scope items are capabilities not file paths",
+      "passed": true,
+      "evidence": "In Scope (L25-31) contains zero file paths, no 'src/' references, no '.ts'/'.tsx' extensions. Items describe capabilities and deliverables in natural language."
+    },
+    {
+      "text": "spec_under_120_lines: Under 120 lines excluding Implementation Notes",
+      "passed": true,
+      "evidence": "Implementation Delta begins at L119. Lines 1-118 = 118 lines, under the 120-line limit."
+    },
+    {
+      "text": "bold_topic_sentences: Bold topic sentences in Design Decisions",
+      "passed": true,
+      "evidence": "All 7 Design Decisions paragraphs open with a bold declarative sentence: L54 (**Annotations are stored...**), L56 (**A single new API endpoint...**), L58 (**Annotation rendering uses...**), L60 (**The annotations tab reuses...**), L62 (**URL-based annotation selection uses...**), L64 (**Panel context menu annotation creation...**), L66 (**Chat tools follow...**). 7/7 = 100% > 80%."
+    },
+    {
+      "text": "implementer_can_start: Implementer can start without questions",
+      "passed": true,
+      "evidence": "Spec names: storage model (repeated field on Dashboard proto, L54), API pattern (REST nested under dashboard path, L56), state management (dashboard view state shared across panels, L58), tab infrastructure (reserved tab ID and hash, L60), URL encoding strategy (annotation ID parameter, L62), interaction model (click vs drag-select, inline input, L64), chat tool pattern (three tools, confirmation policy, L66), and failure policies (L70-73). Sufficient for a competent developer to begin."
+    },
+    {
+      "text": "no_implementation_leaks: Design Decisions are decisions not implementation",
+      "passed": false,
+      "evidence": "FAIL. Design Decisions contain React hook implementation details: L66 names `useLatestRef` (a specific React hook) with usage guidance ('use useLatestRef for handler closures that reference dashboard state'). L66 also names `confirmationRequired` (a specific code property). These are implementation-level directives, not design decisions. Strict rule: borderline=FAIL."
+    },
+    {
+      "text": "failure_modes_are_policy: Failure modes are policy decisions",
+      "passed": true,
+      "evidence": "All 4 failure modes are debatable policy choices: (1) cascade-delete vs preserve orphans (L70), (2) silently drop stale URL param vs show error toast (L71), (3) preserve overlapping annotations vs conflict-resolve (L72), (4) queue chat creation during mid-load vs fail (L73). 4/4 = 100% > 50%."
+    },
+    {
+      "text": "scope_is_behavioral: Scope items are behavioral",
+      "passed": false,
+      "evidence": "FAIL. 6 of 8 In Scope items are behavioral (75% < 80%). Two items are implementation artifacts, not behavioral capabilities: 'New proto type for the annotation data model' (L31) and 'New API endpoint for annotation CRUD operations' (L32). These name technical deliverables rather than observable user/system behaviors. Strict rule: borderline=FAIL."
+    },
+    {
+      "text": "has_acceptance_criteria: Well-formed Acceptance Criteria",
+      "passed": true,
+      "evidence": "## Acceptance Criteria exists (L42) with 7 checkbox items (L44-50), within the 4-8 range. All items are observable behavioral outcomes stated from user perspective: user right-clicks and sees annotation (L44), user opens tab and sees filterable list (L45), URL sharing highlights annotation (L46), chat creates annotation without refresh (L47), chat lists/navigates (L48), delete removes visuals (L49), persistence across reloads (L50). Zero implementation tasks."
+    },
+    {
+      "text": "verification_agent_actionable: Verification has agent-actionable checks",
+      "passed": true,
+      "evidence": "### Agent-Verifiable subsection exists (L103) with 8 action→outcome checks (L105-112), e.g., 'right-click a panel, select Add Annotation → shaded region appears' (L105). Separate ### Human-Only subsection (L114) contains only 2 visual-judgment items. Non-build checks are NOT all Human-Only."
+    },
+    {
+      "text": "has_appetite: Spec has an Appetite field in the header",
+      "passed": true,
+      "evidence": "L5: '**Appetite:** Small Batch (~1-2 weeks)' — field present with a real time-budget value, not a placeholder."
+    },
+    {
+      "text": "has_boundary_tiers: Design Decisions use boundary tiers",
+      "passed": true,
+      "evidence": "Multiple boundary-tier statements across all three tiers: Always — 'validate that start time precedes end time' (L56), 'render annotations behind data series' (L58), 'require non-empty label text' (L64). Ask First — 'if annotation density is high enough...propose a collision-avoidance strategy before implementing one' (L58). Never — 'introduce a separate annotation service' (L56), 'add tools that modify or delete annotations via chat' (L66). Well exceeds 2 distinct tier statements."
+    }
+  ],
+  "summary": {
+    "passed": 13,
+    "failed": 2,
+    "total": 15,
+    "pass_rate": 0.87
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "expectations": [
+    {
+      "text": "has_all_sections: Spec has all required sections including Acceptance Criteria",
+      "passed": false,
+      "evidence": "Missing '## Acceptance Criteria' (spec has '## Verification' instead) and missing '### Failure Modes' entirely. Present: ## Problem (L3), ## Solution (L8), ## Scope (L11), ## Design Decisions (L29), ## Risks (L106), ## Alternatives (L115), ## Verification (L123)."
+    },
+    {
+      "text": "no_code_fences: No code fences outside Implementation Notes",
+      "passed": false,
+      "evidence": "Multiple code fences in Design Decisions: proto block L33-L50, API routes block L56-L62. No Implementation Notes section exists, so all code fences count. Hard fail."
+    },
+    {
+      "text": "no_ts_interfaces: No TypeScript types in Design Decisions",
+      "passed": true,
+      "evidence": "Design Decisions (L29-L104) contains proto syntax ('string id = 1;') which is protobuf, not TS. No 'interface ', ': string', ': number', ': boolean', or '=> Promise' TS patterns found."
+    },
+    {
+      "text": "no_json_shapes: No JSON/proto shapes in Design Decisions",
+      "passed": false,
+      "evidence": "Full proto message definition at L34-L50 ('message Annotation { string id = 1; ... }') and 'message AnnotationList' are data structure definitions inside Design Decisions."
+    },
+    {
+      "text": "no_exact_file_paths_in_scope: Scope items are capabilities not file paths",
+      "passed": true,
+      "evidence": "In Scope (L13-L20) contains no 'src/features/...', 'NEW: src/...', or file extensions (.ts, .tsx). API path '/api/v1/dashboards/{id}/annotations' is a route, not a source file path."
+    },
+    {
+      "text": "spec_under_120_lines: Under 120 lines excluding Implementation Notes",
+      "passed": false,
+      "evidence": "Spec is 137 lines total. No Implementation Notes section exists, so nothing is excluded. 137 > 120."
+    },
+    {
+      "text": "bold_topic_sentences: Bold topic sentences in Design Decisions",
+      "passed": false,
+      "evidence": "Bold items in Design Decisions are category labels ('**Panel rendering (`PanelGrid` / time-series panels):**', '**Panel context menu:**', '**Tools:**') not decision statements as fact. None say e.g. '**Annotations store as a repeated field on Dashboard proto.**' Paragraphs open with labels, not decisions."
+    },
+    {
+      "text": "implementer_can_start: Implementer can start without questions",
+      "passed": true,
+      "evidence": "Spec names patterns (existing dashboard routes, chat tool registry 3-step pattern L91), state management (dashboard view state, optimistic updates L102-L104), tool behaviors (3 chat tools with params L94-L96), storage approach (repeated field on Dashboard L52, L64), and UI components (<AnnotationOverlay>, context menu flow). Sufficient to begin."
+    },
+    {
+      "text": "no_implementation_leaks: Design Decisions are decisions not implementation",
+      "passed": false,
+      "evidence": "Design Decisions contains: code fences (proto L33-L50, API routes L56-L62), proto message definitions, specific component names (<AnnotationOverlay> L69, PanelGrid L68), numbered tool lists with exact param names (L94-L96). These are implementation details, not design decisions. Hard fail."
+    },
+    {
+      "text": "failure_modes_are_policy: Failure modes are policy decisions",
+      "passed": false,
+      "evidence": "No '### Failure Modes' section exists anywhere in the spec. The '## Risks' section (L106-L113) covers risk/mitigation pairs but is not a Failure Modes subsection with policy decisions."
+    },
+    {
+      "text": "scope_is_behavioral: Scope items are behavioral",
+      "passed": false,
+      "evidence": "In Scope has 8 items. Items 1-2 are implementation-flavored: 'New `Annotation` proto type with CRUD operations' (names a proto type) and 'New `/api/v1/dashboards/{id}/annotations` REST endpoint' (names a specific endpoint). 6/8 = 75% behavioral, below the >80% threshold. Borderline = FAIL."
+    },
+    {
+      "text": "has_acceptance_criteria: Well-formed Acceptance Criteria",
+      "passed": false,
+      "evidence": "No '## Acceptance Criteria' section exists. The spec has '## Verification' (L123) with checkbox items, but these are verification steps, not acceptance criteria. The required section is entirely missing. FAIL per rules."
+    },
+    {
+      "text": "verification_agent_actionable: Verification has agent-actionable checks",
+      "passed": false,
+      "evidence": "All 13 verification items (L125-L137) are manual UI testing steps: 'Create an annotation via panel context menu', 'Open #dash-annotations tab', 'Copy a URL'. No 'Agent-Verifiable' subsection. No API-level or programmatic checks an automated agent could execute. All checks are effectively Manual."
+    },
+    {
+      "text": "has_appetite: Spec has an Appetite field in the header",
+      "passed": false,
+      "evidence": "Spec header is '# Feature Spec: Dashboard Annotations' (L1) followed directly by '## Problem' (L3). No '**Appetite:**' field exists anywhere in the spec."
+    },
+    {
+      "text": "has_boundary_tiers: Design Decisions use three-tier boundaries where appropriate",
+      "passed": false,
+      "evidence": "Design Decisions (L29-L104) contains no Always/Ask First/Never, Must/Should/Must Not, or equivalent tier-boundary language. Statements like 'No WebSocket/realtime sync needed' (L104) are decisions but not boundary tiers giving an implementer a decision model for gray areas. Zero boundary-tier language present."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 12,
+    "total": 15,
+    "pass_rate": 0.20
+  }
+}

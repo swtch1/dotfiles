@@ -1,0 +1,85 @@
+{
+  "expectations": [
+    {
+      "text": "has_all_sections: Has ALL required sections",
+      "passed": true,
+      "evidence": "All present: ## Problem (L10), ## Solution (L14), ## Scope (L18), ## Acceptance Criteria (L36), ## Design Decisions (L46), ### Failure Modes (L62), ## Risks & Open Questions (L69), ## Alternatives Considered (L77), ## Verification (L85)."
+    },
+    {
+      "text": "no_code_fences: Zero triple-backtick code fences outside Implementation Notes",
+      "passed": true,
+      "evidence": "No triple-backtick code fences anywhere in the file. No Implementation Notes section exists either."
+    },
+    {
+      "text": "no_ts_interfaces: Design Decisions has NO 'interface ', ': string', ': number', TS syntax",
+      "passed": true,
+      "evidence": "Design Decisions (L48-61) contains no 'interface ', ': string', or ': number'. Uses backticked identifiers like `useMemo`, `useEffect`, field names, but no TypeScript type annotation syntax."
+    },
+    {
+      "text": "no_json_shapes: Design Decisions has NO JSON-like shapes or data structure defs",
+      "passed": false,
+      "evidence": "L56: 'returns `{ success: false, message }`' is a JSON-like object shape. L52: 'Each panel entry contains `id`, `title`, `type`, a `latestValue`... Variables include `name`, `current`, and `options`' defines data structure fields. Both are in Design Decisions."
+    },
+    {
+      "text": "no_exact_file_paths_in_scope: In Scope has NO 'src/...', '.ts', '.tsx'",
+      "passed": false,
+      "evidence": "L23: 'existing `Dashboard.tsx` component' contains .tsx. L24: '`suggestedPromptsByPage.ts`' contains .ts. Both in In Scope section."
+    },
+    {
+      "text": "spec_under_120_lines: ≤120 lines excluding Implementation Notes",
+      "passed": true,
+      "evidence": "File is 110 lines total. No Implementation Notes section exists. 110 ≤ 120."
+    },
+    {
+      "text": "bold_topic_sentences: >80% of Design Decisions paragraphs open with bold decision sentence",
+      "passed": true,
+      "evidence": "7/7 paragraphs open bold: L48 '**Follow the existing three-hook...**', L50 '**Use the `useLatestRef` pattern...**', L52 '**Context payload includes...**', L54 '**Mutating tools require confirmation...**', L56 '**Tool handlers never throw.**', L58 '**Hash-based tab navigation...**', L60 '**The `set_template_variable` tool...**'. 100%."
+    },
+    {
+      "text": "implementer_can_start: Competent dev can start from spec alone",
+      "passed": true,
+      "evidence": "Names three-hook pattern, references Alerts implementation as template, lists all 8 tools by name, describes context payload structure, specifies Zustand + react-query state management, describes useLatestRef pattern, confirmation gates, error handling. File locations in Verification. Sufficient to start."
+    },
+    {
+      "text": "no_implementation_leaks: Design Decisions does NOT prescribe HOW at React hook level",
+      "passed": false,
+      "evidence": "L50: 'tool handlers are memoized via `useMemo`' and 'The ref is updated on every render via `useEffect`' — both prescribe specific React hooks (useMemo, useEffect) as implementation detail, same level as useState/useRef."
+    },
+    {
+      "text": "failure_modes_are_policy: >50% failure modes are genuine policy decisions",
+      "passed": true,
+      "evidence": "5/5 are policy: (1) null latestValue + systemPrompt instruction for loading data, (2) minimal state + error flag when dashboard not found, (3) return failure + don't exit edit mode on save fail, (4) return failure listing valid options for bad variable, (5) truncate at 30 panels with truncated flag. 100%."
+    },
+    {
+      "text": "scope_is_behavioral: >80% In Scope items are behavioral capabilities",
+      "passed": false,
+      "evidence": "6 items: (1) hook name + behavior — mixed, (2) hook name + type — mixed, (3) 'Wiring both hooks into Dashboard.tsx' — implementation task, (4) 'Adding dashboard entry to suggestedPromptsByPage.ts' — implementation task with filename, (5) confirmation gates — behavioral, (6) context payload with metric summaries — behavioral. At best 4/6 (67%) behavioral, below 80% threshold."
+    },
+    {
+      "text": "has_acceptance_criteria: 4-8 behavioral checkbox items with observable outcomes",
+      "passed": true,
+      "evidence": "8 checkbox items (L37-44), all behavioral/observable: FAB appears/disappears, LLM receives state, user can ask analytical question, tools perform UI actions, confirmation required for mutations, suggested prompts appear, tab navigation preserves chat, leaving page clears tools."
+    },
+    {
+      "text": "verification_agent_actionable: Has Agent-Verifiable subsection with action→outcome checks",
+      "passed": true,
+      "evidence": "### Agent-Verifiable (L93-101) has 7 action→outcome checks: file existence + signature checks, grep-based verification of hook call ordering, suggested prompts entry, confirmation flags, error handling patterns, and context payload fields."
+    },
+    {
+      "text": "has_appetite: Header has Appetite field with real time-budget value",
+      "passed": true,
+      "evidence": "L5: '**Appetite:** Small Batch (~1-2 weeks)' — present with concrete time budget."
+    },
+    {
+      "text": "has_boundary_tiers: Design Decisions has ≥2 boundary-tier statements",
+      "passed": true,
+      "evidence": "5 boundary-tier statements: L52 '**Always:** include currentTab, isEditing...', L52 '**Never:** include raw datapoint arrays...', L54 '**Always:** require confirmation for toggle_edit_mode and save_dashboard', L54 '**Ask First:** whether set_time_range should require confirmation', L54 '**Never:** require confirmation for navigate_to_tab, select_panel...'."
+    }
+  ],
+  "summary": {
+    "passed": 11,
+    "failed": 4,
+    "total": 15,
+    "pass_rate": 0.73
+  }
+}
