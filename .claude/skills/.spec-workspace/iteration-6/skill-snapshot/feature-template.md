@@ -29,19 +29,6 @@
 - [Thing we are explicitly NOT doing] — [why]
 - [Another excluded item] — [why]
 
-## Acceptance Criteria
-
-[5-8 behavioral statements that define "done." Each criterion is a user-visible outcome that can be verified — either by automated test, browser automation, or code inspection. These are the contract: if all criteria are met, the feature ships. If any criterion is not met, the feature is incomplete.
-
-Write each as a declarative statement of what is true when the feature works:
-- "Chat sidebar toggle appears on the Snapshot page and disappears on navigation away"
-- "Destructive operations show a confirmation card before executing"
-
-NOT implementation tasks ("Create useSnapshotTools hook") or vague qualities ("Chat works well").]
-
-- [ ] [Behavioral outcome that must be true when the feature is complete]
-- [ ] [Another behavioral outcome]
-
 ## Design Decisions
 
 [Organize by behavior area, not by file or architecture layer. Each paragraph covers one aspect of the feature and opens with a **bold topic sentence** stating the decision as a fact. Reasoning and codebase anchors follow.
@@ -80,30 +67,22 @@ This section is an appendix, not the spec. The Design Decisions section must sta
 ## Verification
 
 <!--
-  IMPLEMENTING AGENT: You MUST check every box and run every command.
-  An unchecked box = incomplete work. Attempt ALL Agent-Verifiable checks
-  using available tools (browser automation, code inspection, test runners).
-  Only leave Human-Only items unchecked if you truly cannot verify them.
+  IMPLEMENTING AGENT: You MUST check each box as you complete it and run
+  every command listed below. An unchecked box = incomplete work.
 -->
 
 ### Automated
 
+- [ ] [Specific, testable condition]
+- [ ] [Another testable condition]
+- [ ] [Edge case that must be handled]
 - [ ] Build passes: `[build command]`
 - [ ] Tests pass: `[test command targeting this feature]`
 - [ ] Lint clean: `[lint command, if applicable]`
-- [ ] [Specific, testable condition verifiable by code inspection or test]
 
-### Agent-Verifiable
+### Manual
 
-[Checks the implementing agent CAN and MUST attempt using browser automation, HTTP requests, or programmatic inspection. Write each as: action → expected observable outcome.]
-
-- [ ] [Action to take] → [Expected outcome the agent can observe]
-
-### Human-Only (Optional)
-
-[Reserve for checks requiring subjective judgment — UX feel, visual polish, copy review. Most specs should have few or no items here.]
-
-- [ ] [Check requiring human judgment]
+- [ ] [Step-by-step manual verification procedure]
 
 ## Implementation Delta
 

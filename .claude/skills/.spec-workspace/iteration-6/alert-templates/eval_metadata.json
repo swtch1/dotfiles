@@ -1,0 +1,89 @@
+{
+  "eval_id": 3,
+  "eval_name": "alert-templates",
+  "prompt": "Create a feature spec for alert rule templates. Users should be able to create alert rules from pre-defined templates (e.g., 'High CPU', 'Error Rate Spike', 'Latency P99 Breach'). Templates define the metric query skeleton, default thresholds, and suggested notification channels, but users fill in variables (service name, threshold value, notification target). Templates are stored server-side with a new proto type and API. The template picker should be accessible from the Alerts page ('Create from template' button) AND from the Dashboard page (right-click a panel → 'Create alert from this query' which pre-fills the template variables from the panel's existing metric query). This is cross-module — it touches alerts, dashboards, and the shared API layer. Don't bother with a probing phase.",
+  "assertions": [
+    {
+      "id": "has_all_sections",
+      "type": "structural",
+      "description": "Spec has all required sections including Acceptance Criteria",
+      "check": "regex_all",
+      "patterns": ["## Problem", "## Solution", "## Scope", "## Acceptance Criteria", "## Design Decisions", "### Failure Modes", "## Risks", "## Alternatives", "## Verification"]
+    },
+    {
+      "id": "no_code_fences",
+      "type": "regex_negative",
+      "description": "No code fences outside Implementation Notes",
+      "check": "Count code fences (```) outside Implementation Notes. Should be zero.",
+      "severity": "hard_fail"
+    },
+    {
+      "id": "no_ts_interfaces",
+      "type": "regex_negative",
+      "description": "No TypeScript types in Design Decisions",
+      "check": "Design Decisions must not contain TypeScript type syntax.",
+      "severity": "hard_fail"
+    },
+    {
+      "id": "no_proto_definitions",
+      "type": "content",
+      "description": "No proto/interface definitions for the template type",
+      "check": "The spec requires a new proto type for templates. Design Decisions should describe template structure in prose, not as a proto/interface definition."
+    },
+    {
+      "id": "no_exact_file_paths_in_scope",
+      "type": "content",
+      "description": "Scope is behavioral, not file-based",
+      "check": "In Scope must not contain file paths."
+    },
+    {
+      "id": "spec_under_120_lines",
+      "type": "line_count",
+      "description": "Under 120 lines excluding Implementation Notes",
+      "max_lines": 120
+    },
+    {
+      "id": "bold_topic_sentences",
+      "type": "llm_judge",
+      "description": "Bold topic sentences in Design Decisions",
+      "check": "Do >80% of Design Decisions paragraphs open with bold decision statements?"
+    },
+    {
+      "id": "implementer_can_start",
+      "type": "llm_judge",
+      "description": "Implementer could start without questions",
+      "check": "Could a developer start implementing? Must cover: template data model decisions, variable filling UX, the cross-module integration (alerts page picker + dashboard panel context menu), pre-fill behavior from panel queries, API design decisions, and template management. FAIL if any core area is missing."
+    },
+    {
+      "id": "no_implementation_leaks",
+      "type": "llm_judge",
+      "description": "Design Decisions are decisions, not implementation",
+      "check": "FAIL if Design Decisions contains code fences, TypeScript types, JSON shapes, exact line numbers, mechanism tables, or hook implementation details.",
+      "severity": "hard_fail"
+    },
+    {
+      "id": "cross_module_addressed",
+      "type": "llm_judge",
+      "description": "The cross-module nature is explicitly addressed",
+      "check": "This feature touches alerts, dashboards, and shared API. Does the spec explicitly address how the template picker works from BOTH entry points (alerts page AND dashboard panel context menu)? Does it address the pre-fill behavior when creating from a panel's existing query? FAIL if either entry point is mentioned but not designed."
+    },
+    {
+      "id": "failure_modes_are_policy",
+      "type": "llm_judge",
+      "description": "Failure modes are policy decisions",
+      "check": "Are >50% genuine policy decisions?"
+    },
+    {
+      "id": "has_acceptance_criteria",
+      "type": "llm_judge",
+      "description": "Spec has well-formed Acceptance Criteria",
+      "check": "Find the Acceptance Criteria section. Must exist as ## heading. Check: (1) Contains 4-8 checkbox items. (2) Each is behavioral/observable, not implementational. (3) Items cover: template creation from alerts page, template creation from dashboard panel context menu, variable pre-fill from panel query, template management (CRUD), cross-module behavior. FAIL if: section missing, fewer than 4 items, items are implementation tasks, or core behaviors not covered."
+    },
+    {
+      "id": "verification_agent_actionable",
+      "type": "llm_judge",
+      "description": "Verification includes agent-actionable checks",
+      "check": "Read the Verification section. Check: (1) There is an 'Agent-Verifiable' subsection or equivalent. (2) Checks describe action → expected outcome. (3) Checks are concrete enough for agent execution. FAIL if all non-build checks are Manual/Human-Only or checks are vague."
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "expectations": [
+    {
+      "text": "Spec has all required sections including Acceptance Criteria",
+      "passed": false,
+      "evidence": "Missing '## Acceptance Criteria' (no such heading exists) and '### Failure Modes' (no such heading exists). Present: ## Problem (L3), ## Solution (L7), ## Scope (L17), ## Design Decisions (L159), ## Risks (L173), ## Alternatives Considered (L182), ## Verification (L193)."
+    },
+    {
+      "text": "No code fences (```) anywhere in the spec outside Implementation Notes",
+      "passed": false,
+      "evidence": "6 code fence markers found with no Implementation Notes section to exempt them: L43 (```typescript), L70 (```), L135 (```typescript), L142 (```), L148 (```typescript), L156 (```). All in Technical Approach / Integration / Suggested Prompts sections."
+    },
+    {
+      "text": "No TypeScript interface/type definitions in Design Decisions",
+      "passed": true,
+      "evidence": "Design Decisions (L159-170) is pure prose. No 'interface ', 'type ', ': string', ': number', ': boolean', '=> Promise' found. References like `confirmationRequired: true` and `useMetricQueries` are module/property names, not type definitions."
+    },
+    {
+      "text": "No JSON object literals or proto field listings in Design Decisions",
+      "passed": true,
+      "evidence": "Design Decisions (L159-170) contains no JSON-like shapes, object literals, or data structure definitions. All 6 paragraphs are prose describing decisions and rationale."
+    },
+    {
+      "text": "Scope items describe capabilities/behaviors, not exact file paths",
+      "passed": false,
+      "evidence": "In Scope (L19-25) contains file extensions: 'Dashboard.tsx' (L23, .tsx), 'suggestedPromptsByPage.ts' (L24, .ts). Also names hooks as scope items ('useDashboardChatContext hook', 'useDashboardTools hook') rather than behavioral capabilities."
+    },
+    {
+      "text": "Spec is under 120 lines (excluding Implementation Notes appendix)",
+      "passed": false,
+      "evidence": "Spec is 209 lines. No Implementation Notes section exists to exclude. 209 >> 120 limit."
+    },
+    {
+      "text": "Design Decisions paragraphs open with bold topic sentences that state decisions as facts",
+      "passed": true,
+      "evidence": "All 6 Design Decision paragraphs open with bold sentences: L160 '**Context includes panel value summaries**', L162 '**`timeRangeOverride` is ephemeral, not persisted**', L164 '**Edit mode and save require confirmation**', L166 '**`select_panel` supports title fuzzy match**', L168 '**No panel query editing via chat**', L170 '**Variable validation is strict**'. 6/6 = 100% > 80%."
+    },
+    {
+      "text": "An implementer could start coding from this spec without asking questions",
+      "passed": true,
+      "evidence": "Spec provides: pattern to follow (3-step from Alerts, L9), state management (Zustand view store, useLatestRef, L76/95), full tool table with parameters and confirmation flags (L99-109), per-tool implementation details (L112-131), error handling policy (L131), integration code location (L134-142), file paths (L39/94), context payload interface (L44-69), and 4KB budget breakdown (L79-89)."
+    },
+    {
+      "text": "Design Decisions section contains decisions, not implementation",
+      "passed": true,
+      "evidence": "Design Decisions (L159-170) contains zero code fences, zero TS interfaces, zero JSON shapes, zero line numbers, zero feature-to-implementation tables, zero useEffect/useState/useMemo details, zero new file paths. All 6 entries are decision rationale in prose. Implementation detail lives in Technical Approach (L37-156), not Design Decisions."
+    },
+    {
+      "text": "Failure modes state policy decisions, not just error types",
+      "passed": false,
+      "evidence": "No '### Failure Modes' section exists in the spec. The '## Risks' section (L173-180) lists risk/likelihood/impact/mitigation but these are risk mitigations, not failure mode policy decisions."
+    },
+    {
+      "text": "Scope items describe capabilities and behaviors, not files or architecture",
+      "passed": false,
+      "evidence": "In Scope (L21-25): 3/5 items name specific hooks or files — 'useDashboardChatContext hook' (L21), 'useDashboardTools hook returning ChatTool[]' (L22), 'Integration into Dashboard.tsx' (L23). Only L25 ('Context payload design...') is somewhat behavioral. 1/5 behavioral = 20%, well below 80% threshold."
+    },
+    {
+      "text": "Spec has a well-formed Acceptance Criteria section with behavioral done conditions",
+      "passed": false,
+      "evidence": "No '## Acceptance Criteria' heading exists anywhere in the spec. The spec has a '## Verification' section (L193) with 16 checkbox items, but these are implementation verification tasks ('useDashboardChatContext serializes context under 4KB', 'All 9 tools are registered'), not behavioral acceptance criteria. Section is missing entirely = FAIL per grading rules."
+    },
+    {
+      "text": "Verification section includes agent-actionable checks with action → outcome format",
+      "passed": false,
+      "evidence": "Verification (L194-209) is a flat checklist of 16 items with no 'Agent-Verifiable' subsection or equivalent grouping. Items state what should be true ('navigate_to_tab rejects invalid tab IDs') rather than action → outcome format ('Call navigate_to_tab with invalid tab ID → returns error string containing...'). No distinction between agent-executable and manual checks. Build checks (L207-209) are actionable but non-build checks lack action → outcome structure."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 8,
+    "total": 13,
+    "pass_rate": 0.38
+  }
+}
