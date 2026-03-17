@@ -1,0 +1,22 @@
+{
+  "eval_id": 2,
+  "eval_name": "annotations",
+  "iteration": 7,
+  "assertions": [
+    { "id": "has_all_sections", "type": "structural", "description": "Spec has all required sections including Acceptance Criteria", "check": "regex_all", "patterns": ["## Problem", "## Solution", "## Scope", "## Acceptance Criteria", "## Design Decisions", "### Failure Modes", "## Risks", "## Alternatives", "## Verification"] },
+    { "id": "no_code_fences", "type": "regex_negative", "description": "No code fences outside Implementation Notes", "check": "Count ``` outside Implementation Notes. Even one = FAIL.", "severity": "hard_fail" },
+    { "id": "no_ts_interfaces", "type": "regex_negative", "description": "No TypeScript types in Design Decisions", "check": "Design Decisions must not contain 'interface ', 'type ', ': string', ': number', ': boolean', '=> Promise' or other TS syntax", "severity": "hard_fail" },
+    { "id": "no_json_shapes", "type": "content", "description": "No JSON/proto shapes in Design Decisions", "check": "Design Decisions must not contain JSON-like shapes or data structure definitions." },
+    { "id": "no_exact_file_paths_in_scope", "type": "content", "description": "Scope items are capabilities not file paths", "check": "In Scope must not contain 'src/features/...', 'NEW: src/...', or file extensions like '.ts', '.tsx'." },
+    { "id": "spec_under_120_lines", "type": "line_count", "description": "Under 120 lines excluding Implementation Notes", "max_lines": 120 },
+    { "id": "bold_topic_sentences", "type": "llm_judge", "description": "Bold topic sentences in Design Decisions", "check": "Do >80% of Design Decisions paragraphs open with a bold sentence stating a decision as fact?" },
+    { "id": "implementer_can_start", "type": "llm_judge", "description": "Implementer can start without questions", "check": "Could a competent developer start implementing? Spec must name patterns, state management, tool behaviors, and state coordination." },
+    { "id": "no_implementation_leaks", "type": "llm_judge", "description": "Design Decisions are decisions not implementation", "check": "FAIL if Design Decisions contains code fences, TS interfaces, JSON shapes, exact line numbers, mechanism tables, or React hook implementation details.", "severity": "hard_fail" },
+    { "id": "failure_modes_are_policy", "type": "llm_judge", "description": "Failure modes are policy decisions", "check": "Are >50% of failure modes genuine policy decisions the team could disagree on?" },
+    { "id": "scope_is_behavioral", "type": "llm_judge", "description": "Scope items are behavioral", "check": "Are >80% of In Scope items behavioral capabilities rather than file/component names?" },
+    { "id": "has_acceptance_criteria", "type": "llm_judge", "description": "Well-formed Acceptance Criteria", "check": "## Acceptance Criteria exists with 4-8 behavioral checkbox items. Items must be observable outcomes, NOT implementation tasks. FAIL if missing, <4 items, or items are implementation tasks." },
+    { "id": "verification_agent_actionable", "type": "llm_judge", "description": "Verification has agent-actionable checks", "check": "Must have Agent-Verifiable subsection with action → outcome format checks. FAIL if all non-build checks are labeled Manual/Human-Only." },
+    { "id": "has_appetite", "type": "structural", "description": "Spec has an Appetite field in the header", "check": "The spec header must contain an '**Appetite:**' field with a value like 'Small Batch (~1-2 weeks)' or 'Full Cycle (~6 weeks)' or similar time budget. FAIL if the field is missing entirely or contains only a placeholder like '[...]'." },
+    { "id": "has_boundary_tiers", "type": "llm_judge", "description": "Design Decisions use three-tier boundaries where appropriate", "check": "Scan Design Decisions for three-tier implementation boundaries (Always/Ask First/Never or equivalent like Must/Should/Must Not). The spec should contain at least 2 boundary statements across the three tiers — e.g., 'destructive tools always require confirmation' (Always tier) and 'never add a new Zustand store' (Never tier). The boundaries give the implementer a decision model for gray areas. FAIL if zero boundary-tier language is present. PASS if at least 2 distinct tier statements exist, even if not explicitly labeled 'Always/Ask First/Never'." }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "expectations": [
+    {
+      "text": "has_all_sections: Spec has all required sections including Acceptance Criteria",
+      "passed": false,
+      "evidence": "Missing '## Acceptance Criteria' (not present anywhere) and '### Failure Modes' (not present anywhere). Found: ## Problem (L3), ## Solution (L9), ## Scope (L17), ## Design Decisions / Technical Approach (L37), ## Risks (L143), ## Alternatives Considered (L153), ## Verification (L164)."
+    },
+    {
+      "text": "no_code_fences: No code fences outside Implementation Notes",
+      "passed": false,
+      "evidence": "No Implementation Notes section exists. 5 code fences found: L40-42 (typescript function sig), L50-63 (context example), L69-71 (typescript function sig), L92-122 (full tool handler pattern), L129-133 (wiring example). Hard fail — even one outside Implementation Notes = FAIL."
+    },
+    {
+      "text": "no_ts_interfaces: No TypeScript types in Design Decisions",
+      "passed": false,
+      "evidence": "Design Decisions (L37-141) contains extensive TS syntax: ': string' in L41 (useDashboardChatContext(): string), L80 ({ tabId: string }), L84 ({ from: string, to: string }); 'ChatTool[]' in L70, L75, L97; '<ChatTool[]>' generic in L97; full typed hook implementations with useLatestRef, useMemo throughout L92-122."
+    },
+    {
+      "text": "no_json_shapes: No JSON/proto shapes in Design Decisions",
+      "passed": false,
+      "evidence": "Tool Definitions table (L79-88) contains parameter shapes: { tabId: string }, { panelId: string }, { panelId?: string }, { from: string, to: string }, { name: string, value: string }, {}. Lines 50-63 contain a structured data shape showing serialized context format. These are data structure definitions."
+    },
+    {
+      "text": "no_exact_file_paths_in_scope: Scope items are capabilities not file paths",
+      "passed": true,
+      "evidence": "In Scope (L19-27) contains hook names (useDashboardChatContext, useDashboardTools) and tool names but no 'src/features/...' paths, no 'NEW: src/...' patterns, and no '.ts' or '.tsx' file extensions."
+    },
+    {
+      "text": "spec_under_120_lines: Under 120 lines excluding Implementation Notes",
+      "passed": false,
+      "evidence": "Spec is 176 lines total. No Implementation Notes section exists to exclude. 176 > 120."
+    },
+    {
+      "text": "bold_topic_sentences: Bold topic sentences in Design Decisions",
+      "passed": false,
+      "evidence": "Design Decisions paragraphs (L37-141) open with: 'Reads from:' (L44), 'Serializes into a structured text block...' (L49), 'This gives the LLM enough...' (L65), 'Uses useLatestRef on all dependencies...' (L73), 'Returns ChatTool[] via useMemo...' (L75), 'In Dashboard.tsx, add the hooks...' (L127), 'All view mutations go through...' (L137), 'Tab navigation updates the URL hash...' (L141). Zero paragraphs open with bold topic sentences. 0% vs required >80%."
+    },
+    {
+      "text": "implementer_can_start: Implementer can start without questions",
+      "passed": true,
+      "evidence": "Spec names specific patterns (useLatestRef, useMemo, ChatTool[]), state management (useDashboardViewStore Zustand store, useDashboard server state), all 8 tool behaviors with parameters and confirmation gates, state coordination (Zustand reset on unmount, URL hash for tabs), and the 3-step integration pattern from Alerts. Sufficient to begin implementation."
+    },
+    {
+      "text": "no_implementation_leaks: Design Decisions are decisions not implementation",
+      "passed": false,
+      "evidence": "Design Decisions contains: 5 code fences with full TypeScript implementations (L40-42, 50-63, 69-71, 92-122, 129-133), a mechanism table of tool definitions with typed parameters (L79-88), React hook implementation details (useLatestRef pattern, useMemo dependency array, handler closures). This is implementation pseudocode, not design decisions. Hard fail."
+    },
+    {
+      "text": "failure_modes_are_policy: Failure modes are policy decisions",
+      "passed": false,
+      "evidence": "No '### Failure Modes' section exists. The ## Risks table (L143-151) covers risk mitigations but these are framed as technical mitigations (truncate, useLatestRef, read at invocation time) not policy decisions a team could disagree on."
+    },
+    {
+      "text": "scope_is_behavioral: Scope items are behavioral",
+      "passed": false,
+      "evidence": "In Scope items (L21-27): Items 1-2 lead with hook component names ('useDashboardChatContext hook', 'useDashboardTools hook'). Item 4 lists implementation tool names ('navigate_to_tab, select_panel...'). Items 3, 5, 6 are behavioral (context contents, confirmation gates, registration). ~50% behavioral vs required >80%. Borderline = FAIL."
+    },
+    {
+      "text": "has_acceptance_criteria: Well-formed Acceptance Criteria",
+      "passed": false,
+      "evidence": "No '## Acceptance Criteria' section exists anywhere in the spec. The spec has ## Verification (L164) with 12 checkbox items, but this is not ## Acceptance Criteria. The assertion explicitly requires the heading '## Acceptance Criteria'."
+    },
+    {
+      "text": "verification_agent_actionable: Verification has agent-actionable checks",
+      "passed": false,
+      "evidence": "## Verification (L164-176) has 12 checkbox items describing test scenarios. No 'Agent-Verifiable' subsection exists. Items are not structured with explicit action → outcome format. No items are labeled as Agent vs Manual. Without subsection structure distinguishing agent-verifiable from manual checks, this fails the requirement."
+    },
+    {
+      "text": "has_appetite: Spec has an Appetite field in the header",
+      "passed": false,
+      "evidence": "No '**Appetite:**' field exists anywhere in the spec. The header (L1) contains only '# Feature Spec: Dashboard Chat Integration' followed immediately by '## Problem'. No appetite/time-budget metadata."
+    },
+    {
+      "text": "has_boundary_tiers: Design Decisions use three-tier boundaries where appropriate",
+      "passed": false,
+      "evidence": "Design Decisions lacks explicit tier language (Always/Ask First/Never or Must/Should/Must Not). Confirmation on edit/save (L86-87, L115) is an implicit 'Always' tier but appears as code (confirmationRequired: true), not a stated boundary. No 'Never' tier statements in Design Decisions. Zero explicit boundary-tier statements; need at least 2 distinct tiers."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 13,
+    "total": 15,
+    "pass_rate": 0.13
+  }
+}

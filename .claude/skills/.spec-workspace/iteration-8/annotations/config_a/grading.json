@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {"text": "has_all_sections: All required sections present", "passed": false, "evidence": "Missing ## Acceptance Criteria section. Has Problem, Solution, Scope, Design Decisions, Failure Modes, Risks, Alternatives, Verification, but no Acceptance Criteria heading."},
+    {"text": "no_code_fences: No code fences outside Implementation Notes", "passed": true, "evidence": "Zero triple-backtick code fences in the entire spec."},
+    {"text": "no_ts_interfaces: No TS types in Design Decisions", "passed": true, "evidence": "Design Decisions contains no TypeScript interface definitions, type annotations, or TS syntax."},
+    {"text": "no_json_shapes: No JSON/proto shapes in Design Decisions", "passed": true, "evidence": "No JSON literals or data structure shape definitions in Design Decisions."},
+    {"text": "no_exact_file_paths_in_scope: Scope items are capabilities not file paths", "passed": true, "evidence": "In Scope items describe behaviors (annotation type, API endpoint, rendering, context menu, tab, URL params, chat tools). No src/ paths or file extensions."},
+    {"text": "spec_under_120_lines: Under 120 lines", "passed": true, "evidence": "106 lines total."},
+    {"text": "bold_topic_sentences: Bold topic sentences in Design Decisions", "passed": true, "evidence": "7/7 paragraphs open with bold sentences: 'Annotations are stored as a separate resource...', 'The API follows the existing route conventions...', 'Annotation rendering on time-series panels uses...', 'Panel context menu gains...', 'The Annotations tab renders...', 'URL parameter selects...', 'Chat integration follows...'. 100% > 80%."},
+    {"text": "implementer_can_start: Implementer can start without questions", "passed": true, "evidence": "Spec names the data model approach (separate resource), API convention (nested under dashboards), rendering approach (overlay), creation UX (context menu with brush selection), tab navigation (existing hash), URL param mechanism, chat integration pattern (three-hook), and view store extension. Sufficient for implementation."},
+    {"text": "no_implementation_leaks: Design Decisions are decisions not implementation", "passed": false, "evidence": "Line 55: 'The useDashboardViewStore is extended with a highlightedAnnotationId field and corresponding setter/getter' — prescribes specific store field names and implementation shape. Line 53: 'useLatestRef pattern prevents stale closures' names a specific React hook pattern as implementation. Borderline = FAIL."},
+    {"text": "failure_modes_are_policy: Failure modes are policy decisions", "passed": true, "evidence": "3/3 are policy: (1) creation fails with popover open → toast + text lost vs retain draft (explicit open question), (2) shared link with private dashboard → standard permission check, no annotation-specific error, (3) large annotation list → virtual scrolling + render only visible range. All are decisions the team could reasonably disagree on."},
+    {"text": "scope_is_behavioral: Scope items are behavioral", "passed": true, "evidence": "10/10 In Scope items are behavioral capabilities: proto type, API endpoint, rendering, context menu creation, annotations tab, URL param, chat context, chat tools, suggested prompts, view store additions. 100% > 80%."},
+    {"text": "has_acceptance_criteria: Well-formed Acceptance Criteria", "passed": false, "evidence": "No ## Acceptance Criteria section exists in the spec."},
+    {"text": "verification_agent_actionable: Verification has agent-actionable checks", "passed": false, "evidence": "Verification has Automated and Manual sections only. No Agent-Verifiable subsection with action→outcome format."},
+    {"text": "has_appetite: Spec has Appetite field", "passed": false, "evidence": "Header has Date, Status, Amendments, Superseded-by, Ticket — but no Appetite field."},
+    {"text": "has_boundary_tiers: Three-tier boundaries in Design Decisions", "passed": false, "evidence": "Zero Always/Ask First/Never boundary-tier statements in Design Decisions."}
+  ],
+  "summary": {"passed": 9, "failed": 6, "total": 15, "pass_rate": 0.60}
+}
