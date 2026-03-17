@@ -28,6 +28,7 @@ cp ~/.zshrc* .
   cp ~/.claude/mcp*.json .claude/
 	cp -r ~/.claude/agents/ .claude/agents/
 	cp -r ~/.claude/skills/ .claude/skills/
+  rm -rf .claude/skills/personal # don't commit this
 }
 
 echo 'copying scripts'

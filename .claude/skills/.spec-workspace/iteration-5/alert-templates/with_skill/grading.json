@@ -1,0 +1,123 @@
+{
+  "expectations": [
+    {
+      "text": "has_all_sections: Spec has all required sections",
+      "passed": true,
+      "evidence": "All required headings are present in `SPEC.md`: `## Problem` (line 12), `## Solution` (line 18), `## Scope` (line 24), `## Design Decisions` (line 43), `### Failure Modes` (line 61), `## Risks` via `## Risks & Open Questions` (line 68), `## Alternatives` via `## Alternatives Considered` (line 77), and `## Verification` (line 84)."
+    },
+    {
+      "text": "no_code_fences: No code fences outside Implementation Notes",
+      "passed": true,
+      "evidence": "No triple-backtick code fences (```) appear anywhere in `SPEC.md:1-115`, including outside the implementation section."
+    },
+    {
+      "text": "no_ts_interfaces: No TypeScript types in Design Decisions",
+      "passed": true,
+      "evidence": "`SPEC.md:45-60` contains prose-only decision statements; no TypeScript interface/type syntax is present."
+    },
+    {
+      "text": "no_proto_definitions: No proto/interface definitions for the template type",
+      "passed": true,
+      "evidence": "The spec references a new proto/API in prose (`SPEC.md:20`, `SPEC.md:29`) but does not include any proto/interface block definitions."
+    },
+    {
+      "text": "no_exact_file_paths_in_scope: Scope is behavioral, not file-based",
+      "passed": true,
+      "evidence": "In-scope bullets (`SPEC.md:28-34`) are behavior/capability statements and contain no file paths; scope content is overwhelmingly behavioral (>80%)."
+    },
+    {
+      "text": "spec_under_120_lines: Under 120 lines excluding Implementation Notes",
+      "passed": true,
+      "evidence": "`SPEC.md` has 115 total lines (`SPEC.md:1-115`), which is below the 120-line limit."
+    },
+    {
+      "text": "bold_topic_sentences: Bold topic sentences in Design Decisions",
+      "passed": true,
+      "evidence": "All 8/8 Design Decisions paragraphs open with bold lead decision statements (`SPEC.md:45`, `47`, `49`, `51`, `53`, `55`, `57`, `59`) = 100%."
+    },
+    {
+      "text": "implementer_can_start: Implementer could start without questions",
+      "passed": true,
+      "evidence": "Core implementation decisions are covered: template model/API ownership (`SPEC.md:20`, `28-30`, `45`), variable fill UX and validation (`SPEC.md:30`, `32-34`, `49`, `53`), both entry points (`SPEC.md:30-32`, `49`), panel-query prefill behavior (`SPEC.md:22`, `31`, `51`, `64`), and template management constraints (`SPEC.md:38`, `40`)."
+    },
+    {
+      "text": "no_implementation_leaks: Design Decisions are decisions, not implementation",
+      "passed": true,
+      "evidence": "`SPEC.md:45-60` has no code fences, TS types, JSON shapes, mechanism tables, exact line references, hook-level implementation details, or exact new file paths."
+    },
+    {
+      "text": "cross_module_addressed: Cross-module nature explicitly addressed",
+      "passed": true,
+      "evidence": "Both entry points are explicitly designed: Alerts picker (`SPEC.md:30`) and Dashboard panel context action (`SPEC.md:31`), with shared flow/API convergence (`SPEC.md:49`) and query-derived prefill policy (`SPEC.md:22`, `51`, `64`)."
+    },
+    {
+      "text": "failure_modes_are_policy: Failure modes are policy decisions",
+      "passed": true,
+      "evidence": "Failure modes are policy-level behaviors in 4/4 cases (`SPEC.md:63-66`): retry/fallback policy, partial-prefill + explicit completion policy, server validation + preserve inputs policy, and submit-time conflict review policy."
+    }
+  ],
+  "summary": {
+    "passed": 11,
+    "failed": 0,
+    "total": 11,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "metrics_file_present": false,
+    "tool_calls": null,
+    "total_tool_calls": null,
+    "total_steps": null,
+    "errors_encountered": 0,
+    "output_chars": null,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "executor_duration_seconds": 142.0,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": 142.0
+  },
+  "claims": [
+    {
+      "claim": "The spec designs both creation entry points (Alerts page and Dashboard panel context menu).",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Explicitly specified in `SPEC.md:30-32` and reinforced by shared-flow decision in `SPEC.md:49`."
+    },
+    {
+      "claim": "Dashboard-triggered creation pre-fills template variables from the panel query but remains user-confirmed.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Described in `SPEC.md:22`, `SPEC.md:31`, and `SPEC.md:51`."
+    },
+    {
+      "claim": "Templates are server-managed with shared API/proto contracts rather than client constants.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Stated in `SPEC.md:20`, `SPEC.md:28-30`, `SPEC.md:45`, and `SPEC.md:59`."
+    },
+    {
+      "claim": "Design Decisions avoid implementation-level leakage.",
+      "type": "quality",
+      "verified": true,
+      "evidence": "`SPEC.md:45-60` is prose-only with policy/design intent and no forbidden implementation artifacts."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "has_all_sections",
+        "reason": "This is structurally useful but weakly discriminating: a spec with empty or one-line sections would still pass. Add minimum-content/decision-quality checks per section."
+      },
+      {
+        "assertion": "spec_under_120_lines",
+        "reason": "Line-count alone can reward terse-but-underspecified specs. Pair it with a density or coverage assertion tied to required decision areas to avoid false positives."
+      }
+    ],
+    "overall": "Current eval set is generally strong on anti-leakage and cross-module coverage, with minor gaps in discriminating section substance versus mere structure/length."
+  }
+}

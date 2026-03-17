@@ -1,0 +1,119 @@
+{
+  "expectations": [
+    {
+      "id": "has_all_sections",
+      "text": "Spec has all required sections",
+      "passed": true,
+      "evidence": "Found all required headings in SPEC.md: `## Problem` (line 12), `## Solution` (line 18), `## Scope` (line 22), `## Design Decisions` (line 41), `### Failure Modes` (line 55), `## Risks & Open Questions` (matches `## Risks`, line 62), `## Alternatives Considered` (matches `## Alternatives`, line 71), and `## Verification` (line 78)."
+    },
+    {
+      "id": "no_code_fences",
+      "text": "No code fences outside Implementation Notes",
+      "passed": true,
+      "evidence": "No triple-backtick code fences (` ``` `) appear anywhere in SPEC.md (including outside any Implementation Notes context)."
+    },
+    {
+      "id": "no_ts_interfaces",
+      "text": "No TypeScript types in Design Decisions",
+      "passed": true,
+      "evidence": "Design Decisions section (lines 41-53) contains prose decisions only; no TypeScript interface/type syntax (e.g., `interface`, `type X = {}`, typed field annotations) is present."
+    },
+    {
+      "id": "no_proto_definitions",
+      "text": "No proto/interface definitions for the template type",
+      "passed": true,
+      "evidence": "The spec describes template structure behaviorally (query skeleton/defaults/variables) and does not include any proto or interface definition blocks in Design Decisions."
+    },
+    {
+      "id": "no_exact_file_paths_in_scope",
+      "text": "Scope is behavioral, not file-based",
+      "passed": true,
+      "evidence": "In Scope bullets (lines 26-32) describe behaviors and flows; they do not include file paths."
+    },
+    {
+      "id": "spec_under_120_lines",
+      "text": "Under 120 lines excluding Implementation Notes",
+      "passed": true,
+      "evidence": "SPEC.md is 112 total lines and contains no Implementation Notes block that would increase the counted body."
+    },
+    {
+      "id": "bold_topic_sentences",
+      "text": "Bold topic sentences in Design Decisions",
+      "passed": true,
+      "evidence": "All six Design Decisions paragraphs (lines 43, 45, 47, 49, 51, 53) open with bold decision lead sentences, exceeding the >80% threshold."
+    },
+    {
+      "id": "implementer_can_start",
+      "text": "Implementer could start without questions",
+      "passed": true,
+      "evidence": "Spec covers template data model/API ownership (lines 26-27, 43), variable filling and required placeholders (lines 45, 49), cross-module entry points (lines 20, 28-30, 47), dashboard pre-fill behavior (lines 29, 49), and template management boundary/server ownership (lines 35-36)."
+    },
+    {
+      "id": "no_implementation_leaks",
+      "text": "Design Decisions are decisions, not implementation",
+      "passed": false,
+      "evidence": "FAIL (strict): Design Decisions include exact file path + line references repeatedly, e.g. `src/api/routes/alerts.ts:11` and `:79` (line 43), `src/api/routes/alerts.ts:31` (line 45), `src/features/dashboard/components/Dashboard.tsx:62` and `src/features/dashboard/hooks/useMetricQueries.ts:23` (line 47), plus hook-level detail references. This violates the no implementation leaks rule."
+    },
+    {
+      "id": "cross_module_addressed",
+      "text": "The cross-module nature is explicitly addressed",
+      "passed": true,
+      "evidence": "Both entry points are explicitly designed: Alerts page `Create from template` and Dashboard panel context action `Create alert from this query` (lines 20, 28-30, 47). Prefill from panel query context is designed with unresolved-variable handling (lines 29, 49)."
+    },
+    {
+      "id": "failure_modes_are_policy",
+      "text": "Failure modes are policy decisions",
+      "passed": true,
+      "evidence": "Failure Modes (lines 57-60) are policy-oriented decisions (retry + fallback path, unresolved-field requirement on ambiguity, no silent notification auto-downgrade, explicit validation failure on schema mismatch). >50% are genuine policy choices."
+    }
+  ],
+  "summary": {
+    "passed": 10,
+    "failed": 1,
+    "total": 11,
+    "pass_rate": 0.9091
+  },
+  "execution_metrics": {
+    "note": "metrics.json not present in outputs directory"
+  },
+  "timing": {
+    "executor_duration_seconds": 144,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": 144
+  },
+  "claims": [
+    {
+      "claim": "The feature is designed with two creation entry points: Alerts page and Dashboard panel context menu.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Specified in Solution and Scope (SPEC.md lines 20, 28-30) and reinforced in Design Decisions (line 47)."
+    },
+    {
+      "claim": "Template definitions are server-managed and consumed via shared API/proto layer.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "In Scope states new shared API/proto domain with server-owned template definitions (lines 26-27); Out of Scope excludes frontend template authoring/editing (line 35)."
+    },
+    {
+      "claim": "Dashboard-originated creation pre-fills variables from panel query context but requires user confirmation for unresolved values.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Defined in Scope and Design Decisions (lines 29, 49) and reinforced in Failure Modes policy (line 58)."
+    },
+    {
+      "claim": "Template flow will reduce setup time and avoid alert-quality variance in practice.",
+      "type": "quality",
+      "verified": false,
+      "evidence": "This is an intended outcome asserted in Problem/Solution (lines 14-20), but cannot be empirically verified from the spec artifact alone."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "No suggestions, evals look solid and discriminating for this artifact."
+  }
+}

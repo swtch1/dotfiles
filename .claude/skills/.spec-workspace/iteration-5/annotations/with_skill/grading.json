@@ -1,0 +1,120 @@
+{
+  "expectations": [
+    {
+      "text": "Spec has all required sections",
+      "passed": true,
+      "evidence": "Required headings are present in /Users/josh/.claude/skills/spec-workspace/iteration-5/annotations/with_skill/outputs/SPEC.md:12,16,20,41,57,63,71,77."
+    },
+    {
+      "text": "No code fences in the spec outside Implementation Notes",
+      "passed": true,
+      "evidence": "Search for triple backticks returned no matches in /Users/josh/.claude/skills/spec-workspace/iteration-5/annotations/with_skill/outputs/SPEC.md (0 occurrences)."
+    },
+    {
+      "text": "No TypeScript interface/type definitions in Design Decisions",
+      "passed": true,
+      "evidence": "Design Decisions (/Users/josh/.claude/skills/spec-workspace/iteration-5/annotations/with_skill/outputs/SPEC.md:43-55) is prose-only; no interface/type syntax or hook implementation details found."
+    },
+    {
+      "text": "No proto message definitions or field listings in Design Decisions",
+      "passed": true,
+      "evidence": "Design Decisions (/Users/josh/.claude/skills/spec-workspace/iteration-5/annotations/with_skill/outputs/SPEC.md:43-55) discusses behavior and policy in prose; no proto/interface field-name+type block appears."
+    },
+    {
+      "text": "Scope items are capabilities, not file paths",
+      "passed": true,
+      "evidence": "In Scope bullets at /Users/josh/.claude/skills/spec-workspace/iteration-5/annotations/with_skill/outputs/SPEC.md:24-31 describe behaviors/capabilities and include no exact file paths."
+    },
+    {
+      "text": "Spec is under 120 lines excluding Implementation Notes",
+      "passed": true,
+      "evidence": "SPEC.md is 110 total lines (/Users/josh/.claude/skills/spec-workspace/iteration-5/annotations/with_skill/outputs/SPEC.md)."
+    },
+    {
+      "text": "Design Decisions use bold topic sentences",
+      "passed": true,
+      "evidence": "All 7 Design Decisions paragraphs open with bold decision statements at lines 43,45,47,49,51,53,55 (7/7 = 100% > 80%)."
+    },
+    {
+      "text": "Implementer could start without asking questions",
+      "passed": true,
+      "evidence": "Core areas are covered: data model ownership (/outputs/SPEC.md:43 and scope line 24), rendering approach (49), URL selection (47,68), chat tools/behavior (53-55), panel context menu integration (51), and annotations tab behavior (28,55)."
+    },
+    {
+      "text": "Design Decisions contains decisions, not implementation leaks",
+      "passed": true,
+      "evidence": "No disallowed leak patterns in Design Decisions (/outputs/SPEC.md:43-55): no code fences, TS defs, JSON shapes, exact line numbers, mechanism tables, useEffect/useState details, or exact new file paths."
+    },
+    {
+      "text": "Failure modes are policy decisions",
+      "passed": true,
+      "evidence": "Failure modes at /outputs/SPEC.md:59-61 define explicit product/policy behaviors for refresh failure, missing URL target, and out-of-range annotations. 3/3 are genuine policy choices (>50%)."
+    },
+    {
+      "text": "Scope items describe behaviors, not files/components",
+      "passed": true,
+      "evidence": "In Scope section (/outputs/SPEC.md:24-31) contains 8 behavioral capability bullets and no file/component implementation naming as the primary scope unit (>80% behavioral)."
+    }
+  ],
+  "summary": {
+    "passed": 11,
+    "failed": 0,
+    "total": 11,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "note": "metrics.json not found at /Users/josh/.claude/skills/spec-workspace/iteration-5/annotations/with_skill/outputs/metrics.json"
+  },
+  "timing": {
+    "executor_duration_seconds": 137,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": 137,
+    "source": "/Users/josh/.claude/skills/spec-workspace/iteration-5/annotations/with_skill/timing.json:1"
+  },
+  "claims": [
+    {
+      "claim": "Annotations are dashboard-scoped and visible across all time-series panels.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Stated in /outputs/SPEC.md:18 and reinforced in scope lines 24 and 26."
+    },
+    {
+      "claim": "Annotation selection is URL-query-driven while dashboard tab selection remains hash-driven.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Explicitly stated in /outputs/SPEC.md:47 and assumption at line 68."
+    },
+    {
+      "claim": "The dashboard currently has no chat integration.",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Claim appears in /outputs/SPEC.md:53, but no transcript or code evidence was provided to independently verify current-state architecture."
+    },
+    {
+      "claim": "PanelGrid currently centralizes panel rendering behavior.",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Claim appears in /outputs/SPEC.md:49, but cannot be verified from provided artifacts (spec-only grading, no transcript/code inspection requested)."
+    },
+    {
+      "claim": "Chat and annotations tab will stay synchronized via a shared annotation source of truth.",
+      "type": "quality",
+      "verified": false,
+      "evidence": "This is a design intent stated at /outputs/SPEC.md:55; it is not empirically verifiable from the provided output artifacts."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "implementer_can_start",
+        "reason": "This judge can pass even when annotation payload details are underspecified. Add a discriminating check requiring explicit prose coverage of minimum annotation data fields (text, start/end range, dashboard association, and authorship/source metadata)."
+      }
+    ],
+    "overall": "Eval set is generally strong and discriminating for format/policy quality; one tighter data-model completeness check would reduce false positives."
+  }
+}
