@@ -55,7 +55,7 @@ An unchecked box with a note explaining why is honest work. A checked box you ca
 ## After Implementation
 
 1. Update the spec to match what was actually built (if implementation diverged)
-2. Update `AGENTS.md` files listed in the spec's "AGENTS.md Updates" section. Only add what an agent cannot learn by reading source files — emergent behavior, cross-boundary side effects, gotchas. Never restate code.
+2. Update `AGENTS.md` files listed in the spec's "AGENTS.md Updates" section. **ONLY** add what an agent cannot learn by reading source files — emergent behavior, cross-boundary side effects, gotchas. **NEVER** restate code.
 3. Set Status to `Implemented` — the spec is now frozen history
 
 Status lifecycle: Draft → Review → Approved → In Progress → Implemented (frozen) → Archived

@@ -124,6 +124,8 @@ This section is an appendix, not the spec. The Design Decisions section must sta
 **What changed:** [Concrete description of the change]
 **Why:** [What was discovered that the plan didn't anticipate]
 
-## AGENTS.md Updates
+## AGENTS.md Updates (Optional)
 
-- [ ] Update `[path/to/module]/AGENTS.md` to reflect [what changed]
+ Update AGENTS.md **IF** the change is significant enough to justify it. Read .specs/AGENTS.md immediately before changing AGENTS.md files.
+
+- [ ] Update `[path/to/module]/AGENTS.md` to reflect [what changed],
