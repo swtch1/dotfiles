@@ -1,0 +1,50 @@
+{
+  "skill_name": "spec",
+  "iteration": 5,
+  "date": "2026-03-17",
+  "description": "Harder evals with complex fake codebase (protos, Zustand, URL-driven state, cross-module coordination)",
+  "configurations": [
+    {
+      "name": "with_skill",
+      "label": "Improved Spec Skill (iteration 5)",
+      "results": {
+        "pass_rate": { "mean": 0.97, "stddev": 0.05, "values": [0.91, 1.0, 1.0] },
+        "time_seconds": { "mean": 139.0, "stddev": 2.16, "values": [138, 137, 142] }
+      },
+      "per_eval": [
+        { "eval_name": "dashboard-chat", "pass_rate": 0.91, "passed": 10, "failed": 1, "total": 11, "failures": ["implementer_can_start"] },
+        { "eval_name": "annotations", "pass_rate": 1.0, "passed": 11, "failed": 0, "total": 11, "failures": [] },
+        { "eval_name": "alert-templates", "pass_rate": 1.0, "passed": 11, "failed": 0, "total": 11, "failures": [] }
+      ]
+    },
+    {
+      "name": "without_skill",
+      "label": "No Skill (baseline)",
+      "results": {
+        "pass_rate": { "mean": 0.88, "stddev": 0.05, "values": [0.82, 0.91, 0.91] },
+        "time_seconds": { "mean": 141.7, "stddev": 3.21, "values": [138, 143, 144] }
+      },
+      "per_eval": [
+        { "eval_name": "dashboard-chat", "pass_rate": 0.82, "passed": 9, "failed": 2, "total": 11, "failures": ["no_json_shapes", "implementer_can_start"] },
+        { "eval_name": "annotations", "pass_rate": 0.91, "passed": 10, "failed": 1, "total": 11, "failures": ["no_implementation_leaks"] },
+        { "eval_name": "alert-templates", "pass_rate": 0.91, "passed": 10, "failed": 1, "total": 11, "failures": ["no_implementation_leaks"] }
+      ]
+    }
+  ],
+  "delta": {
+    "pass_rate": "+9pp (88% → 97%)",
+    "key_findings": [
+      "With-skill specs have ZERO implementation leaks across all 3 evals (0 failures on no_implementation_leaks, no_code_fences, no_ts_interfaces, no_json_shapes, no_proto_definitions)",
+      "Without-skill specs leaked implementation details in 2/3 evals: hook names + file paths (annotations), exact line numbers (alert-templates)",
+      "Both versions produced zero code fences — the harder codebase did not induce code blocks unlike the real specs",
+      "The implementer_can_start failure on dashboard-chat is shared by both versions — it's a genuine spec gap (unresolved save policy), not a skill issue",
+      "With-skill specs use behavioral scope items (100% compliance); without-skill specs also score well here (matching template structure)"
+    ]
+  },
+  "comparison_with_previous_iterations": {
+    "iteration_4_original": "61% pass rate on easy evals (toy codebase, 11 assertions)",
+    "iteration_4_improved": "88% pass rate on easy evals",
+    "iteration_5_improved": "97% pass rate on HARD evals (complex codebase, 11 assertions per eval)",
+    "iteration_5_baseline": "88% pass rate on hard evals (no skill)"
+  }
+}
