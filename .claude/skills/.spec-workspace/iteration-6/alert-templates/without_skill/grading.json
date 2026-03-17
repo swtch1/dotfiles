@@ -1,0 +1,75 @@
+{
+  "expectations": [
+    {
+      "text": "Spec has all required sections including Acceptance Criteria",
+      "passed": false,
+      "evidence": "Missing '## Acceptance Criteria' heading entirely. Missing '### Failure Modes' heading entirely. Present: ## Problem (L3), ## Solution (L7), ## Scope (L14), ## Design Decisions (L136), ## Risks (L150), ## Alternatives Considered (L160), ## Verification (L170)."
+    },
+    {
+      "text": "No code fences outside Implementation Notes",
+      "passed": false,
+      "evidence": "No Implementation Notes section exists. Code fences found at: L42-72 (AlertTemplate/TemplateVariable/AlertThresholdDefaults proto block), L89-93 (InstantiateAlertTemplateRequest proto block). Two code fence pairs outside any Implementation Notes section."
+    },
+    {
+      "text": "No TypeScript types in Design Decisions",
+      "passed": true,
+      "evidence": "Design Decisions section (L136-148) contains only prose with bold decision statements. No TypeScript type syntax present."
+    },
+    {
+      "text": "No proto/interface definitions for the template type",
+      "passed": false,
+      "evidence": "Full proto message definitions at L42-72 (AlertTemplate, TemplateVariable, AlertThresholdDefaults) and L89-93 (InstantiateAlertTemplateRequest) in Technical Approach section. Template structure should be described in prose in Design Decisions, not as proto definitions."
+    },
+    {
+      "text": "Scope is behavioral, not file-based",
+      "passed": true,
+      "evidence": "In Scope (L16-27) uses behavioral descriptions: 'New AlertTemplate proto type', 'CRUD API', 'Template picker UI component', etc. No file paths present."
+    },
+    {
+      "text": "Under 120 lines excluding Implementation Notes",
+      "passed": false,
+      "evidence": "Spec is 181 lines total. No Implementation Notes section exists to exclude. 181 > 120."
+    },
+    {
+      "text": "Bold topic sentences in Design Decisions",
+      "passed": true,
+      "evidence": "All 6 Design Decisions paragraphs open with bold: L138 '**Two-step instantiation**', L140 '**Server-side variable substitution**', L142 '**Template matching from dashboard is best-effort**', L144 '**Templates are admin-managed initially**', L146 '**Placeholders use {{var}} syntax**', L148 '**AlertTemplate lives in alerts proto**'. 6/6 = 100% > 80%."
+    },
+    {
+      "text": "Implementer could start without questions",
+      "passed": true,
+      "evidence": "Covers: template data model (L42-74 proto + variable types), variable filling UX (L56-64 TemplateVariable type/enum/required), cross-module integration with both entry points (L100-108), pre-fill from panel queries (L115-126 mapping table + extraction utility), API design (L77-96 endpoint table + instantiate request/response), template management (L19 CRUD, L144 admin-only). All core areas addressed."
+    },
+    {
+      "text": "Design Decisions are decisions, not implementation",
+      "passed": true,
+      "evidence": "Design Decisions (L136-148) contains 6 numbered prose items with bold decision statements and rationale. No code fences, no TypeScript types, no JSON shapes, no exact line numbers, no mechanism tables, no hook implementation details."
+    },
+    {
+      "text": "The cross-module nature is explicitly addressed",
+      "passed": true,
+      "evidence": "Alerts page entry point designed at L100-102 (button → TemplatePicker modal → TemplateVariableForm → instantiate → save). Dashboard panel context menu designed at L104-108 (context menu → extract MetricQuery → fuzzy match → pre-select/pre-fill → navigate to Alerts). Pre-fill behavior detailed at L115-126 (MetricQuery field → variable mapping table). Both entry points fully designed, not just mentioned."
+    },
+    {
+      "text": "Failure modes are policy decisions",
+      "passed": false,
+      "evidence": "No '### Failure Modes' section exists in the spec. Risks section (L150-158) covers risk/mitigation pairs but is not a Failure Modes section with policy decisions."
+    },
+    {
+      "text": "Spec has well-formed Acceptance Criteria",
+      "passed": false,
+      "evidence": "No '## Acceptance Criteria' section exists anywhere in the spec. Section is entirely missing — not present as a heading, no checkbox items, no behavioral criteria."
+    },
+    {
+      "text": "Verification includes agent-actionable checks",
+      "passed": false,
+      "evidence": "Verification section (L170-181) has 10 checkbox items but no 'Agent-Verifiable' subsection or equivalent categorization. Items mix potentially agent-verifiable checks (L172 proto compilation, L173 CRUD integration tests, L174 variable substitution) with UI/manual checks (L176 button flow, L177 context menu navigation). No checks are explicitly labeled or structured for agent execution vs manual testing."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 7,
+    "total": 13,
+    "pass_rate": 0.46
+  }
+}

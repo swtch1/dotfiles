@@ -1,0 +1,75 @@
+{
+  "expectations": [
+    {
+      "text": "Spec has all required sections including Acceptance Criteria",
+      "passed": true,
+      "evidence": "All 9 required headings present: ## Problem (L12), ## Solution (L16), ## Scope (L20), ## Acceptance Criteria (L39), ## Design Decisions (L50), ### Failure Modes (L62), ## Risks & Open Questions (L68), ## Alternatives Considered (L75), ## Verification (L81)."
+    },
+    {
+      "text": "No code fences outside Implementation Notes",
+      "passed": true,
+      "evidence": "Scanned lines 1-113 (everything before Implementation Delta). Zero instances of triple backticks. All technical descriptions use prose and inline code only."
+    },
+    {
+      "text": "No TypeScript types in Design Decisions",
+      "passed": true,
+      "evidence": "Design Decisions (L50-L67) contains no TypeScript syntax — no 'interface', 'type', arrow function types, or typed signatures. Template structure described entirely in prose (L52)."
+    },
+    {
+      "text": "No proto/interface definitions for the template type",
+      "passed": true,
+      "evidence": "Template structure described in prose at L52: 'The template type carries a query skeleton (a MetricQuery with variable placeholders), default threshold and duration, a severity suggestion, suggested notification channel types, and a list of named variable definitions each with a name, display label, type hint, and optional default value.' No proto definition syntax, no message/field blocks."
+    },
+    {
+      "text": "Scope is behavioral, not file-based",
+      "passed": true,
+      "evidence": "In Scope items (L24-L30) are all behavioral: 'Server-side template storage', 'Template picker UI', 'Dashboard panel context menu entry', etc. Zero file paths present."
+    },
+    {
+      "text": "Under 120 lines excluding Implementation Notes",
+      "passed": true,
+      "evidence": "Implementation Delta starts at L114. Lines 1-113 = 113 lines, which is under the 120 line limit."
+    },
+    {
+      "text": "Bold topic sentences in Design Decisions",
+      "passed": true,
+      "evidence": "5/5 Design Decisions paragraphs open with bold statements (100%): L52 '**Templates are a distinct proto type...**', L54 '**Variable resolution happens server-side...**', L56 '**The dashboard-to-alert flow uses a best-match heuristic...**', L58 '**The template picker is a modal flow...**', L60 '**Pre-fill from dashboard panels extracts values...**'."
+    },
+    {
+      "text": "Implementer could start without questions",
+      "passed": true,
+      "evidence": "Template data model: L52 defines proto type fields. Variable filling UX: L58 describes three-step modal (pick→fill→preview). Cross-module integration: L56-58 design both entry points. Pre-fill behavior: L60 maps metric name, aggregation, filters to template variables. API design: L52 specifies list/get endpoints, server-side resolution. Template management: L52 states platform-managed, not user-facing in v1. All six required areas covered."
+    },
+    {
+      "text": "Design Decisions are decisions, not implementation",
+      "passed": true,
+      "evidence": "Design Decisions (L50-L67) contain zero code fences, zero TypeScript types, zero JSON shapes, zero exact line numbers, zero mechanism tables, zero hook implementation details. All content is architectural prose describing what and why, not how."
+    },
+    {
+      "text": "The cross-module nature is explicitly addressed",
+      "passed": true,
+      "evidence": "Alerts page entry point designed: L41 (AC for template picker button), L58 (modal flow decision). Dashboard panel context menu designed: L44 (AC for context menu), L56-57 (best-match heuristic for template selection), L65 (failure mode for no match). Pre-fill behavior designed: L60 describes mapping panel MetricQuery fields (metric name→metric variable, aggregation→aggregation variable, filters→filter variables), L45 (AC for pre-fill mapping). Both entry points are fully designed with behavioral details, not just mentioned."
+    },
+    {
+      "text": "Failure modes are policy decisions",
+      "passed": true,
+      "evidence": "3/3 failure modes are genuine policy decisions (100%): L64 — API unavailable: show error state with retry, don't block Alerts page (policy). L65 — No template match: fall back to blank creation with raw query, show explanation (policy). L66 — Invalid threshold: reject with specific validation error, return to variable form step not template selection (policy). Each states what the system does and why."
+    },
+    {
+      "text": "Spec has well-formed Acceptance Criteria",
+      "passed": true,
+      "evidence": "## Acceptance Criteria exists at L39. Contains 8 checkbox items (L41-L48), within 4-8 range. All behavioral/observable: L41 (alerts page template picker), L42 (variable form rendering), L43 (alert rule creation from template), L44 (dashboard panel context menu), L45 (pre-fill mapping from panel query), L46 (API validation errors), L47 (preview step), L48 (built-in templates available). Coverage: alerts page (L41-L43), dashboard context menu (L44), variable pre-fill (L45), template API (L46,L48), cross-module (L41+L44+L45)."
+    },
+    {
+      "text": "Verification includes agent-actionable checks",
+      "passed": true,
+      "evidence": "### Agent-Verifiable subsection exists at L98. Contains 9 checks (L99-L107), all in action→expected outcome format: 'Inspect proto type → defines fields' (L99), 'Call list API → includes 3+ templates' (L100), 'Call get API → includes full template' (L101), 'Submit with all variables → AlertRule created with resolved query' (L102), 'Submit with missing variable → validation error' (L103), 'Click Create from template → modal opens' (L104), 'Fill variables → preview displays' (L105), 'Right-click panel → context menu includes action' (L106), 'Trigger on CPU panel → High CPU pre-selected' (L107). All concrete and agent-executable."
+    }
+  ],
+  "summary": {
+    "passed": 13,
+    "failed": 0,
+    "total": 13,
+    "pass_rate": 1.0
+  }
+}

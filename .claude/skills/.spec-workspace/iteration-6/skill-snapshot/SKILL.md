@@ -185,11 +185,6 @@ Read the appropriate template from the `assets/` directory and generate a draft 
    **Scope items are capabilities, not file paths.** "Filter traffic by status, method, and URL" — not "`src/features/chat/tools/useSnapshotTools.ts` — frontend tool implementations, new file". The implementer decides file organization.
 7. **Pre-fill the AGENTS.md Updates section.** During Step 2 context gathering, note which directories have `AGENTS.md` files. If the feature touches code in those directories, pre-fill the "AGENTS.md Updates" checkboxes with the specific file paths and what would need updating. Don't leave it as a generic placeholder.
 8. **Always generate at least one alternative** in the Alternatives Considered section, even if it's "Do nothing." Force the spec author to articulate why this approach beats others. If the user didn't mention alternatives, infer reasonable ones from codebase context and mark them as `[ASSUMPTION]`.
-9. **The Acceptance Criteria section is the "done" contract.** Write 5-8 behavioral statements — each a user-visible or system-observable outcome that must be true when the feature ships. These are checkboxes the implementing agent verifies during the completion gate. Criteria must be:
-   - **Behavioral** — "Chat sidebar appears on the Snapshot page" not "Create useSnapshotTools hook"
-   - **Verifiable** — an agent or human can observe whether it's true or false
-   - **Complete** — if all criteria pass, the feature is shippable. If any criterion is missing, the spec has a gap.
-   - **Non-redundant with Scope** — Scope says what's included; Acceptance Criteria says what "working" looks like. "Filter RRPairs by status" is scope. "Typing 'show me 500 errors' in chat applies a status filter and activates the Tests tab" is acceptance criteria.
 
 ### Step 3b: Spec Quality Scan
 
@@ -319,28 +314,15 @@ Before considering a spec complete, verify the Verification section meets these 
 
 1. **Every item is a checkbox** (`- [ ]`) — agents are instructed to check these as they complete work. Items without checkboxes get skipped.
 2. **Commands are exact and runnable** — not `run tests` but `make test -C speedctl` or `go test ./path/to/... -run TestName`.
-3. **Three tiers are present: Automated, Agent-Verifiable, and optionally Human-Only.** Automated checks (build, lint, tests) come first. Agent-Verifiable checks are things the implementing agent CAN and MUST attempt using browser automation (Playwright, dev-browser), HTTP requests, or programmatic inspection. Human-Only is reserved for subjective judgment calls (UX feel, visual polish). Most specs should have few or no Human-Only items.
-4. **Agent-Verifiable checks are written as action → expected outcome.** Each check describes a concrete action ("Open the snapshot page and trigger the chat sidebar") and an observable outcome ("Chat toggle button appears"). This format tells the agent exactly what to do and what to look for — vague checks get skipped.
-5. **The section includes the agent instruction comment** — every Verification section must include near the top:
+3. **Automated and Manual are separated** — automated checks (unit tests, build, lint) are listed before manual checks.
+4. **The section includes the agent instruction comment** — every Verification section must include near the top:
    ```
    <!--
-     IMPLEMENTING AGENT: You MUST check every box and run every command.
-     An unchecked box = incomplete work. Attempt ALL Agent-Verifiable checks
-     using available tools (browser automation, code inspection, test runners).
-     Only leave Human-Only items unchecked if you truly cannot verify them.
+     IMPLEMENTING AGENT: You MUST check each box as you complete it and run
+     every command listed below. An unchecked box = incomplete work.
    -->
    ```
-6. **Deterministic where possible** — prefer unit tests with `httptest.NewServer` or similar over "try it and see." Verification that depends on external services (live URLs, third-party APIs) should be clearly marked and supplemented by a deterministic automated test.
-
-### Acceptance Criteria Quality Check
-
-The Acceptance Criteria section is the spec's "done" definition. Verify:
-
-1. **5-8 items** — fewer risks missing coverage; more becomes a test plan not a contract
-2. **Each is a checkbox** (`- [ ]`) — the implementing agent checks these during the completion gate
-3. **Behavioral, not implementational** — "Chat sidebar appears on the page" not "useSnapshotTools hook is registered"
-4. **Verifiable** — an agent or human can definitively say yes/no for each criterion
-5. **Collectively sufficient** — if ALL criteria pass, is the feature shippable? If not, criteria are missing
+5. **Deterministic where possible** — prefer unit tests with `httptest.NewServer` or similar over "try it and see." Verification that depends on external services (live URLs, third-party APIs) should be clearly marked as manual and supplemented by a deterministic automated test.
 
 ## Domain Doc Workflow
 

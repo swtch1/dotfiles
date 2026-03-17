@@ -1,0 +1,89 @@
+{
+  "eval_id": 2,
+  "eval_name": "annotations",
+  "prompt": "Create a feature spec for adding dashboard annotations. Users should be able to mark time ranges on dashboard panels with text annotations (like 'deployment v2.3.1' or 'incident IR-456'). Annotations are stored per-dashboard, visible across all time-series panels, and can be created from a panel's context menu or via the chat sidebar. They need a new proto type, a new API endpoint, and integration with the existing dashboard panel rendering. Annotations should be selectable via URL params so they can be shared as links. The annotations tab (a new tab on the dashboard) lists all annotations with filtering. Chat tools should let users create, list, and navigate to annotations. Don't bother with a probing phase.",
+  "assertions": [
+    {
+      "id": "has_all_sections",
+      "type": "structural",
+      "description": "Spec has all required sections including Acceptance Criteria",
+      "check": "regex_all",
+      "patterns": ["## Problem", "## Solution", "## Scope", "## Acceptance Criteria", "## Design Decisions", "### Failure Modes", "## Risks", "## Alternatives", "## Verification"]
+    },
+    {
+      "id": "no_code_fences",
+      "type": "regex_negative",
+      "description": "No code fences in the spec outside Implementation Notes",
+      "check": "Count code fences (```) outside any Implementation Notes section. Should be zero.",
+      "severity": "hard_fail"
+    },
+    {
+      "id": "no_ts_interfaces",
+      "type": "regex_negative",
+      "description": "No TypeScript interface/type definitions in Design Decisions",
+      "check": "The Design Decisions section must not contain TypeScript type syntax (interface, type aliases, : string, etc.)",
+      "severity": "hard_fail"
+    },
+    {
+      "id": "no_proto_definitions",
+      "type": "content",
+      "description": "No proto message definitions or field listings in Design Decisions",
+      "check": "The spec asks for a new proto type. The Design Decisions section should describe what data annotations carry (text, time range, author, dashboard association) in prose, NOT as a proto/interface definition with field names and types."
+    },
+    {
+      "id": "no_exact_file_paths_in_scope",
+      "type": "content",
+      "description": "Scope items are capabilities, not file paths",
+      "check": "The In Scope section must not contain exact file paths or 'NEW: src/...' entries."
+    },
+    {
+      "id": "spec_under_120_lines",
+      "type": "line_count",
+      "description": "Spec is under 120 lines excluding Implementation Notes",
+      "max_lines": 120
+    },
+    {
+      "id": "bold_topic_sentences",
+      "type": "llm_judge",
+      "description": "Design Decisions use bold topic sentences",
+      "check": "Read the Design Decisions section. Do >80% of paragraphs open with a bold sentence stating a design decision as a fact?"
+    },
+    {
+      "id": "implementer_can_start",
+      "type": "llm_judge",
+      "description": "Implementer could start without asking questions",
+      "check": "Could a competent developer start implementing from this spec? The spec should cover: annotation data model decisions, rendering approach for time-series overlays, URL param selection, chat tool behaviors, panel context menu integration, and the new annotations tab. FAIL if any of these core areas is missing or hand-waved."
+    },
+    {
+      "id": "no_implementation_leaks",
+      "type": "llm_judge",
+      "description": "Design Decisions contains decisions not implementation",
+      "check": "Read Design Decisions (not Implementation Notes). FAIL if it contains code fences, TypeScript types, JSON shapes, exact line numbers, mechanism tables, or React hook implementation details.",
+      "severity": "hard_fail"
+    },
+    {
+      "id": "failure_modes_are_policy",
+      "type": "llm_judge",
+      "description": "Failure modes are policy decisions",
+      "check": "Are >50% of failure modes genuine policy decisions the team could disagree on?"
+    },
+    {
+      "id": "scope_is_behavioral",
+      "type": "llm_judge",
+      "description": "Scope items describe behaviors not files",
+      "check": "Are >80% of In Scope items behavioral capabilities rather than file/component names?"
+    },
+    {
+      "id": "has_acceptance_criteria",
+      "type": "llm_judge",
+      "description": "Spec has well-formed Acceptance Criteria with behavioral outcomes",
+      "check": "Find the Acceptance Criteria section. It must exist as a ## heading. Check: (1) Contains 4-8 checkbox items (- [ ]). (2) Each item is a behavioral/observable outcome, NOT an implementation task or vague quality. (3) Items collectively cover the core feature: annotation creation (from panel menu + chat), annotation visibility on panels, URL-param sharing, annotations tab with filtering, chat tool behaviors. FAIL if: section missing, fewer than 4 items, items are implementation tasks, or core feature behaviors are not covered."
+    },
+    {
+      "id": "verification_agent_actionable",
+      "type": "llm_judge",
+      "description": "Verification includes agent-actionable checks",
+      "check": "Read the Verification section. Check: (1) There is an 'Agent-Verifiable' subsection (or equivalent). (2) Agent-verifiable checks describe action → expected outcome. (3) Checks are concrete enough for an agent with browser tools to execute. FAIL if: all non-build checks are labeled Manual/Human-Only, or checks are vague rather than specific."
+    }
+  ]
+}

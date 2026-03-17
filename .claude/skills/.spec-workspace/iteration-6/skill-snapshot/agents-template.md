@@ -40,18 +40,6 @@ Check every box. Run every command. No exceptions.
 
 **Scope:** Only check Verification boxes during implementation. AGENTS.md Update boxes are for after.
 
-## Completion Gate (MANDATORY — Before Declaring Done)
-
-Before reporting completion or setting Status to Implemented, run this sweep:
-
-1. **Re-read the spec's Acceptance Criteria** end-to-end. For each criterion, verify it is satisfied in the code you wrote. If you cannot prove a criterion is met, it is not met.
-2. **Re-read each Design Decision bold topic sentence.** Verify each is true in your implementation. If you deviated, document why in the Implementation Delta.
-3. **Run every Automated verification command.** Check the box only after the command succeeds.
-4. **Attempt every Agent-Verifiable check** using available tools — browser automation (Playwright, dev-browser), HTTP requests, code inspection, or test runners. Check the box only after observing the expected outcome. If a tool is unavailable, leave unchecked with a note.
-5. **Check Acceptance Criteria boxes** only after verifying each one individually.
-
-An unchecked box with a note explaining why is honest work. A checked box you cannot prove is a bug you introduced.
-
 ## After Implementation
 
 1. Update the spec to match what was actually built (if implementation diverged)

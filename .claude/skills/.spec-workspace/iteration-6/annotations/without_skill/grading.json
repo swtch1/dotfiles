@@ -1,0 +1,75 @@
+{
+  "expectations": [
+    {
+      "text": "Spec has all required sections including Acceptance Criteria",
+      "passed": false,
+      "evidence": "Missing '## Acceptance Criteria' (no such heading exists) and '### Failure Modes' (no such subsection). Spec has ## Problem (L3), ## Solution (L8), ## Scope (L11), ## Design Decisions (L139), ## Risks (L154), ## Alternatives Considered (L163), ## Verification (L172) — but not Acceptance Criteria or Failure Modes."
+    },
+    {
+      "text": "No code fences in the spec outside Implementation Notes",
+      "passed": false,
+      "evidence": "No Implementation Notes section exists, so all code fences count. Found code fences at: L33 (```proto), L49 (```), L89 (```typescript), L103 (```), L106 (```typescript), L118 (```), L121 (```typescript), L130 (```). 8 fence markers = 4 fenced blocks. Hard fail."
+    },
+    {
+      "text": "No TypeScript interface/type definitions in Design Decisions",
+      "passed": true,
+      "evidence": "Design Decisions section (L139-L151) contains only prose paragraphs with inline backtick references. No 'interface', 'type', ': string', or TypeScript type syntax present."
+    },
+    {
+      "text": "No proto message definitions or field listings in Design Decisions",
+      "passed": true,
+      "evidence": "Design Decisions (L139-L151) describes decisions in prose. Proto definition exists in Technical Approach (L34-L48) but not in Design Decisions. Inline references like `map<string, string>` and `end_time_ms` are used as prose terms, not formal definitions."
+    },
+    {
+      "text": "Scope items are capabilities, not file paths",
+      "passed": true,
+      "evidence": "In Scope (L14-L21): all 8 items are behavioral — proto type and persistence, API CRUD, rendering overlays, context menu entry, tab with filtering, URL deep-linking, chat tools, template variable support. No 'src/...' or file path entries."
+    },
+    {
+      "text": "Spec is under 120 lines excluding Implementation Notes",
+      "passed": false,
+      "evidence": "Spec is 185 lines total. No Implementation Notes section exists to exclude. 185 >> 120."
+    },
+    {
+      "text": "Design Decisions use bold topic sentences",
+      "passed": true,
+      "evidence": "All 6 Design Decision items open with bold text: L141 **Stored per-dashboard, not globally.**, L143 **Embedded in Dashboard proto...**, L145 **Tags as `map<string, string>`...**, L147 **Point-in-time or range.**, L149 **`confirmationRequired: true`...**, L151 **Template variable expansion...**. 6/6 = 100% > 80%."
+    },
+    {
+      "text": "Implementer could start without asking questions",
+      "passed": true,
+      "evidence": "All six required areas covered: data model (proto definition L34-L48), rendering approach (panel overlay L70-L72), URL param selection (L132-L137), chat tool behaviors (L86-L130 with params and handlers), panel context menu (L73), annotations tab (L75-L83 with columns, filtering, navigation)."
+    },
+    {
+      "text": "Design Decisions contains decisions not implementation",
+      "passed": true,
+      "evidence": "Design Decisions (L139-L151): 6 prose paragraphs stating decisions with rationale. No code fences, no TypeScript types, no JSON shapes, no line numbers, no mechanism tables, no React hook details. Inline backtick terms (map<string,string>, end_time_ms, confirmationRequired) used as prose references only."
+    },
+    {
+      "text": "Failure modes are policy decisions",
+      "passed": false,
+      "evidence": "No '### Failure Modes' section exists. The Risks table (L155-L161) lists risk/likelihood/impact/mitigation but these are operational risks, not policy decisions the team could disagree on. Cannot evaluate >50% threshold on a nonexistent section."
+    },
+    {
+      "text": "Scope items describe behaviors not files",
+      "passed": true,
+      "evidence": "In Scope (L14-L21): 'Proto type and persistence', 'API endpoint for CRUD', 'Rendering as vertical bands/markers', 'Panel context menu entry', 'New tab listing with filtering', 'URL param for deep-linking', 'Chat tools', 'Template variable support'. 8/8 behavioral. >80%."
+    },
+    {
+      "text": "Spec has well-formed Acceptance Criteria with behavioral outcomes",
+      "passed": false,
+      "evidence": "No '## Acceptance Criteria' heading exists anywhere in the spec. The Verification section (L172) has checkbox items but is not titled Acceptance Criteria and does not meet the structural requirement of a ## Acceptance Criteria heading."
+    },
+    {
+      "text": "Verification includes agent-actionable checks",
+      "passed": false,
+      "evidence": "Verification section (L172-L185) has 13 concrete checkbox items with action/outcome pairs, but lacks an 'Agent-Verifiable' subsection or any categorization distinguishing agent-verifiable from manual checks. No structural separation exists."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 7,
+    "total": 13,
+    "pass_rate": 0.46
+  }
+}
