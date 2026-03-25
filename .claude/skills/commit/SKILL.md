@@ -74,3 +74,4 @@ If the user's project uses conventional commits (`feat:`, `fix:`, etc.), match t
 - **Never reference yourself or Anthropic** in commit messages
 - **One instruction to commit = one pass** — do NOT commit again unless explicitly asked
 - **Use `git commit -e -m`** so the user can review the message in their editor
+- **Never use `--no-verify`** — pre-commit hooks exist for a reason; if a hook fails, fix the problem, don't bypass it
