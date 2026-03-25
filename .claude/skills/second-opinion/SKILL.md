@@ -22,11 +22,13 @@ If triggered with no specific query (e.g., bare `/second-opinion` command), look
 |-----------|------|-----|
 | Plan/architecture review | `codex` | Deep reasoning, codebase-aware exploration |
 | Implementation review | `codex` | Can navigate repo to check edge cases |
-| API/SDK correctness | `gemini -p` | Strong at factual verification |
-| Technical claim validation | `gemini -p` | Cross-reference accuracy |
+| API/SDK correctness | `gemini` | Strong at factual verification |
+| Technical claim validation | `gemini` | Cross-reference accuracy |
 | Major implementation / "both" | Both | Maximum coverage |
 
 Default when user says "get a second opinion": fire **both**.
+
+If you must set a timeout for the tool make it very large, like 30m.
 
 ## Commands
 

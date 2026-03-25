@@ -228,10 +228,6 @@ source <(kubebuilder completion zsh)
 ### custom funcs ###
 ####################
 
-function cwd() {
-  echo -n "cd $(pwd)" | pbcopy
-}
-
 # run k9s in a specific context
 function k9c() {
   local args=("$@")
@@ -373,7 +369,7 @@ function gwa() {
   cd "$dir"
 
   # setup things for vibecoding, we're gonna do it anyway
-  cwd
+  tmux split-window -h -c "#{pane_current_path}"
 }
 # git worktree remove
 function gwr() {

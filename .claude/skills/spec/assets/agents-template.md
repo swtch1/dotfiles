@@ -15,12 +15,12 @@ How to work with specs in this repository. Read this before implementing any spe
 
 Specs may contain uncertainty markers. Respect them:
 
-- `[NEEDS CLARIFICATION: ...]` — Must be answered before implementing. Stop and ask.
 - `[ASSUMPTION: ...]` — Reasonable default chosen. Verify if it affects your work.
-- `[OPEN QUESTION: ...]` — Resolve before or during implementation.
 - `[RISK: ...]` — Known risk with documented mitigation.
 
 Bugfix specs may also use: `[NEEDS INVESTIGATION]`, `[HYPOTHESIS: ...]`, `[CONFIRMED]`.
+
+**Legacy markers:** Older specs may contain `[NEEDS CLARIFICATION]` or `[OPEN QUESTION]` markers. Treat these as blocking — stop and ask the user before implementing. New specs should not contain these markers.
 
 ## During Implementation
 
@@ -44,18 +44,16 @@ Check every box. Run every command. No exceptions.
 
 Before reporting completion or setting Status to Implemented, run this sweep:
 
-1. **Re-read the spec's Acceptance Criteria** end-to-end. For each criterion, verify it is satisfied in the code you wrote. If you cannot prove a criterion is met, it is not met.
+1. **Re-read every Agent Check** in the Verification section end-to-end. For each check — behavioral outcome, test command, or functional verification — prove it is satisfied in the code you wrote. If you cannot prove a check is met, it is not met.
 2. **Re-read each Design Decision bold topic sentence.** Verify each is true in your implementation. If you deviated, document why in the Implementation Delta.
-3. **Run every Automated verification command.** Check the box only after the command succeeds.
-4. **Attempt every Agent-Verifiable check** using available tools — browser automation (Playwright, dev-browser), HTTP requests, code inspection, or test runners. Check the box only after observing the expected outcome. If a tool is unavailable, leave unchecked with a note.
-5. **Check Acceptance Criteria boxes** only after verifying each one individually.
+3. **Complete every Agent Check.** Run commands, observe behavioral outcomes, execute functional verifications. Check the box only after the command succeeds or the expected outcome is observed. If a tool is unavailable, leave unchecked with a note.
 
 An unchecked box with a note explaining why is honest work. A checked box you cannot prove is a bug you introduced.
 
 ## After Implementation
 
 1. Update the spec to match what was actually built (if implementation diverged)
-2. Update `AGENTS.md` files listed in the spec's "AGENTS.md Updates" section. **ONLY** add what an agent cannot learn by reading source files — emergent behavior, cross-boundary side effects, gotchas. **NEVER** restate code.
+2. Update `AGENTS.md` files listed in the spec's "AGENTS.md Updates" section, if necessary. **ONLY** add what an agent cannot learn by reading source files — emergent behavior, cross-boundary side effects, gotchas. **NEVER** restate code.  Mark with `[-]` when considered but not updated.
 3. Set Status to `Implemented` — the spec is now frozen history
 
 Status lifecycle: Draft → Review → Approved → In Progress → Implemented (frozen) → Archived

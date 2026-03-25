@@ -51,45 +51,39 @@
 - [Other bugs noticed in the same area]
 - [Performance improvements]
 
-## Acceptance Criteria
-
-[2-4 behavioral statements that define "fixed." Each criterion is an observable outcome — the bug no longer manifests and related behavior remains correct. These are the contract: if all criteria are met, the fix ships.
-
-Write each as a declarative statement of what is true when the bug is fixed:
-- "Payment retry no longer sends duplicate cancellation emails during the retry window"
-- "Dashboard loads within 2s for accounts with 500+ snapshots"
-
-NOT implementation tasks ("Add null check in handler") or vague states ("Bug is fixed").]
-
-- [ ] [Observable outcome that must be true when the fix is complete]
-- [ ] [Another observable outcome — often the inverse of the bug description]
-
 ## Verification
 
 <!--
-  IMPLEMENTING AGENT: You MUST check every box and run every command.
-  An unchecked box = incomplete work. Attempt ALL Agent-Verifiable checks
-  using available tools (browser automation, code inspection, test runners).
-  Only leave Human-Only items unchecked if you truly cannot verify them.
+  IMPLEMENTING AGENT: You MUST complete every Agent Check before this spec is done.
+  An unchecked box = incomplete work. If all Agent Checks pass (and any Human Checks
+  pass), the fix ships. Human Checks exist only for items confirmed during spec
+  creation as impossible for agents to verify.
 -->
 
-### Automated
+### Agent Checks
 
+[Everything the implementing agent must verify before this fix is complete. Behavioral
+outcomes, test commands, and functional checks in a single flat list. Each check must
+include enough context and setup information for the agent to execute it cold.
+
+Write behavioral outcomes as declarative statements of what is true when the bug is fixed.
+Write functional checks as: action → expected observable outcome.
+Commands must be exact and runnable.]
+
+- [ ] [Behavioral outcome — e.g., "Payment retry no longer sends duplicate cancellation emails during the retry window"]
 - [ ] [Unit test for the fix — describe what it asserts]
-- [ ] [Existing tests pass — include the exact command]
-
-### Agent-Verifiable
-
-[Checks the implementing agent CAN and MUST attempt using browser automation, HTTP requests, or programmatic inspection. Write each as: action → expected observable outcome.]
-
+- [ ] [Existing tests pass: `exact test command`]
 - [ ] [Follow reproduction steps from above] → [Bug no longer reproduces]
 - [ ] [Action to verify related behavior] → [Expected outcome unchanged]
+- [ ] Re-read the entire spec top to bottom. Verify the fix matches the root cause analysis, follows the fix approach, and satisfies every check above. An unchecked box above is a lie if this check isn't done last.
 
-### Human-Only (Optional)
+### Human Checks
 
-[Reserve for checks requiring subjective judgment. Most bugfix specs should have zero items here.]
+[Items here were confirmed during spec creation as genuinely not agent-verifiable. The
+ONLY reason a check belongs here is if there is no way for an agent to complete it.
+Most bugfix specs should have zero items here. If empty, delete this section.]
 
-- [ ] [Check requiring human judgment, if any]
+- [ ] [Check confirmed not agent-verifiable during spec creation]
 
 ## Implementation Delta
 
@@ -101,4 +95,4 @@ NOT implementation tasks ("Add null check in handler") or vague states ("Bug is 
 
  Update AGENTS.md **IF** the change is significant enough to justify it. Read .specs/AGENTS.md immediately before changing AGENTS.md files.
 
-- [ ] Update `[path/to/module]/AGENTS.md` if the fix changes documented behavior
+- [ ] Considered / updated `[path/to/module]/AGENTS.md`

@@ -59,5 +59,32 @@
         "The report does NOT invent issues — it either reports no behavior-change issues or only reports genuine concerns (not false boundary violations)"
       ]
     }
+  ,
+    {
+      "id": 5,
+      "name": "go-revert-detection",
+      "prompt": "Review my staged changes before I push.\n\nRepo: /Users/josh/.claude/skills/prepare-staged-for-review-workspace/test-repos/go-revert-service",
+      "expected_output": "The Revert Detection agent should flag that the removed nil-check error handling was added in a prior fix commit. Should not flag unrelated changes as reversions.",
+      "files": [],
+      "expectations": [
+        "The review identifies that removed error handling (or similar deleted defensive code) was added in a commit with a fix/workaround/regression signal in its message",
+        "The review cites the relevant git commit context as evidence for why the removal is suspicious",
+        "The review does NOT flag every deletion as a potential reversion — it uses judgment to distinguish deliberate removals from suspicious ones",
+        "The report uses the specified severity format (Critical/Important/Minor with file:line, evidence, recommendation)"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "go-behavioral-compat",
+      "prompt": "Can you look over my staged changes?\n\nRepo: /Users/josh/.claude/skills/prepare-staged-for-review-workspace/test-repos/go-behavioral-compat-service",
+      "expected_output": "The Caller Audit agent should flag that callers depend on nil-vs-empty-slice semantics or specific error types that the staged changes alter, even though the function signature is unchanged.",
+      "files": [],
+      "expectations": [
+        "The review identifies a behavioral compatibility issue where a caller depends on return value semantics (e.g., nil vs empty slice, sentinel error value) that changed without a signature change",
+        "The review cites specific callers that exhibit the behavioral dependency (with file:line references)",
+        "The review does NOT flag the change as a signature/API breaking change — it correctly identifies this as a behavioral contract issue",
+        "The report uses the specified severity format (Critical/Important/Minor with file:line, evidence, recommendation)"
+      ]
+    }
   ]
 }

@@ -4,8 +4,10 @@
 
 set -e
 
-echo 'copying zshrc...'
-cp ~/.zshrc* .
+{
+  echo 'copying zshrc...'
+  cp ~/.zshrc* .
+}
 
 {
   echo 'copying configs...'
@@ -22,13 +24,28 @@ cp ~/.zshrc* .
   cp -r ~/.config/direnv .
   cp -r ~/.config/ghostty .
   popd
+}
+
+{
+  echo 'copying agent config...'
 
   rm -rf .claude
 	mkdir .claude
+
   cp ~/.claude/mcp*.json .claude/
 	cp -r ~/.claude/agents/ .claude/agents/
 	cp -r ~/.claude/skills/ .claude/skills/
   rm -rf .claude/skills/personal # don't commit this
+}
+
+{
+  echo 'copying local state...'
+  rm -rf .local
+  mkdir -p .local/share
+
+  pushd .local/share
+  cp -r ~/.local/share/tmux .
+  popd
 }
 
 echo 'copying scripts'

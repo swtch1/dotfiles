@@ -30,19 +30,6 @@
 - [Thing we are explicitly NOT doing] — [why]
 - [Another excluded item] — [why]
 
-## Acceptance Criteria
-
-[5-8 behavioral statements that define "done." Each criterion is a user-visible outcome that can be verified — either by automated test, browser automation, or code inspection. These are the contract: if all criteria are met, the feature ships. If any criterion is not met, the feature is incomplete.
-
-Write each as a declarative statement of what is true when the feature works:
-- "Chat sidebar toggle appears on the Snapshot page and disappears on navigation away"
-- "Destructive operations show a confirmation card before executing"
-
-NOT implementation tasks ("Create useSnapshotTools hook") or vague qualities ("Chat works well").]
-
-- [ ] [Behavioral outcome that must be true when the feature is complete]
-- [ ] [Another behavioral outcome]
-
 ## Design Decisions
 
 [Organize by behavior area, not by file or architecture layer. Each paragraph covers one aspect of the feature and opens with a **bold topic sentence** stating the decision as a fact. Reasoning and codebase anchors follow.
@@ -65,12 +52,10 @@ Where appropriate, state implementation boundaries using three tiers:
 
 - [Failure scenario] → [recovery policy decision]
 
-## Risks & Open Questions
+## Risks
 
 - [RISK: description] — **Mitigation:** [Approach]
-- [NEEDS CLARIFICATION: question that must be answered]
 - [ASSUMPTION: what you assumed and why]
-- [OPEN QUESTION: thing to figure out]
 
 ## Alternatives Considered
 
@@ -86,30 +71,38 @@ This section is an appendix, not the spec. The Design Decisions section must sta
 ## Verification
 
 <!--
-  IMPLEMENTING AGENT: You MUST check every box and run every command.
-  An unchecked box = incomplete work. Attempt ALL Agent-Verifiable checks
-  using available tools (browser automation, code inspection, test runners).
-  Only leave Human-Only items unchecked if you truly cannot verify them.
+  IMPLEMENTING AGENT: You MUST complete every Agent Check before this spec is done.
+  An unchecked box = incomplete work. If all Agent Checks pass (and any Human Checks
+  pass), the feature ships. Human Checks exist only for items confirmed during spec
+  creation as impossible for agents to verify.
 -->
 
-### Automated
+### Agent Checks
 
-- [ ] Build passes: `[build command]`
-- [ ] Tests pass: `[test command targeting this feature]`
-- [ ] Lint clean: `[lint command, if applicable]`
-- [ ] [Specific, testable condition verifiable by code inspection or test]
+[Everything the implementing agent must verify before this spec is complete. This is the
+"done" contract — behavioral outcomes, build/test commands, and functional verification
+in a single flat list. Each check must include enough context and setup information for
+the agent to execute it cold, without asking questions.
 
-### Agent-Verifiable
+Write behavioral outcomes as declarative statements of what is true when the feature works.
+Write functional checks as: action → expected observable outcome.
+Commands must be exact and runnable.]
 
-[Checks the implementing agent CAN and MUST attempt using browser automation, HTTP requests, or programmatic inspection. Write each as: action → expected observable outcome.]
+- [ ] Build passes: `[exact build command]`
+- [ ] Tests pass: `[exact test command targeting this feature]`
+- [ ] Lint clean: `[exact lint command, if applicable]`
+- [ ] [Behavioral outcome — e.g., "Chat sidebar appears on the Snapshot page and disappears on navigation away"]
+- [ ] [Action → expected outcome — e.g., "Open snapshot page, click chat toggle → sidebar opens with context loaded"]
+- [ ] Re-read the entire spec top to bottom. For every Design Decision, scope item, and failure mode, verify the implementation satisfies it. An unchecked box above is a lie if this check isn't done last.
 
-- [ ] [Action to take] → [Expected outcome the agent can observe]
+### Human Checks
 
-### Human-Only (Optional)
+[Items here were confirmed during spec creation as genuinely not agent-verifiable. The
+ONLY reason a check belongs here is if there is no way for an agent to complete it —
+e.g., subjective UX feel, visual polish judgment, stakeholder sign-off. Most specs
+should have zero items here. If empty, delete this section.]
 
-[Reserve for checks requiring subjective judgment — UX feel, visual polish, copy review. Most specs should have few or no items here.]
-
-- [ ] [Check requiring human judgment]
+- [ ] [Check confirmed not agent-verifiable during spec creation]
 
 ## Implementation Delta
 
