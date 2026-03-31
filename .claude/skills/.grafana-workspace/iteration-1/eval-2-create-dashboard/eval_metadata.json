@@ -1,0 +1,42 @@
+{
+  "eval_id": 2,
+  "eval_name": "create-delete-dashboard",
+  "prompt": "Create a dashboard called 'Error Rate Monitor' with a timeseries panel showing error counts from ClickHouse, put it in the default folder. After creating it, verify it exists, then delete it.",
+  "assertions": [
+    {
+      "id": "created-successfully",
+      "text": "Dashboard was created and API returned status: success",
+      "type": "content_check"
+    },
+    {
+      "id": "correct-title",
+      "text": "Dashboard title is 'Error Rate Monitor'",
+      "type": "content_check"
+    },
+    {
+      "id": "has-timeseries-panel",
+      "text": "Dashboard includes a timeseries panel with a ClickHouse query",
+      "type": "content_check"
+    },
+    {
+      "id": "correct-datasource",
+      "text": "Panel references the ClickHouse datasource UID PDEE91DDB90597936",
+      "type": "content_check"
+    },
+    {
+      "id": "in-default-folder",
+      "text": "Dashboard was placed in the default folder (folderUid cf77d06au1jpcf)",
+      "type": "content_check"
+    },
+    {
+      "id": "verified-exists",
+      "text": "Dashboard existence was verified via a GET request after creation",
+      "type": "content_check"
+    },
+    {
+      "id": "deleted-successfully",
+      "text": "Dashboard was deleted and deletion was confirmed",
+      "type": "content_check"
+    }
+  ]
+}

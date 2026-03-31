@@ -1,0 +1,23 @@
+{
+  "skill_name": "grafana",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "List all dashboards on our Grafana and tell me what's there",
+      "expected_output": "Lists the 4 existing dashboards (api-gateway, generator, Service Logs, Tenant Usage) with their UIDs and folder location",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Create a dashboard called 'Error Rate Monitor' with a timeseries panel showing error counts from ClickHouse, put it in the default folder. After creating it, verify it exists, then delete it.",
+      "expected_output": "Creates a dashboard with a properly configured ClickHouse timeseries panel, confirms creation via API, then deletes it and confirms deletion",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Check what datasources are configured in Grafana and create an annotation on the api-gateway dashboard saying we deployed v3.0 with tags 'deploy' and 'api-gateway'. Then list the annotations to confirm it was created.",
+      "expected_output": "Lists the ClickHouse datasource, creates an annotation on dashboard id 3, then retrieves annotations showing the new one",
+      "files": []
+    }
+  ]
+}

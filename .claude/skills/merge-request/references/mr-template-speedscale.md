@@ -27,21 +27,32 @@ same ticket number from the branch/title.>
 
 ## Changes
 
-<Group by intent, not by file. Each group is a bold label followed by the
-key files affected. Only mention files that matter for understanding the
-change — skip boilerplate, generated code, go.sum, etc.
+<Group by intent, not by file. Each group is a bold label describing what
+was accomplished, followed by the key files affected. Only mention files
+that matter for understanding the change — skip boilerplate, generated
+code, go.sum, lock files, etc.
 
 Example:
-**Rate limiting**: `middleware/ratelimit.go`, `config/defaults.go`
-**Tests**: `middleware/ratelimit_test.go`
+**Rate limiting**: `ratelimit.go`, `middleware.go`
+**Config**: `config.go`, `config_test.go`
 >
 
-## Testing
+## Verification
 
-<How was this tested? Be specific: unit tests added/updated, manual testing
-steps performed, CI pipeline results.
-"Tested locally" alone is not sufficient unless the change is trivial.
-Do not include this section if the change contains a spec file, as that will say what was tested.>
+<Optional. Include ONLY if there is meaningful, non-obvious verification to report.
+Skip entirely if the branch includes a spec — the spec covers what was tested.
+
+Valid content:
+- Manual steps with actual outcomes ("hit endpoint at 2000 req/s, confirmed 429 after limit exceeded")
+- Performance numbers before/after
+- Confirmed reproduction of a bug + confirmation it's fixed
+
+Do NOT include:
+- Lint results (lint errors block the MR; passing means nothing)
+- "CI is green" (implied)
+- "Logic verified by code review" (that's what this MR is)
+- Restatements of unit tests visible in the diff
+>
 
 ## Checklist
 
@@ -87,7 +98,9 @@ This box depends on whether the change is backward compatible:
 
 ## What NOT to Include
 
-- File-by-file changelogs (the diff view exists for that)
+- File paths or file-by-file changelogs (the Changes tab exists for that)
+- Lint/CI pass results in Verification
+- "Verified by code review" (tautological)
 - Restating commit messages verbatim
 - Implementation details obvious from reading the code
 - Fluffy preambles like "This MR introduces improvements to..."
@@ -108,15 +121,12 @@ Title: `[SPD-4521] Add rate limiting to ingestion API`
 
 ## Changes
 
-**Rate limiter**: `pkg/middleware/ratelimit.go`, `pkg/config/ingestion.go`
-**Tests**: `pkg/middleware/ratelimit_test.go` — added unit tests for
-token bucket logic and config parsing
+**Rate limiting**: `ratelimit.go`, `middleware.go`
+**Config**: `config.go`, `config_test.go`
 
-## Testing
+## Verification
 
-- Unit tests added for rate limiter middleware (100% branch coverage)
-- Manual test: hit ingestion endpoint at 2000 req/s, confirmed 429 responses
-  after limit exceeded
+- Manual: hit ingestion endpoint at 2000 req/s, confirmed 429 responses after limit exceeded
 
 ## Checklist
 
@@ -140,15 +150,12 @@ Title: `[SPD-3892] Remove deprecated v1 snapshot endpoint`
 
 ## Changes
 
-**Endpoint removal**: `pkg/api/routes.go`, `pkg/handlers/snapshot_v1.go` (deleted)
-**Migration response**: `pkg/handlers/gone.go` — returns 410 with pointer to v2 docs
-**Tests**: updated integration tests to expect 410 on v1 paths
+**Endpoint removal**: `handlers.go`, `routes.go`
+**Migration response**: `responses.go`
 
-## Testing
+## Verification
 
-- Integration tests updated and passing
-- Manual test: confirmed v1 returns 410 with correct body
-- CI pipeline green
+- Manual: confirmed v1 endpoint returns 410 with correct migration body
 
 ## Breaking Changes
 

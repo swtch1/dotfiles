@@ -1,0 +1,19 @@
+{
+  "eval_id": 7,
+  "eval_name": "go-upstream-symbol-in-comment",
+  "prompt": "Review my staged changes. I just added a FlexibleTLS wrapper to the HTTP provider in our service package.\n\nRepo: /Users/josh/.claude/skills/.prepare-staged-for-review-workspace/iteration-1/upstream-ref-in-comment/repo",
+  "assertions": [
+    {
+      "text": "The review identifies the comment naming buildProviders() or pkg/orchestrator/deploy.go as a dependency direction violation or architectural issue",
+      "type": "required"
+    },
+    {
+      "text": "The review explains that the comment couples downstream code to upstream implementation details that may change without notice",
+      "type": "required"
+    },
+    {
+      "text": "The review recommends rewriting the comment to use only concepts the current package owns",
+      "type": "required"
+    }
+  ]
+}

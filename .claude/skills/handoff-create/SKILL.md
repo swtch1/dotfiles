@@ -10,7 +10,7 @@ You are writing a handoff document so a new session can pick up where you left o
 
 ## How handoffs get consumed
 
-The resume-handoff skill loads your document in three layers:
+The handoff-resume skill loads your document in three layers:
 1. **Handoff body** — read in full, immediately. This is free. Put knowledge here.
 2. **Files marked "read on resume"** — each one triggers a subagent to read and summarize. Budget: 2-3 files max.
 3. **Working set files** — NOT read on resume. Referenced only during execution.
@@ -33,7 +33,7 @@ Respond to the user with the template between <template_response></template_resp
 Handoff created and synced! You can resume from this handoff in a new session with the following command:
 
 ```bash
-/resume-handoff path/to/handoff.md
+/handoff-resume path/to/handoff.md
 ```
 </template_response>
 

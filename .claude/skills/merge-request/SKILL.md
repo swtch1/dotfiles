@@ -7,7 +7,9 @@ description: "Create GitLab merge requests via `glab` CLI with well-structured d
 
 Create GitLab merge requests with descriptions that respect a reviewer's time. The description should help a human understand *what* changed and *why* in under 60 seconds.
 
-A good MR description is a public record. Future engineers will search for it. The reviewer reads it cold. Humans skim. Every line must earn its place — if a section adds no information beyond what the diff shows, cut it.
+A good MR description is a public record. Future engineers will search for it via `git log` with only a vague memory of what this change was about. The reviewer reads it cold. Write for both audiences.
+
+The biggest mistake AI-generated descriptions make is verbosity. Humans skim. Every line must earn its place — if a section adds no information beyond what the diff shows, cut it.
 
 ## Templates
 
@@ -15,6 +17,8 @@ Read the appropriate template before writing the description:
 
 - **Standard repos**: `references/mr-template.md`
 - **Speedscale repos** (`gitlab.com/speedscale/`): `references/mr-template-speedscale.md` — includes mandatory security checklist with verification rules and examples.
+
+When editing this skill, review `references/invariants.md` — it lists behaviors that must survive any rewrite.
 
 ## Process
 
@@ -61,19 +65,25 @@ Before writing the description, explicitly determine whether the change is backw
 
 If the answer to any of these is **yes**, the change is **breaking** and the user must be told immediately, before the MR is created:
 
-> "This MR contains a breaking change: [specific thing]. This means a story needs to be created and assigned to Ken. Do you want to proceed, or handle that first?"
+> "This MR contains a breaking change: [specific thing]. This means a story needs to be created and assigned to Ken. Has that been done?"
 
-Wait for explicit confirmation before continuing.
+For Speedscale repos: if the user hasn't confirmed the story exists, do NOT create the MR — make them handle it manually. For other repos: wait for explicit confirmation before continuing.
 
 ### 5. Extract ticket number (Speedscale repos)
 
-For Speedscale repos, extract the ticket number from the branch name. The branch name will contain a pattern like `SPD-1234`. Extract it with:
+For Speedscale repos, extract the ticket number from the branch name first, then fall back to commit messages:
 
 ```bash
+# Try branch name first
 git branch --show-current | grep -oE 'SPD-[0-9]+'
+
+# If not found, try commit messages
+git log --oneline $(git merge-base HEAD <target-branch>)..HEAD | grep -oE 'SPD-[0-9]+' | head -1
 ```
 
-If no ticket number is found in the branch name, **stop and tell the user**. Do not create the MR. Speedscale branches must contain a ticket number.
+Also check for non-SPD ticket patterns (e.g., `JIRA-NNNN`) in case the repo uses multiple trackers.
+
+If no ticket number is found in either location, **stop and tell the user**. Do not create the MR. Speedscale branches must reference a ticket.
 
 ### 6. Write the title
 

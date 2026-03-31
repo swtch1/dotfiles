@@ -86,5 +86,29 @@
         "The report uses the specified severity format (Critical/Important/Minor with file:line, evidence, recommendation)"
       ]
     }
+  ,
+    {
+      "id": 7,
+      "name": "go-upstream-symbol-in-comment",
+      "prompt": "Review my staged changes. I just added a FlexibleTLS wrapper to the HTTP provider in our service package.\n\nRepo: /Users/josh/.claude/skills/.prepare-staged-for-review-workspace/iteration-1/upstream-ref-in-comment/repo",
+      "expected_output": "The review should flag the comment that names buildProviders() from pkg/orchestrator/deploy.go as an architectural violation — downstream code referencing an upstream symbol in a comment creates invisible coupling.",
+      "files": [],
+      "expectations": [
+        "The review identifies the comment naming buildProviders() or pkg/orchestrator/deploy.go as a dependency direction violation or architectural issue",
+        "The review explains that the comment couples downstream code to upstream implementation details that may change without notice",
+        "The review recommends rewriting the comment to use only concepts the current package owns (its own config, its own behavior)"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "go-clean-comment-no-upstream-ref",
+      "prompt": "Review my staged changes. I added a FlexibleTLS wrapper to the HTTP provider.\n\nRepo: /Users/josh/.claude/skills/.prepare-staged-for-review-workspace/iteration-1/clean-downstream-only/repo",
+      "expected_output": "The review should NOT flag the FlexibleTLS comment as an upstream/dependency-direction violation because it only references concepts the current package owns.",
+      "files": [],
+      "expectations": [
+        "The review does NOT flag the FlexibleTLS comment as a dependency direction or upstream reference violation",
+        "If the review mentions the comment at all, it is not categorized as an architectural issue"
+      ]
+    }
   ]
 }

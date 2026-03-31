@@ -1,0 +1,39 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": null,
+    "title": "Error Rate Monitor",
+    "tags": ["auto-generated"],
+    "timezone": "browser",
+    "schemaVersion": 16,
+    "panels": [
+      {
+        "id": 1,
+        "type": "timeseries",
+        "title": "Error Counts",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+        "datasource": {"type": "grafana-clickhouse-datasource", "uid": "PDEE91DDB90597936"},
+        "targets": [
+          {
+            "datasource": {"type": "grafana-clickhouse-datasource", "uid": "PDEE91DDB90597936"},
+            "rawSql": "SELECT $__timeInterval(Timestamp) as time, count() as error_count FROM otel_logs WHERE $__timeFilter(Timestamp) AND SeverityText = 'ERROR' GROUP BY time ORDER BY time",
+            "format": 1
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "palette-classic"},
+            "custom": {
+              "lineWidth": 2,
+              "fillOpacity": 10,
+              "drawStyle": "line",
+              "pointSize": 5
+            }
+          }
+        }
+      }
+    ]
+  },
+  "folderUid": "cf77d06au1jpcf",
+  "overwrite": false
+}

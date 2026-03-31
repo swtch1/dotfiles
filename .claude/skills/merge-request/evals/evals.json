@@ -1,0 +1,62 @@
+{
+  "skill_name": "merge-request",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create an MR for this branch. The remote is git@gitlab.com:speedscale/operator.git, the branch is SPD-4521-add-rate-limiting, and the diff adds a new ratelimit.go with a middleware wrapper plus updates to config.go and config_test.go. The target branch is main. No breaking changes.",
+      "expected_output": "MR created with [SPD-4521] title prefix, Summary with ticket reference, Changes section grouped by intent, security checklist with all 4 items checked, no file-by-file changelog.",
+      "files": [],
+      "expectations": [
+        "Title starts with [SPD-4521]",
+        "Summary section contains 'Related: SPD-4521' or 'Closes SPD-4521'",
+        "Description contains a Changes section",
+        "Changes section groups by intent (e.g., bold labels like **Rate limiting**), not file-by-file listing",
+        "Description contains exact 4-item security checklist",
+        "All 4 checklist items are checked ([x])",
+        "Description does not contain a file-by-file changelog",
+        "Description does not contain fluffy preambles like 'This MR introduces'"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Create an MR for this branch. The remote is git@gitlab.com:speedscale/speedctl.git, the branch is SPD-3892-remove-v1-snapshot, and the diff removes the /v1/snapshot handler, replaces it with a 410 Gone response pointing to /v2/snapshots, and updates the route table. This is a breaking change — the v1 endpoint is being removed entirely. Target branch is main.",
+      "expected_output": "Model should detect breaking change, notify user about Ken story requirement, and refuse to create MR until user confirms the story exists. If user confirms, MR should include Breaking Changes section and checked checklist.",
+      "files": [],
+      "expectations": [
+        "Model notifies user about breaking change before creating MR",
+        "Model mentions that a story needs to be created and assigned to Ken",
+        "Model does NOT create the MR without user confirmation that the Ken story exists",
+        "If user confirms, title starts with [SPD-3892]",
+        "If user confirms, description includes a Breaking Changes section",
+        "If user confirms, description contains the 4-item security checklist"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Create an MR for this branch. The remote is git@gitlab.com:speedscale/operator.git, the branch is fix-session-cleanup (no ticket number in the branch name). The commit messages contain 'SPD-2001: fix race condition in session cleanup goroutine'. The diff fixes a mutex lock ordering issue in session.go. Target branch is main.",
+      "expected_output": "Model should find SPD-2001 from commit messages (not the branch name), use it in the title and description. Should NOT stop and refuse just because the branch name lacks a ticket — commit messages are a valid fallback.",
+      "files": [],
+      "expectations": [
+        "Model extracts SPD-2001 from commit messages",
+        "Title contains [SPD-2001]",
+        "Summary contains 'Related: SPD-2001' or 'Closes SPD-2001'",
+        "Model does NOT refuse to create the MR due to missing branch ticket",
+        "Description contains the 4-item security checklist"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Create an MR for this branch. The remote is git@gitlab.com:acme-corp/web-frontend.git (not a Speedscale repo), the branch is feature/dark-mode, and the diff adds a ThemeProvider component, updates 12 component files to use theme tokens, and adds theme toggle to the settings page. Target branch is develop.",
+      "expected_output": "Standard (non-Speedscale) MR with no security checklist, no SPD ticket requirement. Should have Summary, Changes grouped by intent, optional Verification. Should target develop branch.",
+      "files": [],
+      "expectations": [
+        "Description does NOT contain the Speedscale security checklist",
+        "Description does NOT require a ticket number in the title",
+        "Description contains a Changes section grouped by intent",
+        "MR targets develop branch (--target-branch develop)",
+        "Changes are NOT listed file-by-file (12 files should be grouped)",
+        "Description does not contain fluffy preambles"
+      ]
+    }
+  ]
+}

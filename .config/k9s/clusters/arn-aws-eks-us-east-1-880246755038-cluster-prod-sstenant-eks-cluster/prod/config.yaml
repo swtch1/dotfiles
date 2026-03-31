@@ -1,9 +1,11 @@
 k9s:
   cluster: arn:aws:eks:us-east-1:880246755038:cluster/prod-sstenant-eks-cluster
   namespace:
-    active: sstenant-001318
+    active: clickhouse
     lockFavorites: false
     favorites:
+      - clickhouse
+      - sstenant-001629
       - sstenant-001657
       - sstenant-000924
       - sstenant-001636
@@ -11,10 +13,8 @@ k9s:
       - all
       - sstenant-000072
       - sstenant-001318
-      - sstenant-000202
-      - sstenant-speedscale
   view:
-    active: v1/pods sstenant-001318
+    active: v1/namespaces
   featureGates:
     nodeShell: false
   proxy: null

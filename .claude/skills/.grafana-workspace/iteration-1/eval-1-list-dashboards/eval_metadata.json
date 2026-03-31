@@ -1,0 +1,27 @@
+{
+  "eval_id": 1,
+  "eval_name": "list-dashboards",
+  "prompt": "List all dashboards on our Grafana and tell me what's there",
+  "assertions": [
+    {
+      "id": "found-all-4",
+      "text": "Lists all 4 dashboards: api-gateway, generator, Service Logs, Tenant Usage",
+      "type": "content_check"
+    },
+    {
+      "id": "includes-uids",
+      "text": "Includes the UID for each dashboard",
+      "type": "content_check"
+    },
+    {
+      "id": "mentions-folder",
+      "text": "Mentions the dashboards are in the 'default' folder",
+      "type": "content_check"
+    },
+    {
+      "id": "no-errors",
+      "text": "No API errors or failed requests in the output",
+      "type": "content_check"
+    }
+  ]
+}

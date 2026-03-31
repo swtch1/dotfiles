@@ -1,0 +1,122 @@
+{
+  "metadata": {
+    "skill_name": "prepare-staged-for-review",
+    "skill_path": "/Users/josh/.claude/skills/prepare-staged-for-review",
+    "executor_model": "claude-sonnet-4-6",
+    "analyzer_model": "claude-sonnet-4-6",
+    "timestamp": "2026-03-27T00:00:00Z",
+    "evals_run": ["go-upstream-symbol-in-comment", "go-clean-comment-no-upstream-ref"],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 7,
+      "eval_name": "go-upstream-symbol-in-comment",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 83.4,
+        "tokens": 22855,
+        "tool_calls": 21,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Identifies comment naming buildProviders() as dependency direction violation", "passed": true, "evidence": "Item 1 explicitly invokes 'dependency direction rule' and names it an architectural violation"},
+        {"text": "Explains invisible coupling to upstream details", "passed": true, "evidence": "'creates invisible coupling that rots silently when that upstream code changes'"},
+        {"text": "Recommends rewrite using local concepts", "passed": true, "evidence": "Provides concrete rewrite example using only local concepts"}
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 7,
+      "eval_name": "go-upstream-symbol-in-comment",
+      "configuration": "old_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 69.8,
+        "tokens": 21057,
+        "tool_calls": 16,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Identifies comment naming buildProviders() as dependency direction violation", "passed": true, "evidence": "Flagged as 'Bad comments: caller-specific knowledge' — correct category but framed as comment quality rather than architectural principle"},
+        {"text": "Explains invisible coupling to upstream details", "passed": true, "evidence": "'Comments referencing specific external file paths and function names become stale silently'"},
+        {"text": "Recommends rewrite using local concepts", "passed": true, "evidence": "'Describe the behavior and contract without citing a specific file path or function name'"}
+      ],
+      "notes": ["Old skill caught this via 'Bad comments: caller-specific knowledge' — falls into adjacent category. New skill explicitly names it as a dependency-direction architectural violation."]
+    },
+    {
+      "eval_id": 8,
+      "eval_name": "go-clean-comment-no-upstream-ref",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 2,
+        "failed": 0,
+        "total": 2,
+        "time_seconds": 71.6,
+        "tokens": 20792,
+        "tool_calls": 19,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Does NOT flag clean FlexibleTLS comment as upstream reference violation", "passed": true, "evidence": "Summary explicitly praises the comment: 'the comment explaining the AutomaticTLS design is good'"},
+        {"text": "Comment not categorized as architectural issue if mentioned", "passed": true, "evidence": "Comment mentioned positively; all issues are about stub, nil-guard, signature, and tests"}
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 8,
+      "eval_name": "go-clean-comment-no-upstream-ref",
+      "configuration": "old_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 2,
+        "failed": 0,
+        "total": 2,
+        "time_seconds": 64.2,
+        "tokens": 19966,
+        "tool_calls": 17,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Does NOT flag clean FlexibleTLS comment as upstream reference violation", "passed": true, "evidence": "Comment not mentioned at all in the review"},
+        {"text": "Comment not categorized as architectural issue if mentioned", "passed": true, "evidence": "Comment absent from review output entirely"}
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0},
+      "time_seconds": {"mean": 77.5, "stddev": 8.3, "min": 71.6, "max": 83.4},
+      "tokens": {"mean": 21823, "stddev": 1063, "min": 20792, "max": 22855}
+    },
+    "old_skill": {
+      "pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0},
+      "time_seconds": {"mean": 67.0, "stddev": 3.8, "min": 64.2, "max": 69.8},
+      "tokens": {"mean": 20511, "stddev": 545, "min": 19966, "max": 21057}
+    },
+    "delta": {
+      "pass_rate": "+0.0",
+      "time_seconds": "+10.5",
+      "tokens": "+1312"
+    }
+  },
+  "notes": [
+    "Both versions pass all assertions at 1.0 — the upstream-symbol violation was already partially caught by 'Bad comments: caller-specific knowledge' in the old skill.",
+    "Key qualitative difference: new skill explicitly names this as a dependency-direction architectural violation with a concrete test ('would this break if renamed?'), old skill treats it as comment quality decay. Framing matters for severity calibration.",
+    "No false positives on the clean-comment case in either version — the new rule is precise enough not to over-fire.",
+    "These evals don't differentiate versions quantitatively at 1.0 pass rate. Stronger discriminating evals would test edge cases where the old framing leads to wrong severity (e.g., Minor instead of Important)."
+  ]
+}

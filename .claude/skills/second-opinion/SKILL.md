@@ -1,76 +1,66 @@
 ---
 name: second-opinion
-description: "Get external AI review from Codex and Gemini models. Use when the user asks for a second opinion, wants feedback from another AI, says 'double-check this', 'verify this approach', 'validate my thinking', or explicitly requests external AI review. Also trigger when the user seems uncertain about a major decision and could benefit from cross-model validation."
+description: "Get a second opinion via subagent, Codex, or Gemini. Use when the user asks for a second opinion, wants feedback from another AI, says 'double-check this', 'verify this approach', 'validate my thinking', or explicitly requests external AI review. Also trigger when the user seems uncertain about a major decision and could benefit from cross-model validation."
 ---
 
 # Second Opinion
 
-Consult external AIs for review and validation. Two tools available — use one or both depending on context.
+Three review sources — pick based on complexity.
 
-## Models
+| Source | How | Best for |
+|--------|-----|----------|
+| **Subagent** | Agent tool (no CLI needed) | Fast, zero-setup, best available model in-process |
+| **Codex** | `codex` CLI (`gpt-5.4`) | Codebase-aware exploration, deep reasoning |
+| **Gemini** | `gemini` CLI (`gemini-3.1-pro`) | Factual verification, API/SDK correctness |
 
-- **Codex model**: `gpt-5.3-codex`
-- **Gemini model**: `gemini-3.1-pro-preview`
+## How Many Sources?
 
-## When Invoked Without Explicit Context
+- **Simple** (naming, style, single-function logic) → Subagent only
+- **Medium** (multi-file change, API usage, design choice) → Subagent + Codex or Gemini
+- **Complex** (architecture, security, large refactor) → All three
 
-If triggered with no specific query (e.g., bare `/second-opinion` command), look at what you just sent to the user.  If you were proposing something they want you to get a second opinion on that proposal. If still nothing obvious, ask the user what they want reviewed — don't guess.
+When unqualified ("get a second opinion"), gauge complexity and pick accordingly. When in doubt, use more.
 
-## Tool Selection
+## Subagent
 
-| Situation | Tool | Why |
-|-----------|------|-----|
-| Plan/architecture review | `codex` | Deep reasoning, codebase-aware exploration |
-| Implementation review | `codex` | Can navigate repo to check edge cases |
-| API/SDK correctness | `gemini` | Strong at factual verification |
-| Technical claim validation | `gemini` | Cross-reference accuracy |
-| Major implementation / "both" | Both | Maximum coverage |
+Spawn a `general-purpose` Agent. If you're not on the best available model, the subagent routes to a higher tier automatically — highest value, lowest friction. If you're already on the best model, a subagent still provides a fresh perspective (separate context, no anchoring), but skip it for trivial reviews. Use your environment context to judge your model tier; when uncertain, spawn it.
 
-Default when user says "get a second opinion": fire **both**.
-
-If you must set a timeout for the tool make it very large, like 30m.
-
-## Commands
-
-### Codex (codebase-aware review)
+## Codex
 
 ```bash
 codex exec -m <Codex model> -s read-only -C <repo-path> "$(cat <<'EOF'
-<query with context — file paths and line numbers, not code blocks>
+<query — reference files by path and line range, not code blocks>
 
-IMPORTANT: Provide feedback and analysis only. You may explore the codebase with commands but DO NOT modify any files.
+IMPORTANT: Provide feedback and analysis only. DO NOT modify any files.
 EOF
 )"
 ```
 
-### Gemini (correctness verification)
+## Gemini
 
 ```bash
 gemini -m <Gemini model> -p "$(cat <<'EOF'
-<verification query with specific details>
+<query — reference files by path and line range, not code blocks>
 
 IMPORTANT: Provide verification and analysis only. DO NOT modify any files.
 EOF
 )"
 ```
 
-## Query Guidelines
+## Query Tips
 
-- Reference files by path and line range — both tools work better with pointers than pasted code
-- Both tools have full repo access — reference files by path and line range rather than pasting code
+- Reference files by path and line range — all sources work better with pointers than pasted code
 - Provide the "what" and "why", not just "review this"
 - Frame specific questions: security implications, edge cases, correctness, alternatives
 
-## Integration
-
-- Evaluate responses against codebase realities and each other
-- Flag conflicting advice between the two tools — present both perspectives
-- If either identifies issues you missed, acknowledge them
-- If anything is unclear, ask the user — don't guess
-
 ## Gotchas
 
-1. **Both are read-only** — always include `DO NOT modify any files` in the prompt.
-2. **Codex may hallucinate file paths** — verify referenced paths exist before acting on feedback.
-3. **Gemini can be confidently wrong** — cross-check factual claims against actual docs/code.
-4. **Both tools have repo access** — reference files by path and line range. Neither needs code pasted inline.
+1. **External tools are read-only** — always include `DO NOT modify any files`.
+2. **Codex may hallucinate file paths** — verify before acting on feedback.
+3. **Gemini can be confidently wrong** — cross-check claims against actual code/docs.
+
+## Misc
+
+- If invoked bare (`/second-opinion`), review whatever you just proposed. If nothing obvious, ask.
+- Flag conflicting advice between sources — present both perspectives.
+- Set large timeouts (30m) on Bash calls to external tools.

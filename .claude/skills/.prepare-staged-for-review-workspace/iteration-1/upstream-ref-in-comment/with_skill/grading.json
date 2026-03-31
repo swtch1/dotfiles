@@ -1,0 +1,25 @@
+{
+  "expectations": [
+    {
+      "text": "The review identifies the comment naming buildProviders() or pkg/orchestrator/deploy.go as a dependency direction violation or architectural issue",
+      "passed": true,
+      "evidence": "Item 1 in Issues: '[Important] server/handler.go:16-21 — Comment creates invisible coupling to upstream package via explicit reference to buildProviders() in pkg/orchestrator/deploy.go ... Per the dependency direction rule in AGENTS.md' — explicitly categorized as an architectural/dependency-direction violation."
+    },
+    {
+      "text": "The review explains that the comment couples downstream code to upstream implementation details that may change without notice",
+      "passed": true,
+      "evidence": "Item 1: 'creates invisible coupling that rots silently when that upstream code changes. The test is: would this comment break if the upstream code were renamed or restructured?'"
+    },
+    {
+      "text": "The review recommends rewriting the comment to use only concepts the current package owns",
+      "passed": true,
+      "evidence": "Item 1 recommendation: 'Rewrite the comment using concepts local to this package. For example: [concrete rewrite provided]' — gives a specific before/after example."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  }
+}

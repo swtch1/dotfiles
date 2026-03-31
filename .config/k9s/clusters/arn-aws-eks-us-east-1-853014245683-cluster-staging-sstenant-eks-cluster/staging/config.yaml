@@ -1,7 +1,7 @@
 k9s:
   cluster: arn:aws:eks:us-east-1:853014245683:cluster/staging-sstenant-eks-cluster
   namespace:
-    active: default
+    active: sstenant-elastic
     lockFavorites: false
     favorites:
       - sstenant-elastic

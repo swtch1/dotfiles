@@ -4,15 +4,15 @@ k9s:
     active: speedscale
     lockFavorites: false
     favorites:
+      - mixed-proto
+      - speedscale
+      - default
       - echo
       - smart-replace-demo
       - microservices
-      - speedscale
-      - default
       - autogen-test
       - verify-dlp-on-passthrough
       - speedscale-test
-      - grpc
   view:
     active: v1/namespaces
   featureGates:

@@ -120,23 +120,22 @@ Present questions in batches of 3, highest priority first. Each batch includes a
 ── Discovery Round N ─────────────────────────
 Remaining: Critical: X | High: Y | Medium: Z
 
-[Critical] 1. The billing module emits a `payment.failed` event that
-              triggers cancellation emails in `src/notifications/`. Your
-              retry feature delays the failure determination. Users would
-              get cancellation emails during the retry window. How should
-              notification timing change?
+1. [Critical] The billing module emits a `payment.failed` event that
+   triggers cancellation emails in `src/notifications/`. Your retry
+   feature delays the failure determination. Users would get
+   cancellation emails during the retry window. How should
+   notification timing change?
 
-[High]     2. Current billing cron processes ~200 charges per 15min cycle.
-              With 8% failure rate and 3 retries each, that's ~48 extra
-              Stripe API calls per cycle. Does the retry volume fit within
-              your Stripe rate limits?
+2. [High] Current billing cron processes ~200 charges per 15min cycle.
+   With 8% failure rate and 3 retries each, that's ~48 extra Stripe
+   API calls per cycle. Does the retry volume fit within your Stripe
+   rate limits?
 
-[Medium]   3. If a retry succeeds after the user already saw a "payment
-              failed" state in the dashboard, do they get a "recovered"
-              notification, or is it silent?
+3. [Medium] If a retry succeeds after the user already saw a "payment
+   failed" state in the dashboard, do they get a "recovered"
+   notification, or is it silent?
 
-> Stop questioning — proceed with what we have
-──────────────────────────────────────────────
+4. Stop questioning — proceed with what we have
 ```
 
 The last option in every batch is always "Stop questioning — proceed with what we have." This gives the user an explicit off-ramp at any point.

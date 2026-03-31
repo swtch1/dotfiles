@@ -8,94 +8,122 @@ context: fork
 
 # Prepare for Review
 
-The user has staged changes with `git add`. Review them thoroughly before they open a PR.
+Review staged changes (`git add`) before the user opens a PR.
+
+## Numbering
+
+Every finding requiring human action gets a sequential number the moment you surface it — during assessment, in the report, everywhere. The user references findings by number.
 
 ## Git Safety
 
-Your edits appear as **unstaged** modifications. This separation is critical — running `git add` mixes your cleanup into the user's staging area, and `git reset`/`git stash` destroys their staged work entirely.
+Your edits appear as **unstaged** modifications — this separation is critical.
 
 **Allowed:** `git diff --staged`, `git diff --staged --stat`, `git diff`, `git status`
-**Everything else is off-limits.** Ask the user if you need git manipulation.
+**Off-limits:** everything else. Ask the user if you need git manipulation.
 
 ## Sub-Agents
 
-≤3 files: handle inline. 4+ files or 200+ lines: decompose by file/subsystem with non-overlapping scopes. Each sub-agent gets the same behavior-preservation constraint and must report issues requiring behavior changes.
+≤3 files: handle inline. 4+ files or 200+ lines: decompose by file/subsystem with non-overlapping scopes.
 
-Three background agents launch in parallel at the start of every review, regardless of diff size:
+Three background agents launch in parallel at review start:
 
-- **Revert Detection**: Receives the full diff and uses judgment — no hard threshold — to identify suspicious removals (deleted error handling, stripped conditionals, removed special-casing). Runs `git log --oneline -20 <file>` and `git blame` on removed lines. Flags if history suggests the code was a deliberate fix (`fix:`, `workaround`, `handle`, `regression` signals in commits).
-- **Code Reuse Scout**: Searches the whole repo for existing functions or patterns that newly added code duplicates. Reports with `file:line` for both sides.
-- **Caller Audit**: Spawned after Step 2 identifies which public functions changed. Finds all callers across the repo and checks for behavioral dependencies — callers that inspect return values, match error types, depend on result ordering, or rely on side effects.
+- **Revert Detection**: Identify suspicious removals (deleted error handling, stripped conditionals). Use `git log --oneline -20` and `git blame` on removed lines. Flag if history suggests deliberate fixes (`fix:`, `workaround`, `handle`, `regression` in commits).
+- **Code Reuse Scout**: Search the repo for existing functions/patterns that new code duplicates. Report `file:line` for both sides.
+- **Caller Audit**: After Step 2 identifies changed public functions, find all callers and check for behavioral dependencies (return value inspection, error type matching, ordering reliance, side effect dependence).
 
-All three findings fold into the Report step.
+All findings fold into the Report.
 
 ## Process
 
-Before starting, re-read relevant AGENTS.md files **in full** (root and per-package for modified packages) to ensure your review respects project-specific conventions and standards.
+Before starting, re-read relevant AGENTS.md files (root + per-package for modified packages).
 
-### 1. Cleanup (makes edits)
+### 1. Cleanup (edits)
 
-- Remove debug printlines, temporary debugging code, and dead code (commented-out implementations, unreachable branches)
-- **Do NOT remove** `// FIXME: (JMT)` comments — these are the user's intentional markers
+- Remove debug prints, temporary debugging code, dead code (commented-out implementations, unreachable branches)
+- **Keep** `// FIXME: (JMT)` comments — user's intentional markers
+- **AGENTS.md content**: For each added/modified entry in staged AGENTS.md files, apply the code-readable test: *"Would an agent realize this simply by reading the code?"* If yes, remove it — AGENTS.md is for non-obvious constraints, gotchas, and conventions that can't be inferred from the code itself.
 
-### 2. Assess Production Code (analysis only — no edits)
+### 2. Assess Production Code (no edits)
 
-Do a thorough code review of staged changes. Focus extra attention on areas prone to oversight:
+Thorough code review focusing on:
 
-- **Boundary conditions and type safety**: Empty/nil/zero inputs, integer overflow/truncation, float-to-int conversion loss, off-by-one errors, large/malformed inputs
-- **Input validation**: Are all user-supplied values validated before use? Empty strings, missing fields, format constraints
-- **Backwards compatibility**: Compatibility extends beyond signatures to behavioral contracts: return value semantics (nil vs empty, 0 vs sentinel), error types/messages callers may inspect, side effects (DB writes, events, external calls), default/fallback behaviors, and ordering guarantees. The Caller Audit agent checks all callers of modified public functions for these dependencies.
-- **Incomplete work signals**: `TODO`/`HACK`/`XXX` in new code, empty function bodies, placeholder returns, stub implementations
-- **Transient/upstream comments**: Comments referencing "what" happened instead of "why", or encoding caller knowledge ("called by the auth handler", "used in the checkout flow") that becomes wrong when new callers appear
-- **Code duplication**: Does newly added code reimplement something already in the codebase? The Code Reuse Scout agent surfaces candidates — verify and flag with the existing location and recommended replacement.
-- **Unused imports and unjustified new dependencies**
-- **Information leakage** in error messages (user emails, internal paths, stack traces exposed to clients)
+- **Boundaries/type safety**: nil/zero/empty inputs, overflow/truncation, off-by-one, malformed inputs
+- **Input validation**: user-supplied values validated before use?
+- **Backwards compatibility**: beyond signatures — return value semantics, error types callers inspect, side effects, defaults, ordering guarantees. Caller Audit agent checks these.
+- **Incomplete work**: `TODO`/`HACK`/`XXX`, empty bodies, placeholder returns, stubs
+- **Bad comments**: "what happened" instead of "why", caller-specific knowledge that breaks with new callers
+- **Duplication**: Code Reuse Scout surfaces candidates — verify and flag with existing location
+- **Unused imports / unjustified dependencies**
+- **Info leakage**: emails, internal paths, stack traces in client-facing errors
 
-Architectural boundary violations:
+Architectural violations:
 
-- **Dependency direction**: New imports should flow inward. Domain/business logic importing infrastructure types (DB clients, HTTP frameworks, ORM decorators) is a structural violation — flag any import that points the wrong way.
-- **Unnecessary exports**: Newly exported/public symbols used only within their own package are unjustified public surface area. In Go, look for uppercase identifiers used only within the package. In TS, check if new `export` declarations are imported outside their module.
-- **Law of Demeter**: Method chains reaching through object graphs (`a.GetB().GetC().GetD()`) couple the caller to every intermediate type. Suggest the caller ask its direct collaborator for what it needs instead.
-- **Circular dependencies**: Do the changes create import cycles between packages?
-- **Responsibility placement**: New validations, precondition checks, and error handling should live where the responsibility belongs, not where a failure was observed. Check all callers of the function containing the new code — if multiple callers need the same protection, the check belongs in the shared function they all call. Test: "if a new caller is added tomorrow, do they get this for free?"
+- **Dependency direction**: imports should flow inward — domain importing infrastructure is a violation. This extends to comments: a comment that names a specific function, type, or package outside the module's dependency graph creates invisible coupling that rots silently when that upstream code changes. If a comment needs to explain *why* something exists, it should use concepts the current package owns (its own config, its own observable behavior) rather than naming upstream callers or their implementation details. The test: "would this comment break if the upstream code were renamed or restructured?"
+- **Unnecessary exports**: public symbols only used within their own package
+- **Law of Demeter**: `a.GetB().GetC().GetD()` chains coupling to intermediate types
+- **Circular dependencies** between packages
+- **Responsibility placement**: if multiple callers need the same check, it belongs in the shared function. Test: "does a new caller get this for free?"
 
-Before concluding this assessment, perform two explicit scans on the staged diff:
+Before concluding, two explicit scans:
 
-1. **Grep for markers**: Search the diff for `TODO`, `HACK`, `XXX`, `FIXME` in new/modified lines. Each is a finding.
-2. **Audit new exports**: For each newly exported/public symbol in the diff, search all other packages/modules in the repo for references (imports, type assertions, interface implementations, compile-time checks). Only flag symbols with genuinely zero cross-package references.
+1. **Grep for markers**: `TODO`, `HACK`, `XXX`, `FIXME` in new/modified lines — each is a finding
+2. **Audit new exports**: search other packages for references to each new public symbol — only flag those with zero cross-package usage
 
-### 3. Assess Test Code (analysis only — no edits)
+### 3. Assess Test Code (no edits)
 
-Evaluate test coverage for all changed code. This is a separate assessment step — do not skip it even when production code issues dominate.
+Don't skip even when production issues dominate.
 
-- Do tests exist for the changed code? If not, flag it explicitly.
-- Are edge cases from the production assessment covered?
-- Are tests verifying behavior (inputs→outputs) rather than implementation details?
-- Are tests going through the public interface, or reaching into unexported/internal identifiers? Tests coupled to implementation details (accessing private fields, importing from internal paths instead of the barrel/package boundary) break on every refactor and give false confidence — they verify *how* the code works, not *that* it works.
-- What test scenarios are missing? Be specific about which code paths lack coverage.
+- Do tests exist for changed code? Flag if not.
+- Are edge cases from Step 2 covered?
+- Tests verify behavior (inputs→outputs), not implementation details?
+- Tests use the public interface, not unexported/internal identifiers?
+- What specific test scenarios are missing?
 
-### 4. Refactor (makes edits — behavior-preserving only)
+### 4. Refactor (edits — behavior-preserving only)
 
-Rename for clarity, extract functions, remove dead code/unused imports, clean up comments per assessment above. If the Code Reuse Scout found duplications, consolidate to use existing implementations (behavior-preserving).
+Rename for clarity, extract functions, remove dead code/unused imports, consolidate duplications found by Code Reuse Scout.
 
-**Do NOT change:** control flow, return values, error handling, API contracts, or data transformations.
+**Do NOT change:** control flow, return values, error handling, API contracts, data transformations.
 
-If `make lint` (or equivalent) is available, run it after refactoring and fix any issues it flags.
+Run `make lint` (or equivalent) after refactoring if available.
 
-### 5. Report
+### 5. Second Opinion
 
-Output two sections:
+Get external validation using both Codex and Gemini. Load the `second-opinion` skill for model names and tool syntax.
 
-**Refactoring Changes Made** — by file with line references.
-
-**Issues Found (Require Behavior Changes)** — use this format:
-
-```
-**[SEVERITY]** `file:line` — One-line description
-Evidence: execution path that fails, line that causes it, or contract violated.
-Recommendation: specific fix.
+```bash
+git diff --staged > /tmp/staged-review-diff.patch
 ```
 
-Severity: **Critical** (data loss, security breach, crash) · **Important** (incorrect behavior, missed edge case, regression risk) · **Minor** (code smell, improvement opportunity)
+Fire both in parallel with the same prompt — provide the diff path, repo path, and your preliminary numbered findings. Ask each to:
+1. Review the diff independently for bugs, security, edge cases, design problems
+2. Validate your findings — legitimate concerns?
+3. Flag anything you missed
+4. Note false positives
 
-If you cannot articulate specific evidence, do not report the issue.
+Reconciliation:
+- Add new issues they caught
+- Disputed findings get **[Disputed]** tag with the disagreement noted — don't silently drop
+- Keep findings both external models missed — they may lack context
+
+### 6. Report
+
+All items numbered for easy reference.
+
+**Refactoring Changes Made:**
+```
+1. `file:line` — what and why
+2. `file:line` — ...
+```
+
+**Issues Found (Require Behavior Changes):**
+```
+N. [SEVERITY] `file:line` — One-line description
+   Evidence: execution path, line, or contract violated.
+   Recommendation: specific fix.
+   [Source: Internal | Codex | Gemini | All]
+```
+
+Severity: **Critical** (data loss, security, crash) · **Important** (incorrect behavior, edge case, regression risk) · **Minor** (smell, improvement)
+
+No specific evidence → don't report it.

@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "The review does NOT flag the FlexibleTLS comment as a dependency direction or upstream reference violation",
+      "passed": true,
+      "evidence": "Review Summary explicitly states: 'the comment explaining the AutomaticTLS design is good — it describes *why* the flexible listener exists rather than restating code.' No architectural violation raised for the comment."
+    },
+    {
+      "text": "If the review mentions the comment at all, it is not categorized as an architectural issue",
+      "passed": true,
+      "evidence": "Comment is mentioned positively in the summary. Issues raised are: nil-guard missing, stub no-op, signature change, missing tests — none related to the comment's content."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

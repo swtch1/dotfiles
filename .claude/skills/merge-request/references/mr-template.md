@@ -12,20 +12,31 @@ If there's a ticket reference, include it here: "Related: PROJ-1234" or "Closes 
 
 ## Changes
 
-<Group by intent, not by file. Each group is a bold label followed by the
-key files affected. Only mention files that matter for understanding the
-change — skip boilerplate, generated code, lock files, etc.
+<Group by intent, not by file. Each group is a bold label describing what
+was accomplished, followed by the key files affected. Only mention files
+that matter for understanding the change — skip boilerplate, generated
+code, go.sum, lock files, etc.
 
 Example:
-**Rate limiting**: `middleware/ratelimit.go`, `config/defaults.go`
-**Tests**: `middleware/ratelimit_test.go`
+**Rate limiting**: `ratelimit.go`, `middleware.go`
+**Config**: `config.go`, `config_test.go`
 >
 
-## Testing
+## Verification
 
-<How was this tested? Be specific: unit tests added/updated, manual testing
-steps performed, CI pipeline results.
-"Tested locally" alone is not sufficient unless the change is trivial.>
+<Optional. Include ONLY if there is meaningful, non-obvious verification to report.
+
+Valid content:
+- Manual steps with actual outcomes ("hit endpoint at 2000 req/s, confirmed 429 after limit exceeded")
+- Performance numbers before/after
+- Confirmed reproduction of a bug + confirmation it's fixed
+
+Do NOT include:
+- Lint results (lint errors block the MR; passing means nothing)
+- "CI is green" (implied)
+- "Logic verified by code review" (that's what this MR is)
+- Restatements of unit tests visible in the diff
+>
 
 ---
 

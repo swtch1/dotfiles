@@ -1,0 +1,25 @@
+{
+  "expectations": [
+    {
+      "text": "The review identifies the comment naming buildProviders() or pkg/orchestrator/deploy.go as a dependency direction violation or architectural issue",
+      "passed": true,
+      "evidence": "Item 1: '[Important] server/handler.go:15-21 — Comment references external file... This couples the comment to an upstream location that may move, rename, or restructure.' Flags it as coupling/architectural issue. However, framed as 'bad comment' quality rather than explicitly naming the dependency-direction principle — passes the letter of the assertion."
+    },
+    {
+      "text": "The review explains that the comment couples downstream code to upstream implementation details that may change without notice",
+      "passed": true,
+      "evidence": "Item 1: 'Comments referencing specific external file paths and function names become stale silently and mislead future readers.' Captures the stale-coupling concern."
+    },
+    {
+      "text": "The review recommends rewriting the comment to use only concepts the current package owns",
+      "passed": true,
+      "evidence": "Item 1 recommendation: 'Describe the behavior and contract without citing a specific file path or function name.' Recommends using a ticket reference instead. Correct direction but lacks the explicit 'local concepts' framing."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "eval_id": 8,
+  "eval_name": "go-clean-comment-no-upstream-ref",
+  "prompt": "Review my staged changes. I added a FlexibleTLS wrapper to the HTTP provider.\n\nRepo: /Users/josh/.claude/skills/.prepare-staged-for-review-workspace/iteration-1/clean-downstream-only/repo",
+  "assertions": [
+    {
+      "text": "The review does NOT flag the FlexibleTLS comment as a dependency direction or upstream reference violation",
+      "type": "required"
+    },
+    {
+      "text": "If the review mentions the comment at all, it is not categorized as an architectural issue",
+      "type": "required"
+    }
+  ]
+}

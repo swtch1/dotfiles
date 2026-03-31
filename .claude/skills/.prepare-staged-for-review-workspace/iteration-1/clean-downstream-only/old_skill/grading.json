@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "The review does NOT flag the FlexibleTLS comment as a dependency direction or upstream reference violation",
+      "passed": true,
+      "evidence": "Issues found: stub no-op, nil-guard, signature change, missing tests. No finding mentions the comment. The comment was not flagged."
+    },
+    {
+      "text": "If the review mentions the comment at all, it is not categorized as an architectural issue",
+      "passed": true,
+      "evidence": "The comment is not mentioned anywhere in the review output."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

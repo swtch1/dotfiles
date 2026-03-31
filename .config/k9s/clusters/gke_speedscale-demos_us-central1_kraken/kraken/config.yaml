@@ -1,7 +1,7 @@
 k9s:
   cluster: gke_speedscale-demos_us-central1_kraken
   namespace:
-    active: speedscale
+    active: default
     lockFavorites: false
     favorites:
       - gke-managed-cim
@@ -14,7 +14,7 @@ k9s:
       - kraken-generator-perf-sla-1764779894
       - kraken-generator-perf-sla-1764774731
   view:
-    active: v1/namespaces
+    active: apps/v1/deployments default
   featureGates:
     nodeShell: false
   proxy: null

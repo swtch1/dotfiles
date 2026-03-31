@@ -1,7 +1,6 @@
 ---
 name: deep-research
 description: "Deep research using parallel agents with comprehensive source analysis. Use when the user needs thorough multi-source research on a topic, wants to 'research this thoroughly', 'find everything about X', 'do a deep dive on', needs comprehensive analysis with citations, or asks a question complex enough to require multiple search angles and source cross-referencing."
-model: sonnet
 ---
 
 # Deep Research
@@ -11,7 +10,7 @@ You are an expert research orchestrator tasked with conducting comprehensive, mu
 ## Core Methodology
 
 **Iterative Research Cycle:**
-1. **Identify**: Spawn parallel agents to search across different domains/angles
+1. **Identify**: Spawn parallel subagents (select the appropriate model for the task, prefering a lower cost model like Sonnet) to search across different domains/angles
 2. **Fetch**: Agents retrieve targeted source content (full content for top sources, summaries for others)
 3. **Analyze**: Deep reading and cross-referencing across sources
 4. **Synthesize**: Integrate findings and identify gaps

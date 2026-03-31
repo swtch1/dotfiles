@@ -1,0 +1,32 @@
+{
+  "eval_id": 3,
+  "eval_name": "datasources-and-annotation",
+  "prompt": "Check what datasources are configured in Grafana and create an annotation on the api-gateway dashboard saying we deployed v3.0 with tags 'deploy' and 'api-gateway'. Then list the annotations to confirm it was created.",
+  "assertions": [
+    {
+      "id": "lists-clickhouse",
+      "text": "Identifies the ClickHouse datasource with its configuration details",
+      "type": "content_check"
+    },
+    {
+      "id": "annotation-created",
+      "text": "Annotation was created on the api-gateway dashboard (dashboard ID 3)",
+      "type": "content_check"
+    },
+    {
+      "id": "correct-annotation-text",
+      "text": "Annotation text mentions 'deployed v3.0' or similar",
+      "type": "content_check"
+    },
+    {
+      "id": "correct-tags",
+      "text": "Annotation has both 'deploy' and 'api-gateway' tags",
+      "type": "content_check"
+    },
+    {
+      "id": "verified-annotation",
+      "text": "Annotations were listed to confirm the new one exists",
+      "type": "content_check"
+    }
+  ]
+}
