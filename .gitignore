@@ -1,1 +1,4 @@
 .sisyphus/
+.config/nvim/nvim.log
+.config/nvim/.aider*
+.local/share/tmux/snapshots/
