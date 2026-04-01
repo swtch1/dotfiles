@@ -68,6 +68,14 @@ Work on auth stuff
 
 If the user's project uses conventional commits (`feat:`, `fix:`, etc.), match that convention. Check recent `git log` to detect this.
 
+## Worktrees
+
+When instructed to create a worktree, place it as a sibling of the current repo directory. If the repo is at `/path/to/parent/repo`, the worktree goes at `/path/to/parent/<branch-name>`.
+
+```bash
+git worktree add ../SPD-11541-my-branch -b SPD-11541-my-branch
+```
+
 ## Hard Rules
 
 - **Never commit `thoughts/` directory** — these are working notes, not deliverables

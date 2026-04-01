@@ -25,6 +25,14 @@ keybind = cmd+k=ignore
 keybind = cmd+d=new_split:right
 keybind = cmd+shift+d=new_split:down
 
+# Make it hard to accidentally nuke the window
+confirm-close-surface = true
+keybind = super+q=ignore
+keybind = super+w=ignore
+keybind = super+alt+w=ignore
+keybind = super+shift+w=ignore
+keybind = super+alt+shift+w=ignore
+
 # text
 font-feature = -calt
 window-inherit-font-size = true

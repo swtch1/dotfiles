@@ -52,13 +52,19 @@ cd "$(dirname "$0")"
   popd > /dev/null
 }
 
+failed=()
+
 function rebase() {
   echo
   echo "--> rebasing ${1}"
 
   pushd "$1" > /dev/null
 
-  git rebase --autostash origin/master
+  if ! git rebase --autostash origin/master; then
+    echo "!!! conflict in ${1}, aborting rebase"
+    git rebase --abort
+    failed+=("$1")
+  fi
 
   popd > /dev/null
 }
@@ -67,6 +73,16 @@ echo
 for d in $worktrees; do
 	rebase "$d"
 done
+
+if [ ${#failed[@]} -gt 0 ]; then
+  echo
+  echo "============================"
+  echo "=== FAILED TO REBASE (${#failed[@]}) ==="
+  echo "============================"
+  for f in "${failed[@]}"; do
+    echo "  - $f"
+  done
+fi
 
 echo
 echo "========================"

@@ -8,3 +8,4 @@
 - [>] Draft the Grafana skill SKILL.md
 - [x] Verify API connectivity — create and delete a test dashboard
 - [ ] Write test cases and run evals
+- [ ] Search for existing PostHog Claude skills/plugins

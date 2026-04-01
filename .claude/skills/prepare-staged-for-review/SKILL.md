@@ -41,6 +41,7 @@ Before starting, re-read relevant AGENTS.md files (root + per-package for modifi
 
 - Remove debug prints, temporary debugging code, dead code (commented-out implementations, unreachable branches)
 - **Keep** `// FIXME: (JMT)` comments — user's intentional markers
+- **Compilation fixes**: Run `go vet ./...` (or language equivalent). If unstaged files fail to compile *solely because of staged API changes* (wrong arity, renamed type, moved symbol), fix those call sites now. Do not fix pre-existing failures unrelated to the staged diff.
 - **AGENTS.md content**: For each added/modified entry in staged AGENTS.md files, apply the code-readable test: *"Would an agent realize this simply by reading the code?"* If yes, remove it — AGENTS.md is for non-obvious constraints, gotchas, and conventions that can't be inferred from the code itself.
 
 ### 2. Assess Production Code (no edits)

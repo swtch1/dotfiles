@@ -20,22 +20,15 @@ MRs require this. Rename the branch or provide the ticket number."
 
 ## Summary
 
-<2-4 bullet points. What changed and why. Lead with the why.
+<2-3 bullet points. Each bullet should be a reviewer-facing claim, not a topic label.
+Lead with the why.
+Explain what changed at a behavioral level and why the reviewer should care.
 Each bullet should be a complete thought, not a sentence fragment.
+Prefer concrete effects over generic phrases like "improves" or "updates".
+If there is a small but review-relevant secondary change, fold it into the last bullet
+instead of listing file churn.
 Include ticket reference: "Related: SPD-1234" or "Closes SPD-1234" using the
 same ticket number from the branch/title.>
-
-## Changes
-
-<Group by intent, not by file. Each group is a bold label describing what
-was accomplished, followed by the key files affected. Only mention files
-that matter for understanding the change — skip boilerplate, generated
-code, go.sum, lock files, etc.
-
-Example:
-**Rate limiting**: `ratelimit.go`, `middleware.go`
-**Config**: `config.go`, `config_test.go`
->
 
 ## Verification
 
@@ -119,11 +112,6 @@ Title: `[SPD-4521] Add rate limiting to ingestion API`
   clients (Related: SPD-4521)
 - Default limit is 1000 req/s per tenant, configurable via `RATE_LIMIT_RPS`
 
-## Changes
-
-**Rate limiting**: `ratelimit.go`, `middleware.go`
-**Config**: `config.go`, `config_test.go`
-
 ## Verification
 
 - Manual: hit ingestion endpoint at 2000 req/s, confirmed 429 responses after limit exceeded
@@ -147,11 +135,6 @@ Title: `[SPD-3892] Remove deprecated v1 snapshot endpoint`
   (Closes SPD-3892)
 - Clients using v1 will receive 410 Gone with migration instructions in
   response body
-
-## Changes
-
-**Endpoint removal**: `handlers.go`, `routes.go`
-**Migration response**: `responses.go`
 
 ## Verification
 

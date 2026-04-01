@@ -1,15 +1,16 @@
 ---
 name: grafana
-description: "Interact with Grafana dashboards, datasources, alerts, annotations, and folders via the Grafana HTTP API. Use this skill whenever the user mentions Grafana, wants to create or modify dashboards, check what dashboards exist, look at datasource configuration, add annotations, manage alert rules, search Grafana, or do anything involving their Grafana instance. Also trigger when the user references grafana-dev.speedscale.com, dashboard panels, or monitoring visualizations."
+description: "Build and view Grafana dashboards and other resources in grafana-dev.speedscale.com. Use whenever the user mentions Grafana."
 ---
 
 # Grafana
 
-Interact with the Grafana instance at `grafana-dev.speedscale.com` (v11.1.3) using its HTTP API. The instance has a ClickHouse datasource and dashboards organized in a `default` folder.
+Interact with the Grafana instance at `grafana-dev.speedscale.com` (v12.3.1) using its HTTP API. The instance has a ClickHouse datasource and dashboards organized in a `default` folder.
 
 ## Authentication
 
 All API calls require the `$SPEEDSCALE_GRAFANA_DEV_API_KEY` environment variable. Never hardcode or log the key. The bundled script reads it automatically.
+If commands fail ask the user to set this key with an API key from a grafana service account from grafana-dev.speedscale.com.
 
 ## Quick Start
 
@@ -46,8 +47,8 @@ scripts/grafana_api.py search --query "api-gateway"
 # Filter by tag
 scripts/grafana_api.py search --tag production
 
-# Filter by folder
-scripts/grafana_api.py search --folder-id 1
+# Filter by folder (pass folder UID, not numeric ID — folderIds is broken in v12)
+scripts/grafana_api.py search --folder-uid cf77d06au1jpcf
 ```
 
 ### Getting a dashboard
@@ -153,10 +154,10 @@ scripts/grafana_api.py folder delete <uid>
 ```bash
 # List annotations
 scripts/grafana_api.py annotations
-scripts/grafana_api.py annotations --dashboard-id 3 --tags deploy
+scripts/grafana_api.py annotations --dashboard-uid <uid> --tags deploy
 
 # Create
-scripts/grafana_api.py annotation create --dashboard-id 3 --text "Deployed v2.1" --tags "deploy,production"
+scripts/grafana_api.py annotation create --dashboard-uid <uid> --text "Deployed v2.1" --tags "deploy,production"
 
 # Delete
 scripts/grafana_api.py annotation delete <id>
@@ -167,6 +168,8 @@ scripts/grafana_api.py annotation delete <id>
 ```bash
 scripts/grafana_api.py alert-rules
 ```
+
+> **v12 breaking change**: when creating/updating alert rules via `POST /api/ruler/grafana/api/v1/rules/:namespace`, `:namespace` must be the **folder UID** (not the folder title). The `folderUID` field in the rule body is now required.
 
 ## Raw API Calls
 
@@ -198,6 +201,3 @@ For dashboard creation, write the JSON to a temp file, call `dashboard create`, 
 
 ### scripts/
 - `grafana_api.py` — CLI wrapper for all Grafana HTTP API operations
-
-### references/
-- `api_reference.md` — Detailed Grafana API endpoint reference with request/response schemas

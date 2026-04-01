@@ -6,7 +6,7 @@ Usage:
 
 Commands:
     health                          Check Grafana health / version
-    search [--query Q] [--type TYPE] [--tag TAG] [--folder-id N]
+    search [--query Q] [--type TYPE] [--tag TAG] [--folder-uid UID]
                                     Search dashboards and folders
     dashboard get <uid>             Get dashboard by UID
     dashboard create <json-file>    Create/update dashboard from JSON file
@@ -17,9 +17,9 @@ Commands:
     folder create <title> [--uid UID]
                                     Create a folder
     folder delete <uid>             Delete folder by UID
-    annotations [--dashboard-id N] [--from TS] [--to TS] [--tags T1,T2]
+    annotations [--dashboard-uid UID] [--from TS] [--to TS] [--tags T1,T2]
                                     List annotations
-    annotation create --dashboard-id N --text TEXT [--tags T1,T2] [--time TS]
+    annotation create --dashboard-uid UID --text TEXT [--tags T1,T2] [--time TS]
                                     Create annotation
     annotation delete <id>          Delete annotation
     alert-rules                     List alert rules
@@ -93,8 +93,8 @@ def cmd_search(args):
     if args.tag:
         for t in args.tag:
             params.append(("tag", t))
-    if args.folder_id is not None:
-        params.append(("folderIds", str(args.folder_id)))
+    if args.folder_uid is not None:
+        params.append(("folderUIDs", args.folder_uid))
     qs = urllib.parse.urlencode(params)
     path = f"/api/search?{qs}" if qs else "/api/search"
     pp(api("GET", path))
@@ -150,8 +150,8 @@ def cmd_folder_delete(args):
 
 def cmd_annotations(args):
     params = []
-    if args.dashboard_id:
-        params.append(f"dashboardId={args.dashboard_id}")
+    if args.dashboard_uid:
+        params.append(f"dashboardUID={args.dashboard_uid}")
     if getattr(args, "from", None):
         params.append(f"from={getattr(args, 'from')}")
     if args.to:
@@ -165,7 +165,7 @@ def cmd_annotations(args):
 
 
 def cmd_annotation_create(args):
-    body = {"dashboardId": int(args.dashboard_id), "text": args.text}
+    body = {"dashboardUID": args.dashboard_uid, "text": args.text}
     if args.tags:
         body["tags"] = [t.strip() for t in args.tags.split(",")]
     if args.time:
@@ -200,7 +200,7 @@ def build_parser():
     s.add_argument("--query", "-q")
     s.add_argument("--type", choices=["dash-db", "dash-folder"])
     s.add_argument("--tag", action="append")
-    s.add_argument("--folder-id", type=int)
+    s.add_argument("--folder-uid")
 
     # dashboard sub-commands
     ds = sub.add_parser("dashboard")
@@ -230,7 +230,7 @@ def build_parser():
     fcd.add_argument("uid")
 
     ann = sub.add_parser("annotations")
-    ann.add_argument("--dashboard-id")
+    ann.add_argument("--dashboard-uid")
     ann.add_argument("--from")
     ann.add_argument("--to")
     ann.add_argument("--tags")
@@ -238,7 +238,7 @@ def build_parser():
     anc = sub.add_parser("annotation")
     ancs = anc.add_subparsers(dest="annotation_cmd")
     ancr = ancs.add_parser("create")
-    ancr.add_argument("--dashboard-id", required=True)
+    ancr.add_argument("--dashboard-uid", required=True)
     ancr.add_argument("--text", required=True)
     ancr.add_argument("--tags")
     ancr.add_argument("--time")

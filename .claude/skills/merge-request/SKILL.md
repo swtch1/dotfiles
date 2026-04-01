@@ -54,6 +54,15 @@ Read the full diff. Don't just skim filenames. Identify:
 - **Secondary changes**: Refactors, test additions, or cleanup that support the primary intent.
 - **Breaking changes**: API signature changes, removed fields, changed defaults, dropped backward compatibility. Anything a consumer of this code would need to adapt to.
 
+Before writing the MR description, make private notes for yourself (do not dump this structure into the MR body):
+
+- `primary_intent`: one sentence
+- `secondary_changes`: only the review-relevant supporting work
+- `non_changes`: important boundaries or things explicitly unchanged, only if they matter
+- `verification_highlights`: only non-obvious proof worth mentioning
+
+Use these notes to write the MR. The public Summary should come from this analysis, not from raw file churn or commit order.
+
 ### 4. Assess breaking changes
 
 Before writing the description, explicitly determine whether the change is backward compatible:
@@ -110,6 +119,14 @@ For non-Speedscale repos, match the project's convention — check recent MRs wi
 ### 7. Write the description
 
 Follow the template from step 2. Fill in each section using the analysis from step 3.
+
+For the `Summary` section specifically:
+
+- Aim for 2-3 bullets unless the change is truly broad
+- Each bullet should be a reviewer-facing claim, not a topic label
+- Good summary bullets answer: why this branch exists, what changed at a behavioral level, and why the reviewer should care
+- If there is a small but review-relevant secondary change, fold it into the last bullet instead of creating a file-by-file changelog
+- Mention boundaries or "does not change" notes only when they save the reviewer time
 
 For Speedscale repos: verify each checklist item per the rules in the template. Check every box that passes verification. Ask the user about items that can't be verified (unconfirmed Ken story).
 
