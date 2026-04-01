@@ -60,6 +60,14 @@ $TMUX_BIN select-layout -t '22:0' 'f34e,319x77,0,0{159x77,0,0,38,159x77,160,0,32
 $TMUX_BIN new-session -d -s '25' -c '/private/tmp' -x 200 -y 50
 $TMUX_BIN select-layout -t '25:0' 'd985,319x79,0,0,8' 2>/dev/null || true
 
+# --- 26 ---
+$TMUX_BIN new-session -d -s '26' -c '/Users/josh' -x 200 -y 50
+$TMUX_BIN select-layout -t '26:0' '68f9,319x77,0,0,39' 2>/dev/null || true
+
+# --- 27 ---
+$TMUX_BIN new-session -d -s '27' -c '/Users/josh' -x 200 -y 50
+$TMUX_BIN select-layout -t '27:0' 'e8f0,319x77,0,0,40' 2>/dev/null || true
+
 # --- 3 ---
 $TMUX_BIN new-session -d -s '3' -c '/Users/josh' -x 200 -y 50
 $TMUX_BIN select-layout -t '3:0' 'd986,319x79,0,0,9' 2>/dev/null || true
@@ -88,19 +96,19 @@ osascript - <<'APPLESCRIPT'
 tell application "Ghostty"
     activate
     set cfg to new surface configuration
-    set command of cfg to "/opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf attach-session -t 18"
+    set command of cfg to "/opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf attach-session -t '18'"
     set win to new window with configuration cfg
     set cfg to new surface configuration
-    set command of cfg to "/opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf attach-session -t 21"
+    set command of cfg to "/opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf attach-session -t '21'"
     set t to new tab in win with configuration cfg
     set cfg to new surface configuration
-    set command of cfg to "/opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf attach-session -t 22"
+    set command of cfg to "/opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf attach-session -t '22'"
     set t to new tab in win with configuration cfg
     set cfg to new surface configuration
-    set command of cfg to "/opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf attach-session -t 81"
+    set command of cfg to "/opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf attach-session -t '81'"
     set t to new tab in win with configuration cfg
     set cfg to new surface configuration
-    set command of cfg to "/opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf attach-session -t 83"
+    set command of cfg to "/opt/homebrew/bin/tmux -f /Users/josh/.config/tmux/tmux.conf attach-session -t '83'"
     set t to new tab in win with configuration cfg
 end tell
 APPLESCRIPT
