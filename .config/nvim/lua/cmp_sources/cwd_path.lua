@@ -55,11 +55,11 @@ source.complete = function(self, request, callback)
 
 	-- Scan the directory for matching files/folders
 	local items = {}
-	local handle = vim.loop.fs_scandir(search_dir)
+	local handle = vim.uv.fs_scandir(search_dir)
 
 	if handle then
 		while true do
-			local name, type = vim.loop.fs_scandir_next(handle)
+			local name, type = vim.uv.fs_scandir_next(handle)
 			if not name then
 				break
 			end

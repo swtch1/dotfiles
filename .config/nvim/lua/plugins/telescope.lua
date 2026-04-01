@@ -62,6 +62,14 @@ return {
 		},
 	},
 	config = function()
+		-- nvim-treesitter removed ft_to_lang in newer versions; shim it for telescope 0.1.x
+		local ok, ts_parsers = pcall(require, "nvim-treesitter.parsers")
+		if ok and not ts_parsers.ft_to_lang then
+			ts_parsers.ft_to_lang = function(ft)
+				return vim.treesitter.language.get_lang(ft) or ft
+			end
+		end
+
 		local telescope = require("telescope")
 		local actions = require("telescope.actions")
 

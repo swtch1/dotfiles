@@ -12,7 +12,7 @@ local last_debug_args = nil
 function ConfigureDapAdapters()
 	local dap = require("dap")
 	dap.adapters.go = function(callback)
-		local stdout = vim.loop.new_pipe(false)
+		local stdout = vim.uv.new_pipe(false)
 		local handle
 		local pid_or_err
 		-- opts are passed to "executable" dap field
@@ -21,7 +21,7 @@ function ConfigureDapAdapters()
 			args = { "dap", "-l", "127.0.0.1:" .. debug_port },
 			detached = true,
 		}
-		handle, pid_or_err = vim.loop.spawn("dlv", opts, function(code)
+		handle, pid_or_err = vim.uv.spawn("dlv", opts, function(code)
 			stdout:close()
 			handle:close()
 			if code ~= 0 then

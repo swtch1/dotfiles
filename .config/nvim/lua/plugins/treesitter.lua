@@ -1,16 +1,22 @@
 return {
-	--  {'nvim-treesitter/nvim-treesitter', opts={'do': ':TSUpdate'}},
 	{
 		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
+		build = ":TSUpdate",
 		config = function()
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "lua", "vim", "vimdoc", "query", "go" },
-				auto_install = true,
+			-- ensure parsers are installed (async, no-op if already present)
+			require("nvim-treesitter").install({
+				"lua", "vim", "vimdoc", "query", "go",
+				"markdown", "markdown_inline",
+				"bash", "python", "javascript", "typescript", "json", "yaml",
+			})
 
-				highlight = {
-					enable = true,
-					additional_vim_regex_highlighting = false,
-				},
+			-- enable treesitter highlighting for all filetypes
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("TreesitterHighlight", { clear = true }),
+				callback = function()
+					pcall(vim.treesitter.start)
+				end,
 			})
 
 			-- manual highlighting configuration
@@ -33,5 +39,4 @@ return {
 			end
 		end,
 	},
-	{ "nvim-treesitter/playground" },
 }

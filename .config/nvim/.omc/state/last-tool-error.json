@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"ls -la /opt/homebrew/Cellar/tree-sitter/0.26.8/bin/\",\"description\":\"List actual contents of tree-sitter bin dir\"}",
+  "error": "Exit code 1\nls: /opt/homebrew/Cellar/tree-sitter/0.26.8/bin/: No such file or directory",
+  "timestamp": "2026-04-01T20:45:26.395Z",
+  "retry_count": 3
+}

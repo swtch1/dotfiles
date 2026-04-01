@@ -22,17 +22,17 @@ return {
 					local gs = package.loaded.gitsigns
 
 					-- Actions
-					vim.keymap.set("n", "<leader>cc", gs.next_hunk, { desc = "next hunk", buffer = bufnr })
-					vim.keymap.set("n", "<leader>cC", gs.prev_hunk, { desc = "previous hunk", buffer = bufnr })
-					vim.keymap.set("n", "<leader>cs", gs.stage_hunk, { desc = "stage hunk", buffer = bufnr })
-					vim.keymap.set("n", "<leader>cu", gs.reset_hunk, { desc = "reset hunk", buffer = bufnr })
+					vim.keymap.set("n", "<leader>cc", gs.next_hunk, { desc = "next hunk", buf = bufnr })
+					vim.keymap.set("n", "<leader>cC", gs.prev_hunk, { desc = "previous hunk", buf = bufnr })
+					vim.keymap.set("n", "<leader>cs", gs.stage_hunk, { desc = "stage hunk", buf = bufnr })
+					vim.keymap.set("n", "<leader>cu", gs.reset_hunk, { desc = "reset hunk", buf = bufnr })
 					vim.keymap.set("v", "<leader>cs", function()
 						gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end, { desc = "stage hunk", buffer = bufnr })
+					end, { desc = "stage hunk", buf = bufnr })
 					vim.keymap.set("v", "<leader>cu", function()
 						gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end, { desc = "reset hunk", buffer = bufnr })
-					vim.keymap.set("n", "<leader>cd", gs.preview_hunk, { desc = "preview hunk", buffer = bufnr })
+					end, { desc = "reset hunk", buf = bufnr })
+					vim.keymap.set("n", "<leader>cd", gs.preview_hunk, { desc = "preview hunk", buf = bufnr })
 				end,
 			})
 		end,
