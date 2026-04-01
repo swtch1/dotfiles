@@ -36,6 +36,7 @@ set -e
 	cp -r ~/.claude/agents/ .claude/agents/
 	cp -r ~/.claude/skills/ .claude/skills/
   rm -rf .claude/skills/personal # don't commit this
+  find .claude/skills -type d -name '.git' -exec rm -rf {} + 2>/dev/null || true
 }
 
 {

@@ -49,7 +49,7 @@ $TMUX_BIN select-layout -t '25:0_d985,319x79,0,0,8' '' 2>/dev/null || true
 $TMUX_BIN select-layout -t '26:0_68f9,319x77,0,0,39' '' 2>/dev/null || true
 
 # --- 28 ---
-$TMUX_BIN select-layout -t '28:0_e8f1,319x77,0,0,41' '' 2>/dev/null || true
+$TMUX_BIN select-layout -t '28:0_f34b,319x77,0,0{159x77,0,0,42,159x77,160,0,41}' '' 2>/dev/null || true
 
 # --- 3 ---
 $TMUX_BIN select-layout -t '3:0_d986,319x79,0,0,9' '' 2>/dev/null || true
